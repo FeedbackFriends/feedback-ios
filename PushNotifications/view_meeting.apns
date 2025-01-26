@@ -1,0 +1,12 @@
+{
+  "Simulator Target Bundle": "dk.nicolaidam.feedback.mock",
+  "aps": {
+    "alert": {
+      "title-loc-key": "notification_view_meeting_title",
+      "loc-key": "notification_view_meeting_body"
+    }
+  },
+  "type": "VIEW_MEETING",
+  "email": "mock@email.com",
+  "meetingID": "8"
+}

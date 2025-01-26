@@ -1,0 +1,50 @@
+//
+//  File.swift
+//  
+//
+//  Created by Nicolai Dam on 07/12/2022.
+//
+
+import SwiftUI
+
+public struct EmptyStateView: View {
+    
+    let title: String
+    let message: String
+    
+    public init(title: String = "Empty", message: String) {
+        self.title = title
+        self.message = message
+    }
+    
+    
+    public var body: some View {
+        VStack(alignment: .center, spacing: 16) {
+            Image(systemName: "rectangle.on.rectangle")
+                .resizable()
+                .frame(width: 40, height: 40)
+                .foregroundColor(.themeDarkGray)
+            VStack(spacing: 6) {
+                Text(title)
+                    .font(.montserratExtraBold, 18)
+                    .foregroundColor(.themeDarkGray)
+                Text(message)
+                    .font(.montserratRegular, 14)
+                    .foregroundColor(.themeDarkGray)
+                    .multilineTextAlignment(.center)
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .background(Color.clear)
+        .padding(.horizontal, 50)
+        .padding(.top, 50)
+    }
+}
+
+struct EmptyStateView_Previews: PreviewProvider {
+    static var previews: some View {
+        EmptyStateView(
+            message: "Message bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla"
+        )
+    }
+}

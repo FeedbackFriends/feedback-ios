@@ -1,0 +1,7 @@
+COMPILER_FLAG = TEST
+BASE_URL = feedbackappcontainerapp.lemonfield-696a2c44.westeurope.azurecontainerapps.io/
+//BASE_URL = 7dd2-89-23-224-171.ngrok-free.app
+MS_KCLIENTID = acdd554f-490f-48ad-ba02-eac018303323
+MS_REDIRECT = msauth.dk.nicolaidam.feedback.test
+//MS_REDIRECT = msauth.dk.nicolaidam.feedback.test:
+GOOGLE_SERVICE_PLIST = test

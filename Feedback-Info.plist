@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BASE_URL</key>
+	<string>$(BASE_URL)</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>Google login prod</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.53154288054-ees6nijglr9fhcl7g5t0m4dsq5udqknk</string>
+				<string>com.googleusercontent.apps.53154288054-uvb0fq1b24c4vahtab5msddjq4s22206</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>dk.nicolaidam.feedback</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>letsgrow</string>
+			</array>
+		</dict>
+	</array>
+	<key>COMPILER_FLAG</key>
+	<string>$(COMPILER_FLAG)</string>
+	<key>GOOGLE_SERVICE_PLIST</key>
+	<string>$(GOOGLE_SERVICE_PLIST)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>msauthv2</string>
+		<string>msauthv3</string>
+	</array>
+	<key>MS_KCLIENTID</key>
+	<string>$(MS_KCLIENTID)</string>
+	<key>MS_REDIRECT</key>
+	<string>$(MS_REDIRECT)</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>51.195.40.155</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.0</string>
+			</dict>
+		</dict>
+	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
+</dict>
+</plist>

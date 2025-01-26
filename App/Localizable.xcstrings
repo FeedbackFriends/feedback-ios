@@ -1,0 +1,72 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "notification_start_feedback_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nicolai really wants the feedback from you, tap to start the feedback session."
+          }
+        }
+      }
+    },
+    "notification_start_feedback_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "It is time for feedback 🔥"
+          }
+        }
+      }
+    },
+    "notification_team_invite_received_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tap to accept the invite"
+          }
+        }
+      }
+    },
+    "notification_team_invite_received_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You received a team invitation🔥"
+          }
+        }
+      }
+    },
+    "notification_view_meeting_body" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have received feedback from 27 people on your meeting 'Ugemøde'. Tap to see the feedback."
+          }
+        }
+      }
+    },
+    "notification_view_meeting_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feedback received 🔥"
+          }
+        }
+      }
+    }
+  },
+  "version" : "1.0"
+}

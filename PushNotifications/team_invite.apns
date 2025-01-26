@@ -1,0 +1,11 @@
+{
+  "Simulator Target Bundle": "dk.nicolaidam.feedback.mock",
+  "aps": {
+    "alert": {
+      "title-loc-key": "notification_team_invite_received_title",
+      "loc-key": "notification_team_invite_received_body"
+    }
+  },
+  "type": "TEAM_INVITE",
+  "email": "mock@email.com"
+}

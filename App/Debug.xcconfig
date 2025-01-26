@@ -1,0 +1,5 @@
+COMPILER_FLAG = DEBUG
+BASE_URL = feedbackappcontainerapp.lemonfield-696a2c44.westeurope.azurecontainerapps.io/
+MS_KCLIENTID = acdd554f-490f-48ad-ba02-eac018303323
+MS_REDIRECT = msauth.dk.nicolaidam.feedback.test:
+GOOGLE_SERVICE_PLIST = production

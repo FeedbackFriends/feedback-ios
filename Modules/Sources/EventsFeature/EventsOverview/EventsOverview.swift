@@ -1,0 +1,169 @@
+import DependencyClients
+import ComposableArchitecture
+import Foundation
+import DesignSystem
+import SwiftUI
+import Helpers
+import APIClient
+
+@Reducer
+public struct EventsOverview {
+    
+    @Reducer
+    public enum Destination {
+        case createEvent(CreateEvent)
+        case eventDetail(EventDetailFeature)
+        case alert(AlertState<AlertAction>)
+        case joinEvent(JoinEvent)
+        @ReducerCaseIgnored
+        case info(ParticipantEvent)
+        public enum AlertAction {
+            case confirmedToCreateUser
+        }
+    }
+    
+    @ObservableState
+    public struct State {
+        var segmentedControl: SegmentedControlMenu
+        @Presents public var destination: Destination.State? = nil
+        @Shared var session: Session
+        var searchTextfield: String = ""
+        var filterCollection: FilterCollection = .init(
+            allEnabled: true,
+            todayEnabled: false,
+            comingUpEnabled: false,
+            previousEnabled: false
+        )
+        public var startFeedbackInFlight: String? // pinCode
+        var showCreateEventToolbar: Bool {
+            if case .participant = session.userType {
+                return false
+            } else {
+                return true
+            }
+        }
+        public init(
+            destination: Destination.State? = nil,
+            session: Shared<Session>,
+            segmentedControl: SegmentedControlMenu = .yourMeetings
+        ) {
+            self.destination = destination
+            self._session = session
+            self.segmentedControl = segmentedControl
+        }
+    }
+    
+    public enum Action: BindableAction {
+        case onAppear
+        case binding(BindingAction<State>)
+        case destination(PresentationAction<Destination.Action>)
+        case createEventButtonTap
+        case managerEventTap(ManagerEvent)
+        case joinEventButtonTap
+        case startFeedbackButtonTap(pinCode: String)
+        case delegate(Delegate)
+        case resetNewFeedbackForEventResponse(UUID)
+        case infoButtonTap(ParticipantEvent)
+        public enum Delegate {
+            case startFeedback(pinCode: String)
+            case navigateToSignUp
+        }
+    }
+    
+    public init() {}
+    
+    @Dependency(\.apiClient) var apiClient
+    @Dependency(\.continuousClock) var clock
+    @Dependency(\.logClient) var logger
+    
+    public var body: some ReducerOf<Self> {
+        BindingReducer()
+        Reduce { state, action in
+            switch action {
+  
+            case .onAppear:
+                #warning("Hent events ned her. Ikke vis error hvis det fejler")
+                return .none
+                
+            case .binding:
+                return .none
+                
+            case .createEventButtonTap:
+                
+                if case .anonymoous = state.session.userType {
+                    state.destination = .alert(
+                        .init(
+                            title: { TextState("Login påkrævet") },
+                            actions: {
+                                ButtonState(role: .cancel, label: { TextState("Ikke nu") })
+                                ButtonState(action: .confirmedToCreateUser, label: { TextState("Opret bruger") })
+                            },
+                            message: { TextState("Opret bruger for at kunne tilgå dine egne events") })
+                    )
+                    return .none
+                }
+                state.destination = .createEvent(
+                    CreateEvent.State(session: state.$session)
+                )
+                return .none
+                
+            case .managerEventTap(let event):
+                state.destination = .eventDetail(
+                    EventDetailFeature.State(
+                        event: event,
+                        session: state.$session
+                    )
+                )
+                return .run { send in
+                    do {
+                        try await apiClient.resetNewFeedbackForEvent(event.id)
+                        try await clock.sleep(for: .seconds(0.5))
+                        await send(.resetNewFeedbackForEventResponse(event.id))
+                    } catch {
+                        logger.log(.error, "Reset new feedback failed with error: \(error.localizedDescription)")
+                    }
+                }
+                
+            case .destination(.presented(.createEvent(.delegate(.dismissAndNavigateToDetail(let event))))):
+                state.destination = .eventDetail(
+                    EventDetailFeature.State(
+                        event: event,
+                        session: state.$session,
+                        destination: .invite(event)
+                    )
+                )
+                return .none
+                
+            case .destination(.presented(.alert(let alertAction))):
+                switch alertAction {
+                case .confirmedToCreateUser:
+                    return .send(.delegate(.navigateToSignUp))
+                }
+                
+            case .destination:
+                return .none
+                
+            case .joinEventButtonTap:
+                state.destination = .joinEvent(.init())
+                return .none
+                
+            case .startFeedbackButtonTap(pinCode: let pinCode):
+                state.startFeedbackInFlight = pinCode
+                return .send(.delegate(.startFeedback(pinCode: pinCode)))
+                
+            case .delegate:
+                return .none
+                
+            case .resetNewFeedbackForEventResponse(let eventId):
+                #warning("Fix me")
+//                state.session.resetNewFeedbackForEvent(eventId: eventId)
+                return .none
+                
+            case .infoButtonTap(let event):
+                state.destination = .info(event)
+                return .none
+            }
+        }
+        .ifLet(\.$destination, action: \.destination)
+    }
+}

@@ -1,0 +1,922 @@
+openapi: 3.0.1
+info:
+  title: Feedback API
+  description: API documentation for the Feedback service
+  version: 0.0.1
+servers:
+- url: http://localhost:8080
+  description: Generated server url
+security:
+- bearerAuth: []
+paths:
+  /v1/event/{eventId}:
+    put:
+      tags:
+      - event-controller
+      operationId: updateEvent
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventInput'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagerEventDto'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+    delete:
+      tags:
+      - event-controller
+      operationId: deleteEvent
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /v1/account:
+    put:
+      tags:
+      - account-controller
+      operationId: modifyAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModifyAccountInput'
+        required: true
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+    post:
+      tags:
+      - account-controller
+      operationId: createAccount
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountInput'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionDto'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+    delete:
+      tags:
+      - account-controller
+      operationId: deleteAccount
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /v1/account/fcmToken:
+    put:
+      tags:
+      - account-controller
+      operationId: updateFcmToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SetFcmTokenInput'
+        required: true
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /v1/feedback/submit:
+    post:
+      tags:
+      - feedback-controller
+      operationId: sendFeedback
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendFeedbackInput'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubmitFeedbackResponseDto'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /v1/feedback/start:
+    post:
+      tags:
+      - feedback-controller
+      operationId: startFeedbackSession
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StartFeedbackSessionInput'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FeedbackSessionDto'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /v1/event:
+    post:
+      tags:
+      - event-controller
+      operationId: createEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventInput'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ManagerEventDto'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /v1/event/join/{eventCode}:
+    post:
+      tags:
+      - event-controller
+      operationId: acceptEvent
+      parameters:
+      - name: eventCode
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ParticipantEventDto'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /admin/user-claims/{uid}:
+    post:
+      tags:
+      - admin-controller
+      operationId: setUserClaims
+      parameters:
+      - name: uid
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              enum:
+              - Manager
+              - Participant
+        required: true
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /admin/mockIdToken:
+    post:
+      tags:
+      - admin-controller
+      operationId: mockIdToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MockIdTokenRequestDto'
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FirebaseResponseDto'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /v1/session:
+    get:
+      tags:
+      - session-controller
+      operationId: getSession
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SessionDto'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /admin/all-users:
+    get:
+      tags:
+      - admin-controller
+      operationId: allUsers
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExportedUserRecord'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+components:
+  schemas:
+    EventInput:
+      required:
+      - date
+      - durationInMinutes
+      - questions
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        agenda:
+          type: string
+        date:
+          type: string
+          format: date-time
+        durationInMinutes:
+          type: integer
+          format: int32
+        location:
+          type: string
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/QuestionInput'
+    QuestionInput:
+      required:
+      - feedbackType
+      - questionText
+      type: object
+      properties:
+        questionText:
+          type: string
+        feedbackType:
+          type: string
+          enum:
+          - Emoji
+          - Comment
+          - ThumpsUpThumpsDown
+          - Opinion
+          - OneToTen
+    FeedbackEntity:
+      required:
+      - feedbackType
+      - id
+      - isNew
+      - questionId
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        feedbackType:
+          type: string
+          enum:
+          - Emoji
+          - Comment
+          - ThumpsUpThumpsDown
+          - Opinion
+          - OneToTen
+        comment:
+          type: string
+        emoji:
+          type: string
+          enum:
+          - VerySad
+          - Sad
+          - Happy
+          - VeryHappy
+        thumbsUpThumpsDown:
+          type: string
+          enum:
+          - Up
+          - Down
+        opinion:
+          type: string
+          enum:
+          - StronglyDisagree
+          - Disagree
+          - Neutral
+          - Agree
+          - StronglyAgree
+          - NoOpinion
+        oneToTen:
+          type: integer
+          format: int32
+        questionId:
+          type: string
+          format: uuid
+        participantId:
+          type: string
+        isNew:
+          type: boolean
+    FeedbackSummaryDto:
+      required:
+      - happyPercentage
+      - sadPercentage
+      - totalFeedback
+      - veryHappyPercentage
+      - verySadPercentage
+      type: object
+      properties:
+        totalFeedback:
+          type: integer
+          format: int32
+        verySadPercentage:
+          type: number
+          format: double
+        sadPercentage:
+          type: number
+          format: double
+        happyPercentage:
+          type: number
+          format: double
+        veryHappyPercentage:
+          type: number
+          format: double
+    ManagerEventDto:
+      required:
+      - date
+      - durationInMinutes
+      - id
+      - newFeedbackForEvent
+      - ownerInfo
+      - questions
+      - title
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        agenda:
+          type: string
+        date:
+          type: string
+          format: date-time
+        pinCode:
+          type: string
+        durationInMinutes:
+          type: integer
+          format: int32
+        location:
+          type: string
+        ownerInfo:
+          $ref: '#/components/schemas/OwnerInfoDto'
+        feedbackSummary:
+          $ref: '#/components/schemas/FeedbackSummaryDto'
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagerQuestion'
+        newFeedbackForEvent:
+          type: integer
+          format: int32
+    ManagerQuestion:
+      required:
+      - feedbackType
+      - id
+      - newFeedbackForQuestion
+      - questionText
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        questionText:
+          type: string
+        feedbackType:
+          type: string
+          enum:
+          - Emoji
+          - Comment
+          - ThumpsUpThumpsDown
+          - Opinion
+          - OneToTen
+        feedback:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackEntity'
+        feedbackSummary:
+          $ref: '#/components/schemas/QuestionFeedbackSummary'
+        newFeedbackForQuestion:
+          type: integer
+          format: int32
+    OwnerInfoDto:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+    QuestionFeedbackSummary:
+      required:
+      - happyCount
+      - sadCount
+      - totalFeedback
+      - veryHappyCount
+      - verySadCount
+      type: object
+      properties:
+        totalFeedback:
+          type: integer
+          format: int32
+        verySadCount:
+          type: integer
+          format: int32
+        sadCount:
+          type: integer
+          format: int32
+        happyCount:
+          type: integer
+          format: int32
+        veryHappyCount:
+          type: integer
+          format: int32
+    AccountDetails:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+    ModifyAccountInput:
+      required:
+      - accountDetails
+      - requestedClaim
+      type: object
+      properties:
+        accountDetails:
+          $ref: '#/components/schemas/AccountDetails'
+        requestedClaim:
+          type: string
+          enum:
+          - Manager
+          - Participant
+    SetFcmTokenInput:
+      type: object
+      properties:
+        fcmToken:
+          type: string
+    FeedbackInput:
+      required:
+      - feedbackType
+      - questionId
+      type: object
+      properties:
+        comment:
+          type: string
+        emoji:
+          type: string
+          enum:
+          - VerySad
+          - Sad
+          - Happy
+          - VeryHappy
+        thumbsUpThumpsDown:
+          type: string
+          enum:
+          - Up
+          - Down
+        opinion:
+          type: string
+          enum:
+          - StronglyDisagree
+          - Disagree
+          - Neutral
+          - Agree
+          - StronglyAgree
+          - NoOpinion
+        oneToTen:
+          type: integer
+          format: int32
+        questionId:
+          type: string
+          format: uuid
+        feedbackType:
+          type: string
+          enum:
+          - Emoji
+          - Comment
+          - ThumpsUpThumpsDown
+          - Opinion
+          - OneToTen
+    SendFeedbackInput:
+      required:
+      - feedback
+      - pinCode
+      type: object
+      properties:
+        feedback:
+          type: array
+          items:
+            $ref: '#/components/schemas/FeedbackInput'
+        pinCode:
+          type: string
+    ParticipantEventDto:
+      required:
+      - date
+      - durationInMinutes
+      - feedbackSubmited
+      - id
+      - ownerInfo
+      - pinCode
+      - questions
+      - title
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        agenda:
+          type: string
+        date:
+          type: string
+          format: date-time
+        pinCode:
+          type: string
+        durationInMinutes:
+          type: integer
+          format: int32
+        location:
+          type: string
+        ownerInfo:
+          $ref: '#/components/schemas/OwnerInfoDto'
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantQuestionDto'
+        feedbackSubmited:
+          type: boolean
+    ParticipantQuestionDto:
+      required:
+      - feedbackType
+      - id
+      - questionText
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        questionText:
+          type: string
+        feedbackType:
+          type: string
+          enum:
+          - Emoji
+          - Comment
+          - ThumpsUpThumpsDown
+          - Opinion
+          - OneToTen
+    SubmitFeedbackResponseDto:
+      required:
+      - event
+      - shouldPresentRatingPrompt
+      type: object
+      properties:
+        shouldPresentRatingPrompt:
+          type: boolean
+        event:
+          $ref: '#/components/schemas/ParticipantEventDto'
+    StartFeedbackSessionInput:
+      required:
+      - pinCode
+      type: object
+      properties:
+        pinCode:
+          type: string
+    FeedbackSessionDto:
+      required:
+      - date
+      - ownerInfo
+      - questions
+      - title
+      type: object
+      properties:
+        title:
+          type: string
+        agenda:
+          type: string
+        questions:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantQuestionDto'
+        ownerInfo:
+          $ref: '#/components/schemas/OwnerInfoDto'
+        date:
+          type: string
+          format: date-time
+    CreateAccountInput:
+      type: object
+      properties:
+        requestedClaim:
+          type: string
+          enum:
+          - Manager
+          - Participant
+    AccountInfoDto:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+    ManagerDataDto:
+      required:
+      - managerEvents
+      type: object
+      properties:
+        managerEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ManagerEventDto'
+    SessionDto:
+      required:
+      - accountInfo
+      - participantEvents
+      type: object
+      properties:
+        claim:
+          type: string
+          enum:
+          - Manager
+          - Participant
+        accountInfo:
+          $ref: '#/components/schemas/AccountInfoDto'
+        participantEvents:
+          type: array
+          items:
+            $ref: '#/components/schemas/ParticipantEventDto'
+        managerData:
+          $ref: '#/components/schemas/ManagerDataDto'
+    MockIdTokenRequestDto:
+      type: object
+      properties:
+        claim:
+          type: string
+          enum:
+          - Manager
+          - Participant
+    FirebaseResponseDto:
+      required:
+      - expiresIn
+      - idToken
+      - refreshToken
+      type: object
+      properties:
+        idToken:
+          type: string
+        refreshToken:
+          type: string
+        expiresIn:
+          type: string
+    ExportedUserRecord:
+      type: object
+      properties:
+        uid:
+          type: string
+        tenantId:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        emailVerified:
+          type: boolean
+        displayName:
+          type: string
+        photoUrl:
+          type: string
+        disabled:
+          type: boolean
+        tokensValidAfterTimestamp:
+          type: integer
+          format: int64
+        userMetadata:
+          $ref: '#/components/schemas/UserMetadata'
+        customClaims:
+          type: object
+          additionalProperties:
+            type: object
+        passwordHash:
+          type: string
+        passwordSalt:
+          type: string
+        providerData:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserInfo'
+        providerId:
+          type: string
+    UserInfo:
+      type: object
+      properties:
+        displayName:
+          type: string
+        uid:
+          type: string
+        email:
+          type: string
+        phoneNumber:
+          type: string
+        providerId:
+          type: string
+        photoUrl:
+          type: string
+    UserMetadata:
+      type: object
+      properties:
+        creationTimestamp:
+          type: integer
+          format: int64
+        lastSignInTimestamp:
+          type: integer
+          format: int64
+        lastRefreshTimestamp:
+          type: integer
+          format: int64
+    ApiError:
+      properties:
+        stackTrace:
+          type: string
+        message:
+          type: string
+        timestamp:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

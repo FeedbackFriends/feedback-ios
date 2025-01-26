@@ -1,0 +1,12 @@
+{
+  "Simulator Target Bundle": "dk.nicolaidam.feedback.mock",
+  "aps": {
+    "alert": {
+      "title-loc-key": "notification_start_feedback_title",
+      "loc-key": "notification_start_feedback_body"
+    }
+  },
+  "type": "START_FEEDBACK",
+  "code": "8904",
+  "email": "mock@email.com"
+}
