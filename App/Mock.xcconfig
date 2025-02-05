@@ -1,2 +1,9 @@
-COMPILER_FLAG = MOCK
+COMPILER_FLAG = mock
 GOOGLE_SERVICE_PLIST = test
+MOCK_API = true
+
+API_BASE_URL = api.letsgrow.dk
+API_SCHEME = https
+
+WEB_BASE_URL = letsgrow.dk
+WEB_SCHEME = https

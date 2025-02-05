@@ -1,4 +1,9 @@
-COMPILER_FLAG = RELEASE
-BASE_URL = feedbackappcontainerapp.lemonfield-696a2c44.westeurope.azurecontainerapps.io/
-KCLIENTID = cd9a14c0-8b08-4aa8-9573-ef470b2cc5c7
+COMPILER_FLAG = release
 GOOGLE_SERVICE_PLIST = production
+MOCK_API = false
+
+API_BASE_URL = api.letsgrow.dk
+API_SCHEME = https
+
+WEB_BASE_URL = letsgrow.dk
+WEB_SCHEME = https

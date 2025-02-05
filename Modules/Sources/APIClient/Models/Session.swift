@@ -1,17 +1,18 @@
 import Foundation
 import ComposableArchitecture
+import Helpers
 
 public struct Session: Equatable {
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
     public var userType: UserType
-    
-    public enum UserType: Equatable {
-        case manager(managerData: ManagerData, accountInfo: AccountInfo)
-        case participant(accountInfo: AccountInfo)
-        case anonymoous
-    }
+    public var claim: Claim?
 }
 
+public enum UserType: Equatable {
+    case manager(managerData: ManagerData, accountInfo: AccountInfo)
+    case participant(accountInfo: AccountInfo)
+    case anonymoous
+}
 
 public struct AccountInfo: Equatable {
     public let name: String?
@@ -105,30 +106,42 @@ public struct ManagerData: Equatable {
 
 extension Session {
     init(_ session: Components.Schemas.SessionDto) {
-        let managerData: ManagerData? = session.managerData.map {
-            .init(
-                managerEvents: IdentifiedArray(uniqueElements: $0.managerEvents.map { .init($0) })
-            )
-        }
+
         let accountInfo: AccountInfo = AccountInfo(
             name: session.accountInfo.name,
             email: session.accountInfo.email,
             phoneNumber: session.accountInfo.phoneNumber
         )
-        let userType: Session.UserType =
+        let claim: Claim? = switch session.claim {
+        case .Participant:
+                .participant
+        case .Manager:
+                .manager
+        case nil:
+                nil
+        }
+        let userType: UserType =
         switch session.claim {
         case .none:
                 .anonymoous
         case .Manager:
-                .manager(managerData: managerData!, accountInfo: accountInfo)
+                .manager(
+                    managerData: .init(
+                        managerEvents: IdentifiedArray(uniqueElements: session.managerData?.managerEvents.map { .init($0) } ?? [])
+                    ),
+                    accountInfo: accountInfo
+                )
         case .Participant:
                 .participant(accountInfo: accountInfo)
         }
         self.init(
             participantEvents: .init(
                 uniqueElements: session.participantEvents.map {
-                    ParticipantEvent(
-                        id: UUID(uuidString: $0.id)!,
+                    guard let id = UUID(uuidString: $0.id) else {
+                        fatalError("Could not parse UUID for participant event: \($0.id)")
+                    }
+                    return ParticipantEvent(
+                        id: id,
                         title: $0.title,
                         agenda: $0.agenda,
                         date: $0.date,
@@ -136,8 +149,11 @@ extension Session {
                         location: $0.location,
                         durationInMinutes: Int($0.durationInMinutes),
                         questions: $0.questions.map {
-                            ParticipantQuestion(
-                                id: UUID(uuidString: $0.id)!,
+                            guard let id = UUID(uuidString: $0.id) else {
+                                fatalError("Could not parse UUID for participant question: \($0.id)")
+                            }
+                            return ParticipantQuestion(
+                                id: id,
                                 questionText: $0.questionText,
                                 feedbackType: FeedbackType($0.feedbackType.rawValue)
                             )
@@ -151,7 +167,8 @@ extension Session {
                     )
                 }
             ),
-            userType: userType
+            userType: userType,
+            claim: claim
         )
     }
 }
@@ -211,5 +228,21 @@ public extension Session {
         
         mutableManagerData.managerEvents[id: eventId] = event
         self.userType = .manager(managerData: mutableManagerData, accountInfo: accountInfo)
+    }
+    
+    mutating func updateAccount(name: String?, email: String?, phoneNumber: String?) {
+        let updatedAccountInfo: AccountInfo = AccountInfo(
+            name: name,
+            email: email,
+            phoneNumber: phoneNumber
+        )
+        switch self.userType {
+        case .manager(managerData: let managerData, accountInfo: _):
+            self.userType = .manager(managerData: managerData, accountInfo: updatedAccountInfo)
+        case .participant(accountInfo: _):
+            self.userType = .participant(accountInfo: updatedAccountInfo)
+        case .anonymoous:
+            return
+        }
     }
 }

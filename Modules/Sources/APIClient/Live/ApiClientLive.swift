@@ -4,6 +4,7 @@ import OpenAPIRuntime
 import FirebaseAuth
 import Logger
 import ComposableArchitecture
+import Helpers
 
 public extension APIClient {
     static func live(
@@ -30,13 +31,30 @@ public extension APIClient {
                     return ()
                 }
             },
-            updateAccount: { name, email, phoneNumber in
-                fatalError()
-//                try await withAuthorization {
-//                    _ = try await api.modifyAccount(.init(body: .json(.init(name: name, email: email, phoneNumber: phoneNumber)))).ok
-//                _ = try await Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true)
-//                    return ()
-//                }
+            _updateAccount: {
+                name,
+                email,
+                phoneNumber in
+                
+                try await withAuthorization(forceRefreshAfter: true) {
+                    _ = try await api.modifyAccount(
+                        .init(
+                            body: .json(
+                                .init(
+                                    name: name.nilIfEmpty,
+                                    email: email.nilIfEmpty,
+                                    phoneNumber: phoneNumber.nilIfEmpty
+                                )
+                            )
+                        )
+                    ).ok
+                    sessionCache.updateAccount(
+                        name: name.nilIfEmpty,
+                        email: email.nilIfEmpty,
+                        phoneNumber: phoneNumber.nilIfEmpty
+                    )
+                    return ()
+                }
             },
             updateFcmToken: { fcmToken in
                 try await withAuthorization {
@@ -99,9 +117,11 @@ public extension APIClient {
                 try await withAuthorization(forceRefreshAfter: true) {
                     let claim: Components.Schemas.CreateAccountInput.requestedClaimPayload? =
                     optionalClaim.flatMap { .init(rawValue: $0.rawValue.capitalized) }
-                    let sessionResponse = try await Session(api.createAccount(.init(body: .json(.init(requestedClaim: claim)))).ok.body.json)
-                    sessionCache.updateSession(sessionResponse)
-                    return sessionResponse
+                    
+                    let sessionDto = try await api.createAccount(.init(body: .json(.init(requestedClaim: claim)))).ok.body.json
+                    let session = Session(sessionDto)
+                    sessionCache.updateSession(session)
+                    return session
                 }
             },
             sessionChangedListener: {
@@ -114,8 +134,19 @@ public extension APIClient {
                     sessionCache.updateOrAppendAttendingEvent(ParticipantEvent(participantEvent))
                 }
             },
-            resetNewFeedbackForEvent: { _ in
+            resetNewFeedbackForEvent: { eventId in
+                try await withAuthorization {
+                    _ = try await api.resetNewFeedback(.init(path: .init(eventId: eventId.uuidString)))
+                    sessionCache.resetNewFeedbackForEvent(eventId: eventId)
+                    return ()
+                }
                 return ()
+            },
+            updateAccountClaim: { claim in
+                try await withAuthorization(forceRefreshAfter: true) {
+                    _ = try await api.updateClaim(.init(body: .json(.init(claim: .init(rawValue: claim.rawValue.capitalized)!))))
+                    return ()
+                }
             }
         )
     }

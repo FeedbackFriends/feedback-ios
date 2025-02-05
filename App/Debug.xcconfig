@@ -1,5 +1,12 @@
-COMPILER_FLAG = DEBUG
-BASE_URL = feedbackappcontainerapp.lemonfield-696a2c44.westeurope.azurecontainerapps.io/
-MS_KCLIENTID = acdd554f-490f-48ad-ba02-eac018303323
-MS_REDIRECT = msauth.dk.nicolaidam.feedback.test:
-GOOGLE_SERVICE_PLIST = production
+COMPILER_FLAG = dev
+GOOGLE_SERVICE_PLIST = test
+MOCK_API = false
+
+API_BASE_URL = api.letsgrow.dk
+API_SCHEME = https
+
+//API_BASE_URL = localhost:8080
+//API_SCHEME = http
+
+WEB_BASE_URL = letsgrow.dk
+WEB_SCHEME = https

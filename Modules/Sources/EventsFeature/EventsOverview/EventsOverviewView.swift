@@ -153,25 +153,51 @@ extension EventsOverviewView {
                     message: "You can create new meetings by tapping the + button in the upper right corner."
                 )
             } else {
-                if !todayEvents.isEmpty && store.filterCollection.todayEnabled {
-                    section(title: "Today") {
-                        ForEach(todayEvents) { event in
-                            managerEventListItem(event)
+                if store.filterCollection.allEnabled {
+                    if !todayEvents.isEmpty {
+                        section(title: "Today") {
+                            ForEach(todayEvents) { event in
+                                managerEventListItem(event)
+                            }
                         }
                     }
-                }
-                if !comingUpEvents.isEmpty && store.filterCollection.comingUpEnabled {
-                    section(title: "Coming up") {
-                        ForEach(comingUpEvents) { event in
-                            managerEventListItem(event)
+                    if !comingUpEvents.isEmpty {
+                        section(title: "Coming up") {
+                            ForEach(comingUpEvents) { event in
+                                managerEventListItem(event)
+                            }
+                        }
+                        
+                    }
+                    if !previousEvents.isEmpty {
+                        section(title: "Previous") {
+                            ForEach(previousEvents) { event in
+                                managerEventListItem(event)
+                            }
                         }
                     }
                     
-                }
-                if !previousEvents.isEmpty && store.filterCollection.previousEnabled {
-                    section(title: "Previous") {
-                        ForEach(previousEvents) { event in
-                            managerEventListItem(event)
+                } else {
+                    if !todayEvents.isEmpty && store.filterCollection.todayEnabled {
+                        section(title: "Today") {
+                            ForEach(todayEvents) { event in
+                                managerEventListItem(event)
+                            }
+                        }
+                    }
+                    if !comingUpEvents.isEmpty && store.filterCollection.comingUpEnabled {
+                        section(title: "Coming up") {
+                            ForEach(comingUpEvents) { event in
+                                managerEventListItem(event)
+                            }
+                        }
+                        
+                    }
+                    if !previousEvents.isEmpty && store.filterCollection.previousEnabled {
+                        section(title: "Previous") {
+                            ForEach(previousEvents) { event in
+                                managerEventListItem(event)
+                            }
                         }
                     }
                 }
@@ -347,7 +373,10 @@ extension EventsOverviewView {
     NavigationStack {
         EventsOverviewView(
             store: .init(
-                initialState: EventsOverview.State(session: .init(value: .mock()), segmentedControl: .yourMeetings),
+                initialState: EventsOverview.State(
+                    session: .init(value: .mock()),
+                    segmentedControl: .yourMeetings
+                ),
                 reducer: {
                     EventsOverview()
                 }

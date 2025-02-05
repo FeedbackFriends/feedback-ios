@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BASE_URL</key>
-	<string>$(BASE_URL)</string>
+	<key>MOCK_API</key>
+	<string>$(MOCK_API)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -39,10 +39,14 @@
 		<string>msauthv2</string>
 		<string>msauthv3</string>
 	</array>
-	<key>MS_KCLIENTID</key>
-	<string>$(MS_KCLIENTID)</string>
-	<key>MS_REDIRECT</key>
-	<string>$(MS_REDIRECT)</string>
+	<key>API_BASE_URL</key>
+	<string>$(API_BASE_URL)</string>
+	<key>API_SCHEME</key>
+	<string>$(API_SCHEME)</string>
+	<key>WEB_BASE_URL</key>
+	<string>$(WEB_BASE_URL)</string>
+	<key>WEB_SCHEME</key>
+	<string>$(WEB_SCHEME)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>

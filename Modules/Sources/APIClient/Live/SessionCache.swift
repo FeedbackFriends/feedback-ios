@@ -40,4 +40,18 @@ final class SessionCache {
             sessionContinuation?.yield(updatedSession)
         }
     }
+    
+    func updateAccount(name: String?, email: String?, phoneNumber: String?) {
+        session?.updateAccount(name: name, email: email, phoneNumber: phoneNumber)
+        if let updatedSession = session {
+            sessionContinuation?.yield(updatedSession)
+        }
+    }
+    
+    func resetNewFeedbackForEvent(eventId: UUID) {
+        session?.resetNewFeedbackForEvent(eventId: eventId)
+        if let updatedSession = session {
+            sessionContinuation?.yield(updatedSession)
+        }
+    }
 }

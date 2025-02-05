@@ -6,7 +6,7 @@ fileprivate var sessionContinuation: AsyncStream<Session>.Continuation!
 public extension APIClient {
     static let mock = Self(
         deleteAccount: {},
-        updateAccount: { _, _, _ in },
+        _updateAccount: { _, _, _ in },
         updateFcmToken: { _ in },
         getSession: {
             try await Task.sleep(for: .seconds(1))
@@ -52,6 +52,9 @@ public extension APIClient {
             session.appendParticipantEvent(eventCode)
         },
         resetNewFeedbackForEvent: { eventCode in
+            return ()
+        },
+        updateAccountClaim: { _ in
             return ()
         }
     )

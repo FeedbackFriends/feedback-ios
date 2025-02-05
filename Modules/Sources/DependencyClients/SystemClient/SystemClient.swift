@@ -7,6 +7,7 @@ public struct SystemClient {
     public var hideKeyboard: @Sendable () async -> Void
     public var openSettingsURLString: @Sendable () async -> String = { "" }
     public var makeImpact: (_ style: UIImpactFeedbackGenerator.FeedbackStyle) -> Void
+//    public var inviteUrl: (pinCode)
 }
 
 public extension DependencyValues {

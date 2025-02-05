@@ -7,6 +7,9 @@ public enum FeedbackType: String, Codable, Equatable, RawRepresentable {
 
 extension FeedbackType {
     init(_ input: String) {
-        self = .init(rawValue: input.lowercasingFirst())!
+        guard let feedbackType = FeedbackType(rawValue: input.lowercasingFirst()) else {
+            fatalError("Could not parse \(input) into a valid FeedbackType")
+        }
+        self = feedbackType
     }
 }

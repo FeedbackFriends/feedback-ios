@@ -8,10 +8,10 @@ import Helpers
 public struct APIClient {
     
     public var deleteAccount: () async throws -> ()
-    public var updateAccount: (
+    public var _updateAccount: (
         _ name: String,
         _ email: String,
-        _ phoneNumber: String?
+        _ phoneNumber: String
     ) async throws -> ()
     public var updateFcmToken: (String?) async throws -> ()
     public var getSession: () async throws -> Session
@@ -24,12 +24,17 @@ public struct APIClient {
     public var sessionChangedListener: () -> AsyncStream<Session> = { .never }
     public var joinEvent: (_ eventCode: String) async throws -> ()
     public var resetNewFeedbackForEvent: (_ eventId: UUID) async throws -> ()
+    public var updateAccountClaim: (_ claim: Claim) async throws -> ()
 }
 
 public extension APIClient {
     
     func sendFeedback(feedback: [Feedback], pinCode: String) async throws -> Bool {
         try await _sendFeedback(feedback: feedback, pinCode: pinCode)
+    }
+    
+    func updateAccount(name: String, email: String, phoneNumber: String) async throws {
+        try await _updateAccount(name, email, phoneNumber)
     }
 }
 

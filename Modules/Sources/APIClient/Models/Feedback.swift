@@ -1,6 +1,5 @@
-import DesignSystem
-import SwiftUI
 import Helpers
+import Foundation
 
 public struct Feedback: Equatable, Identifiable {
     
@@ -29,19 +28,6 @@ public enum Emoji: String, Equatable, Sendable, Codable {
     case sad = "sad"
     case happy = "happy"
     case veryHappy = "veryHappy"
-    
-    public var icon: Image {
-        switch self {
-        case .verySad:
-            Image.verySad
-        case .sad:
-            Image.sad
-        case .happy:
-            Image.happy
-        case .veryHappy:
-            Image.veryHappy
-        }
-    }
 }
 
 public enum ThumbsUpThumpsDown: String, Equatable, Sendable, Codable {
@@ -65,7 +51,7 @@ extension Feedback {
             
             self = .init(
                 type: .emoji(
-                    emoji: .init(rawValue: feedback.emoji!.rawValue)!,
+                    emoji: .init(rawValue: feedback.emoji!.rawValue.lowercased())!,
                     comment: feedback.comment
                 ),
                 questionId: UUID(uuidString: feedback.questionId)!,

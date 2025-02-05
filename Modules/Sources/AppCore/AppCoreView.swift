@@ -13,11 +13,10 @@ public struct AppCoreView: View {
     }
     
     public var body: some View {
-        Group {
+        ZStack {
             switch(store.destination) {
             case .isLoading:
                 loadingView
-                
             case .signUp:
                 signUpView
                 
@@ -26,6 +25,7 @@ public struct AppCoreView: View {
                 
             case .loggedIn:
                 tabbarView
+                    .transition(.move(edge: .bottom))
             }
         }
         .onAppear { store.send(.onAppear) }

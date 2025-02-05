@@ -95,6 +95,21 @@ public extension Session {
                     )
                 ),
                 accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
+            ),
+            claim: .manager
+        )
+    }
+    static func mockAnonymous() -> Self {
+        Session(
+            participantEvents: .init(uniqueElements: []),
+            userType: .anonymoous
+        )
+    }
+    static func mockParticipant() -> Self {
+        Session(
+            participantEvents: .init(uniqueElements: []),
+            userType: .participant(
+                accountInfo: .init(name: nil, email: nil, phoneNumber: nil)
             )
         )
     }

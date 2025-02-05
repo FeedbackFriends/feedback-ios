@@ -3,7 +3,6 @@ import SwiftUI
 import ComposableArchitecture
 import DesignSystem
 import Helpers
-import FirebaseAuth
 
 public struct SignUpView: View {
     
@@ -16,14 +15,6 @@ public struct SignUpView: View {
     public var body: some View {
         NavigationStack {
             VStack {
-                VStack {
-                    Button("Current firebase user") {
-                        Task {
-                            let user = try await Auth.auth().currentUser
-                            print(user)
-                        }
-                    }
-                }
                 LottieView(lottieFile: "welcome")
                     .frame(width: 310, height: 310)
                 Spacer()

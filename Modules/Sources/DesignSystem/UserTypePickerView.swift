@@ -1,20 +1,18 @@
 import SwiftUI
-import DesignSystem
 import Helpers
 import APIClient
 import DependencyClients
 
-public enum UserTypePicker {
-    case manager
-    case feedbackOnly
-}
-
-struct UserTypePickerView: View {
+public struct UserTypePickerView: View {
     
     @Binding var selectedUserType: Claim?
     let impactMed = UIImpactFeedbackGenerator(style: .medium)
     
-    var body: some View {
+    public init(selectedUserType: Binding<Claim?>) {
+        self._selectedUserType = selectedUserType
+    }
+    
+    public var body: some View {
         Button {
             impactMed.impactOccurred()
             self.selectedUserType = .participant
@@ -24,7 +22,15 @@ struct UserTypePickerView: View {
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundStyle(selectedUserType == .participant ? Color.themeGreen :Color.gray.opacity(0.5))
-                Text("I want to give feedback only")
+                VStack(alignment: .leading) {
+                    
+                    Text("Participant")
+                        .font(.montserratSemiBold, 16)
+                    
+                    Text("I only want to give feedback.")
+                        .font(.montserratRegular, 12)
+                    
+                }
                 Spacer()
             }
         }
@@ -38,10 +44,20 @@ struct UserTypePickerView: View {
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundStyle(selectedUserType == .manager ? Color.themeGreen :Color.gray.opacity(0.5))
-                Text("I want feedback from others")
+                VStack(alignment: .leading) {
+                    Text("Organizer")
+                        .font(.montserratSemiBold, 16)
+                    Text("I also want to receive feedback.")
+                        .font(.montserratRegular, 12)
+                }
                 Spacer()
             }
         }
         .buttonStyle(LargeBoxButton())
     }
+}
+
+#Preview {
+    @Previewable @State var claim: Claim? = nil
+    UserTypePickerView(selectedUserType: $claim)
 }

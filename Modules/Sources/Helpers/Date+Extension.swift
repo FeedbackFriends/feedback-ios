@@ -18,11 +18,7 @@ public extension Date {
 public extension Date {
     var isToday: Bool {
         let calendar = Calendar.current
-        let todayStart = calendar.startOfDay(for: Date())
-        let todayEnd = calendar.date(byAdding: .day, value: 1, to: todayStart)!
-        
-        // Include only events happening today
-        return self >= todayStart && self < todayEnd
+        return calendar.isDateInToday(self)
     }
     
     var isAfterToday: Bool {

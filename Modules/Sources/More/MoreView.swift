@@ -14,32 +14,24 @@ public struct MoreView: View {
     }
     
     public var body: some View {
-        moreContent
-            .task { store.send(.task) }
-            .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-            .confirmationDialog($store.scope(state: \.destination?.confirmationDialog, action: \.destination.confirmationDialog))
-    }
-}
-
-private extension MoreView {
-    
-    private var moreContent: some View {
         List {
             switch store.session.userType {
             case .anonymoous:
                 EmptyView()
             case .participant(let accountData):
                 profileSection(
-                    name: accountData.name ?? "-",
-                    email: accountData.email ?? "-",
+                    name: accountData.name,
+                    email: accountData.email,
                     phoneNumber: accountData.phoneNumber
                 )
+                accountTypeSection(claim: Claim.participant)
             case .manager(_, let accountData):
                 profileSection(
-                    name: accountData.name ?? "-",
-                    email: accountData.email ?? "-",
+                    name: accountData.name,
+                    email: accountData.email,
                     phoneNumber: accountData.phoneNumber
                 )
+                accountTypeSection(claim: Claim.manager)
             }
             generalSection
             contactSection
@@ -53,9 +45,6 @@ private extension MoreView {
                 logoutSection()
                 
             }
-            #if !RELEASE
-            developerSection
-            #endif
         }
         .font(.montserratRegular, 12)
         .toolbarBackground(
@@ -66,34 +55,132 @@ private extension MoreView {
         .foregroundColor(Color.themeDarkGray)
         .scrollContentBackground(.hidden)
         .background(Color.themeBackground)
+        .task { store.send(.task) }
+        .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
+        .confirmationDialog(
+            $store.scope(
+                state: \.destination?.confirmationDialog,
+                action: \.destination.confirmationDialog
+            )
+        )
+        .sheet(
+            item: $store.scope(
+                state: \.destination?.changeUserType,
+                action: \.destination.changeUserType
+            )
+        ) { store in
+            ChangeUserTypeView(store: store)
+                .presentationDetents([.height(240)])
+        }
+        .navigationDestination(
+            item: $store.scope(
+                state: \.destination?.modifyAccount,
+                action: \.destination.modifyAccount
+            )
+        ) { store in
+            ModifyAccountView(store: store)
+        }
+    }
+}
+
+private extension MoreView {
+    
+    @ViewBuilder
+    func profileSection(
+        name: String?,
+        email: String?,
+        phoneNumber: String?
+    ) -> some View {
+        
+        Section {
+            Button {
+                store.send(.updateProfileButtonTap)
+            } label: {
+                VStack(alignment: .leading) {
+                    Text(name ?? "Name not found")
+                        .font(.montserratMedium, 18)
+                    HStack {
+                        Image(systemName: "person.circle.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .foregroundColor(Color(.systemGray2))
+                            .background(Color(.systemGray5))
+                            .clipShape(Circle())
+                        VStack(alignment: .leading, spacing: 8) {
+                            //                            HStack {
+                            //                                Image(systemName: "envelope")
+                            Text(email ?? "Email not found")
+                            //                            }
+                            //                            HStack {
+                            //                                Image(systemName: "phone")
+                            Text(phoneNumber ?? "Phone number not found")
+                            //                            }
+                        }
+                        .font(.montserratMedium, 12)
+                        .foregroundColor(Color(.systemGray))
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 14, height: 14)
+                            .padding(10)
+                            .foregroundColor(Color(.systemGray2))
+                    }
+                }
+            }
+        }
+        header: {
+            Text("Profile")
+                .sectionHeaderStyle()
+        }
     }
     
     @ViewBuilder
-    func profileSection(name: String, email: String, phoneNumber: String?) -> some View {
-        
+    func accountTypeSection(
+        claim: Claim
+    ) -> some View {
         Section {
-            listElement(image: "person.fill", label: name)
-            listElement(image: "envelope.fill", label: email)
-            if let phoneNumber {
-                listElement(image: "envelope.fill", label: phoneNumber)
+            Button {
+                store.send(.changeUserTypeButtonTap)
+            } label: {
+                HStack {
+                    Image.handshake
+                        .resizable()
+                        .renderingMode(.template)
+                        .imageScale(.small)
+                        .scaledToFit()
+                        .frame(width: 14, height: 14)
+                        .padding(6)
+                        .background(Color(.systemGray5))
+                        .clipShape(Circle())
+                        .foregroundStyle(Color(.systemGray))
+                    Text(claim.localized)
+                    Spacer()
+                    Text("Edit")
+                        .font(.montserratBold, 13)
+                        .foregroundColor(.themePrimaryAction)
+                }
+                .font(.montserratRegular, 13)
+                .foregroundColor(.themeDarkGray)
             }
-
-            } header: {
-                Text("Profile")
-                    .sectionHeaderStyle()
-            }
+        }
+        header: {
+            Text("Account type")
+                .sectionHeaderStyle()
+        }
     }
     
     func logoutSection() -> some View {
         Section {
-
+            
             Button {
                 store.send(.signOutButtonTapped)
             } label: {
-                listElement(image: "rectangle.portrait.and.arrow.right.fill", label: "Logout")
+                listElement(image: "rectangle.portrait.and.arrow.right", label: "Logout")
             }
         } footer: {
-            Text("Version \(store.appVersion)")
+            Text("\(store.appVersion)")
                 .frame(maxWidth: .infinity)
                 .multilineTextAlignment(.center)
                 .font(.montserratThin, 12)
@@ -105,82 +192,40 @@ private extension MoreView {
             Button {
                 store.send(.signUpButtonTap)
             } label: {
-                listElement(image: "rectangle.portrait.fill", label: "Sign up")
+                listElement(image: "person.badge.key", label: "Sign up")
             }
         } footer: {
-            Text("Sign up to create an account and continue your journey as a feedback participant or to receive feedback from others.")
-        }
-    }
-    
-    var developerSection: some View {
-        NavigationLink("Developer Menu") {
-            ScrollView {
-                Text("Firebase ID Token for logged in user (Hold to copy)")
-                    .font(.callout)
-                    .padding(.bottom, 16)
-                Text(store.idToken ?? "No firebase token")
-                    .textSelection(.enabled)
-                    .multilineTextAlignment(.leading)
-                    .padding()
-                    .foregroundStyle(Color.black)
-                    .navigationBarTitleDisplayMode(.inline)
-                    .navigationTitle("Developer Menu")
-            }
+            Text("Sign up to get feedback from others and much more")
         }
     }
     
     var generalSection: some View {
         Group {
             Section {
-//                                NavigationLink {
-//                                    ScrollView {
-//                                        ColorSchemePicker(colorScheme: $settings.colorScheme)
-//                                        .toggleStyle(SwitchToggleStyle(tint: .orange))
-//                                    }
-//                                    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-//                                } label: {
-//                                    listElement(image: "lightbulb.led.fill", label: "Appearance")
-//                                }
                 Button {
                     store.send(.onNotificationsButtonTap)
                 } label: {
-                    listElement(image: "bell.circle.fill", label: "Notifications")
+                    listElement(image: "bell", label: "Notifications")
                 }
                 
                 NavigationLink {
-                    ScrollView {
-                        Text(store.string)
-                            .navigationTitle("Terms of service")
-                            .navigationBarTitleDisplayMode(.inline)
-                            .padding()
-                            .multilineTextAlignment(.leading)
-                            
-                    }
+                    WebView(url: .init(string: "https://localhost:5173/privacy-policy")!)
+                        .edgesIgnoringSafeArea(.all)
+                        .navigationTitle("Privacy policy")
                 } label: {
-                    listElement(image: "book.closed.fill", label: "Terms of Service")
+                    listElement(image: "doc.plaintext", label: "Privacy policy")
                 }
-                NavigationLink {
-                    ScrollView {
-                        Text(store.string)
-                            .navigationTitle("Privacy policy")
-                            .navigationBarTitleDisplayMode(.inline)
-                            .padding()
-                            .multilineTextAlignment(.leading)
-                    }
-                } label: {
-                    listElement(image: "doc.plaintext.fill", label: "Privacy policy")
-                }
-                NavigationLink {
-                    ScrollView {
-                        Text(store.string)
-                            .navigationTitle("License")
-                            .navigationBarTitleDisplayMode(.inline)
-                            .padding()
-                            .multilineTextAlignment(.leading)
-                    }
-                } label: {
-                    listElement(image: "character.book.closed.fill", label: "License")
-                }
+                //                NavigationLink {
+                //                    ScrollView {
+                //                        Text(store.string)
+                //                            .navigationTitle("License")
+                //                            .navigationBarTitleDisplayMode(.inline)
+                //                            .padding()
+                //                            .multilineTextAlignment(.leading)
+                //                    }
+                //                } label: {
+                //                    listElement(image: "character.book.closed.fill", label: "License")
+                //                }
                 Button {
                     store.send(.onSupportUsButtonTap)
                 } label: {
@@ -198,14 +243,6 @@ private extension MoreView {
                 Text("General")
                     .sectionHeaderStyle()
             }
-//            Picker(selection: $store.userType.unwrapped()) {
-//                ForEach(Role.allCases, id: \.self) {
-//                    Text($0.localization)
-//                }
-//            } label: {
-//                Text("User mode")
-//                    .sectionHeaderStyle()
-//            }
         }
     }
     
@@ -214,12 +251,12 @@ private extension MoreView {
             Button {
                 store.send(.onFeedbackButtonTap)
             } label: {
-                listElement(image: "ellipsis.bubble.fill", label: "Send us feedback")
+                listElement(image: "ellipsis.bubble", label: "Send us feedback")
             }
             Button {
                 store.send(.onReportBugButtonTap)
             } label: {
-                listElement(image: "exclamationmark.square.fill", label: "Report a bug")
+                listElement(image: "exclamationmark.square", label: "Report a bug")
             }
         } header: {
             Text("Contact us")
@@ -247,4 +284,89 @@ private extension MoreView {
                 .foregroundStyle(Color.themePrimaryAction.gradient)
         )
     }
+}
+
+#Preview("Manager") {
+    NavigationStack {
+        MoreView(
+            store: StoreOf<More>(
+                initialState: More.State(session: .init(value: .mock())),
+                reducer: {
+                    More()
+                }
+            )
+        )
+    }
+}
+
+#Preview("Participant") {
+    NavigationStack {
+        MoreView(
+            store: StoreOf<More>(
+                initialState: More.State(session: .init(value: .mockParticipant())),
+                reducer: {
+                    More()
+                }
+            )
+        )
+    }
+}
+
+
+#Preview("Anonymous") {
+    NavigationStack {
+        MoreView(
+            store: StoreOf<More>(
+                initialState: More.State(session: .init(value: .mockAnonymous())),
+                reducer: {
+                    More()
+                }
+            )
+        )
+    }
+}
+
+struct SFIconModifier: ViewModifier {
+    var size: CGFloat
+    var weight: Font.Weight
+    var padding: CGFloat
+    var backgroundColor: Color
+    var foregroundColor: Color
+    
+    func body(content: Content) -> some View {
+        content
+            .font(.system(size: size, weight: weight))
+            .aspectRatio(contentMode: .fill)
+            .padding(padding)
+            .background(backgroundColor)
+            .clipShape(Circle())
+            .foregroundStyle(foregroundColor)
+    }
+}
+
+// Extension for easy usage
+extension View {
+    func sfIconStyle(
+        size: CGFloat = 12,
+        weight: Font.Weight = .bold,
+        padding: CGFloat = 6,
+        backgroundColor: Color = Color(.systemGray5),
+        foregroundColor: Color = Color(.systemGray)
+    ) -> some View {
+        self.modifier(SFIconModifier(size: size, weight: weight, padding: padding, backgroundColor: backgroundColor, foregroundColor: foregroundColor))
+    }
+}
+
+public func listElement(
+    image: String,
+    label: String,
+    foregroundColor: Color = Color.themeDarkGray
+) -> some View {
+    HStack {
+        Image(systemName: image)
+            .sfIconStyle()
+        Text(label)
+    }
+    .font(.montserratRegular, 13)
+    .foregroundColor(foregroundColor)
 }

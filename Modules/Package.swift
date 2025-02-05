@@ -56,10 +56,10 @@ let package = Package(
         .package(url: "https://github.com/airbnb/lottie-ios", from: "3.4.3"),
         .package(url: "https://github.com/google/GoogleSignIn-iOS.git", from: "7.0.0"),
         .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", revision: "1.17.1"),
-        .package(url: "https://github.com/apple/swift-openapi-generator", .upToNextMinor(from: "1.3.1")),
-        .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "1.5.0")),
+        .package(url: "https://github.com/apple/swift-openapi-generator", .upToNextMinor(from: "1.7.0")),
+        .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "1.8.0")),
         .package(url: "https://github.com/apple/swift-openapi-urlsession", .upToNextMinor(from: "1.0.2")),
-        .package(url: "https://github.com/apple/swift-http-types.git", from: "1.3.0")
+        .package(url: "https://github.com/apple/swift-http-types.git", from: "1.3.1")
     ],
     targets: [
         .target(
@@ -82,7 +82,6 @@ let package = Package(
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
-                "DesignSystem",
                 "Logger",
                 "Helpers"
             ],
@@ -107,6 +106,7 @@ let package = Package(
             name: "DesignSystem",
             dependencies: [
 //                .product(name: "MSAL", package: "microsoft-authentication-library-for-objc"),
+                "APIClient",
                 .product(name: "Lottie", package: "lottie-ios"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),

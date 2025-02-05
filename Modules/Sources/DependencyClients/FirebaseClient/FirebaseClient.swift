@@ -15,9 +15,7 @@ public struct FirebaseClient {
     public var fetchCustomClaim: @Sendable () async throws -> Claim?
     public var googleLogin: @Sendable () async throws -> Void
     public var appleLogin: @Sendable () async throws -> Void
-    public var microsoftLogin: @Sendable () async throws -> String
     public var logout: @Sendable () throws -> Void
-    public var userInfo: () -> (String?, String?) = { (nil, nil) }
     public var logNonFatalError: (
         _ error: Error,
         _ path: String,
@@ -66,7 +64,7 @@ public extension FirebaseClient {
             setup: {
                 print("********** SETUP intialised")
                 
-                _ = try await Auth.auth().addStateDidChangeListener { auth, optionalUser in
+                _ = Auth.auth().addStateDidChangeListener { auth, optionalUser in
                     print("****************** tokrn updated: \(optionalUser?.uid ?? "no user")")
                     guard let user = optionalUser.optional else {
                         /// User logged out
@@ -118,19 +116,8 @@ public extension FirebaseClient {
                 let credential = try await AuthService().startSignInWithAppleFlow()
                 try await linkOrSignInWithCredential(credential)
             },
-            microsoftLogin: { @MainActor in
-                fatalError()
-            },
             logout: {
                 try Auth.auth().signOut()
-            },
-            userInfo: {
-                let email = Auth.auth().currentUser?.email
-                let name = Auth.auth().currentUser?.displayName
-                let phone = Auth.auth().currentUser?.phoneNumber
-                let image = Auth.auth().currentUser?.photoURL
-                
-                return (email, name)
             },
             logNonFatalError: { error, path, fileName, lineNumber, code in
                 
@@ -237,40 +224,34 @@ public extension FirebaseClient {
     }
 }
 
-//public extension FirebaseClient {
-//    static let mock = Self.init(
-//        signInAnonymously: {
-//            cont.yield(.login(nil))
-//        },
-//        userLoggedIn: { true },
-//        googleLogin: { _ in
-//            cont.yield(.login(.manager))
-//        },
-//        appleLogin: { _ in },
-//        microsoftLogin: {_ in
-//            fatalError()
-//        },
-//        logout: {
-//            cont.yield(.logOut)
-//        },
-//        userInfo: {
-//            return ("mock@email.com","Mock Mocksen")
-//        },
-//        logNonFatalError: { _, _, _, _, _  in },
-//        sendAnalytics: { _ in },
-//        userStateChanged: {
-//            AsyncStream {
-//                cont = $0
-//            }
-//        },
-//        getIDToken: { "" },
-//        _sendEmailLink: { sendEmailInput in
-//            
-//        },
-//        _signUpWithEmailLink: { email, link, claim in
-//        }
-//    )
-//}
+public extension FirebaseClient {
+    static let mock = Self.init(
+        setup: {},
+        signInAnonymously: {
+            cont.yield(.anonymous)
+        },
+        fetchCustomClaim: { nil },
+        googleLogin: {
+            cont.yield(.authenticated)
+        },
+        appleLogin: {
+            cont.yield(.authenticated)
+        },
+        logout: {
+            cont.yield(.loggedOut)
+        },
+        logNonFatalError: { _, _ , _, _, _ in },
+        sendAnalytics: { _ in },
+        userStateChanged: {
+            AsyncStream { continuation in
+                cont = continuation
+            }
+        },
+        getIDToken: { nil },
+        _sendEmailLink: { _ in },
+        _signUpWithEmailLink: { _, _, _ in }
+    )
+}
 
 public extension FirebaseClient {
     static let failing = Self()

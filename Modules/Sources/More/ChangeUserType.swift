@@ -1,11 +1,10 @@
+import APIClient
 import SwiftUI
 import ComposableArchitecture
 import Helpers
-import APIClient
-import DesignSystem
 
 @Reducer
-public struct SelectUserType {
+public struct ChangeUserType {
     
     @Reducer(state: .equatable)
     public enum Destination {
@@ -16,10 +15,9 @@ public struct SelectUserType {
     public struct State: Equatable {
         @Presents var destination: Destination.State?
         var selectedUserType: Claim?
-        public init() {}
-        var isLoading: Bool = false
-        var disableUserTypeSelectionButton: Bool {
-            selectedUserType == nil
+        var isLoading = false
+        public init(selectedUserType: Claim) {
+            self.selectedUserType = selectedUserType
         }
     }
     
@@ -27,25 +25,23 @@ public struct SelectUserType {
         case destination(PresentationAction<Destination.Action>)
         case binding(BindingAction<State>)
         case presentError(Error)
-        case createAccountButtonTap
-        case createAccountResponse
-        case claimsSuccessfullyFetchedForAuthenticatedUser(Claim?)
+        case saveButtonTap
+        case updateAccountClaimResponse
+        case closeButtonTap
         case delegate(Delegate)
         public enum Delegate {
-            case getSession
+            case refreshSession
         }
     }
     
     public init() {}
     
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.firebaseClient) var firebaseClient
+    @Dependency(\.dismiss) var dismiss
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
-        Reduce {
-            state,
-            action in
+        Reduce { state, action in
             switch action {
                 
             case .binding:
@@ -55,8 +51,7 @@ public struct SelectUserType {
                 state.isLoading = false
                 state.destination = .alert(
                     AlertState(
-                        title: { TextState("Noget gik galt")
-                        },
+                        title: { TextState("Noget gik galt") },
                         message: { TextState(error.localizedDescription) }
                     )
                 )
@@ -65,47 +60,34 @@ public struct SelectUserType {
             case .destination:
                 return .none
                 
-            case .createAccountButtonTap:
+            case .saveButtonTap:
+                guard let claim = state.selectedUserType else { return .none }
                 state.isLoading = true
-                return .run { [claim = state.selectedUserType] send in
+                return .run { send in
                     do {
-                        let _ = try await apiClient.createAccount(claim)
-                        await send(.createAccountResponse)
-                    } catch {
-                        await send(.presentError(error))
-                    }
-                }
-            case .createAccountResponse:
-                return .run  { send in
-                    do {
-                        let claim = try await firebaseClient.fetchCustomClaim()
-                        await send(.claimsSuccessfullyFetchedForAuthenticatedUser(claim))
-                        
+                        try await apiClient.updateAccountClaim(claim)
+                        await send(.updateAccountClaimResponse)
                     } catch {
                         await send(.presentError(error))
                     }
                 }
                 
-            case .claimsSuccessfullyFetchedForAuthenticatedUser(let claim):
+            case .updateAccountClaimResponse:
                 state.isLoading = false
-                return .send(.delegate(.getSession))
+                return .run { send in
+                    await send(.delegate(.refreshSession))
+                }
                 
-            case .delegate(_):
+            case .delegate:
                 return .none
+                
+            case .closeButtonTap:
+                return .run { _ in
+                        await dismiss()
+                }
             }
         }
         .ifLet(\.$destination, action: \.destination)
     }
-}
-
-#Preview {
-    SelectUserTypeView(
-        store: .init(
-            initialState: .init(),
-            reducer: {
-                SelectUserType()
-            }
-        )
-    )
 }
 

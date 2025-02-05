@@ -10,6 +10,7 @@ import FeedbackFlow
 public struct TabbarView: View {
     
     @State var debugMenuVisible: Bool = false
+    @State var hideDebugMenu: Bool = false
     
     @Bindable var store: StoreOf<Tabbar>
     
@@ -29,7 +30,9 @@ private extension TabbarView {
                 EnterCodeView(store: store.scope(state: \.enterCode, action: \.enterCode))
             }
             .tabItem {
-                Image(systemName: "hand.")
+                Image.handshake
+                    .renderingMode(.template)
+                    .imageScale(.small)
                 Text("Feedback")
             }
             .tag(Tab.feedback)
@@ -44,47 +47,52 @@ private extension TabbarView {
             .tag(Tab.events)
             NavigationStack {
                 MoreView(store: store.scope(state: \.more, action: \.more))
-                    .navigationTitle("More")
+                    .navigationTitle("Profile")
             }
             .tabItem {
-                Image(systemName: "ellipsis")
-                Text("More")
+                Image(systemName: "person.crop.circle")
+                Text("Profile")
             }
             .tag(Tab.more)
         }
         .overlay(alignment: .trailing) {
-            HStack {
-                Button {
-                    withAnimation {
-                        self.debugMenuVisible.toggle()
-                    }
-                } label: {
-                    Image(systemName: "chevron.compact.down")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 20, height: 20)
-                        .padding()
-                }
-                if debugMenuVisible {
-                    VStack {
-                        Button("Print session") {
-                            store.send(.printSession)
+            if !hideDebugMenu {
+                HStack {
+                    Button {
+                        withAnimation {
+                            self.debugMenuVisible.toggle()
                         }
-                        Button("Print id token") {
-                            Task {
-                                let token = try await Auth.auth().currentUser?.getIDToken()
-                                print(token ?? "Token not found")
+                    } label: {
+                        Image(systemName: "chevron.compact.down")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            .padding()
+                    }
+                    if debugMenuVisible {
+                        VStack {
+                            Button("Print session") {
+                                store.send(.printSession)
+                            }
+                            Button("Print id token") {
+                                Task {
+                                    let token = try await Auth.auth().currentUser?.getIDToken()
+                                    print(token ?? "Token not found")
+                                }
+                            }
+                            Button("Crash") {
+                                fatalError("Debug crash")
+                            }
+                            Button("Hide") {
+                                hideDebugMenu = true
                             }
                         }
-                        Button("Crash") {
-                            fatalError("Debug crash")
-                        }
+                        .padding()
                     }
-                    .padding()
                 }
+                .background(Color.blue)
+                .foregroundStyle(Color.white)
             }
-            .background(Color.blue)
-            .foregroundStyle(Color.white)
         }
         .alert($store.scope(state: \.initialiseFeedback.destination?.alert, action: \.initialiseFeedback.destination.alert))
         .sheet(item: $store.scope(state: \.initialiseFeedback.destination?.ratingPrompt, action: \.initialiseFeedback.destination.ratingPrompt)) { _ in

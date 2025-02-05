@@ -2,9 +2,9 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.1
+  version: "${VERSION}"
 servers:
-- url: http://localhost:8080
+- url: http://api.letsgrow.dk
   description: Generated server url
 security:
 - bearerAuth: []
@@ -160,6 +160,30 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
+  /v1/account/claim:
+    put:
+      tags:
+      - account-controller
+      operationId: updateClaim
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateClaimInput'
+        required: true
+      responses:
+        "200":
+          description: OK
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
   /v1/feedback/submit:
     post:
       tags:
@@ -234,6 +258,31 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ManagerEventDto'
+        "401":
+          description: Unauthorized
+        "403":
+          description: Forbidden
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /v1/event/resetNewFeedback/{eventId}:
+    post:
+      tags:
+      - event-controller
+      operationId: resetNewFeedback
+      parameters:
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+      responses:
+        "200":
+          description: OK
         "401":
           description: Unauthorized
         "403":
@@ -599,7 +648,7 @@ components:
         veryHappyCount:
           type: integer
           format: int32
-    AccountDetails:
+    ModifyAccountInput:
       type: object
       properties:
         name:
@@ -608,24 +657,21 @@ components:
           type: string
         phoneNumber:
           type: string
-    ModifyAccountInput:
-      required:
-      - accountDetails
-      - requestedClaim
-      type: object
-      properties:
-        accountDetails:
-          $ref: '#/components/schemas/AccountDetails'
-        requestedClaim:
-          type: string
-          enum:
-          - Manager
-          - Participant
     SetFcmTokenInput:
       type: object
       properties:
         fcmToken:
           type: string
+    UpdateClaimInput:
+      required:
+      - claim
+      type: object
+      properties:
+        claim:
+          type: string
+          enum:
+          - Manager
+          - Participant
     FeedbackInput:
       required:
       - feedbackType
@@ -874,26 +920,26 @@ components:
           type: string
         passwordSalt:
           type: string
+        providerId:
+          type: string
         providerData:
           type: array
           items:
             $ref: '#/components/schemas/UserInfo'
-        providerId:
-          type: string
     UserInfo:
       type: object
       properties:
-        displayName:
-          type: string
-        uid:
-          type: string
         email:
           type: string
         phoneNumber:
           type: string
+        photoUrl:
+          type: string
+        uid:
+          type: string
         providerId:
           type: string
-        photoUrl:
+        displayName:
           type: string
     UserMetadata:
       type: object

@@ -18,41 +18,4 @@ public struct CoolToolbarIconStyling: ViewModifier {
     }
 }
 
-public struct SharedCloseButton: View {
-        
-    var closeButtonTapped: () -> Void
-    
-    public init(_ closeButtonTapped: @escaping () -> Void) {
-        self.closeButtonTapped = closeButtonTapped
-    }
-    
-    public var body: some View {
-        Button {
-            closeButtonTapped()
-        } label: {
-            Image(systemName: "xmark")
-                .resizable()
-                .fontWeight(.bold)
-                .frame(width: 14, height: 14, alignment: .center)
-                .foregroundColor(.themeDarkGray.opacity(0.6))
-                .padding(8)
-                .background(Color.white, in: Capsule())
-//                .background(Material.regularMaterial, in: Capsule())
-        }
-    }
-}
-
-
-public struct CustomGroupBoxStyle: GroupBoxStyle {
-    public init() {}
-    public func makeBody(configuration: Configuration) -> some View {
-        VStack(alignment: .leading) {
-            configuration.label
-            configuration.content
-        }
-        .background(Color.themeWhite)
-        .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
-    }
-}
-
 

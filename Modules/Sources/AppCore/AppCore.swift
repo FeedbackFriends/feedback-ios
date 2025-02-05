@@ -78,7 +78,7 @@ public struct AppCore {
         return .run  { send in
             do {
                 let session = try await apiClient.createAccount(claim)
-                await send(.createAccountResponse(session, claim))
+                await send(.createAccountResponse(session, claim), animation: .bouncy)
             } catch {
                 await send(.presentError(ErrorType.createAccountError(error, claim)))
             }
@@ -103,7 +103,7 @@ public struct AppCore {
         return .run  { send in
             do {
                 let session = try await apiClient.getSession()
-                await send(.getSessionResponse(session))
+                await send(.getSessionResponse(session), animation: .bouncy)
             } catch {
                 await send(.presentError(ErrorType.getSessionError(error)))
             }
@@ -148,6 +148,9 @@ public struct AppCore {
             switch action {
                 
             case .destination(.signUp(.destination(.presented(.selectUserType(.delegate(.getSession)))))):
+                return getSession(state: &state)
+                
+            case .destination(.loggedIn(.more(.destination(.presented(.changeUserType(.delegate(.refreshSession))))))):
                 return getSession(state: &state)
                 
             case .destination(.loggedIn(.eventsOverview(.delegate(.navigateToSignUp)))),
