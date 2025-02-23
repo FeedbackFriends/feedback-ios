@@ -5,7 +5,7 @@ import SwiftUI
 import ComposableArchitecture
 import DependencyClients
 import Helpers
-import APIClient
+import Helpers
 
 @Reducer
 public struct FeedbackFlow {
@@ -141,7 +141,7 @@ public struct FeedbackFlow {
                 
             case .presentError(let error):
                 state.feedbackItems[id: state.feedbackItems.last!.id]!.submitFeedbackInFlight = false
-                state.destination = .alert(okErrorAlert(message: error.localizedDescription))
+                state.destination = .alert(.init(error: error))
                 return .none
                 
             case .feedbackItems:

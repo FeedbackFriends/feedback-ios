@@ -1,7 +1,7 @@
 import DependencyClients
 import DesignSystem
 import SwiftUI
-import APIClient
+import Helpers
 
 struct DetailSectionView: View {
     

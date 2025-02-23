@@ -6,7 +6,8 @@ import FirebaseAuth
 import UIKit
 import Helpers
 import ComposableArchitecture
-import APIClient
+import Helpers
+import Helpers
 
 @Reducer
 public struct More {
@@ -18,16 +19,23 @@ public struct More {
         case changeUserType(ChangeUserType)
         @ReducerCaseEphemeral
         case confirmationDialog(ConfirmationDialogState<ConfirmationDialog>)
-        public enum ConfirmationDialog {
+        public enum ConfirmationDialog: Equatable {
             case logoutConfirmed
         }
     }
     
     @ObservableState
     public struct State: Equatable {
-        let url = URL(string: "https://www.google.com/")!
+        var privacyPolicyUrl: URL {
+            @Dependency(\.systemClient) var systemClient
+            return systemClient.privacyPolicyUrl()
+        }
+        var appStoreReviewUrl: URL {
+            @Dependency(\.systemClient) var systemClient
+            return systemClient.appStoreReviewUrl()
+        }
         @Presents var destination: Destination.State?
-        var appVersion = "" //Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Version"
+        var appVersion = "todo" //Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Version"
         @Shared var session: Session
         
         public init(session: Shared<Session>) {
@@ -36,7 +44,6 @@ public struct More {
     }
     
     public enum Action: BindableAction {
-        case task
         case onNotificationsButtonTap
         case onFeedbackButtonTap
         case onReportBugButtonTap
@@ -60,7 +67,8 @@ public struct More {
     @Dependency(\.openURL) var openURL
     @Dependency(\.systemClient) var systemClient
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.firebaseClient) var firebaseClient
+    @Dependency(\.authClient) var authClient
+    @Dependency(\.logClient) var logger
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -74,22 +82,11 @@ public struct More {
                 case .logoutConfirmed:
                     return .run { send in
                         do {
-                            try firebaseClient.logout()
+                            try authClient.logout()
                         } catch let error {
                             await send(.presentError(error))
                         }
                     }
-                }
-                
-            case .task:
-                //                let userInfo = firebaseClient.userInfo()
-                //                state.email = userInfo.0
-                //                state.name = userInfo.1
-                return .run { send in
-                    //                    #if !RELEASE
-                    //                    let idToken = try! await firebaseClient.getIDToken()
-                    //                    await send(.firebaseIdTokenResponse(idToken))
-                    //                    #endif
                 }
                 
             case .onNotificationsButtonTap:
@@ -99,28 +96,23 @@ public struct More {
                 }
                 
             case .onFeedbackButtonTap:
-                //                return .run { _ in
-                //                    let subject = "Feedback, \(deviceInformation)"
-                //                    let body = ""
-                //                    let url: URL = .emailURL(subject: subject, body: body)
-                //                    await openURL(url)
-                //                }
-                return .none
+                let subject = "Feedback, \(deviceInformation)"
+                let body = ""
+                return .run { send in
+                    await openURL(systemClient.appleMailUrl(subject, body))
+                }
                 
             case .onReportBugButtonTap:
-                //                return .run { _ in
-                //                    let subject = "Bug, \(deviceInformation)"
-                //                    let body = ""
-                //                    let url: URL = .emailURL(subject: subject, body: body)
-                //                    await openURL(url)
-                //                }
-                return .none
+                let subject = "Bug, \(deviceInformation)"
+                let body = ""
+                return .run { send in
+                    await openURL(systemClient.appleMailUrl(subject, body))
+                }
                 
             case .onSupportUsButtonTap:
-                //                guard let writeReviewURL = URL(string: "https://apps.apple.com/app/id1502217102?action=write-review")
-                //                else { fatalError("Expected a valid URL") }
-                //                UIApplication.shared.open(writeReviewURL, options: [:], completionHandler: nil)
-                return .none
+                return .run { send in
+                    await openURL(systemClient.appStoreReviewUrl())
+                }
                 
             case .destination:
                 return .none
@@ -138,7 +130,7 @@ public struct More {
                 return .none
                 
             case .presentError(let error):
-                state.destination = .alert(okErrorAlert(message: error.localizedDescription))
+                state.destination = .alert(.init(error: error))
                 return .none
                 
             case .binding:
@@ -149,12 +141,13 @@ public struct More {
                 
             case .delegate:
                 return .none
+                
             case .changeUserTypeButtonTap:
-                guard let claim = state.session.claim else {
-                    assertionFailure("Change user button tap - Claim in session is nil, should never happen")
+                guard let role = state.session.role else {
+                    logger.log(.fault, "Change user button tap - Role in session is nil, should never happen")
                     return .none
                 }
-                state.destination = .changeUserType(.init(selectedUserType: claim))
+                state.destination = .changeUserType(.init(selectedUserType: role))
                 return .none
                 
             case .updateProfileButtonTap:
@@ -170,7 +163,7 @@ public struct More {
                     )
                     return .none
                 case .anonymoous:
-                    assertionFailure("Update user type button tap with an anonymous account, should never happen")
+                    logger.log(.fault, "Update user type button tap with an anonymous account, should never happen")
                     return .none
                 }
             }
@@ -179,17 +172,9 @@ public struct More {
     }
 }
 
-//var deviceInformation: String {
-//    let version = "Bundle.main.versionNumber"
-//    let build = "Bundle.main.buildNumber"
-//    let os = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
-//    return "v\(version)(\(build)), \(os)"
-//}
-
-extension URL {
-    static func emailURL(subject: String, body: String) -> Self {
-        let string = "mailto:feedback.app.cph@gmail.com?subject=\(subject)&body=\(body)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
-        let url = URL(string: string!)
-        return url!
-    }
+var deviceInformation: String {
+    let version = Bundle.main.versionNumber
+    let build = Bundle.main.buildNumber
+    let os = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
+    return "v\(version)(\(build)), \(os)"
 }

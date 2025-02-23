@@ -1,7 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
 import Helpers
-import APIClient
 import DesignSystem
 
 @Reducer
@@ -15,7 +14,7 @@ public struct SelectUserType {
     @ObservableState
     public struct State: Equatable {
         @Presents var destination: Destination.State?
-        var selectedUserType: Claim?
+        var selectedUserType: Role?
         public init() {}
         var isLoading: Bool = false
         var disableUserTypeSelectionButton: Bool {
@@ -29,7 +28,7 @@ public struct SelectUserType {
         case presentError(Error)
         case createAccountButtonTap
         case createAccountResponse
-        case claimsSuccessfullyFetchedForAuthenticatedUser(Claim?)
+        case rolesSuccessfullyFetchedForAuthenticatedUser(Role?)
         case delegate(Delegate)
         public enum Delegate {
             case getSession
@@ -39,7 +38,7 @@ public struct SelectUserType {
     public init() {}
     
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.firebaseClient) var firebaseClient
+    @Dependency(\.authClient) var authClient
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -54,11 +53,7 @@ public struct SelectUserType {
             case .presentError(let error):
                 state.isLoading = false
                 state.destination = .alert(
-                    AlertState(
-                        title: { TextState("Noget gik galt")
-                        },
-                        message: { TextState(error.localizedDescription) }
-                    )
+                    .init(error: error)
                 )
                 return .none
                 
@@ -67,9 +62,9 @@ public struct SelectUserType {
                 
             case .createAccountButtonTap:
                 state.isLoading = true
-                return .run { [claim = state.selectedUserType] send in
+                return .run { [role = state.selectedUserType] send in
                     do {
-                        let _ = try await apiClient.createAccount(claim)
+                        let _ = try await apiClient.createAccount(role)
                         await send(.createAccountResponse)
                     } catch {
                         await send(.presentError(error))
@@ -78,15 +73,15 @@ public struct SelectUserType {
             case .createAccountResponse:
                 return .run  { send in
                     do {
-                        let claim = try await firebaseClient.fetchCustomClaim()
-                        await send(.claimsSuccessfullyFetchedForAuthenticatedUser(claim))
+                        let role = try await authClient.fetchCustomRole()
+                        await send(.rolesSuccessfullyFetchedForAuthenticatedUser(role))
                         
                     } catch {
                         await send(.presentError(error))
                     }
                 }
                 
-            case .claimsSuccessfullyFetchedForAuthenticatedUser(let claim):
+            case .rolesSuccessfullyFetchedForAuthenticatedUser(let role):
                 state.isLoading = false
                 return .send(.delegate(.getSession))
                 

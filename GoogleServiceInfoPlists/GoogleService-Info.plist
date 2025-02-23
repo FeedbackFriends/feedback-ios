@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>53154288054-uvb0fq1b24c4vahtab5msddjq4s22206.apps.googleusercontent.com</string>
+	<string>53154288054-ees6nijglr9fhcl7g5t0m4dsq5udqknk.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.53154288054-uvb0fq1b24c4vahtab5msddjq4s22206</string>
+	<string>com.googleusercontent.apps.53154288054-ees6nijglr9fhcl7g5t0m4dsq5udqknk</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCNlpkEnFh1TR1kv9WHe01Tc_jfT9_7o2w</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>dk.nicolaidam.letsgrow.test</string>
+	<string>dk.nicolaidam.letsgrow</string>
 	<key>PROJECT_ID</key>
 	<string>feedback2-a4dd9</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:53154288054:ios:f35ae8b2be4e77ec24f117</string>
+	<string>1:53154288054:ios:665f960e23e5655224f117</string>
 </dict>
 </plist>

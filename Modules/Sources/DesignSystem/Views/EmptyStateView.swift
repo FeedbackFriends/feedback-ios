@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  
-//
-//  Created by Nicolai Dam on 07/12/2022.
-//
-
 import SwiftUI
 
 public struct EmptyStateView: View {

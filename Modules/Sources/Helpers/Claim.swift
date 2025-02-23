@@ -1,11 +1,11 @@
-public enum Claim: String, Equatable {
-    case participant, manager
+public enum Role: String, Equatable {
+    case participant, organizer
     
     public var localized: String {
         switch self {
         case .participant:
             "Participant"
-        case .manager:
+        case .organizer:
             "Organizer"
         }
     }

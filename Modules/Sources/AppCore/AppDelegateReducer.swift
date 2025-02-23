@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import DependencyClients
 import Helpers
-import APIClient
+import Helpers
 import Logger
 
 @Reducer
@@ -15,6 +15,8 @@ public struct AppDelegateReducer {
         case didFinishLaunchingWithOptions
         case didReceiveRegistrationToken(String?)
         case didReceiveNotification(NotificationType)
+        case authenticationStateChanged(UserState)
+        case setupStateListener
         public enum NotificationType {
             case startFeedback(code: Int, email: String)
             case viewMeeting(meetingID: Int, email: String)
@@ -23,7 +25,7 @@ public struct AppDelegateReducer {
     }
     
     public init() {}
-    @Dependency(\.firebaseClient) var firebaseClient
+    @Dependency(\.authClient) var authClient
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.logClient) var logger
     @Dependency(\.continuousClock) var clock
@@ -32,8 +34,17 @@ public struct AppDelegateReducer {
         Reduce { state, action in
             switch action {
                 
-            case .didFinishLaunchingWithOptions:
+            case .authenticationStateChanged(_):
                 return .none
+                
+            case .didFinishLaunchingWithOptions:
+                return .run { send in
+                    let userStateChangedStream = authClient.userStateChanged()
+                    await send(.setupStateListener)
+                    for await loggedInUser in userStateChangedStream {
+                        await send(.authenticationStateChanged(loggedInUser))
+                    }
+                }
                 
             case .didReceiveRegistrationToken(let fcmToken):
                 return .run { send in
@@ -52,6 +63,10 @@ public struct AppDelegateReducer {
 //                    fatalError("Todo")
 //                }
 //                return .none
+                
+            case .setupStateListener:
+                authClient.setupStateListener()
+                return .none
             }
         }
     }
@@ -59,98 +74,3 @@ public struct AppDelegateReducer {
 
 
 
-
-
-////
-////  File.swift
-////
-////
-////  Created by Nicolai Dam on 28/09/2023.
-////
-//
-//import Foundation
-//import LoggedInFeature
-//
-//public extension AppViewModel {
-//    enum AppDelegate {
-//        case didFinishLaunchingWithOptions
-//        case didReceiveRegistrationToken(String?)
-//        case didReceiveNotification(NotificationType)
-//    }
-//    enum NotificationType {
-//        case startFeedback(code: Int, email: String)
-//        case viewMeeting(meetingID: Int, email: String)
-//        case teamInvite(email: String)
-//    }
-//}
-//
-//extension AppViewModel {
-//
-//    public func appdelegate(_ input : AppDelegate) {
-//
-//        switch input {
-//        case .didFinishLaunchingWithOptions:
-
-//            return
-//
-//        case .didReceiveRegistrationToken(let fcmToken):
-//
-//            return
-//
-//        case .didReceiveNotification(let notification):
-//            self.notificationDeeplink = self.$initialStateLoaded.removeDuplicates().sink { @MainActor [unowned self] appLoaded in
-//
-//                guard let userType = appLoaded,
-//                      let loggedInEmail = firebaseClient.userInfo().0,
-//                      case .loggedIn = userType
-//                else {
-//                    self.notificationDeeplink?.cancel()
-//                    return
-//                }
-//
-//                guard let meetingManagerModeEnabled = persistenceClient.meetingManagerEnabled.load() else { fatalError() }
-//
-//                switch notification {
-//                case .startFeedback(let code, email: let email):
-//                    guard email == loggedInEmail else { return }
-//                    self.deeplinkStartFeedback(code: code, meetingManagerModeEnabled: meetingManagerModeEnabled)
-//                case .viewMeeting(let meetingID, let email):
-//                    guard email == loggedInEmail else { return }
-//                    self.deeplinkViewMeeting(meetingID: meetingID, meetingManagerModeEnabled: meetingManagerModeEnabled)
-//                case .teamInvite(email: let email):
-//                    guard email == loggedInEmail else { return }
-//                    self.deeplinkTeamInvitations(meetingManagerModeEnabled: meetingManagerModeEnabled)
-//                }
-//
-//                self.notificationDeeplink?.cancel()
-//            }
-//        }
-//    }
-//
-//
-//    func deeplinkStartFeedback(code: Int, meetingManagerModeEnabled: Bool) {
-//        fatalError("Fix me")
-////        let meetingHolderViewModel = TabbarViewModel(meetingManagerModeEnabled: meetingManagerModeEnabled, selectedTab: .feedback, enterCode: .init())
-//////        meetingHolderViewModel.enterCode.feedbackButtonViewModel.inputCode = code
-////        meetingHolderViewModel.enterCode.feedbackButtonViewModel.continueButtonTapped(inputCode: code)
-////        self.setDestination(.meetingHolder(meetingHolderViewModel))
-//    }
-//
-//    func deeplinkViewMeeting(meetingID: Int, meetingManagerModeEnabled: Bool) {
-//        #warning("Fix")
-//        fatalError("Fix me")
-////        let meetingHolderViewModel = TabbarViewModel(meetingManagerModeEnabled: meetingManagerModeEnabled, selectedTab: .events)
-////        meetingHolderViewModel.eventOverview.fetchEvents()
-////        meetingHolderViewModel.eventOverview.navigateToEventDetailWhenListIsFetched(meetingID: .init(meetingID))
-////        self.setDestination(.meetingHolder(meetingHolderViewModel))
-//    }
-//
-//    func deeplinkTeamInvitations(meetingManagerModeEnabled: Bool) {
-//        #warning("fix")
-//        fatalError("Fix me")
-////        let meetingHolderViewModel = TabbarViewModel(meetingManagerModeEnabled: meetingManagerModeEnabled, selectedTab: .teams)
-////        meetingHolderViewModel.teamsOverview.fetchTeams()
-////        meetingHolderViewModel.teamsOverview.navigateToInvitationWhenListIsFetched()
-////        self.setDestination(.meetingHolder(meetingHolderViewModel))
-//    }
-//}

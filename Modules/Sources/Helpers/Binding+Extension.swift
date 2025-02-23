@@ -8,13 +8,6 @@ public extension Binding {
             self.wrappedValue = newValue
         }
     }
-    func unwrapped<T>() -> Binding<T> where Value == Optional<T> {
-        .init {
-            self.wrappedValue!
-        } set: { newValue in
-            self.wrappedValue = newValue
-        }
-    }
 }
 
 public extension Binding where Value == String? {

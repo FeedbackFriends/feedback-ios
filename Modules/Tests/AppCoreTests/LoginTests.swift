@@ -34,8 +34,8 @@
 //        let clock = TestClock()
 //        
 //        let vm = withDependencies {
-//            $0.firebaseClient.onTokenChange = { publisher }
-//            $0.firebaseClient.googleLogin = {
+//            $0.authClient.onTokenChange = { publisher }
+//            $0.authClient.googleLogin = {
 //                struct GoogleError: Error {}
 //                await googleLoginTriggered.setValue(true)
 //                throw GoogleError()
@@ -63,8 +63,8 @@
 //        let clock = TestClock()
 //        
 //        let vm = withDependencies {
-//            $0.firebaseClient.onTokenChange = { publisher }
-//            $0.firebaseClient.microsoftLogin = {
+//            $0.authClient.onTokenChange = { publisher }
+//            $0.authClient.microsoftLogin = {
 //                struct MicrosoftError: Error {}
 //                await microsoftLoginTriggered.setValue(true)
 //                throw MicrosoftError()

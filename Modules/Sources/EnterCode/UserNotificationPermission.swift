@@ -60,7 +60,7 @@ private extension UserNotificationPermission {
                 Spacer()
             }
         }
-        .buttonStyle(LargeBoxButton())
+        .buttonStyle(LargeBoxButtonStyle())
     }
 }
 

@@ -44,7 +44,7 @@ public struct ChangeUserTypeView: View {
 #Preview {
     ChangeUserTypeView(
         store: .init(
-            initialState: .init(selectedUserType: Claim.manager),
+            initialState: .init(selectedUserType: Role.organizer),
             reducer: {
                 ChangeUserType()
             }

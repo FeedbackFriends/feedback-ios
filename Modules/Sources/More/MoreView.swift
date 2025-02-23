@@ -3,7 +3,7 @@ import SwiftUI
 import DesignSystem
 import ComposableArchitecture
 import Helpers
-import APIClient
+import Helpers
 
 public struct MoreView: View {
     
@@ -24,14 +24,14 @@ public struct MoreView: View {
                     email: accountData.email,
                     phoneNumber: accountData.phoneNumber
                 )
-                accountTypeSection(claim: Claim.participant)
+                accountTypeSection(role: Role.participant)
             case .manager(_, let accountData):
                 profileSection(
                     name: accountData.name,
                     email: accountData.email,
                     phoneNumber: accountData.phoneNumber
                 )
-                accountTypeSection(claim: Claim.manager)
+                accountTypeSection(role: Role.organizer)
             }
             generalSection
             contactSection
@@ -55,7 +55,6 @@ public struct MoreView: View {
         .foregroundColor(Color.themeDarkGray)
         .scrollContentBackground(.hidden)
         .background(Color.themeBackground)
-        .task { store.send(.task) }
         .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
         .confirmationDialog(
             $store.scope(
@@ -107,17 +106,11 @@ private extension MoreView {
                             .foregroundColor(Color(.systemGray2))
                             .background(Color(.systemGray5))
                             .clipShape(Circle())
-                        VStack(alignment: .leading, spacing: 8) {
-                            //                            HStack {
-                            //                                Image(systemName: "envelope")
+                        VStack(alignment: .leading, spacing: 4) {
                             Text(email ?? "Email not found")
-                            //                            }
-                            //                            HStack {
-                            //                                Image(systemName: "phone")
                             Text(phoneNumber ?? "Phone number not found")
-                            //                            }
                         }
-                        .font(.montserratMedium, 12)
+                        .font(.montserratMedium, 10)
                         .foregroundColor(Color(.systemGray))
                         Spacer()
                         Image(systemName: "chevron.right")
@@ -138,7 +131,7 @@ private extension MoreView {
     
     @ViewBuilder
     func accountTypeSection(
-        claim: Claim
+        role: Role
     ) -> some View {
         Section {
             Button {
@@ -155,7 +148,7 @@ private extension MoreView {
                         .background(Color(.systemGray5))
                         .clipShape(Circle())
                         .foregroundStyle(Color(.systemGray))
-                    Text(claim.localized)
+                    Text(role.localized)
                     Spacer()
                     Text("Edit")
                         .font(.montserratBold, 13)
@@ -209,23 +202,12 @@ private extension MoreView {
                 }
                 
                 NavigationLink {
-                    WebView(url: .init(string: "https://localhost:5173/privacy-policy")!)
+                    WebView(url: store.privacyPolicyUrl)
                         .edgesIgnoringSafeArea(.all)
                         .navigationTitle("Privacy policy")
                 } label: {
                     listElement(image: "doc.plaintext", label: "Privacy policy")
                 }
-                //                NavigationLink {
-                //                    ScrollView {
-                //                        Text(store.string)
-                //                            .navigationTitle("License")
-                //                            .navigationBarTitleDisplayMode(.inline)
-                //                            .padding()
-                //                            .multilineTextAlignment(.leading)
-                //                    }
-                //                } label: {
-                //                    listElement(image: "character.book.closed.fill", label: "License")
-                //                }
                 Button {
                     store.send(.onSupportUsButtonTap)
                 } label: {
@@ -266,7 +248,7 @@ private extension MoreView {
     
     var shareSection: some View {
         Section {
-            ShareLink(item: store.url) {
+            ShareLink(item: store.appStoreReviewUrl) {
                 VStack(spacing: 10) {
                     Text("Invite your colleagues")
                         .font(.montserratExtraBold, 18)

@@ -1,12 +1,14 @@
 COMPILER_FLAG = dev
-GOOGLE_SERVICE_PLIST = test
+GOOGLE_SERVICE_PLIST = prod
 MOCK_API = false
-
-API_BASE_URL = api.letsgrow.dk
-API_SCHEME = https
-
-//API_BASE_URL = localhost:8080
-//API_SCHEME = http
 
 WEB_BASE_URL = letsgrow.dk
 WEB_SCHEME = https
+
+APPSTORE_ID = 1234
+SUPPORT_EMAIL = nicolaidam96@gmail.com
+
+//API_BASE_URL = api.letsgrow.dk
+//API_SCHEME =  https
+API_BASE_URL = localhost:8080
+API_SCHEME =  http

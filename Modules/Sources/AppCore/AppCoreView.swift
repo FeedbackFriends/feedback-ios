@@ -2,11 +2,13 @@ import LoggedInFeature
 import ComposableArchitecture
 import SwiftUI
 import DesignSystem
-
+import FirebaseAuth
 
 public struct AppCoreView: View {
     
     @Bindable var store: StoreOf<AppCore>
+    @State var debugMenuExpanded: Bool = false
+    @State var hideDebugMenu: Bool = false
     
     public init(store: StoreOf<AppCore>) {
         self.store = store
@@ -28,9 +30,59 @@ public struct AppCoreView: View {
                     .transition(.move(edge: .bottom))
             }
         }
-        .onAppear { store.send(.onAppear) }
         .onOpenURL { incomingURL in
             store.send(.onOpenURL(incomingURL))
+        }
+        .overlay(alignment: .trailing) {
+            if !hideDebugMenu {
+                HStack {
+                    Button {
+                        withAnimation {
+                            self.debugMenuExpanded.toggle()
+                        }
+                    } label: {
+                        Image(systemName: "chevron.compact.down")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            .padding()
+                    }
+                    if debugMenuExpanded {
+                        VStack {
+                            Button("Sign in with Mock") {
+                                Task {
+                                    do {
+                                        @Dependency(\.apiClient) var apiClient
+                                        let mockToken = try await apiClient.getMockToken()
+                                        print("Mock token received: \n \(mockToken)")
+                                        try await Auth.auth().signIn(withCustomToken: mockToken)
+                                        print("Signed in")
+                                        try await Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true)
+                                        print("Succesful signin with mock token")
+                                    } catch {
+                                        print(error.localizedDescription)
+                                    }
+                                }
+                            }
+                            Button("Print id token") {
+                                Task {
+                                    let token = try await Auth.auth().currentUser?.getIDToken()
+                                    print(token ?? "Token not found")
+                                }
+                            }
+                            Button("Crash") {
+                                fatalError("Debug crash")
+                            }
+                            Button("Hide") {
+                                hideDebugMenu = true
+                            }
+                        }
+                        .padding()
+                    }
+                }
+                .background(Color.blue)
+                .foregroundStyle(Color.white)
+            }
         }
     }
     
@@ -65,7 +117,7 @@ public struct AppCoreView: View {
     
     private func errorView(_ errorType: AppCore.ErrorType) -> some View {
         VStack {
-            ErrorView(message: "Something went wrong", isLoading: $store.isLoading) {
+            ErrorView(error: errorType.error, isLoading: $store.isLoading) {
                 store.send(.tryAgainButtonTap(errorType))
             }
             

@@ -1,15 +1,11 @@
-//
-//  File.swift
-//  
-//
-//  Created by Nicolai Dam on 07/12/2022.
-//
-
 import SwiftUI
+import Foundation
+import Helpers
+import Helpers
 
 public struct ErrorView: View {
     
-    let message: String
+    let error: Error
     let tryAgainButtonTapped: (() -> Void)?
     @Binding var isLoading: Bool
     @State var viewDidLoad: Bool = false
@@ -22,8 +18,8 @@ public struct ErrorView: View {
         }
     }
     
-    public init(message: String, isLoading: Binding<Bool>, tryAgainButtonTapped: (() -> Void)? = nil) {
-        self.message = message
+    public init(error: Error, isLoading: Binding<Bool>, tryAgainButtonTapped: (() -> Void)? = nil) {
+        self.error = error
         self._isLoading = isLoading
         self.tryAgainButtonTapped = tryAgainButtonTapped
     }
@@ -34,10 +30,10 @@ public struct ErrorView: View {
                 .resizable()
                 .frame(width: exclamationmark, height: exclamationmark)
                 .foregroundColor(.themeRed)
-            Text("Something went wrong 💩")
+            Text("\(error.localized.title) 💩")
                 .font(.montserratBold, 16)
                 .foregroundColor(.themeDarkGray)
-            Text(message)
+            Text(error.localized.message)
                 .font(.montserratRegular, 13)
                 .foregroundColor(.themeDarkGray)
                 .multilineTextAlignment(.center)
@@ -69,7 +65,7 @@ public struct ErrorView: View {
 struct ErrorView_Previews: PreviewProvider {
     static var previews: some View {
         ErrorView(
-            message: "Message bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla",
+            error: URLError(.badServerResponse),
             isLoading: .constant(false)
         ) { }
     }

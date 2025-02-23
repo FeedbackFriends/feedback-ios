@@ -4,7 +4,7 @@ import Foundation
 import DesignSystem
 import SwiftUI
 import Helpers
-import APIClient
+import Helpers
 
 @Reducer
 public struct EventsOverview {
@@ -35,13 +35,6 @@ public struct EventsOverview {
             previousEnabled: false
         )
         public var startFeedbackInFlight: String? // pinCode
-        var showCreateEventToolbar: Bool {
-            if case .participant = session.userType {
-                return false
-            } else {
-                return true
-            }
-        }
         public init(
             destination: Destination.State? = nil,
             session: Shared<Session>,
@@ -62,7 +55,6 @@ public struct EventsOverview {
         case joinEventButtonTap
         case startFeedbackButtonTap(pinCode: String)
         case delegate(Delegate)
-        case resetNewFeedbackForEventResponse(UUID)
         case infoButtonTap(ParticipantEvent)
         public enum Delegate {
             case startFeedback(pinCode: String)
@@ -117,8 +109,6 @@ public struct EventsOverview {
                 return .run { send in
                     do {
                         try await apiClient.resetNewFeedbackForEvent(event.id)
-                        try await clock.sleep(for: .seconds(0.5))
-                        await send(.resetNewFeedbackForEventResponse(event.id))
                     } catch {
                         logger.log(.error, "Reset new feedback failed with error: \(error.localizedDescription)")
                     }
@@ -152,11 +142,6 @@ public struct EventsOverview {
                 return .send(.delegate(.startFeedback(pinCode: pinCode)))
                 
             case .delegate:
-                return .none
-                
-            case .resetNewFeedbackForEventResponse(let eventId):
-                #warning("Fix me")
-//                state.session.resetNewFeedbackForEvent(eventId: eventId)
                 return .none
                 
             case .infoButtonTap(let event):

@@ -3,7 +3,7 @@ import ComposableArchitecture
 import DesignSystem
 import SwiftUI
 import Helpers
-import APIClient
+import Helpers
 
 @Reducer
 public struct EditEvent {
@@ -76,7 +76,7 @@ public struct EditEvent {
                 
             case .presentError(let error):
                 state.editRequestInFlight = false
-                state.alert = okErrorAlert(message: error.localizedDescription)
+                state.alert = .init(error: error)
                 return .none
                 
             case .editEventResponse(let event):

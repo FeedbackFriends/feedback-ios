@@ -3,7 +3,7 @@ import ComposableArchitecture
 import DependencyClients
 import DesignSystem
 import SwiftUI
-import APIClient
+import Helpers
 import Helpers
 
 public struct EventsOverviewView: View {
@@ -26,8 +26,11 @@ public struct EventsOverviewView: View {
             .background(Color.themeBackground)
             .foregroundStyle(Color.themeDarkGray.gradient)
             .toolbar {
-                if store.showCreateEventToolbar {
+                switch store.session.userType {
+                case .manager, .anonymoous:
                     createEventToolbar
+                case .participant:
+                    joinEventToolbar
                 }
             }
             .navigationDestination(
@@ -67,7 +70,7 @@ extension EventsOverviewView {
         case let .manager(managerData: managerData, accountInfo: _):
             meetingManagerScrollView(
                 managerEvent: managerData.managerEvents.elements,
-                attendingEvents: store.session.participantEvents.elements
+                participantEvents: store.session.participantEvents.elements
             )
             .overlay(alignment: .bottom) {
                 CustomSegmentedPicker(selectedSegmentedControl: $store.segmentedControl.animation())
@@ -113,7 +116,18 @@ extension EventsOverviewView {
         }
     }
     
-    func meetingManagerScrollView(managerEvent: [ManagerEvent], attendingEvents: [ParticipantEvent]) -> some View {
+    var joinEventToolbar: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+                store.send(.joinEventButtonTap)
+            } label: {
+                Text("Join")
+            }
+            .buttonStyle(PrimaryToolbarButtonStyle())
+        }
+    }
+    
+    func meetingManagerScrollView(managerEvent: [ManagerEvent], participantEvents: [ParticipantEvent]) -> some View {
         TabView(selection: $store.segmentedControl) {
             ScrollView {
                 VStack {
@@ -128,7 +142,7 @@ extension EventsOverviewView {
             .tag(SegmentedControlMenu.yourMeetings)
             
             ScrollView {
-                attendingListView(attendingEvents)
+                attendingListView(participantEvents)
             }
             .tag(SegmentedControlMenu.attending)
         }
@@ -253,16 +267,16 @@ extension EventsOverviewView {
 
 //// Attending events
 extension EventsOverviewView {
-    func attendingListView(_ attendingEvents: [ParticipantEvent]) -> some View {
+    func attendingListView(_ participantEvents: [ParticipantEvent]) -> some View {
         LazyVStack(spacing: 12, pinnedViews: [.sectionHeaders]) {
-            if attendingEvents.isEmpty {
+            if participantEvents.isEmpty {
                 EmptyStateView(
                     message: "Meetings you are added to will be visible here"
                 )
             } else {
-                let todayMeetings = attendingEvents.filter { $0.date.isToday }
-                let comingUpMeetings = attendingEvents.filter { $0.date.isAfterToday }
-                let pastMeetings = attendingEvents.filter { $0.date.isBeforeToday }
+                let todayMeetings = participantEvents.filter { $0.date.isToday }
+                let comingUpMeetings = participantEvents.filter { $0.date.isAfterToday }
+                let pastMeetings = participantEvents.filter { $0.date.isBeforeToday }
                 if !todayMeetings.isEmpty {
                     section(title: "Today") {
                         ForEach(todayMeetings) { event in
@@ -369,7 +383,7 @@ extension EventsOverviewView {
     }
 }
 
-#Preview("Your meetings") {
+#Preview("Your events") {
     NavigationStack {
         EventsOverviewView(
             store: .init(

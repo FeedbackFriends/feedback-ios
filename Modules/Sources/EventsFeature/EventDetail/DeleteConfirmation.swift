@@ -1,4 +1,4 @@
-import APIClient
+import Helpers
 import SwiftUI
 import ComposableArchitecture
 
@@ -55,10 +55,7 @@ public struct DeleteConfirmation {
             case .presentError(let error):
                 state.deleteEventInFlight = false
                 state.destination = .alert(
-                    AlertState(
-                        title: { TextState("Noget gik galt") },
-                        message: { TextState(error.localizedDescription) }
-                    )
+                    .init(error: error)
                 )
                 return .none
                 

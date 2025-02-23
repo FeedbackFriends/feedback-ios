@@ -1,5 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
+import Helpers
 
 @Reducer
 public struct ModifyAccount {
@@ -42,10 +43,7 @@ public struct ModifyAccount {
             case .presentError(let error):
                 state.isLoading = false
                 state.destination = .alert(
-                    AlertState(
-                        title: { TextState("Noget gik galt") },
-                        message: { TextState(error.localizedDescription) }
-                    )
+                    .init(error: error)
                 )
                 return .none
                 

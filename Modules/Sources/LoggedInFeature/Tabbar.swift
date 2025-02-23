@@ -4,7 +4,7 @@ import SwiftUI
 import Foundation
 import More
 import DesignSystem
-import APIClient
+import Helpers
 import ComposableArchitecture
 import SwiftUI
 
@@ -49,7 +49,6 @@ public struct Tabbar {
         case initialiseFeedback(FeedbackButton.Action)
         case onAppear
         case sessionUpdated(Session)
-        case printSession
     }
     
     @Dependency(\.apiClient) var apiClient
@@ -114,10 +113,6 @@ public struct Tabbar {
                 state.$session.withLock {
                     $0 = session
                 }
-                return .none
-                
-            case .printSession:
-                dump(state.session)
                 return .none
             }
         }

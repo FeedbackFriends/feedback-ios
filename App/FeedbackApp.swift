@@ -6,6 +6,7 @@ import FirebaseAuth
 import FirebaseCore
 import FirebasePerformance
 import FirebaseMessaging
+import FirebaseCrashlytics
 import GoogleSignIn
 import LoggedInFeature
 import DesignSystem
@@ -18,13 +19,8 @@ import EnterCode
 import Logger
 
 
-
 @main
 struct FeedbackApp: App {
-    
-    init() {
-        FirebaseApp.configure()
-    }
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     
@@ -46,15 +42,6 @@ class SceneDelegate: NSObject, UIWindowSceneDelegate {
     }
 }
 
-var deviceId: String {
-    let key = "deviceId"
-    guard let deviceId = UserDefaults.standard.string(forKey: key) else {
-        let generatedDeviceId = UUID().uuidString
-        UserDefaults.standard.set(generatedDeviceId, forKey: key)
-        return generatedDeviceId
-    }
-    return deviceId
-}
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     
@@ -77,23 +64,18 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         return sceneConfig
     }
     
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-        @Dependency(\.logClient) var logger
-        logger.addCrashlyticsClient(deviceId: deviceId, minLevel: .error)
-        logger.addOSLogClient(subsystem: Bundle.main.bundleIdentifier!, category: "LoggingClient")
-        // Firebase configuration is needed directly here and not in an interface
-        // Otherwise microsoft login doesnt work as expected
-        Messaging.messaging().delegate = self
-        registerFonts()
-        setupTheme()
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
+        FirebaseApp.configure()
+        startApp()
         UNUserNotificationCenter.current().delegate = self
-        
+        Messaging.messaging().delegate = self
         intialStore.send(.appDelegate(.didFinishLaunchingWithOptions))
         return true
     }
 }
-
-
 
 extension AppDelegate: @preconcurrency MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {

@@ -7,7 +7,7 @@ import ComposableArchitecture
 import Helpers
 import ComposableArchitecture
 import SwiftUI
-import APIClient
+import Helpers
 
 @Reducer
 public struct SignUp {
@@ -23,7 +23,7 @@ public struct SignUp {
         @Presents public var destination: Destination.State?
         var navigateToEnterEmail: Bool = false
         var navigateToEmailSent: Bool = false
-        var selectedUserType: Claim?
+        var selectedUserType: Role?
         var disableContinueButton: Bool {
             selectedUserType == nil
         }
@@ -46,7 +46,7 @@ public struct SignUp {
     
     public init() {}
     
-    @Dependency(\.firebaseClient) var firebaseClient
+    @Dependency(\.authClient) var authClient
     @Dependency(\.continuousClock) var clock
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.logClient) var logClient
@@ -58,7 +58,7 @@ public struct SignUp {
             switch action {
                 
             case .presentError(let error):
-                state.destination = .alert(okErrorAlert(message: error.localizedDescription))
+                state.destination = .alert(.init(error: error))
                 return .none
                 
             case .destination:
@@ -70,7 +70,7 @@ public struct SignUp {
             case .signUpWithAppleButtonTap:
                 return .run { send in
                     do {
-                        _ = try await firebaseClient.appleLogin()
+                        _ = try await authClient.appleLogin()
                     }
                     catch let error {
                         await send(.presentError(error))
@@ -80,7 +80,7 @@ public struct SignUp {
             case .signUpWithGoogleButtonTap:
                 return .run { send in
                     do {
-                        _ = try await firebaseClient.googleLogin()
+                        _ = try await authClient.googleLogin()
                     }
                     catch let error {
                         await send(.presentError(error))

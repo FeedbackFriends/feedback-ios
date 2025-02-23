@@ -1,14 +1,12 @@
 import SwiftUI
 import Helpers
-import APIClient
-import DependencyClients
 
 public struct UserTypePickerView: View {
     
-    @Binding var selectedUserType: Claim?
+    @Binding var selectedUserType: Role?
     let impactMed = UIImpactFeedbackGenerator(style: .medium)
     
-    public init(selectedUserType: Binding<Claim?>) {
+    public init(selectedUserType: Binding<Role?>) {
         self._selectedUserType = selectedUserType
     }
     
@@ -34,16 +32,16 @@ public struct UserTypePickerView: View {
                 Spacer()
             }
         }
-        .buttonStyle(LargeBoxButton())
+        .buttonStyle(LargeBoxButtonStyle())
         Button {
             impactMed.impactOccurred()
-            self.selectedUserType = .manager
+            self.selectedUserType = .organizer
         } label: {
             HStack {
-                Image(systemName: selectedUserType == .manager ? "checkmark.circle.fill" : "circle")
+                Image(systemName: selectedUserType == .organizer ? "checkmark.circle.fill" : "circle")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundStyle(selectedUserType == .manager ? Color.themeGreen :Color.gray.opacity(0.5))
+                    .foregroundStyle(selectedUserType == .organizer ? Color.themeGreen :Color.gray.opacity(0.5))
                 VStack(alignment: .leading) {
                     Text("Organizer")
                         .font(.montserratSemiBold, 16)
@@ -53,11 +51,11 @@ public struct UserTypePickerView: View {
                 Spacer()
             }
         }
-        .buttonStyle(LargeBoxButton())
+        .buttonStyle(LargeBoxButtonStyle())
     }
 }
 
 #Preview {
-    @Previewable @State var claim: Claim? = nil
-    UserTypePickerView(selectedUserType: $claim)
+    @Previewable @State var role: Role? = nil
+    UserTypePickerView(selectedUserType: $role)
 }

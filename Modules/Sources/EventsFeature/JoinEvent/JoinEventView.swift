@@ -12,60 +12,58 @@ public struct JoinEventView: View {
     }
     
     public var body: some View {
-        NavigationView {
-            VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 12) {
+            HStack {
                 Text("Join event")
                     .font(.montserratBold, 28)
-                    .padding(.top, 20)
-                Text("Event code")
-                    .font(.montserratBold, 18)
-                    .foregroundStyle(Color.themeDarkGray)
-                TextField("", text: $store.inputCode)
-                    .font(.montserratBold, 16)
-                    .padding()
-                    .foregroundColor(Color.themeDarkGray)
-                    .background(Color.themeDarkGray.opacity(0.15).gradient)
-                    .clipShape(Capsule())
-                    .keyboardType(.numberPad)
-                    .multilineTextAlignment(.center)
-                    .submitLabel(.next)
-                    .focused($isFocused)
-                    .padding(.top, 5)
-                    .pinCodeValidation(text: $store.inputCode)
-                Button("Join") {
-                    hideKeyboard()
-                    store.send(.joinButtonTap)
-                }
-                .buttonStyle(LargeButtonStyle())
-                .isLoading(store.joinRequestInFlight)
-                .padding(.bottom, 20)
-                .disabled(store.disableJoinButton)
-            }
-            .onAppear { isFocused = true }
-            .padding(.all, Theme.padding)
-            .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity, alignment: .center)
-            .foregroundStyle(Color.themeDarkGray.gradient)
-            .background(Color.themeBackground.ignoresSafeArea())
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    SharedCloseButton {
-                        store.send(.closeButtonTap)
-                    }
+                Spacer()
+                SharedCloseButton {
+                    store.send(.closeButtonTap)
                 }
             }
-            .background {
-                /// this makes the keyboard to appear with a single animation
-                FirstResponderFieldView()
-                                .frame(width: 0, height: 0)
-                                .opacity(0)
+            .padding(.top, 10)
+            Text("Event code")
+                .padding(.top, 20)
+                .font(.montserratBold, 18)
+                .foregroundStyle(Color.themeDarkGray)
+            TextField("", text: $store.inputCode)
+                .font(.montserratBold, 16)
+                .padding()
+                .foregroundColor(Color.themeDarkGray)
+                .background(Color.themeDarkGray.opacity(0.15).gradient)
+                .clipShape(Capsule())
+                .keyboardType(.numberPad)
+                .multilineTextAlignment(.center)
+                .submitLabel(.next)
+                .focused($isFocused)
+                .padding(.top, 5)
+                .pinCodeValidation(text: $store.inputCode)
+            Button("Join") {
+                hideKeyboard()
+                store.send(.joinButtonTap)
             }
-            .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-            .successOverlay(
-                message: "Event joined",
-                show: $store.showSuccessOverlay
-            )
+            .buttonStyle(LargeButtonStyle())
+            .isLoading(store.joinRequestInFlight)
+            .padding(.bottom, 20)
+            .disabled(store.disableJoinButton)
         }
+        .onAppear { isFocused = true }
+        .padding(.all, Theme.padding)
+        .multilineTextAlignment(.center)
+        .frame(maxWidth: .infinity, alignment: .center)
+        .foregroundStyle(Color.themeDarkGray.gradient)
+        .background(Color.themeBackground.ignoresSafeArea())
+        .background {
+            /// this makes the keyboard to appear with a single animation
+            FirstResponderFieldView()
+                .frame(width: 0, height: 0)
+                .opacity(0)
+        }
+        .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
+        .successOverlay(
+            message: "Event joined",
+            show: $store.showSuccessOverlay
+        )
     }
 }
 
@@ -113,6 +111,6 @@ struct FirstResponderFieldView: UIViewRepresentable {
     func makeUIView(context: Context) -> FirstResponderField {
         return FirstResponderField()
     }
-
+    
     func updateUIView(_ uiView: FirstResponderField, context: Context) {}
 }

@@ -1,4 +1,4 @@
-import APIClient
+import Helpers
 import SwiftUI
 import ComposableArchitecture
 import Helpers
@@ -14,9 +14,9 @@ public struct ChangeUserType {
     @ObservableState
     public struct State: Equatable {
         @Presents var destination: Destination.State?
-        var selectedUserType: Claim?
+        var selectedUserType: Role?
         var isLoading = false
-        public init(selectedUserType: Claim) {
+        public init(selectedUserType: Role) {
             self.selectedUserType = selectedUserType
         }
     }
@@ -26,7 +26,7 @@ public struct ChangeUserType {
         case binding(BindingAction<State>)
         case presentError(Error)
         case saveButtonTap
-        case updateAccountClaimResponse
+        case updateAccountRoleResponse
         case closeButtonTap
         case delegate(Delegate)
         public enum Delegate {
@@ -50,10 +50,7 @@ public struct ChangeUserType {
             case .presentError(let error):
                 state.isLoading = false
                 state.destination = .alert(
-                    AlertState(
-                        title: { TextState("Noget gik galt") },
-                        message: { TextState(error.localizedDescription) }
-                    )
+                    .init(error: error)
                 )
                 return .none
                 
@@ -61,18 +58,18 @@ public struct ChangeUserType {
                 return .none
                 
             case .saveButtonTap:
-                guard let claim = state.selectedUserType else { return .none }
+                guard let role = state.selectedUserType else { return .none }
                 state.isLoading = true
                 return .run { send in
                     do {
-                        try await apiClient.updateAccountClaim(claim)
-                        await send(.updateAccountClaimResponse)
+                        try await apiClient.updateAccountRole(role)
+                        await send(.updateAccountRoleResponse)
                     } catch {
                         await send(.presentError(error))
                     }
                 }
                 
-            case .updateAccountClaimResponse:
+            case .updateAccountRoleResponse:
                 state.isLoading = false
                 return .run { send in
                     await send(.delegate(.refreshSession))

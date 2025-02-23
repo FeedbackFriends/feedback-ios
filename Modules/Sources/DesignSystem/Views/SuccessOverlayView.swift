@@ -122,7 +122,7 @@ private extension SuccessOverlayView {
     
     var backgroundView: some View {
         Color.black
-            .opacity(0.2)
+            .opacity(0.05)
             .ignoresSafeArea()
 //        Material.ultraThin.secondary
 //        Color.white.opacity(0.6).ignoresSafeArea()

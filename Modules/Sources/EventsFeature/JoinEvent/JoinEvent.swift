@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import DesignSystem
+import Helpers
 
 @Reducer
 public struct JoinEvent {
@@ -53,11 +54,7 @@ public struct JoinEvent {
             case .presentError(let error):
                 state.joinRequestInFlight = false
                 state.destination = .alert(
-                    AlertState(
-                        title: { TextState("Noget gik galt")
-                        },
-                        message: { TextState(error.localizedDescription) }
-                    )
+                    .init(error: error)
                 )
                 return .none
                 

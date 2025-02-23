@@ -7,25 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		280123842A9F6D75008723A5 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 280123832A9F6D75008723A5 /* Localizable.xcstrings */; };
 		280DA2DE29A1361400B6E04D /* LiveDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280DA2DD29A1361400B6E04D /* LiveDependencies.swift */; };
 		284234362B488F320083C9E8 /* ci_post_clone.sh in Resources */ = {isa = PBXBuildFile; fileRef = 284234352B488F320083C9E8 /* ci_post_clone.sh */; };
 		2892AA382C0F89C600F12E83 /* FeedbackFlowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2892AA372C0F89C600F12E83 /* FeedbackFlowApp.swift */; };
 		2892AA3C2C0F89C700F12E83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2892AA3B2C0F89C700F12E83 /* Assets.xcassets */; };
 		2892AA3F2C0F89C700F12E83 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2892AA3E2C0F89C700F12E83 /* Preview Assets.xcassets */; };
-		28A939C32BCDC07800D4A93E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
-		28A939C42BCDC07800D4A93E /* Feedback-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1FB2E66285B55DE0080543D /* Feedback-Info.plist */; };
-		28A939C52BCDC07800D4A93E /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 280123832A9F6D75008723A5 /* Localizable.xcstrings */; };
-		28A939C62BCDC07800D4A93E /* ci_post_clone.sh in Resources */ = {isa = PBXBuildFile; fileRef = 284234352B488F320083C9E8 /* ci_post_clone.sh */; };
-		28A939C72BCDC07800D4A93E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
-		28E304DF2C9041BC0029C2A5 /* GoogleService-Info-production.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28E304DB2C9041BC0029C2A5 /* GoogleService-Info-production.plist */; };
+		28E304DF2C9041BC0029C2A5 /* GoogleService-Info-prod.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28E304DB2C9041BC0029C2A5 /* GoogleService-Info-prod.plist */; };
 		28E304E02C9041BC0029C2A5 /* GoogleService-Info-test.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28E304DC2C9041BC0029C2A5 /* GoogleService-Info-test.plist */; };
-		28E304E12C9041BC0029C2A5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 28E304DD2C9041BC0029C2A5 /* GoogleService-Info.plist */; };
+		7A16D2E52D5413C200F26994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A16D2E42D5413C200F26994 /* GoogleService-Info.plist */; };
+		7A64E61B2D554DF80093C245 /* InfoDictionaryOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6182D554DF80093C245 /* InfoDictionaryOwner.swift */; };
+		7A64E61C2D554DF80093C245 /* InfoPlistKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6192D554DF80093C245 /* InfoPlistKeys.swift */; };
 		7A8892242D2FAE6A00B0276B /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = B1AD719D28D9C85600CC44B4 /* AppCore */; };
-		7A8892252D2FAE6A00B0276B /* AdminApp in Frameworks */ = {isa = PBXBuildFile; productRef = 28FEA7352BCEF5F60095CAFD /* AdminApp */; };
 		7A8892262D2FAE6A00B0276B /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
-		7AE22FEB2D539C6200DD6986 /* InfoDictionaryOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE22FE92D539AE300DD6986 /* InfoDictionaryOwner.swift */; };
-		7AE22FEC2D539C6A00DD6986 /* InfoPlistKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE22FEA2D539AE300DD6986 /* InfoPlistKeys.swift */; };
+		7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
 		7AE790962D53A06C00260CAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE790952D53A06C00260CAE /* AppDelegate.swift */; };
 		B1057F382843FD8600B9EE2F /* FeedbackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1057F372843FD8600B9EE2F /* FeedbackApp.swift */; };
 		B1057F3C2843FD8700B9EE2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
@@ -48,7 +42,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		280123832A9F6D75008723A5 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		280DA2DD29A1361400B6E04D /* LiveDependencies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveDependencies.swift; sourceTree = "<group>"; };
 		284234352B488F320083C9E8 /* ci_post_clone.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = ci_post_clone.sh; sourceTree = "<group>"; };
 		2867BED6299AC2BD001A11DD /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -56,20 +49,16 @@
 		2892AA372C0F89C600F12E83 /* FeedbackFlowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackFlowApp.swift; sourceTree = "<group>"; };
 		2892AA3B2C0F89C700F12E83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2892AA3E2C0F89C700F12E83 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		28A939AC2BCDBCEF00D4A93E /* AdminApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminApp.swift; sourceTree = "<group>"; };
-		28A939AE2BCDBCEF00D4A93E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		28A939B02BCDBCF100D4A93E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		28A939B32BCDBCF100D4A93E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		28A939CE2BCDC07800D4A93E /* Admin.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Admin.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		28E304DB2C9041BC0029C2A5 /* GoogleService-Info-production.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-production.plist"; sourceTree = "<group>"; };
+		28E304DB2C9041BC0029C2A5 /* GoogleService-Info-prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-prod.plist"; sourceTree = "<group>"; };
 		28E304DC2C9041BC0029C2A5 /* GoogleService-Info-test.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-test.plist"; sourceTree = "<group>"; };
-		28E304DD2C9041BC0029C2A5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7A1238272D36B6F80090E09B /* Feedback.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Feedback.entitlements; sourceTree = "<group>"; };
+		7A16D2E42D5413C200F26994 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		7A64E6182D554DF80093C245 /* InfoDictionaryOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDictionaryOwner.swift; sourceTree = "<group>"; };
+		7A64E6192D554DF80093C245 /* InfoPlistKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPlistKeys.swift; sourceTree = "<group>"; };
+		7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7AC4A9EA2D2FA71D004DF626 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 		7AE155DC2D26A31100440870 /* Lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AE156202D26AD4900440870 /* OpenApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7AE22FE92D539AE300DD6986 /* InfoDictionaryOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDictionaryOwner.swift; sourceTree = "<group>"; };
-		7AE22FEA2D539AE300DD6986 /* InfoPlistKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPlistKeys.swift; sourceTree = "<group>"; };
 		7AE790952D53A06C00260CAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1057F342843FD8600B9EE2F /* Feedback.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Feedback.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1057F372843FD8600B9EE2F /* FeedbackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackApp.swift; sourceTree = "<group>"; };
@@ -116,14 +105,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A8892262D2FAE6A00B0276B /* FeedbackFlow in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		28A939C02BCDC07800D4A93E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7A8892252D2FAE6A00B0276B /* AdminApp in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,31 +159,12 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		28A939AB2BCDBCEF00D4A93E /* Admin */ = {
-			isa = PBXGroup;
-			children = (
-				28A939AC2BCDBCEF00D4A93E /* AdminApp.swift */,
-				28A939AE2BCDBCEF00D4A93E /* ContentView.swift */,
-				28A939B02BCDBCF100D4A93E /* Assets.xcassets */,
-				28A939B22BCDBCF100D4A93E /* Preview Content */,
-			);
-			path = Admin;
-			sourceTree = "<group>";
-		};
-		28A939B22BCDBCF100D4A93E /* Preview Content */ = {
-			isa = PBXGroup;
-			children = (
-				28A939B32BCDBCF100D4A93E /* Preview Assets.xcassets */,
-			);
-			path = "Preview Content";
-			sourceTree = "<group>";
-		};
 		28E304DE2C9041BC0029C2A5 /* GoogleServiceInfoPlists */ = {
 			isa = PBXGroup;
 			children = (
-				28E304DB2C9041BC0029C2A5 /* GoogleService-Info-production.plist */,
+				7A16D2E42D5413C200F26994 /* GoogleService-Info.plist */,
+				28E304DB2C9041BC0029C2A5 /* GoogleService-Info-prod.plist */,
 				28E304DC2C9041BC0029C2A5 /* GoogleService-Info-test.plist */,
-				28E304DD2C9041BC0029C2A5 /* GoogleService-Info.plist */,
 			);
 			path = GoogleServiceInfoPlists;
 			sourceTree = "<group>";
@@ -216,7 +178,6 @@
 				284234342B488E1E0083C9E8 /* ci_scripts */,
 				B1FB2E66285B55DE0080543D /* Feedback-Info.plist */,
 				2892AA362C0F89C600F12E83 /* FeedbackFlow */,
-				28A939AB2BCDBCEF00D4A93E /* Admin */,
 				B1057F362843FD8600B9EE2F /* App */,
 				7AE155DD2D26A31200440870 /* Lint */,
 				7AE156212D26AD4900440870 /* OpenApi */,
@@ -229,7 +190,6 @@
 			isa = PBXGroup;
 			children = (
 				B1057F342843FD8600B9EE2F /* Feedback.app */,
-				28A939CE2BCDC07800D4A93E /* Admin.app */,
 				2892AA352C0F89C600F12E83 /* FeedbackFlowTest.app */,
 				7AE155DC2D26A31100440870 /* Lint.framework */,
 				7AE156202D26AD4900440870 /* OpenApi.framework */,
@@ -246,13 +206,13 @@
 				280DA2DD29A1361400B6E04D /* LiveDependencies.swift */,
 				B1057F3B2843FD8700B9EE2F /* Assets.xcassets */,
 				B1057F3D2843FD8700B9EE2F /* Preview Content */,
-				280123832A9F6D75008723A5 /* Localizable.xcstrings */,
 				2867BED6299AC2BD001A11DD /* Debug.xcconfig */,
 				B1F9BD57285F3B8300414E6A /* Mock.xcconfig */,
 				B1F9BD58285F3B8300414E6A /* Release.xcconfig */,
 				B1F9BD59285F3B8300414E6A /* Test.xcconfig */,
-				7AE22FE92D539AE300DD6986 /* InfoDictionaryOwner.swift */,
-				7AE22FEA2D539AE300DD6986 /* InfoPlistKeys.swift */,
+				7A64E6182D554DF80093C245 /* InfoDictionaryOwner.swift */,
+				7A64E6192D554DF80093C245 /* InfoPlistKeys.swift */,
+				7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -312,26 +272,6 @@
 			productReference = 2892AA352C0F89C600F12E83 /* FeedbackFlowTest.app */;
 			productType = "com.apple.product-type.application";
 		};
-		28A939BA2BCDC07800D4A93E /* Admin */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 28A939C92BCDC07800D4A93E /* Build configuration list for PBXNativeTarget "Admin" */;
-			buildPhases = (
-				28A939BC2BCDC07800D4A93E /* Sources */,
-				28A939C02BCDC07800D4A93E /* Frameworks */,
-				28A939C22BCDC07800D4A93E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = Admin;
-			packageProductDependencies = (
-				28FEA7352BCEF5F60095CAFD /* AdminApp */,
-			);
-			productName = Feedback;
-			productReference = 28A939CE2BCDC07800D4A93E /* Admin.app */;
-			productType = "com.apple.product-type.application";
-		};
 		7AE155DB2D26A31100440870 /* Lint */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7AE155E72D26A31200440870 /* Build configuration list for PBXNativeTarget "Lint" */;
@@ -384,11 +324,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B1057F422843FD8700B9EE2F /* Build configuration list for PBXNativeTarget "Feedback" */;
 			buildPhases = (
+				7AAF70B52D666FDD0045DF86 /* Fetch newest OpenApi  */,
 				B1057F302843FD8600B9EE2F /* Sources */,
 				B1057F312843FD8600B9EE2F /* Frameworks */,
 				B1057F322843FD8600B9EE2F /* Resources */,
 				28E304DA2C9040B00029C2A5 /* Copy GoogleServiceInfoPlists */,
 				7AE155B32D26A28100440870 /* Embed Frameworks */,
+				7A16D2E32D53F2BD00F26994 /* Firebase crashlytics */,
 			);
 			buildRules = (
 			);
@@ -397,14 +339,6 @@
 			name = Feedback;
 			packageProductDependencies = (
 				B1AD719D28D9C85600CC44B4 /* AppCore */,
-				7A8D3D8F2D2FAA2400720329 /* EnterCode */,
-				7A8D3D912D2FAA2400720329 /* EventsFeature */,
-				7A8D3D932D2FAA2400720329 /* FeedbackFlow */,
-				7A8D3D952D2FAA2400720329 /* Helpers */,
-				7A8D3D972D2FAA2400720329 /* LoggedInFeature */,
-				7A8D3D992D2FAA2400720329 /* Logger */,
-				7A8D3D9B2D2FAA2400720329 /* LoginFeature */,
-				7A8D3D9D2D2FAA2400720329 /* More */,
 			);
 			productName = Feedback;
 			productReference = B1057F342843FD8600B9EE2F /* Feedback.app */;
@@ -450,7 +384,6 @@
 			projectRoot = "";
 			targets = (
 				B1057F332843FD8600B9EE2F /* Feedback */,
-				28A939BA2BCDC07800D4A93E /* Admin */,
 				2892AA342C0F89C600F12E83 /* FeedbackFlowTest */,
 				7AE155DB2D26A31100440870 /* Lint */,
 				7AE1561F2D26AD4900440870 /* OpenApi */,
@@ -465,18 +398,6 @@
 			files = (
 				2892AA3F2C0F89C700F12E83 /* Preview Assets.xcassets in Resources */,
 				2892AA3C2C0F89C700F12E83 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		28A939C22BCDC07800D4A93E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				28A939C32BCDC07800D4A93E /* Preview Assets.xcassets in Resources */,
-				28A939C42BCDC07800D4A93E /* Feedback-Info.plist in Resources */,
-				28A939C52BCDC07800D4A93E /* Localizable.xcstrings in Resources */,
-				28A939C62BCDC07800D4A93E /* ci_post_clone.sh in Resources */,
-				28A939C72BCDC07800D4A93E /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -498,11 +419,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28E304DF2C9041BC0029C2A5 /* GoogleService-Info-production.plist in Resources */,
-				28E304E12C9041BC0029C2A5 /* GoogleService-Info.plist in Resources */,
+				28E304DF2C9041BC0029C2A5 /* GoogleService-Info-prod.plist in Resources */,
+				7A16D2E52D5413C200F26994 /* GoogleService-Info.plist in Resources */,
+				7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */,
 				B1057F3F2843FD8700B9EE2F /* Preview Assets.xcassets in Resources */,
 				B1FB2E67285B55DE0080543D /* Feedback-Info.plist in Resources */,
-				280123842A9F6D75008723A5 /* Localizable.xcstrings in Resources */,
 				284234362B488F320083C9E8 /* ci_post_clone.sh in Resources */,
 				28E304E02C9041BC0029C2A5 /* GoogleService-Info-test.plist in Resources */,
 				B1057F3C2843FD8700B9EE2F /* Assets.xcassets in Resources */,
@@ -529,6 +450,47 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncp \"${SRCROOT}/GoogleServiceInfoPlists/GoogleService-Info-$GOOGLE_SERVICE_PLIST.plist\" \"${SRCROOT}/GoogleServiceInfoPlists/GoogleService-Info.plist\"\n";
+		};
+		7A16D2E32D53F2BD00F26994 /* Firebase crashlytics */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			name = "Firebase crashlytics";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+		7AAF70B52D666FDD0045DF86 /* Fetch newest OpenApi  */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Fetch newest OpenApi ";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/bash\n\n# Define variables\nOPENAPI_REPO=\"https://github.com/FeedbackFriends/feedback-openapi.git\"\nTARGET_DIR=\"$HOME/Documents/Projects/feedback-app-ios/Modules/Sources/Helpers/APIClient\"\nTARGET_FILE=\"$TARGET_DIR/openapi.yaml\"\nTEMP_DIR=$(mktemp -d)\n\necho \"Cloning feedback-openapi repository into temporary directory...\"\ngit clone --depth 1 \"$OPENAPI_REPO\" \"$TEMP_DIR\"\n\nif [ -f \"$TEMP_DIR/openapi.yaml\" ]; then\n    echo \"Found openapi.yaml, moving it to $TARGET_DIR...\"\n    \n    # Ensure the target directory exists\n    mkdir -p \"$TARGET_DIR\"\n    \n    # Move the file\n    mv \"$TEMP_DIR/openapi.yaml\" \"$TARGET_FILE\"\n    \n    echo \"✅ Successfully updated openapi.yaml!\"\nelse\n    echo \"❌ Failed to find openapi.yaml in the repository!\"\n    exit 1\nfi\n\n# Clean up temporary directory\nrm -rf \"$TEMP_DIR\"\n\necho \"Done.\"\n";
 		};
 		7AE156042D26A39300440870 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -578,13 +540,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		28A939BC2BCDC07800D4A93E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		7AE155D82D26A31100440870 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -603,10 +558,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A64E61B2D554DF80093C245 /* InfoDictionaryOwner.swift in Sources */,
+				7A64E61C2D554DF80093C245 /* InfoPlistKeys.swift in Sources */,
 				7AE790962D53A06C00260CAE /* AppDelegate.swift in Sources */,
 				B1057F382843FD8600B9EE2F /* FeedbackApp.swift in Sources */,
-				7AE22FEC2D539C6A00DD6986 /* InfoPlistKeys.swift in Sources */,
-				7AE22FEB2D539C6200DD6986 /* InfoDictionaryOwner.swift in Sources */,
 				280DA2DE29A1361400B6E04D /* LiveDependencies.swift in Sources */,
 				B1057F4A2843FE8000B9EE2F /* Theme.swift in Sources */,
 			);
@@ -673,6 +628,7 @@
 				PRODUCT_NAME = "Lets Grow";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
 			};
@@ -861,183 +817,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Test;
-		};
-		28A939CA2BCDC07800D4A93E /* Mock */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1F9BD57285F3B8300414E6A /* Mock.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Feedback.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
-				DEVELOPMENT_TEAM = 8B9KRX6NBR;
-				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Feedback copy-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Debug;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.feedback.mock;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = macosx;
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = MOCK;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Mock;
-		};
-		28A939CB2BCDC07800D4A93E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2867BED6299AC2BD001A11DD /* Debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Feedback.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
-				DEVELOPMENT_TEAM = 8B9KRX6NBR;
-				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Feedback copy-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Debug;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_MAP_FILE_PATH = "$(TARGET_TEMP_DIR)/$(PRODUCT_NAME)-LinkMap-$(CURRENT_VARIANT)-$(CURRENT_ARCH).txt";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.feedback.debug.admin;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = macosx;
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = MOCK;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Debug;
-		};
-		28A939CC2BCDC07800D4A93E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1F9BD58285F3B8300414E6A /* Release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Feedback.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
-				DEVELOPMENT_TEAM = 8B9KRX6NBR;
-				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Feedback copy-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Debug;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.feedback.prod;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = macosx;
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-			};
-			name = Release;
-		};
-		28A939CD2BCDC07800D4A93E /* Test */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1F9BD59285F3B8300414E6A /* Test.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = FeedbackTest.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
-				DEVELOPMENT_TEAM = 8B9KRX6NBR;
-				DSTROOT = "/tmp/$(PROJECT_NAME).dst";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Feedback copy-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = Debug;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
-				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 0.5.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.feedback.test;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = macosx;
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = TEST;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
 			};
 			name = Test;
 		};
@@ -1435,6 +1214,7 @@
 				PRODUCT_NAME = "Lets Grow";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
 			};
@@ -1491,6 +1271,7 @@
 				PRODUCT_NAME = "Lets Grow";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
@@ -1633,6 +1414,7 @@
 				PRODUCT_NAME = "Lets Grow";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_STRICT_CONCURRENCY = complete;
 				VALIDATE_PRODUCT = YES;
@@ -1695,17 +1477,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		28A939C92BCDC07800D4A93E /* Build configuration list for PBXNativeTarget "Admin" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				28A939CA2BCDC07800D4A93E /* Mock */,
-				28A939CB2BCDC07800D4A93E /* Debug */,
-				28A939CC2BCDC07800D4A93E /* Release */,
-				28A939CD2BCDC07800D4A93E /* Test */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		7AE155E72D26A31200440870 /* Build configuration list for PBXNativeTarget "Lint" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1756,42 +1527,6 @@
 		285F02882C12328F00AE8942 /* FeedbackFlow */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FeedbackFlow;
-		};
-		28FEA7352BCEF5F60095CAFD /* AdminApp */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = AdminApp;
-		};
-		7A8D3D8F2D2FAA2400720329 /* EnterCode */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = EnterCode;
-		};
-		7A8D3D912D2FAA2400720329 /* EventsFeature */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = EventsFeature;
-		};
-		7A8D3D932D2FAA2400720329 /* FeedbackFlow */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = FeedbackFlow;
-		};
-		7A8D3D952D2FAA2400720329 /* Helpers */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Helpers;
-		};
-		7A8D3D972D2FAA2400720329 /* LoggedInFeature */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = LoggedInFeature;
-		};
-		7A8D3D992D2FAA2400720329 /* Logger */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Logger;
-		};
-		7A8D3D9B2D2FAA2400720329 /* LoginFeature */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = LoginFeature;
-		};
-		7A8D3D9D2D2FAA2400720329 /* More */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = More;
 		};
 		B1AD719D28D9C85600CC44B4 /* AppCore */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -4,7 +4,7 @@ import LoggedInFeature
 import Network
 import DesignSystem
 import DependencyClients
-import APIClient
+import Helpers
 import Helpers
 import EventsFeature
 import Logger
@@ -26,18 +26,18 @@ public struct AppCore {
     public enum ErrorType {
         case handleAuthenticatedAccountError(Error)
         case anonymousSignUpError(Error)
-        case createAccountError(Error, Claim?)
+        case createAccountError(Error, Role?)
         case getSessionError(Error)
-        public func errorDescription() -> String {
+        var error: Error {
             switch self {
-            case .anonymousSignUpError(let error):
-                error.localizedDescription
-            case .createAccountError(let error, _):
-                error.localizedDescription
-            case .getSessionError(let error):
-                error.localizedDescription
             case .handleAuthenticatedAccountError(let error):
-                error.localizedDescription
+                return error
+            case .anonymousSignUpError(let error):
+                return error
+            case .createAccountError(let error, _):
+                return error
+            case .getSessionError(let error):
+                return error
             }
         }
     }
@@ -48,7 +48,7 @@ public struct AppCore {
         var destination: Destination.State = .isLoading
         var isLoading = false
         var appDelegate: AppDelegateReducer.State = .init()
-        var selectedUserType: Claim?
+        var selectedUserType: Role?
         var disableUserTypeSelectionButton: Bool {
             selectedUserType == nil
         }
@@ -62,25 +62,23 @@ public struct AppCore {
         case destination(Destination.Action)
         case getSessionResponse(Session)
         case presentError(ErrorType)
-        case onAppear
-        case authenticationStateChanged(UserState)
         case onOpenURL(URL)
         case tryAgainButtonTap(ErrorType)
-        case createAccountResponse(Session, Claim?)
+        case createAccountResponse(Session, Role?)
         case navigateToSelectUserType
     }
     
     private func createAccount(
-        withClaim claim: Claim?,
+        withRole role: Role?,
         state: inout State
     ) -> EffectOf<Self> {
         state.isLoading = true
         return .run  { send in
             do {
-                let session = try await apiClient.createAccount(claim)
-                await send(.createAccountResponse(session, claim), animation: .bouncy)
+                let session = try await apiClient.createAccount(role)
+                await send(.createAccountResponse(session, role), animation: .bouncy)
             } catch {
-                await send(.presentError(ErrorType.createAccountError(error, claim)))
+                await send(.presentError(ErrorType.createAccountError(error, role)))
             }
         }
     }
@@ -91,7 +89,7 @@ public struct AppCore {
         state.isLoading = true
         return .run  { send in
             do {
-                try await firebaseClient.signInAnonymously()
+                try await authClient.signInAnonymously()
             } catch {
                 await send(.presentError(ErrorType.anonymousSignUpError(error)))
             }
@@ -114,13 +112,13 @@ public struct AppCore {
         state.isLoading = true
         return .run { send in
             do {
-                let existingClaim = try await firebaseClient.fetchCustomClaim()
-                guard let existingClaim else {
+                let existingRole = try await authClient.fetchCustomRole()
+                guard let existingRole else {
                     await send(.navigateToSelectUserType)
                     return
                 }
-                let session = try await apiClient.createAccount(existingClaim)
-                await send(.createAccountResponse(session, existingClaim))
+                let session = try await apiClient.createAccount(existingRole)
+                await send(.createAccountResponse(session, existingRole))
             } catch {
                 await send(.presentError(.handleAuthenticatedAccountError(error)))
             }
@@ -130,7 +128,7 @@ public struct AppCore {
     public init() {}
     
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.firebaseClient) var firebaseClient
+    @Dependency(\.authClient) var authClient
     @Dependency(\.mainQueue) var mainQueue
     @Dependency(\.continuousClock) var clock
     @Dependency(\.logClient) var logger
@@ -165,8 +163,8 @@ public struct AppCore {
                 case .anonymousSignUpError(_):
                     return signUpAnonymously(state: &state)
                     
-                case .createAccountError(_, let claim):
-                    return createAccount(withClaim: claim, state: &state)
+                case .createAccountError(_, let role):
+                    return createAccount(withRole: role, state: &state)
                     
                 case .getSessionError(_):
                     return getSession(state: &state)
@@ -176,7 +174,27 @@ public struct AppCore {
                 
             case .onLogoutButtonTap:
                 return .run { send in
-                    try firebaseClient.logout()
+                    try authClient.logout()
+                }
+                
+            case .appDelegate(.authenticationStateChanged(let authState)):
+                logger.log("🐸 Auth state changed: \(authState)")
+                switch authState {
+                    
+                case .authenticated:
+                    return handeAuthenticatedAccount(state: &state)
+                    
+                case .anonymous:
+                    return createAccount(withRole: nil, state: &state)
+                    
+                case .loggedOut:
+                    /// This is triggered when app is opened
+                    if case .isLoading = state.destination {
+                        return signUpAnonymously(state: &state)
+                    } else {
+                        state.destination = .signUp(.init())
+                        return .none
+                    }
                 }
                 
             case .appDelegate:
@@ -201,50 +219,10 @@ public struct AppCore {
                 return .none
                 
             case .presentError(let errorType):
-                logger.log(.error, "Received error in app core: \(errorType.errorDescription())", nil)
+                logger.log(.error, "Received error in app core: \(errorType)", nil)
                 state.isLoading = false
                 state.destination = .error(errorType)
                 return .none
-                
-            case .onAppear:
-                guard state.firstTime else {
-                    state.firstTime = true
-                    return .merge(
-                        .run { send in
-                            try await firebaseClient.setup()
-                            let userStateChangedStream =
-                            firebaseClient.userStateChanged()
-//                            AsyncStream.debounced(
-//                                from: firebaseClient.userStateChanged(),
-//                                debounceIntervalNanoSeconds: 500_000_000
-//                            )
-                            for await loggedInUser in userStateChangedStream {
-                                await send(.authenticationStateChanged(loggedInUser))
-                            }
-                        }
-                    )
-                }
-                return .none
-                
-            case .authenticationStateChanged(let authState):
-                logger.log("🐸 Auth state changed: \(authState)")
-                switch authState {
-                    
-                case .authenticated:
-                    return handeAuthenticatedAccount(state: &state)
-                    
-                case .anonymous:
-                    return createAccount(withClaim: nil, state: &state)
-                    
-                case .loggedOut:
-                    /// This is triggered when app is opened
-                    if case .isLoading = state.destination {
-                        return signUpAnonymously(state: &state)
-                    } else {
-                        state.destination = .signUp(.init())
-                        return .none
-                    }
-                }
                 
             case .navigateToSelectUserType:
                 state.destination = .signUp(.init(destination: .selectUserType(.init())))

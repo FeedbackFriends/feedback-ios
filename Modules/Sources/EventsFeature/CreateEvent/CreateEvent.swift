@@ -3,7 +3,7 @@ import DependencyClients
 import DesignSystem
 import Helpers
 import Foundation
-import APIClient
+import Helpers
 
 @Reducer
 public struct CreateEvent {
@@ -86,7 +86,7 @@ public struct CreateEvent {
                 
             case .presentError(let error):
                 state.createEventRequestInFlight = false
-                state.alert = okErrorAlert(message: error.localizedDescription)
+                state.alert = .init(error: error)
                 return .none
                 
             case .delegate:

@@ -21,12 +21,12 @@ struct DeleteConfirmationView: View {
                         Button("Delete") {
                             store.send(.deleteButtonTap)
                         }
-                        .buttonStyle(LargeBoxButton(isLoading: store.deleteEventInFlight, color: Color.themeRed))
+                        .buttonStyle(LargeBoxButtonStyle(isLoading: store.deleteEventInFlight, color: Color.themeRed))
                         
                         Button("Cancel") {
                             store.send(.cancelButtonTap)
                         }
-                        .buttonStyle(LargeBoxButton(style: .secondary))
+                        .buttonStyle(LargeBoxButtonStyle(style: .secondary))
                     }
                 }
                 .padding(.horizontal, 18)

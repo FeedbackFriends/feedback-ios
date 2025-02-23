@@ -3,7 +3,7 @@ import DependencyClients
 import DesignSystem
 import FeedbackFlow
 import Helpers
-import APIClient
+import Helpers
 import ComposableArchitecture
 import SwiftUI
 
@@ -58,7 +58,6 @@ public struct FeedbackButton {
                 }
                 
             case .startFeedback(let pinCode):
-                print("******* start feedback with pinCode: \(pinCode)")
                 return .run { send in
                     do {
                         let feedbackSession = try await apiClient.startFeedbackSession(pinCode)
@@ -77,7 +76,7 @@ public struct FeedbackButton {
                 
             case .presentError(let error):
                 state.destination = .alert(
-                    okErrorAlert(message: error.localizedDescription)
+                    .init(error: error)
                 )
                 return .send(.delegate(.stopLoading))
                 

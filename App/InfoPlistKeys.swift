@@ -9,8 +9,10 @@ struct InfoPlistKeys {
     let API_SCHEME: String
     let WEB_BASE_URL: String
     let WEB_SCHEME: String
+    let SUPPORT_EMAIL: String
+    let APPSTORE_ID: String
 }
-public enum CompilerFlag: String {
+enum CompilerFlag: String {
     case dev
     case mock
     case release
