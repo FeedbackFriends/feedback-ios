@@ -57,7 +57,7 @@ public struct AppCoreView: View {
                                         print("Mock token received: \n \(mockToken)")
                                         try await Auth.auth().signIn(withCustomToken: mockToken)
                                         print("Signed in")
-                                        try await Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true)
+                                        _ = try await Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true)
                                         print("Succesful signin with mock token")
                                     } catch {
                                         print(error.localizedDescription)

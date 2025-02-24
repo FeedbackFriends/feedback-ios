@@ -27,8 +27,6 @@ public struct SelectUserType {
         case binding(BindingAction<State>)
         case presentError(Error)
         case createAccountButtonTap
-        case createAccountResponse
-        case rolesSuccessfullyFetchedForAuthenticatedUser(Role?)
         case delegate(Delegate)
         public enum Delegate {
             case getSession
@@ -65,27 +63,13 @@ public struct SelectUserType {
                 return .run { [role = state.selectedUserType] send in
                     do {
                         let _ = try await apiClient.createAccount(role)
-                        await send(.createAccountResponse)
+                        await send(.delegate(.getSession))
                     } catch {
                         await send(.presentError(error))
                     }
                 }
-            case .createAccountResponse:
-                return .run  { send in
-                    do {
-                        let role = try await authClient.fetchCustomRole()
-                        await send(.rolesSuccessfullyFetchedForAuthenticatedUser(role))
-                        
-                    } catch {
-                        await send(.presentError(error))
-                    }
-                }
-                
-            case .rolesSuccessfullyFetchedForAuthenticatedUser(let role):
-                state.isLoading = false
-                return .send(.delegate(.getSession))
-                
-            case .delegate(_):
+           
+            case .delegate:
                 return .none
             }
         }
