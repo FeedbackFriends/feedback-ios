@@ -324,7 +324,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B1057F422843FD8700B9EE2F /* Build configuration list for PBXNativeTarget "Feedback" */;
 			buildPhases = (
-				7AAF70B52D666FDD0045DF86 /* Fetch newest OpenApi  */,
 				B1057F302843FD8600B9EE2F /* Sources */,
 				B1057F312843FD8600B9EE2F /* Frameworks */,
 				B1057F322843FD8600B9EE2F /* Resources */,
@@ -473,24 +472,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
-		};
-		7AAF70B52D666FDD0045DF86 /* Fetch newest OpenApi  */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Fetch newest OpenApi ";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#!/bin/bash\n\n# Define variables\nOPENAPI_REPO=\"https://github.com/FeedbackFriends/feedback-openapi.git\"\nTARGET_DIR=\"$HOME/Documents/Projects/feedback-app-ios/Modules/Sources/Helpers/APIClient\"\nTARGET_FILE=\"$TARGET_DIR/openapi.yaml\"\nTEMP_DIR=$(mktemp -d)\n\necho \"Cloning feedback-openapi repository into temporary directory...\"\ngit clone --depth 1 \"$OPENAPI_REPO\" \"$TEMP_DIR\"\n\nif [ -f \"$TEMP_DIR/openapi.yaml\" ]; then\n    echo \"Found openapi.yaml, moving it to $TARGET_DIR...\"\n    \n    # Ensure the target directory exists\n    mkdir -p \"$TARGET_DIR\"\n    \n    # Move the file\n    mv \"$TEMP_DIR/openapi.yaml\" \"$TARGET_FILE\"\n    \n    echo \"✅ Successfully updated openapi.yaml!\"\nelse\n    echo \"❌ Failed to find openapi.yaml in the repository!\"\n    exit 1\nfi\n\n# Clean up temporary directory\nrm -rf \"$TEMP_DIR\"\n\necho \"Done.\"\n";
 		};
 		7AE156042D26A39300440870 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;

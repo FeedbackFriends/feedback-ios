@@ -85,8 +85,7 @@ let package = Package(
             ],
             resources: [
                 .process("Resources/Font"),
-                .process("Resources/Colors.xcassets"),
-                .process("Resources/Icons.xcassets"),
+                .process("Resources/Images.xcassets"),
                 .process("Resources/Lottie")
             ]),
         .target(

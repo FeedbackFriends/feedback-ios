@@ -1,6 +1,5 @@
 import Foundation
 import OpenAPIURLSession
-import Helpers
 
 public struct EventInput: Equatable {
     public var title: String

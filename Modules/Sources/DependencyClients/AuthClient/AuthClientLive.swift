@@ -10,9 +10,6 @@ public extension AuthClient {
     
     static var live: Self  {
         @Dependency(\.logClient) var logger
-        
-        #warning("Injection continuation ind i stedet for ")
-        
         return Self.init(
             setupStateListener: {
                 _ = Auth.auth().addStateDidChangeListener { auth, optionalUser in
