@@ -449,7 +449,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncp \"${SRCROOT}/GoogleServiceInfoPlists/GoogleService-Info-$GOOGLE_SERVICE_PLIST.plist\" \"${SRCROOT}/GoogleServiceInfoPlists/GoogleService-Info.plist\"\n";
+			shellScript = "#!/bin/bash\n\n# Define project root dynamically using Xcode's SRCROOT\nPROJECT_ROOT=\"${SRCROOT}\"\n\n# Define variables using relative paths\nOPENAPI_REPO=\"https://github.com/FeedbackFriends/feedback-openapi.git\"\nTARGET_DIR=\"${PROJECT_ROOT}/Modules/Sources/Helpers/APIClient\"\nTARGET_FILE=\"${TARGET_DIR}/openapi.yaml\"\nTEMP_DIR=$(mktemp -d)\n\necho \"🔄 Cloning feedback-openapi repository into temporary directory...\"\ngit clone --depth 1 \"$OPENAPI_REPO\" \"$TEMP_DIR\"\n\n# Check if the file exists and move it to the target directory\nif [ -f \"$TEMP_DIR/openapi.yaml\" ]; then\n    echo \"📄 Found openapi.yaml, moving it to $TARGET_DIR...\"\n    \n    # Ensure the target directory exists\n    mkdir -p \"$TARGET_DIR\"\n    \n    # Move the file\n    mv \"$TEMP_DIR/openapi.yaml\" \"$TARGET_FILE\"\n    \n    echo \"✅ Successfully updated openapi.yaml!\"\nelse\n    echo \"❌ Failed to find openapi.yaml in the repository!\"\n    exit 1\nfi\n\n# Clean up temporary directory\nrm -rf \"$TEMP_DIR\"\n\necho \"✅ Done.\"\n";
 		};
 		7A16D2E32D53F2BD00F26994 /* Firebase crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
