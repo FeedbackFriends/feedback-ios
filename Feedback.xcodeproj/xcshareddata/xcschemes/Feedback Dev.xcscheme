@@ -15,7 +15,7 @@
                   <BuildableReference
                      BuildableIdentifier = "primary"
                      BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
-                     BuildableName = "Feedback.app"
+                     BuildableName = "Lets Grow.app"
                      BlueprintName = "Feedback"
                      ReferencedContainer = "container:Feedback.xcodeproj">
                   </BuildableReference>
@@ -33,7 +33,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
-               BuildableName = "Feedback.app"
+               BuildableName = "Lets Grow.app"
                BlueprintName = "Feedback"
                ReferencedContainer = "container:Feedback.xcodeproj">
             </BuildableReference>
@@ -63,7 +63,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
-            BuildableName = "Feedback.app"
+            BuildableName = "Lets Grow.app"
             BlueprintName = "Feedback"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
@@ -80,7 +80,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
-            BuildableName = "Feedback.app"
+            BuildableName = "Lets Grow.app"
             BlueprintName = "Feedback"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>

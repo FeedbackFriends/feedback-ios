@@ -2,7 +2,6 @@ import ComposableArchitecture
 import OpenAPIRuntime
 import Foundation
 import OpenAPIURLSession
-import Helpers
 
 @DependencyClient
 public struct APIClient {
