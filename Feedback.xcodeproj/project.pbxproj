@@ -425,7 +425,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\ncp \"${SRCROOT}/GoogleServiceInfoPlists/GoogleService-Info-$GOOGLE_SERVICE_PLIST.plist\" \"${SRCROOT}/GoogleServiceInfoPlists/GoogleService-Info.plist\"\n\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#cp \"${SRCROOT}/GoogleServiceInfoPlists/GoogleService-Info-$GOOGLE_SERVICE_PLIST.plist\" \"${SRCROOT}/GoogleServiceInfoPlists/GoogleService-Info.plist\"\n\n";
 		};
 		7A16D2E32D53F2BD00F26994 /* Firebase crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
