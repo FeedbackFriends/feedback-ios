@@ -84,7 +84,6 @@ private extension SuccessOverlayView {
     
     var content: some View {
         ZStack {
-//            Color.clear.frame(maxWidth: .infinity, maxHeight: .infinity).background(Material.ultraThinMaterial)
             backgroundView
                 .onAppear {
                     Task { @MainActor in
@@ -107,8 +106,6 @@ private extension SuccessOverlayView {
                                     alertDidAppear = true
                                 }
                             try await Task.sleep(for: .seconds(0.6))
-                            #warning("lav haptic")
-//                            hapticsClient.makeImpact(.soft)
                         }
                     }
                     .sensoryFeedback(.success, trigger: alertDidAppear)
@@ -122,10 +119,8 @@ private extension SuccessOverlayView {
     
     var backgroundView: some View {
         Color.black
-            .opacity(0.05)
+            .opacity(0.15)
             .ignoresSafeArea()
-//        Material.ultraThin.secondary
-//        Color.white.opacity(0.6).ignoresSafeArea()
     }
     
     var alertView: some View {

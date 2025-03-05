@@ -1,40 +1,38 @@
 import ComposableArchitecture
-import OpenAPIRuntime
 import Foundation
-import OpenAPIURLSession
 
 @DependencyClient
-public struct APIClient {
-    public var deleteAccount: () async throws -> ()
-    public var _updateAccount: (
+public struct APIClient: Sendable {
+    public var deleteAccount: @Sendable () async throws -> ()
+    @DependencyEndpoint
+    public var updateAccount: @Sendable (
         _ name: String,
         _ email: String,
         _ phoneNumber: String
     ) async throws -> ()
-    public var updateFcmToken: (String?) async throws -> ()
-    public var getSession: () async throws -> Session
-    public var startFeedbackSession: (_ pinCode: String) async throws -> FeedbackSession
-    var _sendFeedback: (_ feedback: [Feedback], _ pinCode: String) async throws -> Bool
-    public var createEvent: (EventInput) async throws -> ManagerEvent
-    public var updateEvent: (_ input: EventInput, _ id: UUID) async throws -> ManagerEvent
-    public var deleteEvent: (UUID) async throws -> ()
-    public var createAccount: (Role?) async throws -> Session
-    public var sessionChangedListener: () -> AsyncStream<Session> = { .never }
-    public var joinEvent: (_ eventCode: String) async throws -> ()
-    public var resetNewFeedbackForEvent: (_ eventId: UUID) async throws -> ()
-    public var updateAccountRole: (_ role: Role) async throws -> ()
-    public var getMockToken: () async throws -> (String)
-}
-
-public extension APIClient {
-    
-    func sendFeedback(feedback: [Feedback], pinCode: String) async throws -> Bool {
-        try await _sendFeedback(feedback: feedback, pinCode: pinCode)
-    }
-    
-    func updateAccount(name: String, email: String, phoneNumber: String) async throws {
-        try await _updateAccount(name, email, phoneNumber)
-    }
+    @DependencyEndpoint
+    public var updateFcmToken: @Sendable (_ fcmToken: String?) async throws -> ()
+    public var getSession: @Sendable () async throws -> Session
+    @DependencyEndpoint
+    public var startFeedbackSession: @Sendable (_ pinCode: String) async throws -> FeedbackSession
+    @DependencyEndpoint
+    public var sendFeedback: @Sendable (_ feedback: [Feedback], _ pinCode: String) async throws -> Bool
+    @DependencyEndpoint
+    public var createEvent: @Sendable (_ eventInput: EventInput) async throws -> ManagerEvent
+    @DependencyEndpoint
+    public var updateEvent: @Sendable (_ eventInput: EventInput, _ id: UUID) async throws -> ManagerEvent
+    @DependencyEndpoint
+    public var deleteEvent: @Sendable (_ id: UUID) async throws -> ()
+    @DependencyEndpoint
+    public var createAccount: @Sendable (_ role: Role?) async throws -> Session
+    public var sessionChangedListener: @Sendable () async -> AsyncStream<Session> = { .never }
+    @DependencyEndpoint
+    public var joinEvent: @Sendable (_ eventCode: String) async throws -> ()
+    @DependencyEndpoint
+    public var resetNewFeedbackForEvent: @Sendable (_ eventId: UUID) async throws -> ()
+    @DependencyEndpoint
+    public var updateAccountRole: @Sendable (_ role: Role) async throws -> ()
+    public var getMockToken: @Sendable () async throws -> (String)
 }
 
 public extension DependencyValues {
@@ -45,7 +43,7 @@ public extension DependencyValues {
 }
 
 extension APIClient: TestDependencyKey {
-    public static var previewValue = APIClient.mock
-    public static let testValue = APIClient.mock
+    public static let previewValue = APIClient.mock()
+    public static let testValue = APIClient()
 }
 

@@ -75,7 +75,7 @@ public struct Tabbar {
                 
             case .onAppear:
                 return .run { send in
-                    let sessionChangedListener = apiClient.sessionChangedListener()
+                    let sessionChangedListener = await apiClient.sessionChangedListener()
                     for await session in sessionChangedListener {
                         await send(.sessionUpdated(session))
                     }

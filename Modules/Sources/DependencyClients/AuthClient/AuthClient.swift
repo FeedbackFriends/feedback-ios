@@ -9,17 +9,17 @@ import Helpers
 import Logger
 
 @DependencyClient
-public struct AuthClient {
-    public var setupStateListener: () -> ()
+public struct AuthClient: Sendable {
+    public var setupStateListener: @Sendable () async -> ()
     public var signInAnonymously: @Sendable () async throws -> ()
     public var fetchCustomRole: @Sendable () async throws -> Role?
     public var googleLogin: @Sendable () async throws -> ()
     public var appleLogin: @Sendable () async throws -> ()
-    public var logout: @Sendable () throws -> ()
-    public var userStateChanged: () -> AsyncStream<UserState> = { .never }
+    public var logout: @Sendable () async throws -> ()
+    public var userStateChanged: @Sendable () async -> AsyncStream<UserState> = { .never }
 }
 
-public enum UserState {
+public enum UserState: Sendable {
     case authenticated, anonymous, loggedOut
 }
 

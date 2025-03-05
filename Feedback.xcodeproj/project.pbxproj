@@ -15,19 +15,13 @@
 		7A16D2E52D5413C200F26994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A16D2E42D5413C200F26994 /* GoogleService-Info.plist */; };
 		7A64E61B2D554DF80093C245 /* InfoDictionaryOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6182D554DF80093C245 /* InfoDictionaryOwner.swift */; };
 		7A64E61C2D554DF80093C245 /* InfoPlistKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6192D554DF80093C245 /* InfoPlistKeys.swift */; };
-		7A6736532D6F5EA300B392DD /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7A67364E2D6F5EA300B392DD /* Debug.xcconfig */; };
-		7A6736542D6F5EA300B392DD /* Mock.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7A67364F2D6F5EA300B392DD /* Mock.xcconfig */; };
-		7A6736552D6F5EA300B392DD /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7A6736502D6F5EA300B392DD /* Release.xcconfig */; };
-		7A6736562D6F5EA300B392DD /* Test.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 7A6736512D6F5EA300B392DD /* Test.xcconfig */; };
 		7A8892242D2FAE6A00B0276B /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = B1AD719D28D9C85600CC44B4 /* AppCore */; };
 		7A8892262D2FAE6A00B0276B /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
 		7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
-		7AE790962D53A06C00260CAE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AE790952D53A06C00260CAE /* AppDelegate.swift */; };
 		B1057F382843FD8600B9EE2F /* FeedbackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1057F372843FD8600B9EE2F /* FeedbackApp.swift */; };
 		B1057F3C2843FD8700B9EE2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
 		B1057F3F2843FD8700B9EE2F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
 		B1057F4A2843FE8000B9EE2F /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1057F492843FE8000B9EE2F /* Theme.swift */; };
-		B1FB2E67285B55DE0080543D /* Feedback-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B1FB2E66285B55DE0080543D /* Feedback-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -62,7 +56,6 @@
 		7AC4A9EA2D2FA71D004DF626 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 		7AE155DC2D26A31100440870 /* Lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AE156202D26AD4900440870 /* OpenApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7AE790952D53A06C00260CAE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B1057F342843FD8600B9EE2F /* Lets Grow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lets Grow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1057F372843FD8600B9EE2F /* FeedbackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackApp.swift; sourceTree = "<group>"; };
 		B1057F3B2843FD8700B9EE2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -198,7 +191,6 @@
 		B1057F362843FD8600B9EE2F /* App */ = {
 			isa = PBXGroup;
 			children = (
-				7AE790952D53A06C00260CAE /* AppDelegate.swift */,
 				B1057F372843FD8600B9EE2F /* FeedbackApp.swift */,
 				B1057F492843FE8000B9EE2F /* Theme.swift */,
 				280DA2DD29A1361400B6E04D /* LiveDependencies.swift */,
@@ -341,7 +333,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1610;
-				LastUpgradeCheck = 1340;
+				LastUpgradeCheck = 1620;
 				TargetAttributes = {
 					2892AA342C0F89C600F12E83 = {
 						CreatedOnToolsVersion = 15.4;
@@ -411,12 +403,7 @@
 				7A16D2E52D5413C200F26994 /* GoogleService-Info.plist in Resources */,
 				7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */,
 				B1057F3F2843FD8700B9EE2F /* Preview Assets.xcassets in Resources */,
-				B1FB2E67285B55DE0080543D /* Feedback-Info.plist in Resources */,
 				284234362B488F320083C9E8 /* ci_post_clone.sh in Resources */,
-				7A6736532D6F5EA300B392DD /* Debug.xcconfig in Resources */,
-				7A6736542D6F5EA300B392DD /* Mock.xcconfig in Resources */,
-				7A6736552D6F5EA300B392DD /* Release.xcconfig in Resources */,
-				7A6736562D6F5EA300B392DD /* Test.xcconfig in Resources */,
 				B1057F3C2843FD8700B9EE2F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -426,6 +413,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		7A16D2E32D53F2BD00F26994 /* Firebase crashlytics */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
@@ -515,7 +503,6 @@
 			files = (
 				7A64E61B2D554DF80093C245 /* InfoDictionaryOwner.swift in Sources */,
 				7A64E61C2D554DF80093C245 /* InfoPlistKeys.swift in Sources */,
-				7AE790962D53A06C00260CAE /* AppDelegate.swift in Sources */,
 				B1057F382843FD8600B9EE2F /* FeedbackApp.swift in Sources */,
 				280DA2DE29A1361400B6E04D /* LiveDependencies.swift in Sources */,
 				B1057F4A2843FE8000B9EE2F /* Theme.swift in Sources */,
@@ -780,6 +767,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -823,6 +811,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -866,6 +855,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -907,6 +897,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -948,6 +939,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -991,6 +983,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -1034,6 +1027,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -1075,6 +1069,7 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				BUILD_LIBRARY_FOR_DISTRIBUTION = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

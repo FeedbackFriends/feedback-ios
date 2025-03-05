@@ -1,7 +1,7 @@
 import Foundation
 import OpenAPIRuntime
 
-public struct FeedbackSession: Equatable {
+public struct FeedbackSession: Equatable, Sendable {
     public let title: String
     public let agenda: String?
     public let questions: [ParticipantQuestion]

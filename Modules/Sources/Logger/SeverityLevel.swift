@@ -1,7 +1,7 @@
 import OSLog
 import Dependencies
 
-public enum SeverityLevel {
+public enum SeverityLevel: Sendable {
     case info
     case `default`
     case debug

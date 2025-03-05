@@ -2,19 +2,19 @@ import Foundation
 import ComposableArchitecture
 
 @DependencyClient
-public struct LogClient {
-    public var addLogClient: (_ client: LoggingClient) -> Void
-    var _log: (SeverityLevel, String, CustomStringConvertible?) -> Void
-    public func log(
+public struct LogClient: Sendable {
+    public var addLogClient: @Sendable (_ client: LoggingClient) -> Void
+    var _log: @Sendable (SeverityLevel, String, CustomStringConvertible?) -> Void
+}
+
+public extension LogClient {
+    func log(
         _ level: SeverityLevel,
         _ log: String,
         _ context: CustomStringConvertible? = nil
     ) {
         _log(level, log, context)
     }
-}
-
-public extension LogClient {
     func log(_ log: String, context: CustomStringConvertible? = nil) {
         _log(.default, log, context)
     }
@@ -53,7 +53,7 @@ public extension DependencyValues {
     }
 }
 
-final class LogManager {
+actor LogManager {
     private static var logClients: [LoggingClient] = []
     
     static func addLogClient(_ client: LoggingClient) {

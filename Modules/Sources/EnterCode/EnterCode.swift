@@ -62,8 +62,8 @@ public struct EnterCode {
                 return .none
                 
             case .onContinueNotificationPermissionButtonTap:
-                return .run { send in
-                    let didAllowNotifications = try await self.userNotifications.requestAuthorization([.alert, .sound])
+                return .run { [userNotifications] send in
+                    let didAllowNotifications = try await userNotifications.requestAuthorization([.alert, .sound])
                     try await Task.sleep(for: .seconds(0.5))
                     await send(.requestAuthorizationResponse(didAllowNotifications: didAllowNotifications))
                 }
@@ -74,7 +74,7 @@ public struct EnterCode {
                 return .none
                 
             case .requestAuthorizationResponse:
-                return .run { send in
+                return .run { [dismiss] send in
                     await dismiss()
                 }
                 

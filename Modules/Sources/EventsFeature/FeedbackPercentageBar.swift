@@ -31,6 +31,7 @@ public func makeEmptyFeedbackBarView() -> some View {
     }
 }
 
+@MainActor
 public func makePieChartView(feedback: QuestionFeedbackSummary) -> some View {
     GeometryReader { proxy in
         PieChart(

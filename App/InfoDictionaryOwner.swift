@@ -1,7 +1,7 @@
 import Foundation
 
 /// Anything that provides access to an Info.plist file (or a mocked one)
-public protocol InfoDictionaryOwner {
+public protocol InfoDictionaryOwner: Sendable {
     func object(forInfoDictionaryKey key: String) -> Any?
 }
 
@@ -20,7 +20,7 @@ extension Bundle: InfoDictionaryOwner {}
 @dynamicMemberLookup
 /// A warpper around an info plist, the generic `Keys` are used to provide types and key names
 /// for the fields in the info.plist file.
-public struct InfoPlist<Keys> {
+public struct InfoPlist<Keys> : Sendable{
     private let owner: InfoDictionaryOwner
     internal init(owner: InfoDictionaryOwner, keys: Keys.Type) {
         self.owner = owner
@@ -43,7 +43,7 @@ public struct InfoPlist<Keys> {
 
 @dynamicMemberLookup
 /// This is a wrapper around an `InfoPlist` but it force unwraps members.
-public struct UnsafeInfoPlist<Keys> {
+public struct UnsafeInfoPlist<Keys>: Sendable {
     private let wrapped: InfoPlist<Keys>
     internal init(wrapped: InfoPlist<Keys>) {
         self.wrapped = wrapped

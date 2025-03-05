@@ -1,7 +1,5 @@
 import Foundation
 
-//#if !RELEASE
-
 let mockAgenda =
     """
     1. Opening Remarks (5 minutes)
@@ -358,18 +356,3 @@ public func generateFeedback(amount: Int) -> [Feedback] {
     
     return feedbackArray
 }
-
-//
-//public extension Event {
-//    static let mock = Self(
-//        id: UUID().uuidString,
-//        title: "Hello",
-//        agenda: mockAgenda,
-//        date: Date(),
-//        durationInMinutes: 30,
-//        location: "Copenhagen",
-//        createdAt: Date()
-//    )
-//}
-//
-////#endif

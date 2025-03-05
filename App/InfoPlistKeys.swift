@@ -20,4 +20,5 @@ enum CompilerFlag: String {
 }
 // swiftlint:enable identifier_name
 
-@MainActor let infoPlist = Bundle.main.infoPlist(withKeys: InfoPlistKeys.self).unsafe
+let infoPlist = Bundle.main.infoPlist(withKeys: InfoPlistKeys.self).unsafe
+

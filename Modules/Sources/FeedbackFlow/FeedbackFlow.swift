@@ -110,11 +110,11 @@ public struct FeedbackFlow {
                             isNew: true
                         )
                     }
-                    return .run { [state = state] send in
+                    return .run { [pinCode = state.feedbackSession.pinCode, apiClient] send in
                         do {
                             let shouldPresentRatingPrompt = try await apiClient.sendFeedback(
                                 feedback: feedback,
-                                pinCode: state.feedbackSession.pinCode
+                                pinCode: pinCode
                             )
                             await send(.sendFeedbackResponse(shouldPresentRatingPrompt: shouldPresentRatingPrompt))
                         } catch {
@@ -135,7 +135,7 @@ public struct FeedbackFlow {
                 return .none
                 
             case .cancelButtonTapped:
-                return .run { _ in
+                return .run { [dismiss] _ in
                     await dismiss()
                 }
                 
@@ -156,14 +156,15 @@ public struct FeedbackFlow {
             case .sendFeedbackResponse(shouldPresentRatingPrompt: let shouldPresentRatingPrompt):
                 state.presentSuccessOverlay = true
                 state.feedbackItems[id: state.feedbackItems.last!.id]?.submitFeedbackInFlight = false
-                guard shouldPresentRatingPrompt else { 
-                    return .run { send in
+                guard shouldPresentRatingPrompt else {
+                    return .run { @MainActor [clock, dismiss] send in
                         try await clock.sleep(for: .seconds(2))
                         await dismiss()
-                } }
-                return .run { send in
+                    }
+                }
+                return .run { @MainActor [clock] send in
                     try await clock.sleep(for: .seconds(2))
-                    await send(.delegate(.presentAppRatingPrompt))
+                    send(.delegate(.presentAppRatingPrompt))
                 }
             }
         }

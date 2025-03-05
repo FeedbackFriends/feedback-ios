@@ -32,16 +32,6 @@ struct FeedbackApp: App {
     }
 }
 
-class SceneDelegate: NSObject, UIWindowSceneDelegate {
-
-    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
-        for urlContext in URLContexts {
-            let url = urlContext.url
-            _ = Auth.auth().canHandle(url)
-        }
-    }
-}
-
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     
@@ -72,18 +62,18 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         startApp()
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
-        intialStore.send(.appDelegate(.didFinishLaunchingWithOptions))
+        intialStore.send(.appDelegate(.didFinishLaunchingWithOptions(deviceId: deviceId)))
         return true
     }
 }
 
-extension AppDelegate: @preconcurrency MessagingDelegate {
+extension AppDelegate: MessagingDelegate {
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         intialStore.send(.appDelegate(.didReceiveRegistrationToken(fcmToken)))
     }
 }
 
-extension AppDelegate : @preconcurrency UNUserNotificationCenterDelegate {
+extension AppDelegate : UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
@@ -95,52 +85,11 @@ extension AppDelegate : @preconcurrency UNUserNotificationCenterDelegate {
         if let messageID = userInfo[gcmMessageIDKey] {
             print("Message ID: \(messageID)")
         }
-        
-        print(userInfo)
-        
-        // Change this to your preferred presentation option
         completionHandler([[.banner]])
     }
     
-    //    func userNotificationCenter(_ center: UNUserNotificationCenter,
-    //                                didReceive response: UNNotificationResponse,
-    //                                withCompletionHandler completionHandler: @escaping () -> Void) {
-    //        let userInfo = response.notification.request.content.userInfo
-    //
-    //        appViewModel.handleNotification()
-    //
-    ////        if let messageID = userInfo[gcmMessageIDKey] {
-    ////            print("Message ID from userNotificationCenter didReceive: \(messageID)")
-    ////        }
-    //
-    //        completionHandler()
-    //    }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        
-        //        let content = response.notification.request.content
-        //
-        //        guard
-        //            let typeAsString = content.userInfo["type"] as? String,
-        //            let email = content.userInfo["email"] as? String,
-        //            let type = NotificationTypeString(rawValue: typeAsString) else { return }
-        
-        //        switch type {
-        //        case .startFeedback:
-        //            guard let code = content.userInfo["code"] as? String, let codeAsInt = Int(code) else { return }
-        ////            self.appViewModel.appdelegate(.didReceiveNotification(.startFeedback(code: codeAsInt, email: email)))
-        //            return
-        //
-        //        case .viewMeeting:
-        //            guard let meetingID = content.userInfo["meetingID"] as? String,
-        //                  let meetingIDAsInt = Int(meetingID) else { return }
-        //            self.appViewModel.appdelegate(.didReceiveNotification(.viewMeeting(meetingID: meetingIDAsInt, email: email)))
-        //            return
-        //
-        //        case .teamInvite:
-        //            self.appViewModel.appdelegate(.didReceiveNotification(.teamInvite(email: email)))
-        //            return
-        //        }
     }
 }
 

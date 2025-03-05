@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Feedback: Equatable, Identifiable {
+public struct Feedback: Equatable, Identifiable, Sendable {
     
     public var id: UUID { questionId }
     public let type: FeedbackType2
@@ -14,7 +14,7 @@ public struct Feedback: Equatable, Identifiable {
     }
 }
 
-public enum FeedbackType2: Equatable {
+public enum FeedbackType2: Equatable, Sendable {
     case emoji(emoji: Emoji, comment: String?)
     case comment(comment: String)
     case thumpsUpThumpsDown(thumbsUpThumpsDown: ThumbsUpThumpsDown, comment: String?)

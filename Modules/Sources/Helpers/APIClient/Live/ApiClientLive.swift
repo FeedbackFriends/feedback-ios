@@ -17,8 +17,8 @@ public extension APIClient {
             configuration: Configuration(),
             transport: URLSessionTransport(),
             middlewares: [
-                AuthorisationMiddleware()
-//                LoggingMiddleware()
+                AuthorisationMiddleware(),
+                DelayMiddleware()
             ]
         )
         
@@ -28,11 +28,10 @@ public extension APIClient {
             deleteAccount: {
                 try await withAuthorization {
                     let _ = try await api.deleteAccount(.init())
-                    #warning("Delete account from session cache")
                     return ()
                 }
             },
-            _updateAccount: {
+            updateAccount: {
                 name,
                 email,
                 phoneNumber in
@@ -49,7 +48,7 @@ public extension APIClient {
                             )
                         )
                     ).ok
-                    sessionCache.updateAccount(
+                    await sessionCache.updateAccount(
                         name: name.nilIfEmpty,
                         email: email.nilIfEmpty,
                         phoneNumber: phoneNumber.nilIfEmpty
@@ -67,7 +66,7 @@ public extension APIClient {
                 try await withAuthorization(forceRefreshAfter: true) {
                     let sessionDto = try await api.getSession().ok.body.json
                     let newSession = Session(sessionDto)
-                    sessionCache.updateSession(newSession)
+                    await sessionCache.updateSession(newSession)
                     return newSession
                 }
             },
@@ -85,7 +84,7 @@ public extension APIClient {
                     }
                 }
             },
-            _sendFeedback: { feedback, pinCode in
+            sendFeedback: { feedback, pinCode in
                 try await withAuthorization {
                     let response = try await api.sendFeedback(
                         .init(
@@ -97,28 +96,28 @@ public extension APIClient {
                             )
                         )
                     ).ok.body.json
-                    sessionCache.updateOrAppendParticipantEvent(ParticipantEvent(response.event))
+                    await sessionCache.updateOrAppendParticipantEvent(ParticipantEvent(response.event))
                     return response.shouldPresentRatingPrompt
                 }
             },
             createEvent: { eventInput in
                 try await withAuthorization {
                     let managerEvent = ManagerEvent(try await api.createEvent(body: .json(.init(eventInput))).ok.body.json)
-                    sessionCache.updateOrAppendManagerEvent(managerEvent)
+                    await sessionCache.updateOrAppendManagerEvent(managerEvent)
                     return managerEvent
                 }
             },
             updateEvent: { eventInput, eventId in
                 try await withAuthorization {
                     let managerEvent = ManagerEvent(try await api.updateEvent(path: .init(eventId: eventId.uuidString), body: .json(.init(eventInput))).ok.body.json)
-                    sessionCache.updateOrAppendManagerEvent(managerEvent)
+                    await sessionCache.updateOrAppendManagerEvent(managerEvent)
                     return managerEvent
                 }
             },
             deleteEvent: { eventId in
                 try await withAuthorization {
                     _ = try await api.deleteEvent(path: .init(eventId: eventId.uuidString)).ok
-                    sessionCache.deleteEvent(eventId)
+                    await sessionCache.deleteEvent(eventId)
                     return ()
                 }
             },
@@ -135,12 +134,12 @@ public extension APIClient {
                     }
                     let sessionDto = try await api.createAccount(.init(body: .json(.init(requestedRole: role)))).ok.body.json
                     let session = Session(sessionDto)
-                    sessionCache.updateSession(session)
+                    await sessionCache.updateSession(session)
                     return session
                 }
             },
             sessionChangedListener: {
-                sessionCache.sessionChangedListener()
+                await sessionCache.sessionChangedListener()
                 
             },
             joinEvent: { pinCode in
@@ -152,7 +151,7 @@ public extension APIClient {
                         switch response {
                         case .ok(let output):
                             let participantEvent = try output.body.json
-                            sessionCache.updateOrAppendParticipantEvent(ParticipantEvent(participantEvent))
+                            await sessionCache.updateOrAppendParticipantEvent(ParticipantEvent(participantEvent))
                         case .internalServerError(let internalError):
                             let apiErrorDto = try internalError.body.json
                             throw ApiError(apiErrorDto: apiErrorDto)
@@ -165,7 +164,7 @@ public extension APIClient {
             resetNewFeedbackForEvent: { eventId in
                 try await withAuthorization {
                     _ = try await api.resetNewFeedback(.init(path: .init(eventId: eventId.uuidString)))
-                    sessionCache.resetNewFeedbackForEvent(eventId: eventId)
+                    await sessionCache.resetNewFeedbackForEvent(eventId: eventId)
                     return ()
                 }
                 return ()
@@ -190,43 +189,4 @@ public extension APIClient {
     }
 }
 
-public struct ApiError: Error {
-    let timestamp: String?
-    let message: String?
-    let domainCode: DomainCode?
-    let exceptionType: String?
-    let path: String?
-}
 
-extension ApiError {
-    init(apiErrorDto: Components.Schemas.ApiError) {
-        self.init(
-            timestamp: apiErrorDto.timestamp,
-            message: apiErrorDto.message,
-            domainCode: apiErrorDto.domainCode.flatMap { .init(domainCodeDto: $0) },
-            exceptionType: apiErrorDto.exceptionType,
-            path: apiErrorDto.path
-        )
-    }
-}
-
-
-
-
-public enum DomainCode {
-    case feedbackAlreadySubmitted, eventAlreadyJoined
-    init(domainCodeDto: Components.Schemas.ApiError.DomainCodePayload) {
-        switch domainCodeDto {
-            
-        case .feedbackAlreadySubmitted:
-            self = .feedbackAlreadySubmitted
-            
-        case .eventAlreadyJoined:
-            self = .eventAlreadyJoined
-        case .cannotJoinOwnEvent:
-            fatalError()
-        case .cannotGiveFeedbackToSelf:
-            fatalError()
-        }
-    }
-}

@@ -1,6 +1,6 @@
 import Foundation
 
-final class SessionCache {
+actor SessionCache {
     private var session: Session?
     private var sessionContinuation: AsyncStream<Session>.Continuation?
     
@@ -52,5 +52,9 @@ final class SessionCache {
         if let updatedSession = session {
             sessionContinuation?.yield(updatedSession)
         }
+    }
+    
+    func reset() {
+        self.session = nil
     }
 }

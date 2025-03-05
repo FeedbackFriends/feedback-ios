@@ -13,15 +13,6 @@ func fontsURLs() -> [URL] {
         }
 }
 
-//func fontsURLs() -> [URL] {
-//    let bundle = Bundle.module
-//    var fileNames: [String] = []
-//    for element in Font.FontName.allCases {
-//        fileNames.append(element.rawValue)
-//    }
-//    return fileNames.map { bundle.url(forResource: $0, withExtension: "otf")! }
-//}
-
 extension UIFont {
     static func register(from url: URL) throws {
         guard let fontDataProvider = CGDataProvider(url: url as CFURL) else {
@@ -35,15 +26,24 @@ extension UIFont {
     }
 }
 
-private var didRegisterfonts = false
-public func registerFonts() {
-    guard !didRegisterfonts else { return }
-    didRegisterfonts = true
-    do {
-        try fontsURLs().forEach { try UIFont.register(from: $0) }
-    } catch {
-        print(error)
+actor FontRegistration {
+    private var didRegisterFonts = false
+    
+    func registerFontsIfNeeded() async {
+        guard !didRegisterFonts else { return }
+        didRegisterFonts = true
+        do {
+            try fontsURLs().forEach { try UIFont.register(from: $0) }
+        } catch {
+            print(error)
+        }
     }
+}
+
+private let fontRegistration = FontRegistration()
+
+public func registerFonts() async {
+    await fontRegistration.registerFontsIfNeeded()
 }
 
 public extension Font {
@@ -64,15 +64,12 @@ public extension Font {
 }
 
 public extension UIFont {
-//    static let montserratBlack: UIFont = .init(name: "AcademySans-Bold", size: 28)!
     static func fontz(_ name: Font.FontName, _ size: CGFloat) -> UIFont {
         return UIFont(name: name.rawValue, size: size)!
     }
-//    func fontYo(name: String, siz)
 }
 public extension View {
     func font(_ name: Font.FontName, _ size: CGFloat) -> some View {
-        registerFonts()
         return font(.custom(name.rawValue, size: size))
     }
 }

@@ -7,6 +7,7 @@ public extension SystemClient {
         appstoreId: String,
         supportEmail: String
     ) -> SystemClient {
+        
         return .init(
             setUserInterfaceStyle: { userInterfaceStyle in
                 await MainActor.run {
@@ -19,10 +20,6 @@ public extension SystemClient {
                 await UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             },
             openSettingsURLString: { UIApplication.openSettingsURLString },
-            makeImpact: { style in
-                let impactMed = UIImpactFeedbackGenerator(style: style)
-                impactMed.impactOccurred()
-            },
             inviteUrl: { pinCode in
                 URL(string: "\(webUrl)/invite/\(pinCode)")!
             },

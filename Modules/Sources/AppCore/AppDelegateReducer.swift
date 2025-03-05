@@ -3,6 +3,7 @@ import DependencyClients
 import Helpers
 import Helpers
 import Logger
+import Foundation
 
 @Reducer
 public struct AppDelegateReducer {
@@ -12,7 +13,7 @@ public struct AppDelegateReducer {
         public init() {}
     }
     public enum Action {
-        case didFinishLaunchingWithOptions
+        case didFinishLaunchingWithOptions(deviceId: String)
         case didReceiveRegistrationToken(String?)
         case didReceiveNotification(NotificationType)
         case authenticationStateChanged(UserState)
@@ -37,9 +38,11 @@ public struct AppDelegateReducer {
             case .authenticationStateChanged(_):
                 return .none
                 
-            case .didFinishLaunchingWithOptions:
+            case .didFinishLaunchingWithOptions(let deviceId):
+                logger.addCrashlyticsClient(deviceId: deviceId, minLevel: .error)
+                logger.addOSLogClient(subsystem: Bundle.main.bundleIdentifier!, category: "LoggingClient")
                 return .run { send in
-                    let userStateChangedStream = authClient.userStateChanged()
+                    let userStateChangedStream = await authClient.userStateChanged()
                     await send(.setupStateListener)
                     for await loggedInUser in userStateChangedStream {
                         await send(.authenticationStateChanged(loggedInUser))
@@ -65,8 +68,9 @@ public struct AppDelegateReducer {
 //                return .none
                 
             case .setupStateListener:
-                authClient.setupStateListener()
-                return .none
+                return .run { send in
+                    await authClient.setupStateListener()
+                }
             }
         }
     }

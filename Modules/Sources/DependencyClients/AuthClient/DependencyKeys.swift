@@ -1,7 +1,7 @@
 import ComposableArchitecture
 
 extension AuthClient: TestDependencyKey {
-    public static var previewValue = AuthClient.mock
+    public static let previewValue = AuthClient.mock
     public static let testValue = AuthClient()
 }
 

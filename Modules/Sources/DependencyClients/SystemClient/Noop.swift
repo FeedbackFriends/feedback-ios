@@ -5,7 +5,6 @@ extension SystemClient {
         setUserInterfaceStyle: { _ in },
         hideKeyboard: {}, 
         openSettingsURLString: { "" },
-        makeImpact: { _ in },
         inviteUrl: { _ in URL(string: "")! },
         privacyPolicyUrl: { URL(string: "")! },
         appleMailUrl: { _ , _ in URL(string: "")! },

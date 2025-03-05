@@ -3,7 +3,7 @@ import ComposableArchitecture
 import UserNotifications
 
 @DependencyClient
-public struct UserNotificationClient {
+public struct UserNotificationClient: Sendable {
     public var add: @Sendable (UNNotificationRequest) async throws -> Void
     public var delegate: @Sendable () -> AsyncStream<DelegateEvent> = { .never }
     public var getNotificationSettings: @Sendable () async -> Notification.Settings = { .init(authorizationStatus: .denied) }

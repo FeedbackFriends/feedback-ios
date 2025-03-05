@@ -174,7 +174,7 @@ public struct AppCore {
                 
             case .onLogoutButtonTap:
                 return .run { send in
-                    try authClient.logout()
+                    try await authClient.logout()
                 }
                 
             case .appDelegate(.authenticationStateChanged(let authState)):

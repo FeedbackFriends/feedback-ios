@@ -14,17 +14,15 @@ public struct PrimaryToolbarButtonStyle: ButtonStyle {
         HStack(spacing: 8) {
             if isLoading {
                 ProgressView()
-                    .transition(.blurReplace)
             } else {
                 configuration.label
             }
         }
-        .animation(.bouncy, value: isLoading)
+        .animation(.linear(duration: 0.1), value: isLoading)
         .font(.montserratBold, 15)
         .foregroundStyle(isEnabled ? color : Color.themeDarkGray.opacity(0.5))
         .opacity(isEnabled ? 1.0 : 0.5)
         .progressViewStyle(CircularProgressViewStyle(tint: Color.themeDarkGray))
         .opacity(configuration.isPressed ? 0.5 : 1)
-        .animation(.default, value: isEnabled)
     }
 }

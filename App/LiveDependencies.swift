@@ -8,9 +8,6 @@ import DesignSystem
 import Helpers
 
 let isMock = false
-let webUrl = "\(infoPlist.WEB_SCHEME)://\(infoPlist.WEB_BASE_URL)"
-let appstoreId = infoPlist.APPSTORE_ID
-let supportEmail = infoPlist.SUPPORT_EMAIL
 
 var deviceId: String {
     let key = "deviceId"
@@ -24,11 +21,10 @@ var deviceId: String {
 
 @MainActor
 func startApp() {
-    @Dependency(\.logClient) var logger
-    logger.addCrashlyticsClient(deviceId: deviceId, minLevel: .error)
-    logger.addOSLogClient(subsystem: Bundle.main.bundleIdentifier!, category: "LoggingClient")
-    registerFonts()
-    setupTheme()
+    Task {
+        await registerFonts()
+        setupTheme()
+    }
 }
 
 extension AuthClient: @retroactive DependencyKey {
@@ -43,7 +39,7 @@ extension AuthClient: @retroactive DependencyKey {
 extension APIClient: @retroactive DependencyKey {
     public static var liveValue: APIClient {
         if isMock {
-            return .mock
+            return .mock()
         }
         return .live(
             baseUrl: URL(string: "\(infoPlist.API_SCHEME)://\(infoPlist.API_BASE_URL)")!,
@@ -53,11 +49,12 @@ extension APIClient: @retroactive DependencyKey {
 }
 
 extension SystemClient: @retroactive DependencyKey {
+    
     public static var liveValue: SystemClient {
         .live(
-            webUrl: webUrl,
-            appstoreId: appstoreId,
-            supportEmail: supportEmail
+            webUrl: "\(infoPlist.WEB_SCHEME)://\(infoPlist.WEB_BASE_URL)",
+            appstoreId: infoPlist.APPSTORE_ID,
+            supportEmail: infoPlist.SUPPORT_EMAIL
         )
     }
 }

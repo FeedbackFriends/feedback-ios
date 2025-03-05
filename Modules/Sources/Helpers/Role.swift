@@ -1,4 +1,4 @@
-public enum Role: String, Equatable {
+public enum Role: String, Equatable, Sendable {
     case participant, organizer
     
     public var localized: String {

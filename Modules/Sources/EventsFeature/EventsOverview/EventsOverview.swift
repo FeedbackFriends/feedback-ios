@@ -74,8 +74,9 @@ public struct EventsOverview {
             switch action {
   
             case .onAppear:
-                #warning("Hent events ned her. Ikke vis error hvis det fejler")
-                return .none
+                return .run  { send in
+                    let _ = try await apiClient.getSession()
+                }
                 
             case .binding:
                 return .none

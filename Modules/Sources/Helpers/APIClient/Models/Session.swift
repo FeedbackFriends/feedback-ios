@@ -1,13 +1,13 @@
 import Foundation
 import ComposableArchitecture
 
-public struct Session: Equatable {
+public struct Session: Equatable, Sendable {
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
     public var userType: UserType
     public var role: Role?
 }
 
-public enum UserType: Equatable {
+public enum UserType: Equatable, Sendable {
     case manager(managerData: ManagerData, accountInfo: AccountInfo)
     case participant(accountInfo: AccountInfo)
     case anonymoous
@@ -24,13 +24,13 @@ public enum UserType: Equatable {
     }
 }
 
-public struct AccountInfo: Equatable {
+public struct AccountInfo: Equatable, Sendable {
     public let name: String?
     public let email: String?
     public let phoneNumber: String?
 }
 
-public struct ParticipantEvent: Equatable, Identifiable {
+public struct ParticipantEvent: Equatable, Identifiable, Sendable {
     public let id: UUID
     public let title: String
     public let agenda: String?
@@ -44,18 +44,18 @@ public struct ParticipantEvent: Equatable, Identifiable {
     public let ownerInfo: OwnerInfo
 }
 
-public struct OwnerInfo: Equatable {
+public struct OwnerInfo: Equatable, Sendable {
     public let name: String?
     public let email: String?
     public let phoneNumber: String?
 }
-public struct ParticipantQuestion: Equatable {
+public struct ParticipantQuestion: Equatable, Sendable {
     public let id: UUID
     public let questionText: String
     public let feedbackType: FeedbackType
 }
 
-public struct FeedbackSummary: Equatable {
+public struct FeedbackSummary: Equatable, Sendable {
     public let totalFeedback: Int
     public let verySadPercentage: Double
     public let sadPercentage: Double
@@ -63,7 +63,7 @@ public struct FeedbackSummary: Equatable {
     public let veryHappyPercentage: Double
 }
 
-public struct QuestionFeedbackSummary: Equatable {
+public struct QuestionFeedbackSummary: Equatable, Sendable {
     public let totalFeedback: Int
     public let verySadCount: Int
     public let sadCount: Int
@@ -71,7 +71,7 @@ public struct QuestionFeedbackSummary: Equatable {
     public let veryHappyCount: Int
 }
 
-public struct ManagerQuestion: Equatable, Hashable {
+public struct ManagerQuestion: Equatable, Hashable, Sendable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
@@ -83,7 +83,7 @@ public struct ManagerQuestion: Equatable, Hashable {
     public var newFeedbackForQuestion: Int
 }
 
-public struct ManagerEvent: Equatable, Identifiable {
+public struct ManagerEvent: Equatable, Identifiable, Sendable {
     public let id: UUID
     public var title: String
     public var agenda: String?
@@ -109,7 +109,7 @@ public struct ManagerEvent: Equatable, Identifiable {
     public let ownerInfo: OwnerInfo
 }
 
-public struct ManagerData: Equatable {
+public struct ManagerData: Equatable, Sendable {
     public var managerEvents: IdentifiedArrayOf<ManagerEvent>
 }
 

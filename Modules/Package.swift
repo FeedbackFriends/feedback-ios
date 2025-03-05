@@ -55,7 +55,6 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-openapi-generator", .upToNextMinor(from: "1.7.0")),
         .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "1.8.0")),
         .package(url: "https://github.com/apple/swift-openapi-urlsession", .upToNextMinor(from: "1.0.2")),
-        .package(url: "https://github.com/apple/swift-http-types.git", from: "1.3.1"),
         .package(url: "https://github.com/liamnichols/xcstrings-tool-plugin.git", from: "0.1.0")
     ],
     targets: [
@@ -76,7 +75,6 @@ let package = Package(
         .target(
             name: "DesignSystem",
             dependencies: [
-//                .product(name: "MSAL", package: "microsoft-authentication-library-for-objc"),
                 "Helpers",
                 .product(name: "Lottie", package: "lottie-ios"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),

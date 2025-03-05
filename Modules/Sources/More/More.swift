@@ -80,13 +80,7 @@ public struct More {
             case .destination(.presented(.confirmationDialog(let confirmationDialogAction))):
                 switch confirmationDialogAction {
                 case .logoutConfirmed:
-                    return .run { send in
-                        do {
-                            try authClient.logout()
-                        } catch let error {
-                            await send(.presentError(error))
-                        }
-                    }
+                    return .send(.delegate(.navigateToSignUp))
                 }
                 
             case .onNotificationsButtonTap:

@@ -60,7 +60,6 @@ public struct FeedbackItem {
     
     public init() {}
     
-    @Dependency(\.systemClient.makeImpact) var makeImpact
     @Dependency(\.continuousClock) var clock
     
     public var body: some ReducerOf<Self> {
@@ -78,7 +77,6 @@ public struct FeedbackItem {
                 return .none
                 
             case .onSmileyTapped(let rating):
-                self.makeImpact(.light)
                 state.selectedEmoji = rating
                 state.focusedField = .field
                 return .run { send in
@@ -94,7 +92,7 @@ public struct FeedbackItem {
                     return .send(.delegate(.navigateToIndex(newIndex)))
                 }
                 state.focusedField = nil
-                return .run { send in
+                return .run { [clock] send in
                     try await clock.sleep(for: .seconds(0.6))
                     await send(.delegate(.navigateToIndex(newIndex)), animation: .default)
                 }
@@ -105,7 +103,7 @@ public struct FeedbackItem {
                     return .send(.delegate(.navigateToIndex(newIndex)))
                 }
                 state.focusedField = nil
-                return .run { send in
+                return .run { [clock] send in
                     try await clock.sleep(for: .seconds(0.6))
                     await send(.delegate(.navigateToIndex(newIndex)), animation: .default)
                 }

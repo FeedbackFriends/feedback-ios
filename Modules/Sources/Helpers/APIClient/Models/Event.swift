@@ -1,7 +1,7 @@
 import Foundation
 import OpenAPIURLSession
 
-public struct EventInput: Equatable {
+public struct EventInput: Equatable, Sendable {
     public var title: String
     public var agenda: String?
     public var date: Date
@@ -9,7 +9,7 @@ public struct EventInput: Equatable {
     public var location: String?
     public var questions: [QuestionInput]
     
-    public struct QuestionInput: Equatable, Hashable {
+    public struct QuestionInput: Equatable, Hashable, Sendable {
         
         public var questionText: String
         public var feedbackType: FeedbackType
