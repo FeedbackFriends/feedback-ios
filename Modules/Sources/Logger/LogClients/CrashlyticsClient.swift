@@ -9,16 +9,16 @@ struct CrashlyticsClient: LoggingClient {
         if let context = context {
             Crashlytics.crashlytics().setCustomValue(context, forKey: "context")
         }
-        if minLevel >= level {
+        if level >= minLevel  {
             let error = NSError(
                 domain: NSCocoaErrorDomain,
                 code: -1001,
                 userInfo: ["log": message]
             )
             Crashlytics.crashlytics().record(error: error)
+            assertionFailure("Log above minimum level: \(level), message: \(message), context: \(context ?? "No context")")
         } else {
             Crashlytics.crashlytics().log(message)
-            assertionFailure("Log above minimum level: \(level), message: \(message), context: \(context ?? "No context")")
         }
     }
 }

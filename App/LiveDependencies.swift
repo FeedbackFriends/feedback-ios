@@ -1,4 +1,4 @@
-import DependencyClients
+import Helpers
 import ComposableArchitecture
 import Foundation
 import DesignSystem
@@ -7,7 +7,7 @@ import UIKit
 import DesignSystem
 import Helpers
 
-let isMock = false
+let isMock = infoPlist.MOCK_API
 
 var deviceId: String {
     let key = "deviceId"
@@ -21,10 +21,7 @@ var deviceId: String {
 
 @MainActor
 func startApp() {
-    Task {
-        await registerFonts()
-        setupTheme()
-    }
+    setupTheme()
 }
 
 extension AuthClient: @retroactive DependencyKey {

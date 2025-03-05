@@ -3,7 +3,7 @@ import ComposableArchitecture
 import SwiftUI
 import Helpers
 import FirebaseAuth
-import DependencyClients
+import Helpers
 
 @main
 struct FeedbackFlowApp: App {

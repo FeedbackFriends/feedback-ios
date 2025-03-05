@@ -34,9 +34,15 @@ public extension Error {
         if let urlError = self as? URLError {
             message = urlError.localizedDescription
         }
+        let nsError = self as NSError
+        if let localizedMessage = nsError.userInfo[NSLocalizedDescriptionKey] as? String {
+            message = localizedMessage
+        }
         return LocalizedError(title: title, message: message)
     }
 }
+
+struct LoginFlowCancelled: Error {}
 
 public struct LocalizedError {
     public let title: String

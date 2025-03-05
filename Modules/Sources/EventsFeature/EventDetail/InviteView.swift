@@ -4,26 +4,11 @@ import UIKit
 
 struct InviteView: View {
     let code: String
-    let managerName: String
-    let title: String
+    let inviteLink: String
+    let shareText: String
     @State private var shareSheet: String? = nil
-    
     @Environment(\.dismiss) private var dismiss
-    
-    private var shareText: String {
-        """
-        You are invited to a feedback event '\(title)' with the code: \(code).
-        Join here 
-        \(link)
-        Best
-        \(managerName)
-        """
-    }
-    
-    private var link: String {
-        "https://letsgrow.dk/invite/\(code)"
-    }
-    
+        
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -59,7 +44,7 @@ struct InviteView: View {
     
     private var linkSection: some View {
         VStack(alignment: .leading) {
-            Text(link)
+            Text(inviteLink)
                 .padding(18)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .background(Color.white)
@@ -71,7 +56,7 @@ struct InviteView: View {
     
     private var copyButton: some View {
         Button(action: {
-            shareSheet = link
+            shareSheet = inviteLink
         }) {
             HStack {
                 Image(systemName: "document.on.document")
@@ -113,6 +98,10 @@ struct ShareSheet: UIViewControllerRepresentable {
 }
 
 #Preview {
-    InviteView(code: "1234", managerName: "Manager name", title: "Event title")
+    InviteView(
+        code: "1234",
+        inviteLink: "",
+        shareText: ""
+    )
 }
 

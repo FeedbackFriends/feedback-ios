@@ -32,9 +32,7 @@ public extension Date {
     
     var isBeforeToday: Bool {
         let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
-        let yestedayEnd = calendar.date(byAdding: .day, value: -1, to: today)!
-        // Include only events happening strictly before today
-        return self < yestedayEnd
+        let todayStart = calendar.startOfDay(for: Date())
+        return self < todayStart
     }
 }

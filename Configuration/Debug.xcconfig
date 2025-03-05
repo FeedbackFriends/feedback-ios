@@ -5,7 +5,7 @@ MOCK_API = false
 WEB_BASE_URL = letsgrow.dk
 WEB_SCHEME = https
 
-APPSTORE_ID = 1234
+APPSTORE_ID = 6742420307
 SUPPORT_EMAIL = nicolaidam96@gmail.com
 
 API_BASE_URL = api.letsgrow.dk

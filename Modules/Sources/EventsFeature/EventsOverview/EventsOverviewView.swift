@@ -1,6 +1,6 @@
 import Combine
 import ComposableArchitecture
-import DependencyClients
+import Helpers
 import DesignSystem
 import SwiftUI
 import Helpers
@@ -21,6 +21,7 @@ public struct EventsOverviewView: View {
         let joinEventStore = $store.scope(state: \.destination?.joinEvent, action: \.destination.joinEvent)
         let infoStore = $store.scope(state: \.destination?.info, action: \.destination.info)
         content
+            .onAppear { store.send(.onAppear) }
             .animation(.default, value: store.session)
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
             .background(Color.themeBackground)
@@ -127,7 +128,10 @@ extension EventsOverviewView {
         }
     }
     
-    func meetingManagerScrollView(managerEvent: [ManagerEvent], participantEvents: [ParticipantEvent]) -> some View {
+    func meetingManagerScrollView(
+        managerEvent: [ManagerEvent],
+        participantEvents: [ParticipantEvent]
+    ) -> some View {
         TabView(selection: $store.segmentedControl) {
             ScrollView {
                 VStack {
@@ -325,19 +329,11 @@ extension EventsOverviewView {
                 Divider()
                 HStack(spacing: 12) {
                     
-                    Button(action: {
-                        store.send(.infoButtonTap(event))
-                    }, label: {
-                        HStack {
-                            Image(systemName: "info.circle")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 16, height: 16)
-                            Text("Info")
-                                .font(.montserratSemiBold, 14)
-                        }
-                        .foregroundStyle(Color.themeDarkGray)
-                    })
+                    HStack {
+                        Text("#\(event.pinCode)")
+                            .font(.montserratMedium, 14)
+                    }
+                    .foregroundStyle(Color.themeDarkGray)
                     .frame(maxWidth: .infinity, minHeight: 40)
                     Divider()
                     
@@ -363,6 +359,10 @@ extension EventsOverviewView {
             .foregroundStyle(Color.themeWhite)
             .background(Color.themeWhite)
             .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            store.send(.infoButtonTap(event))
         }
     }
 }

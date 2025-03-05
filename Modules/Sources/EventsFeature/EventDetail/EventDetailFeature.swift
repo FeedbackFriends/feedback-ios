@@ -1,4 +1,4 @@
-import DependencyClients
+import Helpers
 import Combine
 import DesignSystem
 import Foundation
@@ -35,6 +35,21 @@ public struct EventDetailFeature {
             event.title
         }
         @Shared var session: Session
+        var shareText: String {
+        """
+        You are invited to a feedback event '\(event.title)' with the code: \(event.pinCode).
+        Join here 
+        \(inviteLink)
+        Best
+        \(event.ownerInfo.name ?? "")
+        """
+        }
+        
+        var inviteLink: String {
+            @Dependency(\.systemClient) var systemClient
+            return systemClient.inviteUrl(pinCode: event.pinCode).absoluteString
+        }
+
         
         public init(event: ManagerEvent, session: Shared<Session>, destination: Destination.State? = nil) {
             self.event = event

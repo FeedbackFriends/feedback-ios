@@ -1,4 +1,4 @@
-import DependencyClients
+import Helpers
 import ComposableArchitecture
 import SwiftUI
 import DesignSystem
@@ -37,7 +37,11 @@ public struct EventDetailFeatureView: View {
             item: inviteStore
         ) { state in
             state.withState { event in
-                InviteView(code: event.pinCode, managerName: event.ownerInfo.name ?? "", title: event.title)
+                InviteView(
+                    code: event.pinCode,
+                    inviteLink: store.inviteLink,
+                    shareText: store.shareText
+                )
                     .presentationDetents([PresentationDetent.height(350)])
             }
         }

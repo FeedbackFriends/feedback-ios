@@ -5,7 +5,6 @@ import Firebase
 import FirebaseCore
 import FirebaseAuth
 import ComposableArchitecture
-import Helpers
 import Logger
 
 @DependencyClient

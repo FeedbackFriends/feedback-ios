@@ -26,10 +26,10 @@ extension UIFont {
     }
 }
 
-actor FontRegistration {
+class FontRegistration {
     private var didRegisterFonts = false
     
-    func registerFontsIfNeeded() async {
+    func registerFontsIfNeeded() {
         guard !didRegisterFonts else { return }
         didRegisterFonts = true
         do {
@@ -41,10 +41,6 @@ actor FontRegistration {
 }
 
 private let fontRegistration = FontRegistration()
-
-public func registerFonts() async {
-    await fontRegistration.registerFontsIfNeeded()
-}
 
 public extension Font {
     enum FontName: String, CaseIterable, Identifiable {
@@ -65,15 +61,19 @@ public extension Font {
 
 public extension UIFont {
     static func fontz(_ name: Font.FontName, _ size: CGFloat) -> UIFont {
+        fontRegistration.registerFontsIfNeeded()
         return UIFont(name: name.rawValue, size: size)!
     }
 }
 public extension View {
     func font(_ name: Font.FontName, _ size: CGFloat) -> some View {
+        fontRegistration.registerFontsIfNeeded()
         return font(.custom(name.rawValue, size: size))
     }
 }
-struct FontTestView: View, PreviewProvider {
+
+
+struct FontTestView: View {
     var body: some View {
         VStack {
             ForEach(Font.FontName.allCases) {
@@ -82,11 +82,12 @@ struct FontTestView: View, PreviewProvider {
         }
     }
 
-    static var previews: some View {
-        ScrollView {
-            FontTestView()
-            FontTestView()
-                .environment(\.sizeCategory, .accessibilityExtraExtraLarge)
-        }
+}
+
+#Preview {
+    ScrollView {
+        FontTestView()
+        FontTestView()
+            .environment(\.sizeCategory, .accessibilityExtraExtraLarge)
     }
 }

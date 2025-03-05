@@ -1,5 +1,5 @@
 import Combine
-import DependencyClients
+import Helpers
 import Foundation
 import DesignSystem
 import FirebaseAuth
@@ -93,14 +93,14 @@ public struct More {
                 let subject = "Feedback, \(deviceInformation)"
                 let body = ""
                 return .run { send in
-                    await openURL(systemClient.appleMailUrl(subject, body))
+                    await openURL(systemClient.appleMailUrl(subject: subject, body: body))
                 }
                 
             case .onReportBugButtonTap:
                 let subject = "Bug, \(deviceInformation)"
                 let body = ""
                 return .run { send in
-                    await openURL(systemClient.appleMailUrl(subject, body))
+                    await openURL(systemClient.appleMailUrl(subject: subject, body: body))
                 }
                 
             case .onSupportUsButtonTap:

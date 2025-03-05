@@ -1,10 +1,8 @@
 import Combine
 import ComposableArchitecture
-import LoggedInFeature
+import Tabbar
 import Network
 import DesignSystem
-import DependencyClients
-import Helpers
 import Helpers
 import EventsFeature
 import Logger
@@ -12,7 +10,7 @@ import Foundation
 
 @Reducer
 public struct AppCore {
-     
+    
     @Reducer
     public enum Destination {
         case signUp(SignUp)
@@ -101,7 +99,7 @@ public struct AppCore {
         return .run  { send in
             do {
                 let session = try await apiClient.getSession()
-                await send(.getSessionResponse(session), animation: .bouncy)
+                await send(.getSessionResponse(session))
             } catch {
                 await send(.presentError(ErrorType.getSessionError(error)))
             }

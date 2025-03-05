@@ -19,7 +19,6 @@ public struct SharedCloseButton: View {
                 .foregroundColor(.themeDarkGray.opacity(0.6))
                 .padding(8)
                 .background(Color.white, in: Capsule())
-//                .background(Material.regularMaterial, in: Capsule())
         }
     }
 }

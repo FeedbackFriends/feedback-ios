@@ -2,7 +2,7 @@ import ComposableArchitecture
 import SwiftUI
 import Helpers
 import FirebaseAuth
-import LoggedInFeature
+import Tabbar
 import DesignSystem
 
 struct DebugMenuView: View {

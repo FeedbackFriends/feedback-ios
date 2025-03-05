@@ -17,9 +17,6 @@ let package = Package(
             name: "DesignSystem",
             targets: ["DesignSystem"]),
         .library(
-            name: "DependencyClients",
-            targets: ["DependencyClients"]),
-        .library(
             name: "EnterCode",
             targets: ["EnterCode"]),
         .library(
@@ -32,8 +29,8 @@ let package = Package(
             name: "EventsFeature",
             targets: ["EventsFeature"]),
         .library(
-            name: "LoggedInFeature",
-            targets: ["LoggedInFeature"]),
+            name: "Tabbar",
+            targets: ["Tabbar"]),
         .library(
             name: "Helpers",
             targets: ["Helpers"]
@@ -62,8 +59,7 @@ let package = Package(
             name: "AppCore",
             dependencies: [
                 "DesignSystem",
-                "LoggedInFeature",
-                "DependencyClients",
+                "Tabbar",
                 "Helpers",
                 "EventsFeature",
                 "Logger",
@@ -87,29 +83,16 @@ let package = Package(
                 .process("Resources/Lottie")
             ]),
         .target(
-            name: "DependencyClients",
-            dependencies: [
-                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                "Helpers",
-                "Logger",
-
-            ]),
-        .target(
             name: "EnterCode",
             dependencies: [
                 "DesignSystem",
                 "FeedbackFlow",
-                "DependencyClients",
                 "Helpers",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]),
         .target(
             name: "FeedbackFlow",
             dependencies: [
-                "DependencyClients",
                 "DesignSystem",
                 "Helpers",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
@@ -120,7 +103,6 @@ let package = Package(
         .target(
             name: "More",
             dependencies: [
-                "DependencyClients",
                 "DesignSystem",
                 "Helpers",
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
@@ -129,16 +111,14 @@ let package = Package(
         .target(
             name: "EventsFeature",
             dependencies: [
-                "DependencyClients",
                 "DesignSystem",
                 "Helpers",
                 "FeedbackFlow",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]),
         .target(
-            name: "LoggedInFeature",
+            name: "Tabbar",
             dependencies: [
-                "DependencyClients",
                 "DesignSystem",
                 "EnterCode",
                 "EventsFeature",
@@ -155,6 +135,7 @@ let package = Package(
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
                 .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
                 .product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession"),
+                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
                 "Logger",
             ],
             plugins: [.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")]
@@ -177,7 +158,6 @@ let package = Package(
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 "AppCore",
-                "DependencyClients"
             ]
         ),
     ]

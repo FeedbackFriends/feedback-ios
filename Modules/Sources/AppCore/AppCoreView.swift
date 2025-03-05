@@ -1,4 +1,4 @@
-import LoggedInFeature
+import Tabbar
 import ComposableArchitecture
 import SwiftUI
 import DesignSystem
@@ -14,8 +14,10 @@ public struct AppCoreView: View {
     public var body: some View {
         ZStack {
             switch(store.destination) {
+                
             case .isLoading:
                 loadingView
+                
             case .signUp:
                 signUpView
                 
@@ -24,7 +26,6 @@ public struct AppCoreView: View {
                 
             case .loggedIn:
                 tabbarView
-                    .transition(.move(edge: .bottom))
             }
         }
         .onOpenURL { incomingURL in

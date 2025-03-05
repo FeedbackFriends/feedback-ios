@@ -2,12 +2,15 @@ import Foundation
 import Logger
 import ComposableArchitecture
 import FirebaseAuth
-import Helpers
 
 actor UserStateStream {
     private var continuation: AsyncStream<UserState>.Continuation?
     
     func yield(_ state: UserState) {
+        if continuation == nil {
+            @Dependency(\.logClient) var logger
+            logger.log(.error, "UserStateStream yielded but no one is listening")
+        }
         continuation?.yield(state)
     }
     
@@ -66,21 +69,11 @@ public extension AuthClient {
             },
             googleLogin: {
                 let credential = try await firebaseService.startGoogleSignInFlow()
-                guard let currentUser = Auth.auth().currentUser, currentUser.isAnonymous else {
-                    _ = try await Auth.auth().signIn(with: credential)
-                    return
-                }
-                try await currentUser.link(with: credential)
-                _ = try await Auth.auth().signIn(with: credential)
+                try await linkOrSignInWithCredential(credential)
             },
             appleLogin: {
                 let credential = try await firebaseService.startSignInWithAppleFlow()
-                guard let currentUser = Auth.auth().currentUser, currentUser.isAnonymous else {
-                    _ = try await Auth.auth().signIn(with: credential)
-                    return
-                }
-                try await currentUser.link(with: credential)
-                _ = try await Auth.auth().signIn(with: credential)
+                try await linkOrSignInWithCredential(credential)
             },
             logout: {
                 try Auth.auth().signOut()
@@ -90,4 +83,28 @@ public extension AuthClient {
             }
         )
     }
+}
+
+private func linkOrSignInWithCredential(_ credential: AuthCredential) async throws {
+    
+    guard let currentUser = Auth.auth().currentUser else {
+        _ = try await Auth.auth().signIn(with: credential)
+        return
+    }
+    do {
+        if currentUser.isAnonymous {
+            try await currentUser.link(with: credential)
+        } else {
+            try Auth.auth().signOut()
+            _ = try await Auth.auth().signIn(with: credential)
+        }
+    } catch let error as NSError {
+        switch error.code {
+        case AuthErrorCode.credentialAlreadyInUse.rawValue:
+            _ = try await Auth.auth().signIn(with: credential)
+        default:
+            throw error
+        }
+    }
+    
 }

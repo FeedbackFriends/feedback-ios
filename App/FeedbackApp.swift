@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import DependencyClients
+import Helpers
 import AppCore
 import Combine
 import FirebaseAuth
@@ -8,7 +8,7 @@ import FirebasePerformance
 import FirebaseMessaging
 import FirebaseCrashlytics
 import GoogleSignIn
-import LoggedInFeature
+import Tabbar
 import DesignSystem
 import SwiftUI
 import UIKit
@@ -17,7 +17,6 @@ import Firebase
 import UserNotifications
 import EnterCode
 import Logger
-
 
 @main
 struct FeedbackApp: App {
@@ -32,7 +31,6 @@ struct FeedbackApp: App {
     }
 }
 
-
 final class AppDelegate: NSObject, UIApplicationDelegate {
     
     let intialStore = Store(
@@ -40,7 +38,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     ) {
         AppCore()
     }
-    
     
     let gcmMessageIDKey = "gcm.message_id"
     
@@ -68,6 +65,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 }
 
 extension AppDelegate: MessagingDelegate {
+    
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
         intialStore.send(.appDelegate(.didReceiveRegistrationToken(fcmToken)))
     }
@@ -88,8 +86,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler([[.banner]])
     }
     
-    
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        
     }
 }
 
