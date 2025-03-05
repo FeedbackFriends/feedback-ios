@@ -96,8 +96,8 @@ private extension MoreView {
                 store.send(.updateProfileButtonTap)
             } label: {
                 VStack(alignment: .leading) {
-                    Text(name ?? "Name not found")
-                        .font(.montserratMedium, 18)
+                    Text(name ?? "Not found")
+                        .font(.montserratRegular, 16)
                     HStack {
                         Image(systemName: "person.circle.fill")
                             .resizable()
@@ -107,8 +107,8 @@ private extension MoreView {
                             .background(Color(.systemGray5))
                             .clipShape(Circle())
                         VStack(alignment: .leading, spacing: 4) {
-                            Text(email ?? "Email not found")
-                            Text(phoneNumber ?? "Phone number not found")
+                            Text(email ?? "Not found")
+                            Text(phoneNumber ?? "Not found")
                         }
                         .font(.montserratMedium, 10)
                         .foregroundColor(Color(.systemGray))
@@ -122,10 +122,6 @@ private extension MoreView {
                     }
                 }
             }
-        }
-        header: {
-            Text("Profile")
-                .sectionHeaderStyle()
         }
     }
     
@@ -308,37 +304,6 @@ private extension MoreView {
     }
 }
 
-struct SFIconModifier: ViewModifier {
-    var size: CGFloat
-    var weight: Font.Weight
-    var padding: CGFloat
-    var backgroundColor: Color
-    var foregroundColor: Color
-    
-    func body(content: Content) -> some View {
-        content
-            .font(.system(size: size, weight: weight))
-            .aspectRatio(contentMode: .fill)
-            .padding(padding)
-            .background(backgroundColor)
-            .clipShape(Circle())
-            .foregroundStyle(foregroundColor)
-    }
-}
-
-// Extension for easy usage
-extension View {
-    func sfIconStyle(
-        size: CGFloat = 12,
-        weight: Font.Weight = .bold,
-        padding: CGFloat = 6,
-        backgroundColor: Color = Color(.systemGray5),
-        foregroundColor: Color = Color(.systemGray)
-    ) -> some View {
-        self.modifier(SFIconModifier(size: size, weight: weight, padding: padding, backgroundColor: backgroundColor, foregroundColor: foregroundColor))
-    }
-}
-
 public func listElement(
     image: String,
     label: String,
@@ -346,9 +311,14 @@ public func listElement(
 ) -> some View {
     HStack {
         Image(systemName: image)
-            .sfIconStyle()
+            .font(.system(size: 12, weight: .medium))
+            .aspectRatio(contentMode: .fill)
+            .padding(6)
+//            .background(Color(.systemGray5))
+//            .clipShape(Circle())
+            .foregroundStyle(Color.themeDarkGray)
         Text(label)
     }
     .font(.montserratRegular, 13)
-    .foregroundColor(foregroundColor)
+    
 }

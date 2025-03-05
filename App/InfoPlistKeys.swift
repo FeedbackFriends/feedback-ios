@@ -4,7 +4,7 @@ import Foundation
 struct InfoPlistKeys {
     let COMPILER_FLAG: CompilerFlag
     let GOOGLE_SERVICE_PLIST: String
-    let MOCK_API: Bool
+    let MOCK_API: String
     let API_BASE_URL: String
     let API_SCHEME: String
     let WEB_BASE_URL: String

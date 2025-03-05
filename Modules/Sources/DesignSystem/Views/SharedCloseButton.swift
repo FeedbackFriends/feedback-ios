@@ -14,11 +14,11 @@ public struct SharedCloseButton: View {
         } label: {
             Image(systemName: "xmark")
                 .resizable()
-                .fontWeight(.bold)
-                .frame(width: 14, height: 14, alignment: .center)
-                .foregroundColor(.themeDarkGray.opacity(0.6))
-                .padding(8)
-                .background(Color.white, in: Capsule())
+                .scaledToFit()
+                .frame(width: 12, height: 12)
+                .padding(2)
+            
         }
+        .buttonStyle(IconToolbarStyle())
     }
 }

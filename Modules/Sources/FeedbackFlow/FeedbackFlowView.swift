@@ -2,7 +2,7 @@ import DesignSystem
 import ComposableArchitecture
 import SwiftUI
 import Helpers
-import Helpers
+import DesignSystem
 
 public struct FeedbackFlowView: View {
     
@@ -24,11 +24,13 @@ public struct FeedbackFlowView: View {
                 Button {
                     store.send(.infoButtonTap)
                 } label: {
-                    Image(systemName: "info.circle.fill")
+                    Image(systemName: "info")
                         .resizable()
-                        .frame(width: 20, height: 20)
-                        .foregroundColor(.themeDarkGray)
+                        .scaledToFit()
+                        .frame(width: 12, height: 12)
+                        .padding(2)
                 }
+                .buttonStyle(IconToolbarStyle())
             }
             .overlay {
                 Text(store.feedbackSession.title)

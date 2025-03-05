@@ -7,7 +7,7 @@ import UIKit
 import DesignSystem
 import Helpers
 
-let isMock = infoPlist.MOCK_API
+let isMock = Bool(infoPlist.MOCK_API)!
 
 var deviceId: String {
     let key = "deviceId"

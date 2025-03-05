@@ -332,7 +332,9 @@ extension EventsOverviewView {
                     HStack {
                         Text("#\(event.pinCode)")
                             .font(.montserratMedium, 14)
+                        Spacer()
                     }
+                    .padding(.horizontal, Theme.padding)
                     .foregroundStyle(Color.themeDarkGray)
                     .frame(maxWidth: .infinity, minHeight: 40)
                     Divider()
