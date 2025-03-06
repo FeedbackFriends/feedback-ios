@@ -7,7 +7,7 @@ let package = Package(
     name: "Modules",
     platforms: [
         .macOS(.v14),
-        .iOS("17.4")
+        .iOS("18")
     ],
     products: [
         .library(

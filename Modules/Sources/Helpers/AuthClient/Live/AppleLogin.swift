@@ -19,10 +19,10 @@ class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
             do {
                 
                 guard let appleIDToken = appleIDCredential.identityToken else {
-                    throw AuthServiceError.identityTokenMissing
+                    throw AuthenticationError.identityTokenMissing
                 }
                 guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                    throw AuthServiceError.tokenSerializationFailed
+                    throw AuthenticationError.tokenSerializationFailed
                 }
                 let credential = OAuthProvider.credential(
                     providerID: .apple,
@@ -37,6 +37,6 @@ class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-        continuation?.resume(throwing: AuthServiceError.appleSignInError(error))
+        continuation?.resume(throwing: error)
     }
 }

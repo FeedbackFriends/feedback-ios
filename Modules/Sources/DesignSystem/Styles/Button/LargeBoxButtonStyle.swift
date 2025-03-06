@@ -43,6 +43,5 @@ public struct LargeBoxButtonStyle: ButtonStyle {
         .background(Color.themeWhite)
         .cornerRadius(Theme.cornerRadius)
         .foregroundColor(color)
-        .opacity(configuration.isPressed ? 0.4 : 1)
     }
 }

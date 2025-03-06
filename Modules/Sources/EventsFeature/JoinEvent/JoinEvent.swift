@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import DesignSystem
 import Helpers
+import Foundation
 
 @Reducer
 public struct JoinEvent {
@@ -34,7 +35,11 @@ public struct JoinEvent {
         case presentError(Error)
         case closeButtonTap
         case joinButtonTap
-        case joinSuccess
+        case joinSuccess(pinCode: String)
+        case delegate(Delegate)
+        public enum Delegate {
+            case navigateToAttendingEvent(withPinCode: String)
+        }
     }
     
     
@@ -68,18 +73,21 @@ public struct JoinEvent {
                 
             case .joinButtonTap:
                 state.joinRequestInFlight = true
-                return .run { [eventCode = state.inputCode] send in
+                return .run { [pinCode = state.inputCode] send in
                     do {
-                        _ = try await apiClient.joinEvent(eventCode: eventCode)
-                        await send(.joinSuccess)
+                        _ = try await apiClient.joinEvent(eventCode: pinCode)
+                        await send(.joinSuccess(pinCode: pinCode))
                     } catch {
                         await send(.presentError(error))
                     }
                 }
                 
-            case .joinSuccess:
+            case .joinSuccess(let pinCode):
                 state.joinRequestInFlight = false
                 state.showSuccessOverlay = true
+                return .send(.delegate(.navigateToAttendingEvent(withPinCode: pinCode)))
+                
+            case .delegate:
                 return .none
             }
         }

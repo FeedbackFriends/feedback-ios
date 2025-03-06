@@ -6,7 +6,6 @@ import Helpers
 import ComposableArchitecture
 import Helpers
 import ComposableArchitecture
-import SwiftUI
 import Helpers
 
 @Reducer
@@ -27,7 +26,6 @@ public struct SignUp {
         var disableContinueButton: Bool {
             selectedUserType == nil
         }
-        var navigationTitle = "Sign up"
 
         public init(
             destination: Destination.State? = nil
@@ -72,6 +70,9 @@ public struct SignUp {
                     do {
                         _ = try await authClient.appleLogin()
                     }
+                    catch let error as AuthenticationError where error == .loginCancelled {
+                        return
+                    }
                     catch let error {
                         await send(.presentError(error))
                     }
@@ -81,6 +82,9 @@ public struct SignUp {
                 return .run { send in
                     do {
                         _ = try await authClient.googleLogin()
+                    }
+                    catch let error as AuthenticationError where error == .loginCancelled {
+                        return
                     }
                     catch let error {
                         await send(.presentError(error))

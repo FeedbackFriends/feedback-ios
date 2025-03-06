@@ -21,7 +21,7 @@ public struct JoinEventView: View {
                     store.send(.closeButtonTap)
                 }
             }
-            .padding(.top, 10)
+            .padding(.top, 20)
             Text("Event code")
                 .padding(.top, 20)
                 .font(.montserratBold, 18)
@@ -50,20 +50,21 @@ public struct JoinEventView: View {
         .onAppear { isFocused = true }
         .padding(.all, Theme.padding)
         .multilineTextAlignment(.center)
-        .frame(maxWidth: .infinity, alignment: .center)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
         .foregroundStyle(Color.themeDarkGray.gradient)
-        .background(Color.themeBackground.ignoresSafeArea())
         .background {
             /// this makes the keyboard to appear with a single animation
             FirstResponderFieldView()
                 .frame(width: 0, height: 0)
                 .opacity(0)
+                .background(Color.themeBackground.ignoresSafeArea())
         }
         .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
         .successOverlay(
             message: "Event joined",
             show: $store.showSuccessOverlay
         )
+        .background(Color.themeBackground.ignoresSafeArea())
     }
 }
 

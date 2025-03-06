@@ -5,16 +5,7 @@ import FirebaseCore
 import FirebaseAuth
 import GoogleSignIn
 
-enum AuthServiceError: Error {
-    case invalidState(String)
-    case identityTokenMissing
-    case tokenSerializationFailed
-    case firebaseSignInFailed(String)
-    case appleSignInError(Error)
-}
-
 class FirebaseService {
-    
     
     @MainActor
     func startSignInWithAppleFlow() async throws -> AuthCredential {
@@ -32,37 +23,52 @@ class FirebaseService {
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = appleLogin
         authorizationController.performRequests()
-
-        return try await withCheckedThrowingContinuation { continuation in
-            appleLogin.continuation = continuation
+        
+        do {
+            return try await withCheckedThrowingContinuation { continuation in
+                appleLogin.continuation = continuation
+            }
+        }
+        catch let error as NSError where error.domain == ASAuthorizationErrorDomain && error.code == ASAuthorizationError.canceled.rawValue {
+            throw AuthenticationError.loginCancelled
+        }
+         catch {
+            throw error
         }
     }
     
     @MainActor
     func startGoogleSignInFlow() async throws -> AuthCredential {
-        guard
-            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-            let rootViewController = windowScene.windows.first?.rootViewController
-        else {
-            throw AuthenticationError.couldNotFindWindow
+        do {
+            guard
+                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                let rootViewController = windowScene.windows.first?.rootViewController
+            else {
+                throw AuthenticationError.couldNotFindWindow
+            }
+            
+            guard let deviceId = FirebaseApp.app()?.options.clientID else {
+                throw AuthenticationError.couldNotFindClientID
+            }
+            
+            let config = GIDConfiguration(clientID: deviceId)
+            
+            GIDSignIn.sharedInstance.configuration = config
+            let googleResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
+            
+            guard let idToken = googleResult.user.idToken?.tokenString else {
+                throw URLError(URLError.Code.unknown)
+            }
+            
+            return GoogleAuthProvider.credential(
+                withIDToken: idToken,
+                accessToken: googleResult.user.accessToken.tokenString
+            )
+        } catch let error as NSError where error.domain == GIDSignInError.errorDomain && error.code == GIDSignInError.canceled.rawValue {
+            throw AuthenticationError.loginCancelled
         }
-        
-        guard let deviceId = FirebaseApp.app()?.options.clientID else {
-            throw AuthenticationError.couldNotFindClientID
+        catch {
+            throw error
         }
-        
-        let config = GIDConfiguration(clientID: deviceId)
-        
-        GIDSignIn.sharedInstance.configuration = config
-        let googleResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)
-        
-        guard let idToken = googleResult.user.idToken?.tokenString else {
-            throw URLError(URLError.Code.unknown)
-        }
-        
-        return GoogleAuthProvider.credential(
-            withIDToken: idToken,
-            accessToken: googleResult.user.accessToken.tokenString
-        )
     }
 }

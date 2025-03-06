@@ -81,6 +81,7 @@ struct TagFilterView: View {
             .shadow(color: .black.opacity(0.08), radius: 2)
             Spacer()
         }
+        .sensoryFeedback(.selection, trigger: filter)
         .font(.montserratMedium, 13)
         .padding(.horizontal, 16)
     }

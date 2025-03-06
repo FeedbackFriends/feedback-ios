@@ -69,11 +69,11 @@ public extension AuthClient {
             },
             googleLogin: {
                 let credential = try await firebaseService.startGoogleSignInFlow()
-                try await linkOrSignInWithCredential(credential)
+                try await credential.linkOrSignInWithCredential()
             },
             appleLogin: {
                 let credential = try await firebaseService.startSignInWithAppleFlow()
-                try await linkOrSignInWithCredential(credential)
+                try await credential.linkOrSignInWithCredential()
             },
             logout: {
                 try Auth.auth().signOut()
@@ -85,26 +85,26 @@ public extension AuthClient {
     }
 }
 
-private func linkOrSignInWithCredential(_ credential: AuthCredential) async throws {
-    
-    guard let currentUser = Auth.auth().currentUser else {
-        _ = try await Auth.auth().signIn(with: credential)
-        return
-    }
-    do {
-        if currentUser.isAnonymous {
-            try await currentUser.link(with: credential)
-        } else {
-            try Auth.auth().signOut()
-            _ = try await Auth.auth().signIn(with: credential)
+extension AuthCredential {
+    func linkOrSignInWithCredential () async throws {
+        guard let currentUser = Auth.auth().currentUser else {
+            _ = try await Auth.auth().signIn(with: self)
+            return
         }
-    } catch let error as NSError {
-        switch error.code {
-        case AuthErrorCode.credentialAlreadyInUse.rawValue:
-            _ = try await Auth.auth().signIn(with: credential)
-        default:
-            throw error
+        do {
+            if currentUser.isAnonymous {
+                try await currentUser.link(with: self)
+            } else {
+                try Auth.auth().signOut()
+                _ = try await Auth.auth().signIn(with: self)
+            }
+        } catch let error as NSError {
+            switch error.code {
+            case AuthErrorCode.credentialAlreadyInUse.rawValue:
+                _ = try await Auth.auth().signIn(with: self)
+            default:
+                throw error
+            }
         }
     }
-    
 }

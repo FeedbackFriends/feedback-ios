@@ -153,6 +153,7 @@ public struct FeedbackItemView: View {
         .onTapGesture {
             store.send(.onTapOutsideTextfield)
         }
+        .sensoryFeedback(.selection, trigger: store.selectedEmoji)
         .synchronize($store.focusedField, self.$focusedField)
     }
 }

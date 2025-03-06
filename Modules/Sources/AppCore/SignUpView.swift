@@ -24,7 +24,7 @@ public struct SignUpView: View {
             .navigationBarTitleDisplayMode(.large)
             .background(Color.themeBackground)
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-            .navigationTitle(store.navigationTitle)
+            .navigationTitle("Sign up")
             .sheet(
                 item: $store.scope(
                     state: \.destination?.selectUserType,

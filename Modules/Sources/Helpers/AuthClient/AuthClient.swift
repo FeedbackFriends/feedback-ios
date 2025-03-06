@@ -23,12 +23,5 @@ public enum UserState: Sendable {
 }
 
 public enum AuthenticationError: Error {
-    case notSignedIn, couldNotFindWindow, couldNotFindClientID
+    case notSignedIn, couldNotFindWindow, couldNotFindClientID, loginCancelled, identityTokenMissing, tokenSerializationFailed
 }
-
-public extension AuthClient {
-    enum CustomError: Error {
-        case loginCancelled
-    }
-}
-

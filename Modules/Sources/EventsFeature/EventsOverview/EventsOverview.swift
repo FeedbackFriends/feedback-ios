@@ -35,6 +35,7 @@ public struct EventsOverview {
             previousEnabled: false
         )
         public var startFeedbackInFlight: String? // pinCode
+        public var attendingEventsScrollPosition: UUID?
         public init(
             destination: Destination.State? = nil,
             session: Shared<Session>,
@@ -72,7 +73,11 @@ public struct EventsOverview {
         BindingReducer()
         Reduce { state, action in
             switch action {
-  
+                
+            case .destination(.presented(.joinEvent(.delegate(.navigateToAttendingEvent(let pinCode))))):
+                state.segmentedControl = .attending
+                return .none
+                
             case .onAppear:
                 return .run  { send in
                     let _ = try await apiClient.getSession()

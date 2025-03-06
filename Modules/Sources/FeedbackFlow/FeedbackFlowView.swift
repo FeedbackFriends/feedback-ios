@@ -76,6 +76,7 @@ public struct FeedbackFlowView: View {
                     ownerphoneNumber: store.feedbackSession.ownerInfo.phoneNumber,
                     date: store.feedbackSession.date
                 )
+                .presentationDetents([.medium, .large])
             }
         )
         .statusBar(hidden: true)

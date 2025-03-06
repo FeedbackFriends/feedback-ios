@@ -59,6 +59,7 @@ public struct EventsOverviewView: View {
                         ownerphoneNumber: event.ownerInfo.phoneNumber,
                         date: event.date
                     )
+                    .presentationDetents([.medium, .large])
                 }
             }
     }
@@ -147,6 +148,7 @@ extension EventsOverviewView {
             
             ScrollView {
                 attendingListView(participantEvents)
+//                    .scrollPosition(store.attendingEventsScrollPosition)
             }
             .tag(SegmentedControlMenu.attending)
         }
