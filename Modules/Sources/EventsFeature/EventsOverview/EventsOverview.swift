@@ -4,7 +4,7 @@ import Foundation
 import DesignSystem
 import SwiftUI
 import Helpers
-import Helpers
+import Logger
 
 @Reducer
 public struct EventsOverview {
@@ -17,6 +17,8 @@ public struct EventsOverview {
         case joinEvent(JoinEvent)
         @ReducerCaseIgnored
         case info(ParticipantEvent)
+        @ReducerCaseIgnored
+        case startFeedbackConfirmation(String)
         public enum AlertAction {
             case confirmedToCreateUser
         }
@@ -34,7 +36,7 @@ public struct EventsOverview {
             comingUpEnabled: false,
             previousEnabled: false
         )
-        public var startFeedbackInFlight: String? // pinCode
+        public var startFeedbackPincodeInFlight: String?
         public var attendingEventsScrollPosition: UUID?
         public init(
             destination: Destination.State? = nil,
@@ -57,6 +59,7 @@ public struct EventsOverview {
         case startFeedbackButtonTap(pinCode: String)
         case delegate(Delegate)
         case infoButtonTap(ParticipantEvent)
+        case confirmedToStartFeedback(pinCode: String)
         public enum Delegate {
             case startFeedback(pinCode: String)
             case navigateToSignUp
@@ -74,8 +77,13 @@ public struct EventsOverview {
         Reduce { state, action in
             switch action {
                 
+            case .confirmedToStartFeedback(pinCode: let pinCode):
+                return .send(.startFeedbackButtonTap(pinCode: pinCode))
+                
             case .destination(.presented(.joinEvent(.delegate(.navigateToAttendingEvent(let pinCode))))):
                 state.segmentedControl = .attending
+                state.attendingEventsScrollPosition = state.session.participantEvents.first(where: { $0.pinCode == pinCode })?.id ?? nil
+                state.destination = .startFeedbackConfirmation(pinCode)
                 return .none
                 
             case .onAppear:
@@ -144,7 +152,7 @@ public struct EventsOverview {
                 return .none
                 
             case .startFeedbackButtonTap(pinCode: let pinCode):
-                state.startFeedbackInFlight = pinCode
+                state.startFeedbackPincodeInFlight = pinCode
                 return .send(.delegate(.startFeedback(pinCode: pinCode)))
                 
             case .delegate:

@@ -17,7 +17,10 @@
 		7A64E61C2D554DF80093C245 /* InfoPlistKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6192D554DF80093C245 /* InfoPlistKeys.swift */; };
 		7A8892242D2FAE6A00B0276B /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = B1AD719D28D9C85600CC44B4 /* AppCore */; };
 		7A8892262D2FAE6A00B0276B /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
+		7AB225412D7B2B89002BEF81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB225402D7B2B89002BEF81 /* AppDelegate.swift */; };
 		7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
+		7AC03C242D7A126B009A06C7 /* LiveClients in Frameworks */ = {isa = PBXBuildFile; productRef = 7AC03C232D7A126B009A06C7 /* LiveClients */; };
+		7AC03C262D7A4CE6009A06C7 /* DebugMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */; };
 		B1057F382843FD8600B9EE2F /* FeedbackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1057F372843FD8600B9EE2F /* FeedbackApp.swift */; };
 		B1057F3C2843FD8700B9EE2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
 		B1057F3F2843FD8700B9EE2F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
@@ -44,7 +47,6 @@
 		2892AA372C0F89C600F12E83 /* FeedbackFlowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackFlowApp.swift; sourceTree = "<group>"; };
 		2892AA3B2C0F89C700F12E83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2892AA3E2C0F89C700F12E83 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		7A1238272D36B6F80090E09B /* Feedback.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Feedback.entitlements; sourceTree = "<group>"; };
 		7A16D2E42D5413C200F26994 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7A64E6182D554DF80093C245 /* InfoDictionaryOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDictionaryOwner.swift; sourceTree = "<group>"; };
 		7A64E6192D554DF80093C245 /* InfoPlistKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPlistKeys.swift; sourceTree = "<group>"; };
@@ -52,7 +54,9 @@
 		7A67364F2D6F5EA300B392DD /* Mock.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Mock.xcconfig; sourceTree = "<group>"; };
 		7A6736502D6F5EA300B392DD /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7A6736512D6F5EA300B392DD /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
+		7AB225402D7B2B89002BEF81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
+		7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugMenuView.swift; sourceTree = "<group>"; };
 		7AC4A9EA2D2FA71D004DF626 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 		7AE155DC2D26A31100440870 /* Lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AE156202D26AD4900440870 /* OpenApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +113,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A8892242D2FAE6A00B0276B /* AppCore in Frameworks */,
+				7AC03C242D7A126B009A06C7 /* LiveClients in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,7 +168,6 @@
 		B1057F2B2843FD8600B9EE2F = {
 			isa = PBXGroup;
 			children = (
-				7A1238272D36B6F80090E09B /* Feedback.entitlements */,
 				7AC4A9EA2D2FA71D004DF626 /* Modules */,
 				28E304DE2C9041BC0029C2A5 /* GoogleServiceInfoPlists */,
 				284234342B488E1E0083C9E8 /* ci_scripts */,
@@ -191,6 +195,7 @@
 		B1057F362843FD8600B9EE2F /* App */ = {
 			isa = PBXGroup;
 			children = (
+				7AB225402D7B2B89002BEF81 /* AppDelegate.swift */,
 				B1057F372843FD8600B9EE2F /* FeedbackApp.swift */,
 				B1057F492843FE8000B9EE2F /* Theme.swift */,
 				280DA2DD29A1361400B6E04D /* LiveDependencies.swift */,
@@ -199,6 +204,7 @@
 				7A64E6182D554DF80093C245 /* InfoDictionaryOwner.swift */,
 				7A64E6192D554DF80093C245 /* InfoPlistKeys.swift */,
 				7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */,
+				7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -320,6 +326,7 @@
 			name = Feedback;
 			packageProductDependencies = (
 				B1AD719D28D9C85600CC44B4 /* AppCore */,
+				7AC03C232D7A126B009A06C7 /* LiveClients */,
 			);
 			productName = Feedback;
 			productReference = B1057F342843FD8600B9EE2F /* Lets Grow.app */;
@@ -505,7 +512,9 @@
 				7A64E61C2D554DF80093C245 /* InfoPlistKeys.swift in Sources */,
 				B1057F382843FD8600B9EE2F /* FeedbackApp.swift in Sources */,
 				280DA2DE29A1361400B6E04D /* LiveDependencies.swift in Sources */,
+				7AB225412D7B2B89002BEF81 /* AppDelegate.swift in Sources */,
 				B1057F4A2843FE8000B9EE2F /* Theme.swift in Sources */,
+				7AC03C262D7A4CE6009A06C7 /* DebugMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -545,6 +554,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMPILER_FLAG = debug;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -584,6 +594,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Feedback.entitlements;
 				CODE_SIGN_STYLE = Automatic;
+				COMPILER_FLAG = debug;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
@@ -1477,6 +1488,10 @@
 		285F02882C12328F00AE8942 /* FeedbackFlow */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FeedbackFlow;
+		};
+		7AC03C232D7A126B009A06C7 /* LiveClients */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LiveClients;
 		};
 		B1AD719D28D9C85600CC44B4 /* AppCore */ = {
 			isa = XCSwiftPackageProductDependency;

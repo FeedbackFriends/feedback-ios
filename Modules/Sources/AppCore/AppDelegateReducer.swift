@@ -1,7 +1,5 @@
 import ComposableArchitecture
 import Helpers
-import Helpers
-import Helpers
 import Logger
 import Foundation
 
@@ -17,11 +15,9 @@ public struct AppDelegateReducer {
         case didReceiveRegistrationToken(String?)
         case didReceiveNotification(NotificationType)
         case authenticationStateChanged(UserState)
-        case setupStateListener
         public enum NotificationType {
             case startFeedback(code: Int, email: String)
-            case viewMeeting(meetingID: Int, email: String)
-            case teamInvite(email: String)
+            case viewEvent(eventId: Int, email: String)
         }
     }
     
@@ -39,11 +35,9 @@ public struct AppDelegateReducer {
                 return .none
                 
             case .didFinishLaunchingWithOptions(let deviceId):
-                logger.addCrashlyticsClient(deviceId: deviceId, minLevel: .error)
-                logger.addOSLogClient(subsystem: Bundle.main.bundleIdentifier!, category: "LoggingClient")
                 return .run { send in
+                    await authClient.setupStateListener()
                     let userStateChangedStream = await authClient.userStateChanged()
-                    await send(.setupStateListener)
                     for await loggedInUser in userStateChangedStream {
                         await send(.authenticationStateChanged(loggedInUser))
                     }
@@ -55,22 +49,7 @@ public struct AppDelegateReducer {
                 }
                 
             case .didReceiveNotification(_):
-                fatalError("Notifications not implemented")
-//                switch notification {
-//                    
-//                case .startFeedback(code: let code, email: let email):
-//                    fatalError("Todo")
-//                case .viewMeeting(meetingID: let meetingID, email: let email):
-//                    fatalError("Todo")
-//                case .teamInvite(email: let email):
-//                    fatalError("Todo")
-//                }
-//                return .none
-                
-            case .setupStateListener:
-                return .run { send in
-                    await authClient.setupStateListener()
-                }
+                return .none
             }
         }
     }

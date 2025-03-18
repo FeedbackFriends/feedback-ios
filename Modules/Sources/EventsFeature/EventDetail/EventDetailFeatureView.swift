@@ -65,7 +65,7 @@ public struct EventDetailFeatureView: View {
         }
         .sheet(item: deleteConfirmationStore) { store in
             DeleteConfirmationView(store: store)
-            .presentationDetents([.height(300)])
+                .presentationDetents([.height(300)])
         }
     }
 }

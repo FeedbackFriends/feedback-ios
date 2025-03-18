@@ -21,7 +21,8 @@ struct DeleteConfirmationView: View {
                         Button("Delete") {
                             store.send(.deleteButtonTap)
                         }
-                        .buttonStyle(LargeBoxButtonStyle(isLoading: store.deleteEventInFlight, color: Color.themeRed))
+                        .buttonStyle(LargeBoxButtonStyle(color: Color.themeRed))
+                        .isLoading(store.deleteEventInFlight)
                         
                         Button("Cancel") {
                             store.send(.cancelButtonTap)
@@ -62,7 +63,14 @@ struct DeleteConfirmationView: View {
         showDeleteConfirmation = true
     }
     .sheet(isPresented: $showDeleteConfirmation) {
-        DeleteConfirmationView(store: .init(initialState: .init(session: .init(value: .mock()), eventId: UUID()), reducer: { DeleteConfirmation() }))
-            .presentationDetents([.medium])
+        DeleteConfirmationView(
+            store: .init(
+                initialState: .init(session: .init(value: .mock()), eventId: UUID()),
+                reducer: {
+                    DeleteConfirmation()
+                }
+            )
+        )
+            
     }
 }

@@ -17,11 +17,6 @@ public struct EnterCodeView: View {
         content
             .onTapGesture(perform: hideKeyboard)
             .background(Color.themeBackground.ignoresSafeArea())
-            .sheet(item: $store.scope(state: \.destination?.notificationPermission, action: \.destination.notificationPermission), content: { _ in
-                UserNotificationPermission {
-                    store.send(.onContinueNotificationPermissionButtonTap)
-                }
-            })
     }
 }
 
@@ -56,7 +51,7 @@ private extension EnterCodeView {
                             store.send(.startFeedbackButtonTap)
                         }
                         .disabled(store.disableStartFeedbackButton)
-                        .isLoading(store.startFeedbackInFlight)
+                        .isLoading(store.startFeedbackPincodeInFlight)
                         .buttonStyle(LargeButtonStyle())
                         .padding(.top, 12)
                         Spacer()

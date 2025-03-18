@@ -1,4 +1,7 @@
 import FirebaseCrashlytics
+import Helpers
+import FirebaseCrashlytics
+import Logger
 
 struct CrashlyticsClient: LoggingClient {
     let minLevel: SeverityLevel

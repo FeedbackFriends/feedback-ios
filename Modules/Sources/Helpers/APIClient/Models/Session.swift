@@ -5,6 +5,11 @@ public struct Session: Equatable, Sendable {
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
     public var userType: UserType
     public var role: Role?
+    public init(participantEvents: IdentifiedArrayOf<ParticipantEvent>, userType: UserType, role: Role? = nil) {
+        self.participantEvents = participantEvents
+        self.userType = userType
+        self.role = role
+    }
 }
 
 public enum UserType: Equatable, Sendable {
@@ -20,7 +25,6 @@ public enum UserType: Equatable, Sendable {
         case .anonymoous:
             return nil
         }
-
     }
 }
 
@@ -28,6 +32,11 @@ public struct AccountInfo: Equatable, Sendable {
     public let name: String?
     public let email: String?
     public let phoneNumber: String?
+    public init(name: String?, email: String?, phoneNumber: String?) {
+        self.name = name
+        self.email = email
+        self.phoneNumber = phoneNumber
+    }
 }
 
 public struct ParticipantEvent: Equatable, Identifiable, Sendable {
@@ -35,32 +44,83 @@ public struct ParticipantEvent: Equatable, Identifiable, Sendable {
     public let title: String
     public let agenda: String?
     public let date: Date
-    // durationInMinutes: Int
     public let pinCode: String
     public let location: String?
     public let durationInMinutes: Int
     public let questions: [ParticipantQuestion]
     public let feedbackSubmitted: Bool
     public let ownerInfo: OwnerInfo
+    public let recentlyJoined: Bool
+    
+    public init(
+        id: UUID,
+        title: String,
+        agenda: String?,
+        date: Date,
+        pinCode: String,
+        location: String?,
+        durationInMinutes: Int,
+        questions: [ParticipantQuestion],
+        feedbackSubmitted: Bool,
+        ownerInfo: OwnerInfo,
+        recentlyJoined: Bool
+    ) {
+        self.id = id
+        self.title = title
+        self.agenda = agenda
+        self.date = date
+        self.pinCode = pinCode
+        self.location = location
+        self.durationInMinutes = durationInMinutes
+        self.questions = questions
+        self.feedbackSubmitted = feedbackSubmitted
+        self.ownerInfo = ownerInfo
+        self.recentlyJoined = recentlyJoined
+    }
 }
 
 public struct OwnerInfo: Equatable, Sendable {
     public let name: String?
     public let email: String?
     public let phoneNumber: String?
+    public init(name: String?, email: String?, phoneNumber: String?) {
+        self.name = name
+        self.email = email
+        self.phoneNumber = phoneNumber
+    }
 }
 public struct ParticipantQuestion: Equatable, Sendable {
     public let id: UUID
     public let questionText: String
     public let feedbackType: FeedbackType
+    public init(id: UUID, questionText: String, feedbackType: FeedbackType) {
+        self.id = id
+        self.questionText = questionText
+        self.feedbackType = feedbackType
+    }
 }
 
 public struct FeedbackSummary: Equatable, Sendable {
+
     public let totalFeedback: Int
     public let verySadPercentage: Double
     public let sadPercentage: Double
     public let happyPercentage: Double
     public let veryHappyPercentage: Double
+    
+    public init(
+        totalFeedback: Int,
+        verySadPercentage: Double,
+        sadPercentage: Double,
+        happyPercentage: Double,
+        veryHappyPercentage: Double
+    ) {
+        self.totalFeedback = totalFeedback
+        self.verySadPercentage = verySadPercentage
+        self.sadPercentage = sadPercentage
+        self.happyPercentage = happyPercentage
+        self.veryHappyPercentage = veryHappyPercentage
+    }
 }
 
 public struct QuestionFeedbackSummary: Equatable, Sendable {
@@ -69,6 +129,14 @@ public struct QuestionFeedbackSummary: Equatable, Sendable {
     public let sadCount: Int
     public let happyCount: Int
     public let veryHappyCount: Int
+    
+    public init(totalFeedback: Int, verySadCount: Int, sadCount: Int, happyCount: Int, veryHappyCount: Int) {
+        self.totalFeedback = totalFeedback
+        self.verySadCount = verySadCount
+        self.sadCount = sadCount
+        self.happyCount = happyCount
+        self.veryHappyCount = veryHappyCount
+    }
 }
 
 public struct ManagerQuestion: Equatable, Hashable, Sendable {
@@ -81,6 +149,22 @@ public struct ManagerQuestion: Equatable, Hashable, Sendable {
     public var feedback: [Feedback]?
     public let feedbackSummary: QuestionFeedbackSummary?
     public var newFeedbackForQuestion: Int
+    
+    public init(
+        id: UUID,
+        questionText: String,
+        feedbackType: FeedbackType,
+        feedback: [Feedback]? = nil,
+        feedbackSummary: QuestionFeedbackSummary?,
+        newFeedbackForQuestion: Int
+    ) {
+        self.id = id
+        self.questionText = questionText
+        self.feedbackType = feedbackType
+        self.feedback = feedback
+        self.feedbackSummary = feedbackSummary
+        self.newFeedbackForQuestion = newFeedbackForQuestion
+    }
 }
 
 public struct ManagerEvent: Equatable, Identifiable, Sendable {
@@ -107,79 +191,38 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
         date + TimeInterval(durationInMinutes*60)
     }
     public let ownerInfo: OwnerInfo
+    
+    public init(
+        id: UUID,
+        title: String,
+        agenda: String? = nil,
+        date: Date,
+        durationInMinutes: Int,
+        pinCode: String,
+        location: String? = nil,
+        feedbackSummary: FeedbackSummary?,
+        questions: [ManagerQuestion],
+        newFeedbackForEvent: Int,
+        ownerInfo: OwnerInfo
+    ) {
+        self.id = id
+        self.title = title
+        self.agenda = agenda
+        self.date = date
+        self.durationInMinutes = durationInMinutes
+        self.pinCode = pinCode
+        self.location = location
+        self.feedbackSummary = feedbackSummary
+        self.questions = questions
+        self.newFeedbackForEvent = newFeedbackForEvent
+        self.ownerInfo = ownerInfo
+    }
 }
 
 public struct ManagerData: Equatable, Sendable {
     public var managerEvents: IdentifiedArrayOf<ManagerEvent>
-}
-
-
-extension Session {
-    init(_ session: Components.Schemas.SessionDto) {
-
-        let accountInfo: AccountInfo = AccountInfo(
-            name: session.accountInfo.name,
-            email: session.accountInfo.email,
-            phoneNumber: session.accountInfo.phoneNumber
-        )
-        let role: Role? = switch session.role {
-        case .participant:
-                .participant
-        case .organizer:
-                .organizer
-        case nil:
-                nil
-        }
-        let userType: UserType =
-        switch session.role {
-        case .none:
-                .anonymoous
-        case .organizer:
-                .manager(
-                    managerData: .init(
-                        managerEvents: IdentifiedArray(uniqueElements: session.managerData?.managerEvents.map { .init($0) } ?? [])
-                    ),
-                    accountInfo: accountInfo
-                )
-        case .participant:
-                .participant(accountInfo: accountInfo)
-        }
-        self.init(
-            participantEvents: .init(
-                uniqueElements: session.participantEvents.map {
-                    guard let id = UUID(uuidString: $0.id) else {
-                        fatalError("Could not parse UUID for participant event: \($0.id)")
-                    }
-                    return ParticipantEvent(
-                        id: id,
-                        title: $0.title,
-                        agenda: $0.agenda,
-                        date: $0.date,
-                        pinCode: $0.pinCode,
-                        location: $0.location,
-                        durationInMinutes: Int($0.durationInMinutes),
-                        questions: $0.questions.map {
-                            guard let id = UUID(uuidString: $0.id) else {
-                                fatalError("Could not parse UUID for participant question: \($0.id)")
-                            }
-                            return ParticipantQuestion(
-                                id: id,
-                                questionText: $0.questionText,
-                                feedbackType: FeedbackType($0.feedbackType.rawValue)
-                            )
-                        },
-                        feedbackSubmitted: $0.feedbackSubmited,
-                        ownerInfo: OwnerInfo(
-                            name: $0.ownerInfo.name,
-                            email: $0.ownerInfo.email,
-                            phoneNumber: $0.ownerInfo.phoneNumber
-                        )
-                    )
-                }
-            ),
-            userType: userType,
-            role: role
-        )
+    public init(managerEvents: IdentifiedArrayOf<ManagerEvent>) {
+        self.managerEvents = managerEvents
     }
 }
 

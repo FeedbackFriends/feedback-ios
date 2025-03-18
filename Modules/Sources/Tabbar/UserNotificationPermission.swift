@@ -1,9 +1,9 @@
 import SwiftUI
 import DesignSystem
 
-struct UserNotificationPermission: View {
+struct NotificationPermissionView: View {
         
-    let onContinueButtonTap: () -> Void
+    let requestAuthorizationButtonTap: () -> Void
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -20,7 +20,7 @@ struct UserNotificationPermission: View {
                         .foregroundColor(.themeDarkGray)
                 Spacer()
                 givePermissionButton("Give permission") {
-                    onContinueButtonTap()
+                    requestAuthorizationButtonTap()
                 }
                 .padding(16)
             }
@@ -33,7 +33,7 @@ struct UserNotificationPermission: View {
     }
 }
 
-private extension UserNotificationPermission {
+private extension NotificationPermissionView {
     var toolbarContent: some ToolbarContent {
         Group {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -65,5 +65,18 @@ private extension UserNotificationPermission {
 }
 
 #Preview {
-    UserNotificationPermission(onContinueButtonTap: {})
+    NotificationPermissionView(requestAuthorizationButtonTap: {})
 }
+
+#Preview {
+    @Previewable @State var showSheet: Bool = false
+    Button("Show sheet") {
+        showSheet = true
+    }
+    .sheet(isPresented: $showSheet) {
+        NotificationPermissionView(requestAuthorizationButtonTap: {})
+        .presentationDetents([.height(600)])
+    }
+}
+
+

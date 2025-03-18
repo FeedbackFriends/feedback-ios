@@ -14,6 +14,13 @@ public enum Tab: Hashable {
 
 @Reducer
 public struct Tabbar {
+    
+    @Reducer
+    public enum Destination {
+        @ReducerCaseIgnored
+        case notificationPermissionPrompt
+    }
+    
     @ObservableState
     public struct State {
         
@@ -23,7 +30,7 @@ public struct Tabbar {
         public var selectedTab: Tab
         @Shared public var session: Session
         var initialiseFeedback: FeedbackButton.State
-        
+        @Presents var destination: Destination.State?
         
         public init(
             session: Shared<Session>,
@@ -49,10 +56,14 @@ public struct Tabbar {
         case initialiseFeedback(FeedbackButton.Action)
         case onAppear
         case sessionUpdated(Session)
+        case presentNotificationPermissionPrompt
+        case requestNotificationAuthorization
+        case destination(PresentationAction<Destination.Action>)
     }
     
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.logClient) var logger
+    @Dependency(\.notificationClient) var notificationClient
     
     public init() {}
     
@@ -74,7 +85,10 @@ public struct Tabbar {
             switch action {
                 
             case .onAppear:
-                return .run { send in
+                return .run { [role = state.session.role] send in
+                    if await notificationClient.shouldPromptForAuthorization(role: role) {
+                        await send(.presentNotificationPermissionPrompt)
+                    }
                     let sessionChangedListener = await apiClient.sessionChangedListener()
                     for await session in sessionChangedListener {
                         await send(.sessionUpdated(session))
@@ -91,8 +105,8 @@ public struct Tabbar {
             case .initialiseFeedback(.delegate(let delegateAction)):
                 switch delegateAction {
                 case .stopLoading:
-                    state.enterCode.startFeedbackInFlight = false
-                    state.eventsOverview.startFeedbackInFlight = nil
+                    state.enterCode.startFeedbackPincodeInFlight = false
+                    state.eventsOverview.startFeedbackPincodeInFlight = nil
                 }
                 return .none
                 
@@ -113,6 +127,19 @@ public struct Tabbar {
                 state.$session.withLock {
                     $0 = session
                 }
+                return .none
+                
+            case .presentNotificationPermissionPrompt:
+                state.destination = .notificationPermissionPrompt
+                return .none
+                
+            case .requestNotificationAuthorization:
+                state.destination = nil
+                return .run { send in
+                    _ = try await notificationClient.requestAuthorization()
+                }
+                
+            case .destination:
                 return .none
             }
         }

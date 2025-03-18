@@ -1,29 +1,20 @@
-import Helpers
 import Combine
-import Helpers
 import DesignSystem
-import Helpers
-import Foundation
-import UserNotifications
 import ComposableArchitecture
+import Foundation
+import Helpers
 import SwiftUI
 
 @Reducer
 public struct EnterCode {
     
-    @Reducer
-    public enum Destination {
-        @ReducerCaseIgnored
-        case notificationPermission
-    }
-    
     @ObservableState
     public struct State {
         var inputCode: String = ""
-        @Presents var destination: Destination.State?
-        public var startFeedbackInFlight = false
+        
+        public var startFeedbackPincodeInFlight = false
         var disableStartFeedbackButton: Bool {
-            if !PinCodeValidator.isValidPinCode(inputCode) || startFeedbackInFlight {
+            if !PinCodeValidator.isValidPinCode(inputCode) || startFeedbackPincodeInFlight {
                 return true
             }
             return false
@@ -32,11 +23,7 @@ public struct EnterCode {
     }
     
     public enum Action: BindableAction {
-        case destination(PresentationAction<Destination.Action>)
         case binding(BindingAction<State>)
-        case onContinueNotificationPermissionButtonTap
-        case notificationPermissionStatus(UserNotificationClient.Notification.Settings)
-        case requestAuthorizationResponse(didAllowNotifications: Bool)
         case startFeedbackButtonTap
         case delegate(Delegate)
         public enum Delegate {
@@ -46,7 +33,6 @@ public struct EnterCode {
     
     public init() {}
     
-    @Dependency(\.userNotifications) var userNotifications
     @Dependency(\.dismiss) var dismiss
     
     public var body: some ReducerOf<Self> {
@@ -54,41 +40,20 @@ public struct EnterCode {
         Reduce { state, action in
             
             switch action {
-                
-            case .destination:
-                return .none
-                
+             
             case .binding:
                 return .none
-                
-            case .onContinueNotificationPermissionButtonTap:
-                return .run { [userNotifications] send in
-                    let didAllowNotifications = try await userNotifications.requestAuthorization([.alert, .sound])
-                    try await Task.sleep(for: .seconds(0.5))
-                    await send(.requestAuthorizationResponse(didAllowNotifications: didAllowNotifications))
-                }
-            case .notificationPermissionStatus(let notificationPermissionStatus):
-                if case .notDetermined = notificationPermissionStatus.authorizationStatus {
-                    state.destination = .notificationPermission
-                }
-                return .none
-                
-            case .requestAuthorizationResponse:
-                return .run { [dismiss] send in
-                    await dismiss()
-                }
                 
             case .startFeedbackButtonTap:
                 let input = state.inputCode
                 state.inputCode = ""
-                state.startFeedbackInFlight = true
+                state.startFeedbackPincodeInFlight = true
                 return .send(.delegate(.startFeedback(pinCode: input)))
                 
             case .delegate(_):
                 return .none
             }
         }
-        .ifLet(\.$destination, action: \.destination)
     }
 }
 

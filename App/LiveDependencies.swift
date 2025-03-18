@@ -6,6 +6,8 @@ import Helpers
 import UIKit
 import DesignSystem
 import Helpers
+import LiveClients
+import Logger
 
 let isMock = Bool(infoPlist.MOCK_API)!
 
@@ -55,3 +57,15 @@ extension SystemClient: @retroactive DependencyKey {
         )
     }
 }
+
+extension LogClient: @retroactive DependencyKey {
+    public static let liveValue = logClient()
+}
+
+func logClient() -> LogClient {
+    var logger = LogClient.live
+    logger.addCrashlyticsClient(deviceId: deviceId, minLevel: .error)
+    logger.addOSLogClient(subsystem: Bundle.main.bundleIdentifier!, category: "LoggingClient")
+    return logger
+}
+

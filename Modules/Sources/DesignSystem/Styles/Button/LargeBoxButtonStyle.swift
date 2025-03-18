@@ -2,7 +2,7 @@ import SwiftUI
 
 public struct LargeBoxButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) private var isEnabled: Bool
-    let isLoading: Bool
+    @Environment(\.isLoading) private var isLoading: Bool
     let color: Color
     let style: Style
     
@@ -10,8 +10,7 @@ public struct LargeBoxButtonStyle: ButtonStyle {
         case primary, secondary
     }
     
-    public init(isLoading: Bool = false, color: Color = Color.themeDarkGray, style: Style = .primary) {
-        self.isLoading = isLoading
+    public init(color: Color = Color.themeDarkGray, style: Style = .primary) {
         self.color = color
         self.style = style
     }

@@ -2,7 +2,6 @@ import EnterCode
 import EventsFeature
 import More
 import DesignSystem
-import FirebaseAuth
 import SwiftUI
 import ComposableArchitecture
 import FeedbackFlow
@@ -61,6 +60,17 @@ private extension TabbarView {
         ) { _ in
             RatingAlertView()
                 .presentationDetents([.height(300)])
+        }
+        .sheet(
+            item: $store.scope(
+                state: \.destination?.notificationPermissionPrompt,
+                action: \.destination.notificationPermissionPrompt
+            )
+        ) { _ in
+            NotificationPermissionView(requestAuthorizationButtonTap: {
+                store.send(.requestNotificationAuthorization)
+            })
+            .presentationDetents([.height(600)])
         }
         .fullScreenCover(
             item: $store.scope(

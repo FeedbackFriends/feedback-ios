@@ -20,13 +20,6 @@ public struct SignUp {
     @ObservableState
     public struct State: Equatable {
         @Presents public var destination: Destination.State?
-        var navigateToEnterEmail: Bool = false
-        var navigateToEmailSent: Bool = false
-        var selectedUserType: Role?
-        var disableContinueButton: Bool {
-            selectedUserType == nil
-        }
-
         public init(
             destination: Destination.State? = nil
         ) {

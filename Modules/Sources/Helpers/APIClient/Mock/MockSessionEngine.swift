@@ -95,7 +95,8 @@ private extension Session {
             durationInMinutes: generateRandomDurationInMinutes(),
             questions: generateRandomQuestions(),
             feedbackSubmitted: false,
-            ownerInfo: .mock()
+            ownerInfo: .mock(),
+            recentlyJoined: Bool.random()
         )
         
         self.participantEvents.append(participantEvent)

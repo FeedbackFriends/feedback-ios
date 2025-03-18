@@ -138,7 +138,8 @@ public extension ParticipantEvent {
                 )
             ],
             feedbackSubmitted: Bool.random(),
-            ownerInfo: .mock()
+            ownerInfo: .mock(),
+            recentlyJoined: Bool.random()
         )
     }
 }

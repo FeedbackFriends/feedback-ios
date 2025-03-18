@@ -1,7 +1,6 @@
 import SwiftUI
 import ComposableArchitecture
 import Helpers
-import Helpers
 import DesignSystem
 
 public struct SelectUserTypeView: View {

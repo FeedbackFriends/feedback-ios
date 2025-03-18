@@ -2,8 +2,10 @@ import Foundation
 import OpenAPIURLSession
 import OpenAPIRuntime
 import FirebaseAuth
+import FirebaseMessaging
 import Logger
 import ComposableArchitecture
+import Helpers
 
 
 public extension APIClient {
@@ -63,7 +65,7 @@ public extension APIClient {
                 }
             },
             getSession: {
-                try await withAuthorization(forceRefreshAfter: true) {
+                try await withAuthorization {
                     let sessionDto = try await api.getSession().ok.body.json
                     let newSession = Session(sessionDto)
                     await sessionCache.updateSession(newSession)
@@ -122,17 +124,18 @@ public extension APIClient {
                 }
             },
             createAccount: { optionalRole in
-                try await withAuthorization(forceRefreshAfter: true) {
-                    let role: Components.Schemas.CreateAccountInput.RequestedRolePayload? =
-                    switch optionalRole {
-                    case .organizer:
-                        Components.Schemas.CreateAccountInput.RequestedRolePayload.organizer
-                    case .participant:
-                        Components.Schemas.CreateAccountInput.RequestedRolePayload.participant
-                    case .none:
-                        nil
-                    }
-                    let sessionDto = try await api.createAccount(.init(body: .json(.init(requestedRole: role)))).ok.body.json
+                return try await withAuthorization(forceRefreshAfter: true) {
+                    let fcmToken = Messaging.messaging().fcmToken
+                    let sessionDto = try await api.createAccount(
+                        .init(
+                            body: .json(
+                                .init(
+                                    requestedRole: optionalRole?.rawValue.uppercasingFirst(),
+                                    fcmToken: fcmToken
+                                )
+                            )
+                        )
+                    ).ok.body.json
                     let session = Session(sessionDto)
                     await sessionCache.updateSession(session)
                     return session
@@ -170,20 +173,13 @@ public extension APIClient {
                 return ()
             },
             updateAccountRole: { role in
-                let role: Components.Schemas.UpdateRoleInput.RolePayload =
-                switch role {
-                case .organizer:
-                    Components.Schemas.UpdateRoleInput.RolePayload.organizer
-                case .participant:
-                    Components.Schemas.UpdateRoleInput.RolePayload.participant
-                }
                 try await withAuthorization(forceRefreshAfter: true) {
-                    _ = try await api.updateRole(.init(body: .json(.init(role: role))))
+                    _ = try await api.updateRole(.init(body: .json(.init(role: role.rawValue.uppercasingFirst()))))
                     return ()
                 }
             },
             getMockToken: {
-                return try await api.mockIdToken(body: .json(.init(role: .organizer))).ok.body.json.token
+                return try await api.mockIdToken(body: .json(.init(role: "Organizer"))).ok.body.json.token
             }
         )
     }

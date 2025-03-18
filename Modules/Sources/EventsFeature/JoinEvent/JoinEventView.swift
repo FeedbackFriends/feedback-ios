@@ -22,7 +22,7 @@ public struct JoinEventView: View {
                 }
             }
             .padding(.top, 20)
-            Text("Event code")
+            Text("PIN Code")
                 .padding(.top, 20)
                 .font(.montserratBold, 18)
                 .foregroundStyle(Color.themeDarkGray)

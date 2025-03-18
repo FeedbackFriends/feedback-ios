@@ -31,11 +31,6 @@ public struct AppCoreView: View {
         .onOpenURL { incomingURL in
             store.send(.onOpenURL(incomingURL))
         }
-        #if DEBUG
-        .overlay(alignment: .trailing) {
-            DebugMenuView()
-        }
-        #endif
     }
     
     private var loadingView: some View {

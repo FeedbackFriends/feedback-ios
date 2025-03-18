@@ -42,6 +42,10 @@ let package = Package(
         .library(
             name: "Localization",
             targets: ["Localization"]
+        ),
+        .library(
+            name: "LiveClients",
+            targets: ["LiveClients"]
         )
     ],
     dependencies: [
@@ -52,7 +56,6 @@ let package = Package(
         .package(url: "https://github.com/apple/swift-openapi-generator", .upToNextMinor(from: "1.7.0")),
         .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "1.8.0")),
         .package(url: "https://github.com/apple/swift-openapi-urlsession", .upToNextMinor(from: "1.0.2")),
-        .package(url: "https://github.com/liamnichols/xcstrings-tool-plugin.git", from: "0.1.0")
     ],
     targets: [
         .target(
@@ -63,9 +66,6 @@ let package = Package(
                 "Helpers",
                 "EventsFeature",
                 "Logger",
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
-                .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
             ]
         ),
         .target(
@@ -73,9 +73,6 @@ let package = Package(
             dependencies: [
                 "Helpers",
                 .product(name: "Lottie", package: "lottie-ios"),
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
-                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
             ],
             resources: [
                 .process("Resources/Font"),
@@ -96,16 +93,12 @@ let package = Package(
                 "DesignSystem",
                 "Helpers",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
             ]),
         .target(
             name: "More",
             dependencies: [
                 "DesignSystem",
                 "Helpers",
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]),
         .target(
@@ -130,13 +123,22 @@ let package = Package(
             name: "Helpers",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "Logger",
+            ]
+        ),
+        .target(
+            name: "LiveClients",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
                 .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
                 .product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession"),
                 .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
                 "Logger",
+                "Helpers",
             ],
             plugins: [.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")]
         ),
@@ -144,14 +146,10 @@ let package = Package(
             name: "Logger",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
             ]
         ),
         .target(
-            name: "Localization",
-            dependencies: [
-                .product(name: "XCStringsToolPlugin", package: "xcstrings-tool-plugin")
-            ]
+            name: "Localization"
         ),
         .testTarget(
             name: "AppCoreTests",

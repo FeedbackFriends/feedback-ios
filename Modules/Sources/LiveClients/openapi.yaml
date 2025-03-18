@@ -2,9 +2,9 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.42
+  version: 0.0.51
 servers:
-- url: http://localhost:8080
+- url: http://api.letsgrow.dk
   description: Generated server url
 security:
 - bearerAuth: []
@@ -60,7 +60,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /event/resetNewFeedback/{eventId}:
+  /event/reset-new-feedback/{eventId}:
     put:
       tags:
       - Events
@@ -73,6 +73,26 @@ paths:
         schema:
           type: string
           format: uuid
+      responses:
+        "200":
+          description: OK
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /admin/send-mock-notification:
+    put:
+      tags:
+      - Admin
+      operationId: sendNotification
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendNotificationInput'
+        required: true
       responses:
         "200":
           description: OK
@@ -158,7 +178,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /account/fcmToken:
+  /account/fcm-token:
     put:
       tags:
       - Account
@@ -274,7 +294,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /admin/mockIdToken:
+  /admin/mock-id-token:
     post:
       tags:
       - Admin
@@ -291,7 +311,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/MockTokenResponse'
+                $ref: '#/components/schemas/MockTokenDto'
         "500":
           description: Internal Server Error
           content:
@@ -536,6 +556,19 @@ components:
         veryHappyCount:
           type: integer
           format: int32
+    SendNotificationInput:
+      required:
+      - body
+      - fcmToken
+      - title
+      type: object
+      properties:
+        fcmToken:
+          type: string
+        title:
+          type: string
+        body:
+          type: string
     ModifyAccountInput:
       type: object
       properties:
@@ -552,9 +585,6 @@ components:
       properties:
         role:
           type: string
-          enum:
-          - Participant
-          - Organizer
     SetFcmTokenInput:
       type: object
       properties:
@@ -624,6 +654,7 @@ components:
       - ownerInfo
       - pinCode
       - questions
+      - recentlyJoined
       - title
       type: object
       properties:
@@ -651,6 +682,8 @@ components:
           items:
             $ref: '#/components/schemas/ParticipantQuestionDto'
         feedbackSubmited:
+          type: boolean
+        recentlyJoined:
           type: boolean
     ParticipantQuestionDto:
       required:
@@ -715,10 +748,7 @@ components:
       properties:
         role:
           type: string
-          enum:
-          - Participant
-          - Organizer
-    MockTokenResponse:
+    MockTokenDto:
       required:
       - firebaseResponse
       - token
@@ -746,9 +776,8 @@ components:
       properties:
         requestedRole:
           type: string
-          enum:
-          - Participant
-          - Organizer
+        fcmToken:
+          type: string
     AccountInfoDto:
       type: object
       properties:
@@ -775,9 +804,6 @@ components:
       properties:
         role:
           type: string
-          enum:
-          - Participant
-          - Organizer
         accountInfo:
           $ref: '#/components/schemas/AccountInfoDto'
         participantEvents:
@@ -808,3 +834,4 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+

@@ -2,6 +2,7 @@ import Foundation
 import Logger
 import ComposableArchitecture
 import FirebaseAuth
+import Helpers
 
 actor UserStateStream {
     private var continuation: AsyncStream<UserState>.Continuation?
@@ -29,16 +30,16 @@ public extension AuthClient {
         let firebaseService = FirebaseService()
         return Self.init(
             setupStateListener: {
-                _ = Auth.auth().addStateDidChangeListener { auth, optionalUser in
-                    
-                    let userState: UserState = {
-                        guard let user = optionalUser.optional else { return .loggedOut }
-                        return user.isAnonymous ? .anonymous : .authenticated
-                    }()
-                    Task { [stateStream] in
-                        await stateStream.yield(userState)
-                    }
-                }
+//                _ = Auth.auth().addStateDidChangeListener { auth, optionalUser in
+//                    
+//                    let userState: UserState = {
+//                        guard let user = optionalUser.optional else { return .loggedOut }
+//                        return user.isAnonymous ? .anonymous : .authenticated
+//                    }()
+//                    Task { [stateStream] in
+//                        await stateStream.yield(userState)
+//                    }
+//                }
             },
             signInAnonymously: {
                 guard let _ = Auth.auth().currentUser else {
@@ -79,7 +80,21 @@ public extension AuthClient {
                 try Auth.auth().signOut()
             },
             userStateChanged: {
-                await stateStream.stream()
+                
+                let stream = await stateStream.stream()
+                
+                _ = Auth.auth().addStateDidChangeListener { auth, optionalUser in
+                    
+                    let userState: UserState = {
+                        guard let user = optionalUser.optional else { return .loggedOut }
+                        return user.isAnonymous ? .anonymous : .authenticated
+                    }()
+                    Task { [stateStream] in
+                        await stateStream.yield(userState)
+                    }
+                }
+                
+                return stream
             }
         )
     }

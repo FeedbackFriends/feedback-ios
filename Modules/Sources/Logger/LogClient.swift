@@ -3,6 +3,7 @@ import ComposableArchitecture
 
 @DependencyClient
 public struct LogClient: Sendable {
+    @DependencyEndpoint
     public var addLogClient: @Sendable (_ client: LoggingClient) -> Void
     var _log: @Sendable (SeverityLevel, String, CustomStringConvertible?) -> Void
 }
@@ -18,19 +19,10 @@ public extension LogClient {
     func log(_ log: String, context: CustomStringConvertible? = nil) {
         _log(.default, log, context)
     }
-    func addOSLogClient(subsystem: String, category: String) {
-        let osLogClient = OSLogClient(subsystem: subsystem, category: category)
-        LogManager.addLogClient(osLogClient)
-    }
-    func addCrashlyticsClient(deviceId: String, minLevel: SeverityLevel) {
-        let crashlyticsClient = CrashlyticsClient(minLevel: minLevel)
-        crashlyticsClient.onStart(deviceId: deviceId)
-        LogManager.addLogClient(crashlyticsClient)
-    }
 }
 
-extension LogClient: DependencyKey {
-    public static let liveValue = LogClient(
+public extension LogClient {
+    static let live = LogClient(
         addLogClient: { loggingClient in
             LogManager.addLogClient(loggingClient)
         },
@@ -38,6 +30,10 @@ extension LogClient: DependencyKey {
             LogManager.log(level, log: log, context: context)
         }
     )
+}
+
+extension LogClient: TestDependencyKey {
+    
     public static let previewValue = LogClient.noop
     public static let testValue = LogClient.noop
 }

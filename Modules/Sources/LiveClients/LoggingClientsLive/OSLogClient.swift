@@ -1,4 +1,5 @@
 import OSLog
+import Logger
 
 struct OSLogClient: LoggingClient {
     let subsystem: String
@@ -13,3 +14,12 @@ struct OSLogClient: LoggingClient {
     }
 }
 
+extension SeverityLevel {
+    var emoji: String {
+        switch self {
+        case .fault: return "🔴"
+        case .error: return "🟠"
+        default: return "🔵"
+        }
+    }
+}

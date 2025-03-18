@@ -20,6 +20,7 @@ public struct EventsOverviewView: View {
         let createEventStore = $store.scope(state: \.destination?.createEvent, action: \.destination.createEvent)
         let joinEventStore = $store.scope(state: \.destination?.joinEvent, action: \.destination.joinEvent)
         let infoStore = $store.scope(state: \.destination?.info, action: \.destination.info)
+        let startFeedbackConfirmationStore = $store.scope(state: \.destination?.startFeedbackConfirmation, action: \.destination.startFeedbackConfirmation)
         content
             .onAppear { store.send(.onAppear) }
             .animation(.default, value: store.session)
@@ -60,6 +61,14 @@ public struct EventsOverviewView: View {
                         date: event.date
                     )
                     .presentationDetents([.medium, .large])
+                }
+            }
+            .sheet(item: startFeedbackConfirmationStore) { pinCode in
+                pinCode.withState { pinCode in
+                    StartFeedbackConfirmationView(startFeedback: {
+                        store.send(.confirmedToStartFeedback(pinCode: pinCode))
+                    })
+                    .presentationDetents([.height(300)])
                 }
             }
     }
@@ -148,7 +157,7 @@ extension EventsOverviewView {
             
             ScrollView {
                 attendingListView(participantEvents)
-//                    .scrollPosition(store.attendingEventsScrollPosition)
+                    .scrollPosition(id: $store.attendingEventsScrollPosition)
             }
             .tag(SegmentedControlMenu.attending)
         }
@@ -170,7 +179,7 @@ extension EventsOverviewView {
         LazyVStack(alignment: .leading, spacing: 18, pinnedViews: [.sectionHeaders]) {
             if todayEvents.isEmpty && comingUpEvents.isEmpty && previousEvents.isEmpty {
                 EmptyStateView(
-                    message: "You can create new meetings by tapping the + button in the upper right corner."
+                    message: "Create a new event by tapping the + button."
                 )
             } else {
                 if store.filterCollection.allEnabled {
@@ -237,12 +246,22 @@ extension EventsOverviewView {
                         Text(event.title)
                             .font(.montserratSemiBold, 14)
                         Spacer()
-                        Text("\(event.date.formatted(date: .abbreviated, time: .omitted))")
+                        if event.newFeedbackForEvent > 0  {
+                            Text("\(event.newFeedbackForEvent) new")
+                                .font(.montserratBold, 10)
+                                .padding(4)
+                                .padding(.horizontal, 4)
+                                .foregroundStyle(Color.themeWhite)
+                                .background(Color.blue.opacity(0.5).gradient)
+                                .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
+                        }
                     }
                     HStack {
-                        if event.newFeedbackForEvent > 0  {
-                            Text("\(event.newFeedbackForEvent) new feedback")
-                                .font(.montserratMedium, 12)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("\(event.date.formatted(date: .abbreviated, time: .omitted))")
+                                .font(.montserratRegular, 10)
+                            Text("#\(event.pinCode)")
+                                .font(.montserratSemiBold, 10)
                         }
                         Spacer()
                         Image(systemName: "chevron.right")
@@ -277,7 +296,7 @@ extension EventsOverviewView {
         LazyVStack(spacing: 12, pinnedViews: [.sectionHeaders]) {
             if participantEvents.isEmpty {
                 EmptyStateView(
-                    message: "Meetings you are added to will be visible here"
+                    message: "Joined events will be visible here"
                 )
             } else {
                 let todayMeetings = participantEvents.filter { $0.date.isToday }
@@ -314,56 +333,66 @@ extension EventsOverviewView {
     }
     
     func attendingListItem(_ event: ParticipantEvent) -> some View {
-        VStack(spacing: 8) {
-            VStack(spacing: 0) {
+        VStack(spacing: 0) {
+            VStack(alignment: .leading, spacing: 8) {
                 VStack(alignment: .leading, spacing: 0) {
                     HStack {
                         Text(event.title)
                             .font(.montserratSemiBold, 14)
                         Spacer()
-                        Text("\(event.date.formatted(date: .abbreviated, time: .omitted))")
+                        if event.recentlyJoined {
+                            Text("Recently joined")
+                                .font(.montserratBold, 10)
+                                .padding(4)
+                                .padding(.horizontal, 4)
+                                .foregroundStyle(Color.themeWhite)
+                                .background(Color.blue.opacity(0.5).gradient)
+                                .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
+                        }
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.montserratRegular, 12)
                 .foregroundColor(Color.themeDarkGray)
-                .padding(.all, 10)
                 Divider()
                 HStack(spacing: 12) {
-                    
                     HStack {
-                        Text("#\(event.pinCode)")
-                            .font(.montserratMedium, 14)
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("\(event.date.formatted(date: .abbreviated, time: .omitted))")
+                                .font(.montserratRegular, 10)
+                            Text("#\(event.pinCode)")
+                                .font(.montserratSemiBold, 10)
+                        }
                         Spacer()
                     }
-                    .padding(.horizontal, Theme.padding)
                     .foregroundStyle(Color.themeDarkGray)
                     .frame(maxWidth: .infinity, minHeight: 40)
                     Divider()
-                    
                     if event.feedbackSubmitted {
                         Text("Submitted")
                             .font(.montserratSemiBold, 14)
                             .frame(maxWidth: .infinity, minHeight: 40)
                             .foregroundStyle(Color.themeDarkGray.gradient.opacity(0.5))
                     } else {
-                        let startFeedbackInFlight = store.startFeedbackInFlight == event.pinCode
+                        let startFeedbackPincodeInFlight = store.startFeedbackPincodeInFlight == event.pinCode
                         Button("Start") {
                             store.send(.startFeedbackButtonTap(pinCode: event.pinCode))
                         }
-                        .disabled(startFeedbackInFlight)
+                        .disabled(startFeedbackPincodeInFlight)
                         .buttonStyle(PrimaryToolbarButtonStyle())
-                        .isLoading(startFeedbackInFlight)
+                        .isLoading(startFeedbackPincodeInFlight)
                         .frame(maxWidth: .infinity, minHeight: 40)
                     }
                 }
                 
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
             .font(.montserratBold, 14)
             .foregroundStyle(Color.themeWhite)
-            .background(Color.themeWhite)
-            .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
+            .padding(.all, 10)
         }
+        .background(Color.themeWhite)
+        .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
         .contentShape(Rectangle())
         .onTapGesture {
             store.send(.infoButtonTap(event))
@@ -386,6 +415,7 @@ extension EventsOverviewView {
         }
     }
 }
+
 
 #Preview("Your events") {
     NavigationStack {

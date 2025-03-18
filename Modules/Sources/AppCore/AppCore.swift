@@ -42,14 +42,9 @@ public struct AppCore {
     
     @ObservableState
     public struct State {
-        var firstTime = false
         var destination: Destination.State = .isLoading
         var isLoading = false
         var appDelegate: AppDelegateReducer.State = .init()
-        var selectedUserType: Role?
-        var disableUserTypeSelectionButton: Bool {
-            selectedUserType == nil
-        }
         public init() {}
     }
     
@@ -217,7 +212,7 @@ public struct AppCore {
                 return .none
                 
             case .presentError(let errorType):
-                logger.log(.error, "Received error in app core: \(errorType)", nil)
+                logger.log(.default, "Received error in app core: \(errorType)", nil)
                 state.isLoading = false
                 state.destination = .error(errorType)
                 return .none

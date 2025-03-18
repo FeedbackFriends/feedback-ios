@@ -43,7 +43,7 @@ public struct EventInfoView: View {
                     Text(date.formatted(date: Date.FormatStyle.DateStyle.abbreviated, time: .omitted))
                         .font(.montserratRegular, 13)
                     if ownerName != nil || ownerEmail != nil || ownerphoneNumber != nil {
-                        Text("Event manager")
+                        Text("Organizer")
                             .font(.montserratBold, 15)
                         if let ownerName {
                             Text(ownerName)

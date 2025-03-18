@@ -1,7 +1,8 @@
 import ComposableArchitecture
 import SwiftUI
 import Helpers
-import FirebaseAuth
+@preconcurrency import FirebaseAuth
+@preconcurrency import FirebaseMessaging
 import Tabbar
 import DesignSystem
 
@@ -42,11 +43,33 @@ struct DebugMenuView: View {
                         Button("Print id token") {
                             Task {
                                 let token = try await Auth.auth().currentUser?.getIDToken()
-                                print(token ?? "Token not found")
+                                print(token ?? "Not found")
+                            }
+                        }
+                        Button("Print fcm token") {
+                            Task {
+                                print(Messaging.messaging().fcmToken ?? "Not found")
+                            }
+                        }
+                        Button("Local mock notification") {
+                            Task {
+                                @Dependency(\.notificationClient) var notificationClient
+                                notificationClient.scheduleLocalNotification(
+                                    title: "mock title",
+                                    body: "mock body",
+                                    userInfo: [:],
+                                    presentAfterDelayInSeconds: 5,
+                                    id: "mock_notification"
+                                )
                             }
                         }
                         Button("Crash") {
                             fatalError("Debug crash")
+                        }
+                        Button("Logout") {
+                            Task {
+                                try Auth.auth().signOut()
+                            }
                         }
                         Button("Hide") {
                             hideDebugMenu = true

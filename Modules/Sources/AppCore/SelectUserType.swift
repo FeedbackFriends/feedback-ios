@@ -76,15 +76,3 @@ public struct SelectUserType {
         .ifLet(\.$destination, action: \.destination)
     }
 }
-
-#Preview {
-    SelectUserTypeView(
-        store: .init(
-            initialState: .init(),
-            reducer: {
-                SelectUserType()
-            }
-        )
-    )
-}
-

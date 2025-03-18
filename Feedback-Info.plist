@@ -62,6 +62,10 @@
 	</dict>
 	<key>SUPPORT_EMAIL</key>
 	<string>$(SUPPORT_EMAIL)</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>WEB_BASE_URL</key>
 	<string>$(WEB_BASE_URL)</string>
 	<key>WEB_SCHEME</key>

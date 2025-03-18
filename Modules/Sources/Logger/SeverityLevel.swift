@@ -25,15 +25,7 @@ extension SeverityLevel: Comparable {
     }
 }
 
-extension SeverityLevel {
-    var emoji: String {
-        switch self {
-        case .fault: return "🔴"
-        case .error: return "🟠"
-        default: return "🔵"
-        }
-    }
-}
+
 
 public extension SeverityLevel {
     var osLogLevel: OSLogType {

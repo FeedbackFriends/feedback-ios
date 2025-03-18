@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AppCore"
-               BuildableName = "AppCore"
-               BlueprintName = "AppCore"
+               BlueprintIdentifier = "LiveClients"
+               BuildableName = "LiveClients"
+               BlueprintName = "LiveClients"
                ReferencedContainer = "container:">
             </BuildableReference>
          </BuildActionEntry>
@@ -50,9 +50,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AppCore"
-            BuildableName = "AppCore"
-            BlueprintName = "AppCore"
+            BlueprintIdentifier = "LiveClients"
+            BuildableName = "LiveClients"
+            BlueprintName = "LiveClients"
             ReferencedContainer = "container:">
          </BuildableReference>
       </MacroExpansion>

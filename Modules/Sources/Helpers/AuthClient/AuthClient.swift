@@ -1,11 +1,5 @@
-import Combine
 import Foundation
-import FirebaseCrashlytics
-import Firebase
-import FirebaseCore
-import FirebaseAuth
 import ComposableArchitecture
-import Logger
 
 @DependencyClient
 public struct AuthClient: Sendable {

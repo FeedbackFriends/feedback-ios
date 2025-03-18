@@ -68,7 +68,7 @@ private extension DetailSectionView {
     
     var eventPinSectionView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("EVENT CODE")
+            Text("PIN CODE")
                 .font(.montserratSemiBold, 14)
                 .foregroundStyle(Color.themeDarkGray)
             VStack(alignment: .trailing, spacing: 12) {
