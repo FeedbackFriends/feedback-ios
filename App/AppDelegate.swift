@@ -56,25 +56,22 @@ extension AppDelegate: MessagingDelegate {
 
 extension AppDelegate : UNUserNotificationCenterDelegate {
     
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        willPresent notification: UNNotification,
-        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions
-        ) -> Void ) {
-        let userInfo = notification.request.content.userInfo
-        
-        let gcmMessageIDKey = "gcm.message_id"
-        
-        if let messageID = userInfo[gcmMessageIDKey] {
-            print("Message ID: \(messageID)")
-        }
-        completionHandler([[.banner, .list, .sound]])
-    }
-    
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         
+        let content = response.notification.request.content
+        
+        guard
+            let typeAsString = content.userInfo["type"] as? String,
+            let type = NotificationTypeString(rawValue: typeAsString) else { return }
+        
+        switch type {
+        case .feedbackReceived:
+            //                    self.intialStore.send(.appDelegate(.onTapNotification(.init(eventId: "", eventTitle: "Feedback received"))))
+            return
+        }
     }
-    
-    
 }
 
+enum NotificationTypeString: String {
+    case feedbackReceived = "FEEDBACK_RECEIVED"
+}
