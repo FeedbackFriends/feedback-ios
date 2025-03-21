@@ -13,11 +13,14 @@ public struct AppDelegateReducer {
     public enum Action {
         case didFinishLaunchingWithOptions(deviceId: String)
         case didReceiveRegistrationToken(String?)
-        case didReceiveNotification(NotificationType)
+        case onTapNotification(NotificationType)
         case authenticationStateChanged(UserState)
         public enum NotificationType {
-            case startFeedback(code: Int, email: String)
-            case viewEvent(eventId: Int, email: String)
+            public struct ReceivedFeedback {
+                let eventId: String
+                let eventTitle: String
+            }
+            case feedbackReceived(ReceivedFeedback)
         }
     }
     
@@ -48,7 +51,7 @@ public struct AppDelegateReducer {
                     try await apiClient.updateFcmToken(fcmToken)
                 }
                 
-            case .didReceiveNotification(_):
+            case .onTapNotification(_):
                 return .none
             }
         }

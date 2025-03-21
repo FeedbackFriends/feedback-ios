@@ -1,5 +1,5 @@
 {
-  "Simulator Target Bundle": "dk.nicolaidam.feedback.mock",
+  "Simulator Target Bundle": "dk.nicolaidam.letsgrow",
   "aps": {
     "alert": {
       "title-loc-key": "notification_start_feedback_title",

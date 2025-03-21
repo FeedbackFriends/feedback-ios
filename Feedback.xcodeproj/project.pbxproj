@@ -54,6 +54,9 @@
 		7A67364F2D6F5EA300B392DD /* Mock.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Mock.xcconfig; sourceTree = "<group>"; };
 		7A6736502D6F5EA300B392DD /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7A6736512D6F5EA300B392DD /* Test.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Test.xcconfig; sourceTree = "<group>"; };
+		7A9A211A2D89CD7500C40A41 /* start_feedback.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = start_feedback.apns; sourceTree = "<group>"; };
+		7A9A211B2D89CD7500C40A41 /* team_invite.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = team_invite.apns; sourceTree = "<group>"; };
+		7A9A211C2D89CD7500C40A41 /* view_meeting.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = view_meeting.apns; sourceTree = "<group>"; };
 		7AB225402D7B2B89002BEF81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugMenuView.swift; sourceTree = "<group>"; };
@@ -165,6 +168,16 @@
 			path = Configuration;
 			sourceTree = "<group>";
 		};
+		7A9A211D2D89CD7500C40A41 /* PushNotifications */ = {
+			isa = PBXGroup;
+			children = (
+				7A9A211A2D89CD7500C40A41 /* start_feedback.apns */,
+				7A9A211B2D89CD7500C40A41 /* team_invite.apns */,
+				7A9A211C2D89CD7500C40A41 /* view_meeting.apns */,
+			);
+			path = PushNotifications;
+			sourceTree = "<group>";
+		};
 		B1057F2B2843FD8600B9EE2F = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +188,7 @@
 				7A6736522D6F5EA300B392DD /* Configuration */,
 				2892AA362C0F89C600F12E83 /* FeedbackFlow */,
 				B1057F362843FD8600B9EE2F /* App */,
+				7A9A211D2D89CD7500C40A41 /* PushNotifications */,
 				7AE155DD2D26A31200440870 /* Lint */,
 				B1057F352843FD8600B9EE2F /* Products */,
 				B1057F462843FE1D00B9EE2F /* Frameworks */,

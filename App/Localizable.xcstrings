@@ -13,6 +13,28 @@
     "Logout" : {
 
     },
+    "notification_feedback_received_subtitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You have received feedback from %@ people on your event ‘@%@. Go check it out!"
+          }
+        }
+      }
+    },
+    "notification_feedback_received_title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Feedback received 🔥"
+          }
+        }
+      }
+    },
     "notification_start_feedback_body" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -53,28 +75,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You received a team invitation🔥"
-          }
-        }
-      }
-    },
-    "notification_view_meeting_body" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "You have received feedback from 27 people on your meeting 'Ugemøde'. Tap to see the feedback."
-          }
-        }
-      }
-    },
-    "notification_view_meeting_title" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Feedback received 🔥"
           }
         }
       }
