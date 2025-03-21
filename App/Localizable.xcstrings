@@ -13,13 +13,13 @@
     "Logout" : {
 
     },
-    "notification_feedback_received_subtitle" : {
+    "notification_feedback_received_body" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You have received feedback from %@ people on your event ‘@%@. Go check it out!"
+            "value" : "You have received feedback from %@ people on your event ‘%@’. "
           }
         }
       }
