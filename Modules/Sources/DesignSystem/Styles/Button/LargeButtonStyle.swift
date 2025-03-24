@@ -4,7 +4,6 @@ public struct LargeButtonStyle<Input: ShapeStyle>: ButtonStyle {
 
     @Environment(\.isLoading) private var isLoading
     @Environment(\.isEnabled) private var isEnabled: Bool
-    @Environment(\.dismiss) private var dismiss
     
     let color: Input
     

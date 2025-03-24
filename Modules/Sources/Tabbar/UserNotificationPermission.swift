@@ -4,7 +4,7 @@ import DesignSystem
 struct NotificationPermissionView: View {
         
     let requestAuthorizationButtonTap: () -> Void
-    @Environment(\.dismiss) var dismiss
+    let dismissButtonTap: () -> Void
     
     var body: some View {
         NavigationStack {
@@ -38,7 +38,7 @@ private extension NotificationPermissionView {
         Group {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button("Not now") {
-                    dismiss()
+                    dismissButtonTap()
                 }
                 .buttonStyle(SecondaryToolbarButtonStyle())
             }
@@ -65,7 +65,10 @@ private extension NotificationPermissionView {
 }
 
 #Preview {
-    NotificationPermissionView(requestAuthorizationButtonTap: {})
+    NotificationPermissionView(
+        requestAuthorizationButtonTap: {},
+        dismissButtonTap: {}
+    )
 }
 
 #Preview {
@@ -74,7 +77,10 @@ private extension NotificationPermissionView {
         showSheet = true
     }
     .sheet(isPresented: $showSheet) {
-        NotificationPermissionView(requestAuthorizationButtonTap: {})
+        NotificationPermissionView(
+            requestAuthorizationButtonTap: {},
+            dismissButtonTap: {}
+        )
         .presentationDetents([.height(600)])
     }
 }

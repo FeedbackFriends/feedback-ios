@@ -38,7 +38,7 @@ public extension APIClient {
                 email,
                 phoneNumber in
                 
-                try await withAuthorization(forceRefreshAfter: true) {
+                try await withAuthorization {
                     _ = try await api.modifyAccount(
                         .init(
                             body: .json(

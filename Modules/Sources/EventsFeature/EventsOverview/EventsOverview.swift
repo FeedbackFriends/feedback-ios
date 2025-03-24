@@ -50,7 +50,6 @@ public struct EventsOverview {
     }
     
     public enum Action: BindableAction {
-        case onAppear
         case binding(BindingAction<State>)
         case destination(PresentationAction<Destination.Action>)
         case createEventButtonTap
@@ -86,11 +85,6 @@ public struct EventsOverview {
                 state.destination = .startFeedbackConfirmation(pinCode)
                 return .none
                 
-            case .onAppear:
-                return .run  { send in
-                    let _ = try await apiClient.getSession()
-                }
-                
             case .binding:
                 return .none
                 
@@ -116,7 +110,7 @@ public struct EventsOverview {
             case .managerEventTap(let event):
                 state.destination = .eventDetail(
                     EventDetailFeature.State(
-                        event: event,
+                        eventId: event.id,
                         session: state.$session
                     )
                 )
@@ -131,7 +125,7 @@ public struct EventsOverview {
             case .destination(.presented(.createEvent(.delegate(.dismissAndNavigateToDetail(let event))))):
                 state.destination = .eventDetail(
                     EventDetailFeature.State(
-                        event: event,
+                        eventId: event.id,
                         session: state.$session,
                         destination: .invite(event)
                     )

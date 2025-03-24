@@ -31,6 +31,7 @@ public struct Tabbar {
         @Shared public var session: Session
         var initialiseFeedback: FeedbackButton.State
         @Presents var destination: Destination.State?
+        var inSync: Bool
         
         public init(
             session: Shared<Session>,
@@ -45,6 +46,7 @@ public struct Tabbar {
             self.selectedTab = selectedTab
             self.more = .init(session: session)
             self.initialiseFeedback = initialiseFeedback
+            self.inSync = true
         }
     }
     
@@ -58,11 +60,19 @@ public struct Tabbar {
         case sessionUpdated(Session)
         case presentNotificationPermissionPrompt
         case requestNotificationAuthorization
+        case dimissNotificationPermissionButtonTap
         case destination(PresentationAction<Destination.Action>)
+        case didEnterBackground
+        case delegate(Delegate)
+        case sessionResponse
+        public enum Delegate {
+            case forceRefreshSession
+        }
     }
     
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.logClient) var logger
+    @Dependency(\.continuousClock) var clock
     @Dependency(\.notificationClient) var notificationClient
     
     public init() {}
@@ -84,16 +94,32 @@ public struct Tabbar {
         Reduce { state, action in
             switch action {
                 
+            case .didEnterBackground:
+                state.inSync = false
+                return .none
+                
             case .onAppear:
-                return .run { [role = state.session.role] send in
-                    if await notificationClient.shouldPromptForAuthorization(role: role) {
-                        await send(.presentNotificationPermissionPrompt)
+                return .merge(
+                    .run { [role = state.session.role] send in
+                        if await notificationClient.shouldPromptForAuthorization(role: role) {
+                            await send(.presentNotificationPermissionPrompt)
+                        }
+                        let sessionChangedListener = await apiClient.sessionChangedListener()
+                        for await session in sessionChangedListener {
+                            await send(.sessionUpdated(session))
+                        }
+                    },
+                    .run { send in
+                        for await _ in clock.timer(interval: .seconds(5)) {
+                            let _ = try await apiClient.getSession()
+                            await send(.sessionResponse)
+                        }
                     }
-                    let sessionChangedListener = await apiClient.sessionChangedListener()
-                    for await session in sessionChangedListener {
-                        await send(.sessionUpdated(session))
-                    }
-                }
+                )
+                
+            case .sessionResponse:
+                state.inSync = true
+                return .none
                 
             case .binding:
                 return .none
@@ -123,7 +149,6 @@ public struct Tabbar {
                 return .none
                 
             case .sessionUpdated(let session):
-                logger.log("Local session updated: \(session)")
                 state.$session.withLock {
                     $0 = session
                 }
@@ -138,10 +163,18 @@ public struct Tabbar {
                 return .run { send in
                     _ = try await notificationClient.requestAuthorization()
                 }
+            
+            case .dimissNotificationPermissionButtonTap:
+                state.destination = nil
+                return .none
                 
             case .destination:
                 return .none
+                
+            case .delegate:
+                return .none
             }
         }
+        .ifLet(\.$destination, action: \.destination)
     }
 }

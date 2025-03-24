@@ -28,7 +28,14 @@ public struct EventDetailFeature {
     
     @ObservableState
     public struct State {
-        var event: ManagerEvent
+        var event: ManagerEvent {
+            switch session.userType {
+            case .manager(managerData: let managerData, accountInfo: _):
+                return managerData.managerEvents[id: eventId]!
+            default: fatalError()
+            }
+        }
+        let eventId: UUID
         @Presents var destination: Destination.State?
         var fetchEventDetailInFlight = true
         var navigationTitle: String {
@@ -51,8 +58,8 @@ public struct EventDetailFeature {
         }
 
         
-        public init(event: ManagerEvent, session: Shared<Session>, destination: Destination.State? = nil) {
-            self.event = event
+        public init(eventId: UUID, session: Shared<Session>, destination: Destination.State? = nil) {
+            self.eventId = eventId
             self._session = session
             self.destination = destination
         }
@@ -88,10 +95,6 @@ public struct EventDetailFeature {
                 }
                 
             case .binding:
-                return .none
-                
-            case .destination(.presented(.editEvent(.delegate(.updateEventDetail(let event))))):
-                state.event = event
                 return .none
            
             case .destination(.presented(.confirmationDialog(let confirmationDialogAction))):

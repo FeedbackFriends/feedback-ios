@@ -10,8 +10,10 @@ actor SessionCache {
     }
     
     func updateSession(_ newSession: Session) {
-        session = newSession
-        sessionContinuation?.yield(newSession)
+        if newSession != session {
+            sessionContinuation?.yield(newSession)
+            session = newSession
+        }
     }
     
     func deleteEvent(_ eventId: UUID) {

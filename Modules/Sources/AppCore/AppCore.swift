@@ -138,6 +138,10 @@ public struct AppCore {
             action in
             switch action {
                 
+            case .destination(.loggedIn(.delegate(.forceRefreshSession))):
+                state.destination = .isLoading
+                return getSession(state: &state)
+                
             case .destination(.signUp(.destination(.presented(.selectUserType(.delegate(.getSession)))))):
                 return getSession(state: &state)
                 

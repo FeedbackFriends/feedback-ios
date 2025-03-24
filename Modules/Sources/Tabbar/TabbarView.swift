@@ -8,6 +8,7 @@ import FeedbackFlow
 
 public struct TabbarView: View {
     
+    @Environment(\.scenePhase) private var scenePhase
     @Bindable var store: StoreOf<Tabbar>
     
     public init(store: StoreOf<Tabbar>) {
@@ -51,6 +52,21 @@ private extension TabbarView {
             }
             .tag(Tab.more)
         }
+        .overlay(alignment: .top, content: {
+            if !store.inSync {
+                ProgressView("Syncing")
+                    .foregroundStyle(Color.red)
+            }
+        })
+        .onChange(of: scenePhase) {
+            switch $0 {
+            case .background:
+                store.send(.didEnterBackground)
+            default:
+                return
+            }
+            
+        }
         .alert($store.scope(state: \.initialiseFeedback.destination?.alert, action: \.initialiseFeedback.destination.alert))
         .sheet(
             item: $store.scope(
@@ -67,9 +83,14 @@ private extension TabbarView {
                 action: \.destination.notificationPermissionPrompt
             )
         ) { _ in
-            NotificationPermissionView(requestAuthorizationButtonTap: {
-                store.send(.requestNotificationAuthorization)
-            })
+            NotificationPermissionView(
+                requestAuthorizationButtonTap: {
+                    store.send(.requestNotificationAuthorization)
+                },
+                dismissButtonTap: {
+                    store.send(.dimissNotificationPermissionButtonTap)
+                }
+            )
             .presentationDetents([.height(600)])
         }
         .fullScreenCover(

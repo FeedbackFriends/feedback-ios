@@ -41,11 +41,7 @@ public struct EditEvent {
         case presentError(Error)
         case editEventResponse(ManagerEvent)
         case cancelButtonTap
-        case delegate(Delegate)
         case alert(PresentationAction<Never>)
-        public enum Delegate {
-            case updateEventDetail(ManagerEvent)
-        }
     }
     
     public init() {}
@@ -82,9 +78,7 @@ public struct EditEvent {
             case .editEventResponse(let event):
                 state.editRequestInFlight = false
                 state.showSuccessOverlay = true
-                return .run { send in
-                    await send(.delegate(.updateEventDetail(event)))
-                }
+                return .none
                 
             case .binding:
                 return .none
@@ -93,9 +87,6 @@ public struct EditEvent {
                 return .run { send in
                     await self.dismiss()
                 }
-                
-            case .delegate:
-                return .none
                 
             case .alert:
                 return .none

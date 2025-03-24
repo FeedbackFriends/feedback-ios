@@ -22,7 +22,6 @@ public struct EventsOverviewView: View {
         let infoStore = $store.scope(state: \.destination?.info, action: \.destination.info)
         let startFeedbackConfirmationStore = $store.scope(state: \.destination?.startFeedbackConfirmation, action: \.destination.startFeedbackConfirmation)
         content
-            .onAppear { store.send(.onAppear) }
             .animation(.default, value: store.session)
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
             .background(Color.themeBackground)

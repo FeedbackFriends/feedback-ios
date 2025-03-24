@@ -11,7 +11,7 @@ public struct AppDelegateReducer {
         public init() {}
     }
     public enum Action {
-        case didFinishLaunchingWithOptions(deviceId: String)
+        case didFinishLaunchingWithOptions
         case didReceiveRegistrationToken(String?)
         case onTapNotification(NotificationType)
         case authenticationStateChanged(UserState)
@@ -37,7 +37,7 @@ public struct AppDelegateReducer {
             case .authenticationStateChanged(_):
                 return .none
                 
-            case .didFinishLaunchingWithOptions(let deviceId):
+            case .didFinishLaunchingWithOptions:
                 return .run { send in
                     await authClient.setupStateListener()
                     let userStateChangedStream = await authClient.userStateChanged()
