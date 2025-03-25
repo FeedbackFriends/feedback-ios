@@ -64,7 +64,7 @@ public struct Tabbar {
         case destination(PresentationAction<Destination.Action>)
         case didEnterForeground
         case delegate(Delegate)
-        case updatedSessionResponse(UpdatedSession?)
+        case updatedSessionResponse(UpdatedSession)
         public enum Delegate {
             case forceRefreshSession
         }
@@ -93,7 +93,9 @@ public struct Tabbar {
         Scope(state: \.more, action: \.more) {
             More()
         }
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
                 
             case .didEnterForeground:
@@ -123,11 +125,16 @@ public struct Tabbar {
                     }.cancellable(id: CancelID.timer, cancelInFlight: true)
                 )
                 
-            case .updatedSessionResponse(let optionalUpdatedSession):
-                guard let updatedSession = optionalUpdatedSession else {
-                    return .none
+            case .updatedSessionResponse(let updatedSession):
+                if let first = updatedSession.events.first {
+                    notificationClient.scheduleLocalNotification(
+                        title: "New feedback 🤝",
+                        body: "Feedback received on event '\(first.title)'",
+                        userInfo: [:],
+                        presentAfterDelayInSeconds: 1,
+                        id: "NewFeedback"
+                    )
                 }
-                /// Show banner here
                 return .none
                 
             case .binding:

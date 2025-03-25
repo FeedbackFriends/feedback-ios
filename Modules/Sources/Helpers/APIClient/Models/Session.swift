@@ -258,7 +258,7 @@ public extension Session {
         guard case let .manager(managerData: managerData, accountInfo: _) = self.userType else { fatalError() }
         return managerData.managerEvents[id: id]!
     }
-    mutating func resetNewFeedbackForEvent(eventId: UUID) {
+    mutating func markEventAsSeen(eventId: UUID) {
         guard case let .manager(managerData, accountInfo) = self.userType else { return }
         
         var mutableManagerData = managerData
@@ -314,4 +314,26 @@ public extension Session {
             return
         }
     }
+    
+    mutating func markActivityAsSeen() {
+        switch self.userType {
+            
+        case .manager(managerData: let managerData, accountInfo: let accountInfo):
+            var mutableManagerData = managerData
+            var mutableActivity = mutableManagerData.activity
+            mutableActivity.unseenTotal = 0
+            for index in mutableActivity.items.indices {
+                mutableActivity.items[index].seenBefore = true
+            }
+            
+            mutableManagerData.activity = mutableActivity
+            self.userType = .manager(managerData: mutableManagerData, accountInfo: accountInfo)
+        case .participant(accountInfo: _):
+            return
+        case .anonymoous:
+            return
+        }
+    }
+    
+    
 }

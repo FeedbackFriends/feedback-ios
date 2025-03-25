@@ -167,7 +167,7 @@ public extension APIClient {
             markEventAsSeen: { eventId in
                 try await withAuthorization {
                     _ = try await api.resetNewFeedback(.init(path: .init(eventId: eventId.uuidString)))
-                    await sessionCache.resetNewFeedbackForEvent(eventId: eventId)
+                    await sessionCache.markEventAsSeen(eventId: eventId)
                     return ()
                 }
                 return ()
@@ -193,7 +193,11 @@ public extension APIClient {
                 }
             },
             markActivityAsSeen: {
-                
+                try await withAuthorization {
+                    let _ = try await api.markActivityAsSeen().ok
+                    await sessionCache.markActivityAsSeen()
+                    return ()
+                }
             }
         )
     }

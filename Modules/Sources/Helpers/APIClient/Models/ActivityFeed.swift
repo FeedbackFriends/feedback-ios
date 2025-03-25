@@ -1,8 +1,8 @@
 import Foundation
 
 public struct Activity: Equatable, Sendable {
-    public let items: [ActivityItems]
-    public let unseenTotal: Int
+    public var items: [ActivityItems]
+    public var unseenTotal: Int
     public init(items: [ActivityItems], unseenTotal: Int) {
         self.items = items
         self.unseenTotal = unseenTotal
@@ -15,7 +15,7 @@ public struct ActivityItems: Equatable, Sendable, Identifiable {
     public let eventTitle: String
     public let eventId: UUID
     public let newFeedbackCount: Int
-    public let seenBefore: Bool
+    public var seenBefore: Bool
     public init(
         id: UUID,
         date: Date,

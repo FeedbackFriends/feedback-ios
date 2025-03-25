@@ -102,7 +102,13 @@ public struct EventsOverview {
                     /// Lav kald her som resetter
                     state.destination = .activity(managerData.activity.items)
                 }
-                return .none
+                return .run { send in
+                    do {
+                        try await apiClient.markActivityAsSeen()
+                    } catch {
+                        logger.log("Reset new feedback failed with error: \(error.localizedDescription)")
+                    }
+                }
                 
             case .confirmedToStartFeedback(pinCode: let pinCode):
                 return .send(.startFeedbackButtonTap(pinCode: pinCode))
