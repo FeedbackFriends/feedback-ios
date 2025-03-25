@@ -19,6 +19,8 @@ public struct EventsOverview {
         case info(ParticipantEvent)
         @ReducerCaseIgnored
         case startFeedbackConfirmation(String)
+        @ReducerCaseIgnored
+        case activity([ActivityItems])
         public enum AlertAction {
             case confirmedToCreateUser
         }
@@ -59,6 +61,8 @@ public struct EventsOverview {
         case delegate(Delegate)
         case infoButtonTap(ParticipantEvent)
         case confirmedToStartFeedback(pinCode: String)
+        case activityButtonTap
+        case onTapActivityItem(ActivityItems)
         public enum Delegate {
             case startFeedback(pinCode: String)
             case navigateToSignUp
@@ -75,6 +79,30 @@ public struct EventsOverview {
         BindingReducer()
         Reduce { state, action in
             switch action {
+                
+            case .onTapActivityItem(let activityItem):
+                guard case .manager(let managerData, _) = state.session.userType else { return .none }
+                state.destination = .eventDetail(
+                    EventDetailFeature.State(
+                        event: managerData.managerEvents[id: activityItem.eventId]!,
+                        session: state.$session
+                    )
+                )
+                return .run { send in
+                    do {
+                        try await apiClient.markEventAsSeen(activityItem.id)
+                    } catch {
+                        logger.log("Reset new feedback failed with error: \(error.localizedDescription)")
+                    }
+                }
+                
+                
+            case .activityButtonTap:
+                if case .manager(let managerData, _) = state.session.userType {
+                    /// Lav kald her som resetter
+                    state.destination = .activity(managerData.activity.items)
+                }
+                return .none
                 
             case .confirmedToStartFeedback(pinCode: let pinCode):
                 return .send(.startFeedbackButtonTap(pinCode: pinCode))
@@ -110,22 +138,22 @@ public struct EventsOverview {
             case .managerEventTap(let event):
                 state.destination = .eventDetail(
                     EventDetailFeature.State(
-                        eventId: event.id,
+                        event: event,
                         session: state.$session
                     )
                 )
                 return .run { send in
                     do {
-                        try await apiClient.resetNewFeedbackForEvent(event.id)
+                        try await apiClient.markEventAsSeen(event.id)
                     } catch {
-                        logger.log(.error, "Reset new feedback failed with error: \(error.localizedDescription)")
+                        logger.log("Reset new feedback failed with error: \(error.localizedDescription)")
                     }
                 }
                 
             case .destination(.presented(.createEvent(.delegate(.dismissAndNavigateToDetail(let event))))):
                 state.destination = .eventDetail(
                     EventDetailFeature.State(
-                        eventId: event.id,
+                        event: event,
                         session: state.$session,
                         destination: .invite(event)
                     )

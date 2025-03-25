@@ -62,9 +62,9 @@ public struct Tabbar {
         case requestNotificationAuthorization
         case dimissNotificationPermissionButtonTap
         case destination(PresentationAction<Destination.Action>)
-        case didEnterBackground
+        case didEnterForeground
         case delegate(Delegate)
-        case sessionResponse
+        case updatedSessionResponse(UpdatedSession?)
         public enum Delegate {
             case forceRefreshSession
         }
@@ -76,6 +76,8 @@ public struct Tabbar {
     @Dependency(\.notificationClient) var notificationClient
     
     public init() {}
+    
+    enum CancelID { case timer }
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -94,7 +96,7 @@ public struct Tabbar {
         Reduce { state, action in
             switch action {
                 
-            case .didEnterBackground:
+            case .didEnterForeground:
                 state.inSync = false
                 return .none
                 
@@ -109,16 +111,23 @@ public struct Tabbar {
                             await send(.sessionUpdated(session))
                         }
                     },
-                    .run { send in
-                        for await _ in clock.timer(interval: .seconds(5)) {
-                            let _ = try await apiClient.getSession()
-                            await send(.sessionResponse)
+                    .run {  send in
+                        for await _ in self.clock.timer(interval: .seconds(5)) {
+                            do {
+                                let updatedSession = try await apiClient.getUpdatedSession()
+                                await send(.updatedSessionResponse(updatedSession))
+                            } catch {
+                                logger.log("Failed to send updated session response: \(error)")
+                            }
                         }
-                    }
+                    }.cancellable(id: CancelID.timer, cancelInFlight: true)
                 )
                 
-            case .sessionResponse:
-                state.inSync = true
+            case .updatedSessionResponse(let optionalUpdatedSession):
+                guard let updatedSession = optionalUpdatedSession else {
+                    return .none
+                }
+                /// Show banner here
                 return .none
                 
             case .binding:
@@ -151,6 +160,15 @@ public struct Tabbar {
             case .sessionUpdated(let session):
                 state.$session.withLock {
                     $0 = session
+                }
+                guard case .manager(let managerData, _) = state.session.userType else { return .none }
+                if case .eventDetail(let detailState) = state.eventsOverview.destination {
+                    state.eventsOverview.destination = .eventDetail(
+                        EventDetailFeature.State(
+                            event: managerData.managerEvents[id: detailState.event.id]!,
+                            session: state.$session
+                        )
+                    )
                 }
                 return .none
                 

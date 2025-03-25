@@ -164,7 +164,7 @@ public extension APIClient {
                     }
                 }
             },
-            resetNewFeedbackForEvent: { eventId in
+            markEventAsSeen: { eventId in
                 try await withAuthorization {
                     _ = try await api.resetNewFeedback(.init(path: .init(eventId: eventId.uuidString)))
                     await sessionCache.resetNewFeedbackForEvent(eventId: eventId)
@@ -179,7 +179,21 @@ public extension APIClient {
                 }
             },
             getMockToken: {
-                return try await api.mockIdToken(body: .json(.init(role: "Organizer"))).ok.body.json.token
+                return try await api.mockIdToken(body: .json(.init(role: "Organizer", id: "mock_id"))).ok.body.json.token
+            },
+            getUpdatedSession: {
+                try await withAuthorization {
+                    let updatedSessionDto = try await api.getUpdatedSession().ok.body.json
+                    let updatedSession: UpdatedSession = .init(updatedSessionDto)
+                    await sessionCache.updateActivity(updatedSession.activity)
+                    for updatedEvent in updatedSession.events {
+                        await sessionCache.updateOrAppendManagerEvent(updatedEvent)
+                    }
+                    return updatedSession
+                }
+            },
+            markActivityAsSeen: {
+                
             }
         )
     }

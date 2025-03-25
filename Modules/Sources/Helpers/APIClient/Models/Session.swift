@@ -221,8 +221,10 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
 
 public struct ManagerData: Equatable, Sendable {
     public var managerEvents: IdentifiedArrayOf<ManagerEvent>
-    public init(managerEvents: IdentifiedArrayOf<ManagerEvent>) {
+    public var activity: Activity
+    public init(managerEvents: IdentifiedArrayOf<ManagerEvent>, activity: Activity) {
         self.managerEvents = managerEvents
+        self.activity = activity
     }
 }
 
@@ -294,6 +296,20 @@ public extension Session {
             self.userType = .manager(managerData: managerData, accountInfo: updatedAccountInfo)
         case .participant(accountInfo: _):
             self.userType = .participant(accountInfo: updatedAccountInfo)
+        case .anonymoous:
+            return
+        }
+    }
+    
+    mutating func updateActivity(_ updatedActivity: Activity) {
+        switch self.userType {
+            
+        case .manager(managerData: let managerData, accountInfo: let accountInfo):
+            var mutableManagerData = managerData
+            mutableManagerData.activity = updatedActivity
+            self.userType = .manager(managerData: mutableManagerData, accountInfo: accountInfo)
+        case .participant(accountInfo: _):
+            return
         case .anonymoous:
             return
         }

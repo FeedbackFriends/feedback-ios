@@ -28,14 +28,7 @@ public struct EventDetailFeature {
     
     @ObservableState
     public struct State {
-        var event: ManagerEvent {
-            switch session.userType {
-            case .manager(managerData: let managerData, accountInfo: _):
-                return managerData.managerEvents[id: eventId]!
-            default: fatalError()
-            }
-        }
-        let eventId: UUID
+        public var event: ManagerEvent
         @Presents var destination: Destination.State?
         var fetchEventDetailInFlight = true
         var navigationTitle: String {
@@ -58,8 +51,8 @@ public struct EventDetailFeature {
         }
 
         
-        public init(eventId: UUID, session: Shared<Session>, destination: Destination.State? = nil) {
-            self.eventId = eventId
+        public init(event: ManagerEvent, session: Shared<Session>, destination: Destination.State? = nil) {
+            self.event = event
             self._session = session
             self.destination = destination
         }

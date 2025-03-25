@@ -75,7 +75,7 @@ public struct EditEvent {
                 state.alert = .init(error: error)
                 return .none
                 
-            case .editEventResponse(let event):
+            case .editEventResponse:
                 state.editRequestInFlight = false
                 state.showSuccessOverlay = true
                 return .none

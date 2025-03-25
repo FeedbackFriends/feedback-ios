@@ -15,13 +15,13 @@ extension Feedback {
                     comment: feedback.comment
                 ),
                 questionId: UUID(uuidString: feedback.questionId)!,
-                isNew: feedback.isNew
+                isNew: feedback.seenByManager
             )
         case .comment:
             self = .init(
                 type: .comment(comment: feedback.comment!),
                 questionId: UUID(uuidString: feedback.questionId)!,
-                isNew: feedback.isNew
+                isNew: feedback.seenByManager
             )
         case .thumpsUpThumpsDown:
             fatalError()
@@ -238,7 +238,6 @@ extension Session {
             email: session.accountInfo.email,
             phoneNumber: session.accountInfo.phoneNumber
         )
-        print("*********** role \(session.role ?? "")")
         let role: Role? = switch session.role {
         case .some("Participant"):
                 .participant
@@ -252,7 +251,8 @@ extension Session {
         case .some("Organizer"):
                 .manager(
                     managerData: .init(
-                        managerEvents: IdentifiedArray(uniqueElements: session.managerData?.managerEvents.map { .init($0) } ?? [])
+                        managerEvents: IdentifiedArray(uniqueElements: session.managerData!.managerEvents.map { .init($0) }),
+                        activity: .init(session.managerData!.activity)
                     ),
                     accountInfo: accountInfo
                 )
@@ -297,6 +297,33 @@ extension Session {
             ),
             userType: userType,
             role: role
+        )
+    }
+}
+
+extension UpdatedSession {
+    init(_ updatedSession: Components.Schemas.UpdatedSessionDto) {
+        self.init(
+            events: updatedSession.events.map { ManagerEvent($0) },
+            activity: .init(updatedSession.activity)
+        )
+    }
+}
+
+extension Activity {
+    init(_ activity: Components.Schemas.ActivityDto) {
+        self.init(
+            items: activity.items.map {
+                .init(
+                    id: UUID(uuidString: $0.id)!,
+                    date: $0.date,
+                    eventTitle: $0.eventTitle,
+                    eventId: UUID(uuidString: $0.eventId)!,
+                    newFeedbackCount: Int($0.newFeedbackCount),
+                    seenBefore: $0.seenBefore
+                )
+            },
+            unseenTotal: Int(activity.unseenTotal)
         )
     }
 }

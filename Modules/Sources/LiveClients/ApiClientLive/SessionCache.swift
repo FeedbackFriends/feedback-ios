@@ -19,7 +19,10 @@ actor SessionCache {
     func deleteEvent(_ eventId: UUID) {
         session?.deleteEvent(eventId)
         if let updatedSession = session {
-            sessionContinuation?.yield(updatedSession)
+            Task {
+                try await Task.sleep(for: .seconds(4))
+                sessionContinuation?.yield(updatedSession)
+            }
         }
     }
     
@@ -52,6 +55,13 @@ actor SessionCache {
     
     func resetNewFeedbackForEvent(eventId: UUID) {
         session?.resetNewFeedbackForEvent(eventId: eventId)
+        if let updatedSession = session {
+            sessionContinuation?.yield(updatedSession)
+        }
+    }
+    
+    func updateActivity(_ activity: Activity) {
+        session?.updateActivity(activity)
         if let updatedSession = session {
             sessionContinuation?.yield(updatedSession)
         }

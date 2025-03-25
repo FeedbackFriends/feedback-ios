@@ -50,13 +50,15 @@ public extension APIClient {
                 try await Task.sleep(for: .seconds(1))
                 await mockSessionEngine.appendParticipantEvent(eventCode)
             },
-            resetNewFeedbackForEvent: { eventCode in
+            markEventAsSeen: { eventCode in
                 return ()
             },
             updateAccountRole: { _ in
                 return ()
             },
-            getMockToken: { "mock_token" }
+            getMockToken: { "mock_token" },
+            getUpdatedSession: { .mock },
+            markActivityAsSeen: { }
         )
     }
 }

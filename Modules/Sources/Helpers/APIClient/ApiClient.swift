@@ -29,10 +29,12 @@ public struct APIClient: Sendable {
     @DependencyEndpoint
     public var joinEvent: @Sendable (_ eventCode: String) async throws -> ()
     @DependencyEndpoint
-    public var resetNewFeedbackForEvent: @Sendable (_ eventId: UUID) async throws -> ()
+    public var markEventAsSeen: @Sendable (_ eventId: UUID) async throws -> ()
     @DependencyEndpoint
     public var updateAccountRole: @Sendable (_ role: Role) async throws -> ()
     public var getMockToken: @Sendable () async throws -> (String)
+    public var getUpdatedSession: @Sendable () async throws -> UpdatedSession?
+    public var markActivityAsSeen: @Sendable () async throws -> ()
 }
 
 public extension DependencyValues {

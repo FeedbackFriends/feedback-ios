@@ -20,7 +20,11 @@ public struct EventsOverviewView: View {
         let createEventStore = $store.scope(state: \.destination?.createEvent, action: \.destination.createEvent)
         let joinEventStore = $store.scope(state: \.destination?.joinEvent, action: \.destination.joinEvent)
         let infoStore = $store.scope(state: \.destination?.info, action: \.destination.info)
-        let startFeedbackConfirmationStore = $store.scope(state: \.destination?.startFeedbackConfirmation, action: \.destination.startFeedbackConfirmation)
+        let activityStore = $store.scope(state: \.destination?.activity, action: \.destination.activity)
+        let startFeedbackConfirmationStore = $store.scope(
+            state: \.destination?.startFeedbackConfirmation,
+            action: \.destination.startFeedbackConfirmation
+        )
         content
             .animation(.default, value: store.session)
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
@@ -28,10 +32,13 @@ public struct EventsOverviewView: View {
             .foregroundStyle(Color.themeDarkGray.gradient)
             .toolbar {
                 switch store.session.userType {
-                case .manager, .anonymoous:
-                    createEventToolbar
+                case .manager(let managerData,_):
+                    activityToolbarItem(managerData.activity.unseenTotal)
+                    createEventToolbarItem
+                    case .anonymoous:
+                    createEventToolbarItem
                 case .participant:
-                    joinEventToolbar
+                    joinEventToolbarItem
                 }
             }
             .navigationDestination(
@@ -58,6 +65,17 @@ public struct EventsOverviewView: View {
                         ownerEmail: event.ownerInfo.email,
                         ownerphoneNumber: event.ownerInfo.phoneNumber,
                         date: event.date
+                    )
+                    .presentationDetents([.medium, .large])
+                }
+            }
+            .sheet(item: activityStore) { activityItems in
+                activityItems.withState { activityItems in
+                    ActivityView(
+                        activityItems: activityItems,
+                        onTapActivityItem: {
+                            store.send(.onTapActivityItem($0))
+                        }
                     )
                     .presentationDetents([.medium, .large])
                 }
@@ -98,7 +116,7 @@ extension EventsOverviewView {
         }
     }
     
-    var createEventToolbar: some ToolbarContent {
+    var createEventToolbarItem: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Menu {
                 Section {
@@ -126,7 +144,7 @@ extension EventsOverviewView {
         }
     }
     
-    var joinEventToolbar: some ToolbarContent {
+    var joinEventToolbarItem: some ToolbarContent {
         ToolbarItem(placement: .navigationBarTrailing) {
             Button {
                 store.send(.joinEventButtonTap)
@@ -134,6 +152,28 @@ extension EventsOverviewView {
                 Text("Join")
             }
             .buttonStyle(PrimaryToolbarButtonStyle())
+        }
+    }
+    
+    func activityToolbarItem(_ count: Int) -> some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            Button {
+                store.send(.activityButtonTap)
+            } label: {
+                Image(systemName: "bell")
+                    .resizable()
+                    .fontWeight(.medium)
+                    .foregroundStyle(Color.themeDarkGray)
+            }
+            .overlay(alignment: .topTrailing) {
+                if count > 0 {
+                    Text(count.description)
+                        .foregroundStyle(Color.white)
+                        .font(.montserratSemiBold, 10)
+                        .padding(5)
+                        .background(Circle().foregroundStyle(Color.themeRed))
+                }
+            }
         }
     }
     

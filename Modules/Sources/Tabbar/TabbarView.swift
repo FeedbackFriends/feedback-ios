@@ -60,9 +60,14 @@ private extension TabbarView {
         })
         .onChange(of: scenePhase) {
             switch $0 {
+            
             case .background:
-                store.send(.didEnterBackground)
-            default:
+                return
+            case .inactive:
+                return
+            case .active:
+                store.send(.didEnterForeground)
+            @unknown default:
                 return
             }
             

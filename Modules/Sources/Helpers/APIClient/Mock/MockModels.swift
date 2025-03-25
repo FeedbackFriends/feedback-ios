@@ -90,7 +90,8 @@ public extension Session {
                 managerData: .init(
                     managerEvents: .init(
                         uniqueElements: generateMockManagerEvents(count: numberOfManagerEvents)
-                    )
+                    ),
+                    activity: .mock
                 ),
                 accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
             ),
@@ -356,4 +357,18 @@ public func generateFeedback(amount: Int) -> [Feedback] {
     }
     
     return feedbackArray
+}
+
+public extension Activity {
+    static let mock = Self.init(
+        items: [],
+        unseenTotal: 5
+    )
+}
+
+public extension UpdatedSession {
+    static let mock = Self.init(
+        events: [],
+        activity: .mock
+    )
 }
