@@ -173,7 +173,9 @@ public struct Tabbar {
                 guard case .manager(let managerData, _) = state.session.userType else { return .none }
                 if case .eventDetail(let eventState) = state.eventsOverview.destination {
                     var mutableEventState = eventState
-                    mutableEventState.event = managerData.managerEvents[id: eventState.event.id]!
+                    if let event = managerData.managerEvents[id: eventState.event.id] {
+                        mutableEventState.event = event
+                    }
                     state.eventsOverview.destination = .eventDetail(mutableEventState)
                 }
                 return .none
