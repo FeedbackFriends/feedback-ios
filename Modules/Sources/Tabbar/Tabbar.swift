@@ -31,6 +31,7 @@ public struct Tabbar {
         @Shared public var session: Session
         var initialiseFeedback: FeedbackButton.State
         @Presents var destination: Destination.State?
+        var firstFetchAfterEnteringForeground = false
         
         public init(
             session: Shared<Session>,
@@ -97,6 +98,7 @@ public struct Tabbar {
             switch action {
                 
             case .didEnterForeground:
+                state.firstFetchAfterEnteringForeground = true
                 return .none
                 
             case .onAppear:
@@ -123,14 +125,17 @@ public struct Tabbar {
                 )
                 
             case .updatedSessionResponse(let updatedSession):
-                if let first = updatedSession.events.first {
-                    notificationClient.scheduleLocalNotification(
-                        title: "New feedback 🤝",
-                        body: "Feedback received on event '\(first.title)'",
-                        userInfo: [:],
-                        presentAfterDelayInSeconds: 1,
-                        id: "NewFeedback"
-                    )
+                if !state.firstFetchAfterEnteringForeground {
+                    state.firstFetchAfterEnteringForeground = false
+                    if let first = updatedSession.events.first {
+                        notificationClient.scheduleLocalNotification(
+                            title: "New feedback 🤝",
+                            body: "Feedback received on event '\(first.title)'",
+                            userInfo: [:],
+                            presentAfterDelayInSeconds: 1,
+                            id: "NewFeedback"
+                        )
+                    }
                 }
                 return .none
                 
