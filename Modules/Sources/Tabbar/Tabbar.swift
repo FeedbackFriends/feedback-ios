@@ -32,6 +32,7 @@ public struct Tabbar {
         var initialiseFeedback: FeedbackButton.State
         @Presents var destination: Destination.State?
         var firstFetchAfterEnteringForeground = false
+        var bannerState: BannerState?
         
         public init(
             session: Shared<Session>,
@@ -64,6 +65,7 @@ public struct Tabbar {
         case didEnterForeground
         case delegate(Delegate)
         case updatedSessionResponse(UpdatedSession)
+        case removeBanner
         public enum Delegate {
             case forceRefreshSession
         }
@@ -128,13 +130,11 @@ public struct Tabbar {
                 if !state.firstFetchAfterEnteringForeground {
                     state.firstFetchAfterEnteringForeground = false
                     if let first = updatedSession.events.first {
-                        notificationClient.scheduleLocalNotification(
-                            title: "New feedback 🤝",
-                            body: "Feedback received on event '\(first.title)'",
-                            userInfo: [:],
-                            presentAfterDelayInSeconds: 1,
-                            id: "NewFeedback"
-                        )
+                        state.bannerState = .serverError("Feedback received on event '\(first.title)' 🤝")
+                        return .run { send in
+                            try await clock.sleep(for: .seconds(4))
+                            await send(.removeBanner)
+                        }
                     }
                 }
                 return .none
@@ -161,6 +161,10 @@ public struct Tabbar {
                 return .none
             
             case .more:
+                return .none
+                
+            case .removeBanner:
+                state.bannerState = nil
                 return .none
                 
             case .initialiseFeedback:

@@ -41,8 +41,7 @@ public struct EventDetailFeatureView: View {
                     code: event.pinCode,
                     inviteLink: store.inviteLink,
                     shareText: store.shareText
-                )
-                    .presentationDetents([PresentationDetent.height(350)])
+                ).presentationDetents([PresentationDetent.height(350)])
             }
         }
         .confirmationDialog(confirmationStore)

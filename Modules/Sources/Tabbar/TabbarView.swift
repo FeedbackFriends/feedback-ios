@@ -52,19 +52,16 @@ private extension TabbarView {
             }
             .tag(Tab.more)
         }
-        .onChange(of: scenePhase) {
-            switch $0 {
-            
-            case .background:
-                return
-            case .inactive:
+        .banner(unwrapping: store.bannerState)
+        .onChange(of: scenePhase) { _, newValue in
+            switch newValue {
+            case .background, .inactive:
                 return
             case .active:
                 store.send(.didEnterForeground)
             @unknown default:
                 return
             }
-            
         }
         .alert($store.scope(state: \.initialiseFeedback.destination?.alert, action: \.initialiseFeedback.destination.alert))
         .sheet(

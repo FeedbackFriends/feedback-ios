@@ -105,7 +105,7 @@ private extension DetailSectionView {
     var questionsSectionView: some View {
         Section {
             ForEach(Array(zip(event.questions.indices, event.questions)), id: \.0) { index, question in
-                questionView(question: question, index: index)
+                QuestionView(question: question, index: index)
                     .disabled(event.feedbackSummary == nil)
             }
             
@@ -114,6 +114,62 @@ private extension DetailSectionView {
                 .font(.montserratSemiBold, 14)
                 .foregroundColor(Color.themeDarkGray)
         }
+    }
+}
+
+#Preview("Detail section with feedback n stuff") {
+    NavigationStack {
+        DetailSectionView(event: .mock())
+            .navigationTitle("Event with feedback n stuff")
+    }
+}
+
+struct QuestionView: View {
+    let question: ManagerQuestion
+    let index: Int
+    @State private var isExpanded: Bool = true
+    var body: some View {
+        GroupBox {
+            DisclosureGroup(
+                isExpanded: $isExpanded,
+                    content: {
+                        if let feedback = question.feedback {
+                            VStack(spacing: 0) {
+                                ForEach(feedback) { feedback in
+                                    FeedbackRowView(feedback: feedback)
+                                }
+                            }
+                        }
+                    },
+                label: {
+                    VStack(spacing: 10) {
+                        HStack(alignment: .top) {
+                            VStack(alignment: .leading, spacing: 12) {
+                                Text(question.questionText)
+                                    .font(.montserratRegular, 13)
+                                    .multilineTextAlignment(.leading)
+                                if let feedback = question.feedbackSummary {
+                                    smileyView(feedback)
+                                }
+                            }
+                            Spacer()
+                            VStack(alignment: .leading, spacing: 12) {
+                                if let feedback = question.feedbackSummary, feedback.totalFeedback > 2 {
+                                    makePieChartView(feedback: feedback)
+                                        .frame(width: 34, height: 34)
+                                }
+                            }
+                        }
+                        .padding(.top, 16)
+                        .padding(.trailing, 16)
+                    }
+                }
+            )
+            .padding(.horizontal, 16)
+            
+            Color.clear.frame(height: 10)
+        }
+        .groupBoxStyle(CustomGroupBoxStyle())
     }
     
     func smileyView(_ feedback: QuestionFeedbackSummary) -> some View {
@@ -148,56 +204,6 @@ private extension DetailSectionView {
             }
             .font(.montserratSemiBold, 12)
         }
-    }
-    
-    func questionView(question: ManagerQuestion, index: Int) -> some View {
-        GroupBox {
-                    DisclosureGroup(
-                        content: {
-                            if let feedback = question.feedback {
-                                VStack(spacing: 0) {
-                                    ForEach(feedback) { feedback in
-                                        FeedbackRowView(feedback: feedback)
-                                    }
-                                }
-                            }
-                        },
-                        label: {
-                            VStack(spacing: 10) {
-                                HStack(alignment: .top) {
-                                    VStack(alignment: .leading, spacing: 12) {
-                                        Text(question.questionText)
-                                            .font(.montserratRegular, 13)
-                                            .multilineTextAlignment(.leading)
-                                        if let feedback = question.feedbackSummary {
-                                            smileyView(feedback)
-                                        }
-                                    }
-                                    Spacer()
-                                    VStack(alignment: .leading, spacing: 12) {
-                                        if let feedback = question.feedbackSummary, feedback.totalFeedback > 2 {
-                                            makePieChartView(feedback: feedback)
-                                                .frame(width: 34, height: 34)
-                                        }
-                                    }
-                                }
-                                .padding(.top, 16)
-                                .padding(.trailing, 16)
-                            }
-                        }
-                    )
-                    .padding(.horizontal, 16)
-                
-                Color.clear.frame(height: 10)
-        }
-        .groupBoxStyle(CustomGroupBoxStyle())
-    }
-}
-
-#Preview("Detail section with feedback n stuff") {
-    NavigationStack {
-        DetailSectionView(event: .mock())
-            .navigationTitle("Event with feedback n stuff")
     }
 }
 

@@ -2,7 +2,7 @@ import Foundation
 
 public struct Feedback: Equatable, Identifiable, Sendable {
     
-    public var id: UUID { questionId }
+    public var id: UUID { UUID() }
     public let type: FeedbackType2
     public let questionId: UUID
     public var isNew: Bool
