@@ -31,7 +31,6 @@ public struct Tabbar {
         @Shared public var session: Session
         var initialiseFeedback: FeedbackButton.State
         @Presents var destination: Destination.State?
-        var inSync: Bool
         
         public init(
             session: Shared<Session>,
@@ -46,7 +45,6 @@ public struct Tabbar {
             self.selectedTab = selectedTab
             self.more = .init(session: session)
             self.initialiseFeedback = initialiseFeedback
-            self.inSync = true
         }
     }
     
@@ -99,7 +97,6 @@ public struct Tabbar {
             switch action {
                 
             case .didEnterForeground:
-                state.inSync = false
                 return .none
                 
             case .onAppear:
@@ -169,13 +166,10 @@ public struct Tabbar {
                     $0 = session
                 }
                 guard case .manager(let managerData, _) = state.session.userType else { return .none }
-                if case .eventDetail(let detailState) = state.eventsOverview.destination {
-                    state.eventsOverview.destination = .eventDetail(
-                        EventDetailFeature.State(
-                            event: managerData.managerEvents[id: detailState.event.id]!,
-                            session: state.$session
-                        )
-                    )
+                if case .eventDetail(let eventState) = state.eventsOverview.destination {
+                    var mutableEventState = eventState
+                    mutableEventState.event = managerData.managerEvents[id: eventState.event.id]!
+                    state.eventsOverview.destination = .eventDetail(mutableEventState)
                 }
                 return .none
                 

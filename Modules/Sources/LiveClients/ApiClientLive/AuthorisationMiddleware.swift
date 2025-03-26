@@ -27,9 +27,7 @@ struct AuthorisationMiddleware: ClientMiddleware {
         }
         var mutableRequest = request
         mutableRequest.headerFields[.authorization] = "Bearer \(idToken)"
-        logger.log(.info, "Performing request with jwt \(idToken)", nil)
         let response = try await next(mutableRequest, body, baseURL)
-        
         if request.forceRefreshAfter {
             _ = try await Auth.auth().currentUser?.getIDToken(forcingRefresh: true)
         }

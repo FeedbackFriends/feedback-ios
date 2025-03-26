@@ -19,9 +19,6 @@ struct CrashlyticsClient: LoggingClient {
                 userInfo: ["log": message]
             )
             Crashlytics.crashlytics().record(error: error)
-            #if DEBUG
-            assertionFailure("Log above minimum level: \(level), message: \(message), context: \(context ?? "No context")")
-            #endif
         } else {
             Crashlytics.crashlytics().log(message)
         }

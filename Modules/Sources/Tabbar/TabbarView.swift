@@ -52,12 +52,6 @@ private extension TabbarView {
             }
             .tag(Tab.more)
         }
-        .overlay(alignment: .top, content: {
-            if !store.inSync {
-                ProgressView("Syncing")
-                    .foregroundStyle(Color.red)
-            }
-        })
         .onChange(of: scenePhase) {
             switch $0 {
             
