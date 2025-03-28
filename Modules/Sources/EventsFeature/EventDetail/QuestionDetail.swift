@@ -78,7 +78,7 @@ struct QuestionDetailView: View {
         }
     }
 }
-#warning("Fix me")
+
 private extension QuestionDetailView {
     
     func questionView(_ question: ManagerQuestion) -> some View {
@@ -87,23 +87,20 @@ private extension QuestionDetailView {
                 Text(question.questionText)
                     .font(.montserratBold, 15)
                     .frame(maxWidth: .infinity, alignment: .leading)
-//                if let summary = question.feedbackSummary, summary.totalFeedback > 3 {
-//                    smileyView(summary)
-//                        .foregroundColor(.themeDarkGray)
-//                        .offset(y: -6)
-//                }'
-                Text("Fie meee")
-                
-//                if let feedbacks = question.feedback {
-//                    VStack(alignment: .leading) {
-//                        Text("Comments")
-//                            .font(.montserratBold, 15)
-//                        ForEach(feedbacks) { feedback in
-//                            FeedbackRowView(feedback: feedback)
-//                        }
-//                    }
-//                }
-                
+                if let summary = question.feedbackSummary {
+                    smileyView(summary.countStats)
+                        .foregroundColor(.themeDarkGray)
+                        .offset(y: -6)
+                    if summary.countStats.commentsCount > 0 {
+                        VStack(alignment: .leading) {
+                            Text("Comments")
+                                .font(.montserratBold, 15)
+                            ForEach(question.feedback) { feedback in
+                                FeedbackRowView(feedback: feedback)
+                            }
+                        }
+                    }
+                }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .foregroundColor(.themeDarkGray)

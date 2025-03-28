@@ -8,15 +8,15 @@ public struct Feedback: Equatable, Identifiable, Sendable {
     public var seenByManager: Bool
     public var commentsReceived: Bool {
         switch type {
-        case .emoji(let emoji, let comment):
+        case .emoji(_, let comment):
             if comment != nil { return true }
-        case .comment(let comment):
+        case .comment(_):
             return true
-        case .thumpsUpThumpsDown(let thumbsUpThumpsDown, let comment):
+        case .thumpsUpThumpsDown(_, let comment):
             if comment != nil { return true }
-        case .opinion(let opinion, let comment):
+        case .opinion(_, let comment):
             if comment != nil { return true }
-        case .oneToTen(let oneToTen, let comment):
+        case .oneToTen(_, let comment):
             if comment != nil { return true }
         }
         return false

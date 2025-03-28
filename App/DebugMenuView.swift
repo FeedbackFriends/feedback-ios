@@ -9,6 +9,14 @@ import DesignSystem
 struct DebugMenuView: View {
     @State var debugMenuExpanded: Bool = false
     @State var hideDebugMenu: Bool = false
+    var apiClient: APIClient {
+        @Dependency(\.apiClient) var apiClient
+        return apiClient
+    }
+    var notificationClient: NotificationClient {
+        @Dependency(\.notificationClient) var notificationClient
+        return notificationClient
+    }
     var body: some View {
         if !hideDebugMenu {
             HStack {
@@ -28,7 +36,6 @@ struct DebugMenuView: View {
                         Button("Sign in with Mock") {
                             Task {
                                 do {
-                                    @Dependency(\.apiClient) var apiClient
                                     let mockToken = try await apiClient.getMockToken()
                                     print("Mock token received: \n \(mockToken)")
                                     try await Auth.auth().signIn(withCustomToken: mockToken)
@@ -53,7 +60,6 @@ struct DebugMenuView: View {
                         }
                         Button("Local mock notification") {
                             Task {
-                                @Dependency(\.notificationClient) var notificationClient
                                 notificationClient.scheduleLocalNotification(
                                     title: "mock title",
                                     body: "mock body",

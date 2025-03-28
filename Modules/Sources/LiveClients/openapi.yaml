@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.74
+  version: 0.0.75
 servers:
 - url: http://localhost:8080
   description: Generated server url
