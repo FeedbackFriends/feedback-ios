@@ -15,12 +15,9 @@ func fontsURLs() -> [URL] {
 
 extension UIFont {
     static func register(from url: URL) throws {
-        guard let fontDataProvider = CGDataProvider(url: url as CFURL) else {
-            fatalError()
-        }
-        let font = CGFont(fontDataProvider)!
         var error: Unmanaged<CFError>?
-        guard CTFontManagerRegisterGraphicsFont(font, &error) else {
+        let success = CTFontManagerRegisterFontsForURL(url as CFURL, .process, &error)
+        guard success else {
             throw error!.takeUnretainedValue()
         }
     }
