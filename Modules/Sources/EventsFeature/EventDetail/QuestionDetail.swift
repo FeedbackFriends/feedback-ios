@@ -96,7 +96,7 @@ private extension QuestionDetailView {
                             Text("Comments")
                                 .font(.montserratBold, 15)
                             ForEach(question.feedback) { feedback in
-                                FeedbackRowView(feedback: feedback)
+                                FeedbackCommentRowView(feedback: feedback)
                             }
                         }
                     }

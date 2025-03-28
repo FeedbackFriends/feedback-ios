@@ -1,7 +1,7 @@
 import Helpers
 import SwiftUI
 
-struct FeedbackRowView: View {
+struct FeedbackCommentRowView: View {
     
     let feedback: Feedback
     

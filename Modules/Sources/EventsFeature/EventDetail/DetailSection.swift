@@ -136,9 +136,19 @@ struct QuestionView: View {
             DisclosureGroup(
                 isExpanded: $isExpanded,
                 content: {
-                    VStack(spacing: 0) {
-                        ForEach(question.feedback) { feedback in
-                            FeedbackRowView(feedback: feedback)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Comments")
+                            .font(.montserratSemiBold, 13)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        if question.feedbackSummary?.countStats.commentsCount == 0 {
+                            Text("No comments yet")
+                                .font(.montserratRegular, 14)
+                                .foregroundStyle(Color.gray)
+                                .padding(.vertical, 8)
+                        } else {
+                            ForEach(question.feedback) { feedback in
+                                FeedbackCommentRowView(feedback: feedback)
+                            }
                         }
                     }.padding(.top, 16)
                 },

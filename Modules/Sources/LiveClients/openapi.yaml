@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.75
+  version: 0.0.76
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -64,7 +64,6 @@ paths:
     put:
       tags:
       - Events
-      summary: Called when a manager navigates to event so new feedback is reset
       operationId: markEventAsSeen
       parameters:
       - name: eventId
