@@ -32,7 +32,7 @@ struct ActivityView: View {
                                             Text("New feedback on \(item.eventTitle)")
                                                 .font(.montserratSemiBold, 14)
                                             Spacer()
-                                            if !item.seenBefore  {
+                                            if !item.seenByManager  {
                                                 Text("New")
                                                     .font(.montserratBold, 10)
                                                     .padding(4)
@@ -79,7 +79,7 @@ struct ActivityView: View {
                 eventTitle: "title1",
                 eventId: UUID(),
                 newFeedbackCount: 5,
-                seenBefore: false
+                seenByManager: false
             ),
             .init(
                 id: UUID(),
@@ -87,7 +87,7 @@ struct ActivityView: View {
                 eventTitle: "title2",
                 eventId: UUID(),
                 newFeedbackCount: 5,
-                seenBefore: true
+                seenByManager: true
             )
         ],
         onTapActivityItem: { _ in }

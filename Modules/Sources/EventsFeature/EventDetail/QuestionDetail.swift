@@ -78,7 +78,7 @@ struct QuestionDetailView: View {
         }
     }
 }
-
+#warning("Fix me")
 private extension QuestionDetailView {
     
     func questionView(_ question: ManagerQuestion) -> some View {
@@ -87,25 +87,22 @@ private extension QuestionDetailView {
                 Text(question.questionText)
                     .font(.montserratBold, 15)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                if let summary = question.feedbackSummary, summary.totalFeedback > 3 {
-                    makePieChartView(feedback: summary)
-                        .frame(width: 150, height: 150, alignment: .center)
-                        .padding(.horizontal, 40)
-                        .padding(.top, 12)
-                    smileyView(summary)
-                        .foregroundColor(.themeDarkGray)
-                        .offset(y: -6)
-                }
+//                if let summary = question.feedbackSummary, summary.totalFeedback > 3 {
+//                    smileyView(summary)
+//                        .foregroundColor(.themeDarkGray)
+//                        .offset(y: -6)
+//                }'
+                Text("Fie meee")
                 
-                if let feedbacks = question.feedback {
-                    VStack(alignment: .leading) {
-                        Text("Comments")
-                            .font(.montserratBold, 15)
-                        ForEach(feedbacks) { feedback in
-                            FeedbackRowView(feedback: feedback)
-                        }
-                    }
-                }
+//                if let feedbacks = question.feedback {
+//                    VStack(alignment: .leading) {
+//                        Text("Comments")
+//                            .font(.montserratBold, 15)
+//                        ForEach(feedbacks) { feedback in
+//                            FeedbackRowView(feedback: feedback)
+//                        }
+//                    }
+//                }
                 
             }
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -121,7 +118,7 @@ private extension QuestionDetailView {
         
     }
     
-    func smileyView(_ feedback: QuestionFeedbackSummary) -> some View {
+    func smileyView(_ feedback: FeedbackCountStats) -> some View {
         Group {
             VStack(alignment: .leading) {
                 HStack {

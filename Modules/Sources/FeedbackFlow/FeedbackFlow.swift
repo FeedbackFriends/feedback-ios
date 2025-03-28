@@ -107,7 +107,7 @@ public struct FeedbackFlow {
                         Feedback(
                             type: .emoji(emoji: $0.selectedEmoji!, comment: $0.commentTextField.nilIfEmpty),
                             questionId: $0.questionId,
-                            isNew: true
+                            seenByManager: true
                         )
                     }
                     return .run { [pinCode = state.feedbackSession.pinCode, apiClient] send in

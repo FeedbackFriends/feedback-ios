@@ -95,7 +95,7 @@ public extension Session {
                 ),
                 accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
             ),
-            role: .organizer
+            role: .manager
         )
     }
     static func mockAnonymous() -> Self {
@@ -162,9 +162,8 @@ public extension ManagerEvent {
             id: UUID(),
             questionText: "What do you think about the meeting duration?",
             feedbackType: .emoji,
-            feedback: nil,
-            feedbackSummary: nil,
-            newFeedbackForQuestion: 0
+            feedback: [],
+            feedbackSummary: nil
         )]
         var totalFeedback = 0
 
@@ -184,13 +183,12 @@ public extension ManagerEvent {
             title: generateFeedbackEventTitle(),
             agenda: generateAgenda(),
             date: generateRandomDate(),
-            durationInMinutes: Int.random(in: 0...2400),
             pinCode: generateRandomPin(),
+            durationInMinutes: Int.random(in: 0...2400),
             location: generateRandomLocation(),
+            ownerInfo: .mock(),
             feedbackSummary: feedbackSummary,
-            questions: questions,
-            newFeedbackForEvent: Int.random(in: 1...3),
-            ownerInfo: .mock()
+            questions: questions
         )
     }
 }
@@ -274,12 +272,27 @@ private func generateFeedbackSummary(total: Int) -> FeedbackSummary {
     let happyPercentage = Double(happyWeight)
     let veryHappyPercentage = Double(veryHappyWeight)
 
+    let verySadCount = Int.random(in: 0...total / 2)
+    let sadCount = Int.random(in: 0...(total - verySadCount) / 3)
+    let happyCount = Int.random(in: 0...(total - verySadCount - sadCount) / 2)
+    let veryHappyCount = total - (verySadCount + sadCount + happyCount)
+    
     return FeedbackSummary(
-        totalFeedback: total,
-        verySadPercentage: verySadPercentage,
-        sadPercentage: sadPercentage,
-        happyPercentage: happyPercentage,
-        veryHappyPercentage: veryHappyPercentage
+        segmentationStats: FeedbackSegmentationStats(
+            verySadPercentage: verySadPercentage,
+            sadPercentage: sadPercentage,
+            happyPercentage: happyPercentage,
+            veryHappyPercentage: veryHappyPercentage
+        ),
+        countStats: FeedbackCountStats(
+            verySadCount: verySadCount,
+            sadCount: sadCount,
+            happyCount: happyCount,
+            veryHappyCount: veryHappyCount,
+            commentsCount: Int.random(in: 0...10),
+            uniqueParticipantFeedback: total
+        ),
+        unseenCount: Int.random(in: 0...10)
     )
 }
 
@@ -289,50 +302,39 @@ public extension ManagerEvent {
         title: "Standup Meeting",
         agenda: mockAgenda,
         date: .init(timeIntervalSince1970: 0),
-        durationInMinutes: 30,
         pinCode: "1234",
+        durationInMinutes: 30,
         location: "Roskilde",
+        ownerInfo: .mock(),
         feedbackSummary: nil,
-        questions: [.init(
-            id: UUID(),
-            questionText: "What do you think about this aspect of the experience?",
-            feedbackType: .emoji,
-            feedback: nil,
-            feedbackSummary: nil,
-            newFeedbackForQuestion: 0
-        )],
-        newFeedbackForEvent: 2,
-        ownerInfo: .mock()
+        questions: [
+            .init(
+                id: UUID(),
+                questionText: "What do you think about this aspect of the experience?",
+                feedbackType: .emoji,
+                feedback: [],
+                feedbackSummary: nil
+            ),
+            .init(
+                id: UUID(),
+                questionText: "What do you think about this aspect of the experience?",
+                feedbackType: .emoji,
+                feedback: [],
+                feedbackSummary: nil
+            )
+        ]
     )
 }
 
 public func generateQuestion(amount: Int) -> ManagerQuestion {
     let feedback = generateFeedback(amount: amount)
-    
-    let feedbackSummary: QuestionFeedbackSummary? = amount > 0 ? generateFeedbackSummary(total: amount) : nil
-    
+    let feedbackSummary: FeedbackSummary? = generateFeedbackSummary(total: amount)
     return ManagerQuestion(
         id: UUID(),
         questionText: "How do you feel about this aspect of the experience?",
         feedbackType: .emoji,
         feedback: feedback,
-        feedbackSummary: feedbackSummary,
-        newFeedbackForQuestion: Int.random(in: 0...4)
-    )
-}
-
-private func generateFeedbackSummary(total: Int) -> QuestionFeedbackSummary {
-    let verySadCount = Int.random(in: 0...total / 2)
-    let sadCount = Int.random(in: 0...(total - verySadCount) / 3)
-    let happyCount = Int.random(in: 0...(total - verySadCount - sadCount) / 2)
-    let veryHappyCount = total - (verySadCount + sadCount + happyCount)
-    
-    return QuestionFeedbackSummary(
-        totalFeedback: total,
-        verySadCount: verySadCount,
-        sadCount: sadCount,
-        happyCount: happyCount,
-        veryHappyCount: veryHappyCount
+        feedbackSummary: feedbackSummary
     )
 }
 
@@ -352,7 +354,7 @@ public func generateFeedback(amount: Int) -> [Feedback] {
     for _ in 0..<amount {
         let randomEmoji = possibleEmojis.randomElement()!
         let randomComment = possibleComments.randomElement()!
-        let feedback = Feedback(type: .emoji(emoji: randomEmoji, comment: randomComment), questionId: UUID(), isNew: Bool.random()) 
+        let feedback = Feedback(type: .emoji(emoji: randomEmoji, comment: randomComment), questionId: UUID(), seenByManager: Bool.random()) 
         feedbackArray.append(feedback)
     }
     

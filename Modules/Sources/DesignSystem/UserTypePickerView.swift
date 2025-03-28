@@ -35,13 +35,13 @@ public struct UserTypePickerView: View {
         .buttonStyle(LargeBoxButtonStyle())
         Button {
             impactMed.impactOccurred()
-            self.selectedUserType = .organizer
+            self.selectedUserType = .manager
         } label: {
             HStack {
-                Image(systemName: selectedUserType == .organizer ? "checkmark.circle.fill" : "circle")
+                Image(systemName: selectedUserType == .manager ? "checkmark.circle.fill" : "circle")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundStyle(selectedUserType == .organizer ? Color.themeGreen :Color.gray.opacity(0.5))
+                    .foregroundStyle(selectedUserType == .manager ? Color.themeGreen :Color.gray.opacity(0.5))
                 VStack(alignment: .leading) {
                     Text("Organizer")
                         .font(.montserratSemiBold, 16)

@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.68
+  version: 0.0.74
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -82,7 +82,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /admin/push-new-feedback-notification:
+  /admin/mock-new-feedback-notification:
     put:
       tags:
       - Admin
@@ -410,6 +410,34 @@ components:
           - ThumpsUpThumpsDown
           - Opinion
           - OneToTen
+    FeedbackCountStatsDto:
+      required:
+      - commentsCount
+      - happyCount
+      - sadCount
+      - uniqueParticipantFeedback
+      - veryHappyCount
+      - verySadCount
+      type: object
+      properties:
+        verySadCount:
+          type: integer
+          format: int32
+        sadCount:
+          type: integer
+          format: int32
+        happyCount:
+          type: integer
+          format: int32
+        veryHappyCount:
+          type: integer
+          format: int32
+        commentsCount:
+          type: integer
+          format: int32
+        uniqueParticipantFeedback:
+          type: integer
+          format: int32
     FeedbackEntity:
       required:
       - feedbackType
@@ -462,18 +490,14 @@ components:
           type: string
         seenByManager:
           type: boolean
-    FeedbackSummaryDto:
+    FeedbackSegmentationStatsDto:
       required:
       - happyPercentage
       - sadPercentage
-      - totalFeedback
       - veryHappyPercentage
       - verySadPercentage
       type: object
       properties:
-        totalFeedback:
-          type: integer
-          format: int32
         verySadPercentage:
           type: number
           format: double
@@ -486,12 +510,25 @@ components:
         veryHappyPercentage:
           type: number
           format: double
+    FeedbackSummaryDto:
+      required:
+      - countStats
+      - segmentationStats
+      - unseenCount
+      type: object
+      properties:
+        segmentationStats:
+          $ref: '#/components/schemas/FeedbackSegmentationStatsDto'
+        countStats:
+          $ref: '#/components/schemas/FeedbackCountStatsDto'
+        unseenCount:
+          type: integer
+          format: int32
     ManagerEventDto:
       required:
       - date
       - durationInMinutes
       - id
-      - newFeedbackForEvent
       - ownerInfo
       - questions
       - title
@@ -522,14 +559,11 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ManagerQuestion'
-        newFeedbackForEvent:
-          type: integer
-          format: int32
     ManagerQuestion:
       required:
+      - feedback
       - feedbackType
       - id
-      - newFeedbackForQuestion
       - questionText
       type: object
       properties:
@@ -551,10 +585,7 @@ components:
           items:
             $ref: '#/components/schemas/FeedbackEntity'
         feedbackSummary:
-          $ref: '#/components/schemas/QuestionFeedbackSummary'
-        newFeedbackForQuestion:
-          type: integer
-          format: int32
+          $ref: '#/components/schemas/FeedbackSummaryDto'
     OwnerInfoDto:
       type: object
       properties:
@@ -564,30 +595,6 @@ components:
           type: string
         phoneNumber:
           type: string
-    QuestionFeedbackSummary:
-      required:
-      - happyCount
-      - sadCount
-      - totalFeedback
-      - veryHappyCount
-      - verySadCount
-      type: object
-      properties:
-        totalFeedback:
-          type: integer
-          format: int32
-        verySadCount:
-          type: integer
-          format: int32
-        sadCount:
-          type: integer
-          format: int32
-        happyCount:
-          type: integer
-          format: int32
-        veryHappyCount:
-          type: integer
-          format: int32
     SendNotificationInput:
       required:
       - fcmToken
@@ -844,7 +851,7 @@ components:
       - eventTitle
       - id
       - newFeedbackCount
-      - seenBefore
+      - seenByManager
       type: object
       properties:
         id:
@@ -861,7 +868,7 @@ components:
         newFeedbackCount:
           type: integer
           format: int32
-        seenBefore:
+        seenByManager:
           type: boolean
     ManagerDataDto:
       required:

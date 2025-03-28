@@ -1,7 +1,6 @@
 import Helpers
 import DesignSystem
 import SwiftUI
-import Helpers
 
 struct DetailSectionView: View {
     
@@ -41,36 +40,34 @@ private extension DetailSectionView {
                         .font(.montserratSemiBold, 13)
                     Text(event.formattedDate)
                         .font(.montserratRegular, 13)
-                    if let receivedFedeback = event.feedbackSummary?.totalFeedback {
+                    if let totalFeedback = event.feedbackSummary?.countStats.uniqueParticipantFeedback {
                         Text("Received feedback")
                             .font(.montserratSemiBold, 13)
-                        Text(receivedFedeback.description)
+                        Text(totalFeedback.description)
                             .font(.montserratRegular, 13)
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(15)
                 if let feedback = event.feedbackSummary {
-                    makeFeedbackPercentageBarView(feedback: feedback)
+                    makeFeedbackPercentageBarView(feedback: feedback.segmentationStats)
                 } else {
-                    makeEmptyFeedbackBarView()
+                    makeEmptyFeedbackSegmentationStatsView()
                 }
             }
             .font(.montserratRegular, 14)
             .background(Color.themeWhite)
             .cornerRadius(14)
         } header: {
-            Text("DETAILS")
-                .font(.montserratBold, 14)
-                .foregroundColor(Color.themeDarkGray)
+            Text("Details")
+                .sectionHeaderStyle()
         }
     }
     
     var eventPinSectionView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("PIN CODE")
-                .font(.montserratSemiBold, 14)
-                .foregroundStyle(Color.themeDarkGray)
+            Text("Pincode")
+                .sectionHeaderStyle()
             VStack(alignment: .trailing, spacing: 12) {
                 Text("\(event.pinCode.description)")
                     .frame(maxWidth: .infinity)
@@ -105,22 +102,28 @@ private extension DetailSectionView {
     var questionsSectionView: some View {
         Section {
             ForEach(Array(zip(event.questions.indices, event.questions)), id: \.0) { index, question in
-                QuestionView(question: question, index: index)
-                    .disabled(event.feedbackSummary == nil)
+                if question.feedbackSummary == nil {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("Question \(index+1)")
+                            .font(.montserratSemiBold, 13)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Text(question.questionText)
+                            .font(.montserratRegular, 14)
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(15)
+                    .background(Color.white)
+                    .cornerRadius(14)
+                } else {
+                    QuestionView(question: question, index: index)
+                        .disabled(event.feedbackSummary == nil)
+                }
             }
             
         } header: {
-            Text("QUESTIONS")
-                .font(.montserratSemiBold, 14)
-                .foregroundColor(Color.themeDarkGray)
+            Text("Questions")
+                .sectionHeaderStyle()
         }
-    }
-}
-
-#Preview("Detail section with feedback n stuff") {
-    NavigationStack {
-        DetailSectionView(event: .mock())
-            .navigationTitle("Event with feedback n stuff")
     }
 }
 
@@ -132,31 +135,30 @@ struct QuestionView: View {
         GroupBox {
             DisclosureGroup(
                 isExpanded: $isExpanded,
-                    content: {
-                        if let feedback = question.feedback {
-                            VStack(spacing: 0) {
-                                ForEach(feedback) { feedback in
-                                    FeedbackRowView(feedback: feedback)
-                                }
-                            }
+                content: {
+                    VStack(spacing: 0) {
+                        ForEach(question.feedback) { feedback in
+                            FeedbackRowView(feedback: feedback)
                         }
-                    },
+                    }.padding(.top, 16)
+                },
                 label: {
                     VStack(spacing: 10) {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading, spacing: 12) {
+                                Text("Question \(index+1)")
+                                    .font(.montserratSemiBold, 13)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                                 Text(question.questionText)
                                     .font(.montserratRegular, 13)
                                     .multilineTextAlignment(.leading)
                                 if let feedback = question.feedbackSummary {
-                                    smileyView(feedback)
-                                }
-                            }
-                            Spacer()
-                            VStack(alignment: .leading, spacing: 12) {
-                                if let feedback = question.feedbackSummary, feedback.totalFeedback > 2 {
-                                    makePieChartView(feedback: feedback)
-                                        .frame(width: 34, height: 34)
+                                    smileyView(feedback.countStats)
+                                    makeFeedbackPercentageBarView(
+                                        feedback: feedback.segmentationStats
+                                    )
+                                    .frame(height: 8)
+                                    .cornerRadius(4)
                                 }
                             }
                         }
@@ -172,7 +174,7 @@ struct QuestionView: View {
         .groupBoxStyle(CustomGroupBoxStyle())
     }
     
-    func smileyView(_ feedback: QuestionFeedbackSummary) -> some View {
+    func smileyView(_ feedback: FeedbackCountStats) -> some View {
         Group {
             VStack(alignment: .leading) {
                 HStack {
@@ -215,3 +217,22 @@ struct QuestionView: View {
     }
 }
 
+#Preview("Detail section with feedback n stuff") {
+    NavigationStack {
+        DetailSectionView(event: .mock())
+            .navigationTitle("Event with feedback n stuff")
+    }
+}
+
+#Preview("Questions") {
+    QuestionView(
+        question: .init(
+            id: UUID(),
+            questionText: "aksndkajndakjs sakj askjsa sakj sakjsa sakjas kjsa",
+            feedbackType: .emoji,
+            feedback: [],
+            feedbackSummary: nil
+        ),
+        index: 0
+    )
+}

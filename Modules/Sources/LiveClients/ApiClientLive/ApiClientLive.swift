@@ -179,7 +179,7 @@ public extension APIClient {
                 }
             },
             getMockToken: {
-                return try await api.mockIdToken(body: .json(.init(role: "Organizer", id: "mock_id"))).ok.body.json.token
+                return try await api.mockIdToken(body: .json(.init(role: "Manager", id: "mock_id"))).ok.body.json.token
             },
             getUpdatedSession: {
                 try await withAuthorization {

@@ -20,6 +20,7 @@ public extension Color {
     static let themeRed = Color(#colorLiteral(red: 1, green: 0.44140625, blue: 0.4739984274, alpha: 1))
     static let themeGreen = Color(#colorLiteral(red: 0.5058823529, green: 0.8509803922, blue: 0.5921568627, alpha: 1))
     static let themePrimaryAction = Color(#colorLiteral(red: 0.1176470588, green: 0.662745098, blue: 0.4509803922, alpha: 1))
+//    static let themePrimaryAction = Color(#colorLiteral(red: 0.01164593641, green: 0.5535881519, blue: 0.983589232, alpha: 1))
 //    static let themePrimaryAction = Color(#colorLiteral(red: 0.3450980392, green: 0.5647058824, blue: 0.7333333333, alpha: 1))
 //    static let themePrimaryAction = Color(#colorLiteral(red: 0.3137254902, green: 0.7843137255, blue: 0.4705882353, alpha: 1))
 //    50c878

@@ -31,7 +31,7 @@ public struct MoreView: View {
                     email: accountData.email,
                     phoneNumber: accountData.phoneNumber
                 )
-                accountTypeSection(role: Role.organizer)
+                accountTypeSection(role: Role.manager)
             }
             generalSection
             contactSection

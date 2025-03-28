@@ -15,20 +15,20 @@ public struct ActivityItems: Equatable, Sendable, Identifiable {
     public let eventTitle: String
     public let eventId: UUID
     public let newFeedbackCount: Int
-    public var seenBefore: Bool
+    public var seenByManager: Bool
     public init(
         id: UUID,
         date: Date,
         eventTitle: String,
         eventId: UUID,
         newFeedbackCount: Int,
-        seenBefore: Bool
+        seenByManager: Bool
     ) {
         self.id = id
         self.date = date
         self.eventTitle = eventTitle
         self.eventId = eventId
         self.newFeedbackCount = newFeedbackCount
-        self.seenBefore = seenBefore
+        self.seenByManager = seenByManager
     }
 }

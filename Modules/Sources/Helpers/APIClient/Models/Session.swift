@@ -19,7 +19,7 @@ public enum UserType: Equatable, Sendable {
     public var role: Role? {
         switch self {
         case .manager:
-            return Role.organizer
+            return Role.manager
         case .participant:
             return Role.participant
         case .anonymoous:
@@ -101,21 +101,29 @@ public struct ParticipantQuestion: Equatable, Sendable {
 }
 
 public struct FeedbackSummary: Equatable, Sendable {
+    public let segmentationStats: FeedbackSegmentationStats
+    public let countStats: FeedbackCountStats
+    public var unseenCount: Int
+    
+    public init(segmentationStats: FeedbackSegmentationStats, countStats: FeedbackCountStats, unseenCount: Int) {
+        self.segmentationStats = segmentationStats
+        self.countStats = countStats
+        self.unseenCount = unseenCount
+    }
+}
 
-    public let totalFeedback: Int
+public struct FeedbackSegmentationStats: Equatable, Sendable {
     public let verySadPercentage: Double
     public let sadPercentage: Double
     public let happyPercentage: Double
     public let veryHappyPercentage: Double
     
     public init(
-        totalFeedback: Int,
         verySadPercentage: Double,
         sadPercentage: Double,
         happyPercentage: Double,
         veryHappyPercentage: Double
     ) {
-        self.totalFeedback = totalFeedback
         self.verySadPercentage = verySadPercentage
         self.sadPercentage = sadPercentage
         self.happyPercentage = happyPercentage
@@ -123,19 +131,20 @@ public struct FeedbackSummary: Equatable, Sendable {
     }
 }
 
-public struct QuestionFeedbackSummary: Equatable, Sendable {
-    public let totalFeedback: Int
+public struct FeedbackCountStats: Equatable, Sendable {
     public let verySadCount: Int
     public let sadCount: Int
     public let happyCount: Int
     public let veryHappyCount: Int
-    
-    public init(totalFeedback: Int, verySadCount: Int, sadCount: Int, happyCount: Int, veryHappyCount: Int) {
-        self.totalFeedback = totalFeedback
+    public let commentsCount: Int
+    public let uniqueParticipantFeedback: Int
+    public init(verySadCount: Int, sadCount: Int, happyCount: Int, veryHappyCount: Int, commentsCount: Int, uniqueParticipantFeedback: Int) {
         self.verySadCount = verySadCount
         self.sadCount = sadCount
         self.happyCount = happyCount
         self.veryHappyCount = veryHappyCount
+        self.commentsCount = commentsCount
+        self.uniqueParticipantFeedback = uniqueParticipantFeedback
     }
 }
 
@@ -146,24 +155,21 @@ public struct ManagerQuestion: Equatable, Hashable, Sendable {
     public let id: UUID
     public let questionText: String
     public let feedbackType: FeedbackType
-    public var feedback: [Feedback]?
-    public let feedbackSummary: QuestionFeedbackSummary?
-    public var newFeedbackForQuestion: Int
+    public var feedback: [Feedback]
+    public var feedbackSummary: FeedbackSummary?
     
     public init(
         id: UUID,
         questionText: String,
         feedbackType: FeedbackType,
-        feedback: [Feedback]? = nil,
-        feedbackSummary: QuestionFeedbackSummary?,
-        newFeedbackForQuestion: Int
+        feedback: [Feedback],
+        feedbackSummary: FeedbackSummary?
     ) {
         self.id = id
         self.questionText = questionText
         self.feedbackType = feedbackType
         self.feedback = feedback
         self.feedbackSummary = feedbackSummary
-        self.newFeedbackForQuestion = newFeedbackForQuestion
     }
 }
 
@@ -172,6 +178,15 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
     public var title: String
     public var agenda: String?
     public var date: Date
+    public let pinCode: String
+    public var durationInMinutes: Int
+    public var location : String?
+    public let ownerInfo: OwnerInfo
+    public var feedbackSummary: FeedbackSummary?
+    public var questions: [ManagerQuestion]
+    public var end: Date {
+        date + TimeInterval(durationInMinutes*60)
+    }
     public var formattedDate: String {
         if Calendar.current.dateComponents([.minute], from: date, to: end).minute == 1440 {
             return "\(date.dateAndYear()) - All day"
@@ -181,41 +196,29 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
             return "\(date.dateAndYear()) \(end.timeFormatted()) to \(end.formatted(.dateTime.day())) \(end.formatted(.dateTime.month())) \(end.timeFormatted())"
         }
     }
-    public var durationInMinutes: Int
-    public let pinCode: String
-    public var location : String?
-    public let feedbackSummary: FeedbackSummary?
-    public var questions: [ManagerQuestion]
-    public var newFeedbackForEvent: Int
-    public var end: Date {
-        date + TimeInterval(durationInMinutes*60)
-    }
-    public let ownerInfo: OwnerInfo
     
     public init(
         id: UUID,
         title: String,
         agenda: String? = nil,
         date: Date,
-        durationInMinutes: Int,
         pinCode: String,
+        durationInMinutes: Int,
         location: String? = nil,
+        ownerInfo: OwnerInfo,
         feedbackSummary: FeedbackSummary?,
-        questions: [ManagerQuestion],
-        newFeedbackForEvent: Int,
-        ownerInfo: OwnerInfo
+        questions: [ManagerQuestion]
     ) {
         self.id = id
         self.title = title
         self.agenda = agenda
         self.date = date
-        self.durationInMinutes = durationInMinutes
         self.pinCode = pinCode
+        self.durationInMinutes = durationInMinutes
         self.location = location
+        self.ownerInfo = ownerInfo
         self.feedbackSummary = feedbackSummary
         self.questions = questions
-        self.newFeedbackForEvent = newFeedbackForEvent
-        self.ownerInfo = ownerInfo
     }
 }
 
@@ -265,16 +268,16 @@ public extension Session {
         guard var event = mutableManagerData.managerEvents[id: eventId] else { return }
         
         // Reset event-level feedback
-        event.newFeedbackForEvent = 0
+        event.feedbackSummary?.unseenCount = 0
         
         // Reset question-level feedback and feedback properties
         event.questions = event.questions.map { question in
             var updatedQuestion = question
-            updatedQuestion.newFeedbackForQuestion = 0
+            updatedQuestion.feedbackSummary?.unseenCount = 0
             
-            updatedQuestion.feedback = updatedQuestion.feedback?.map { feedback in
+            updatedQuestion.feedback = updatedQuestion.feedback.map { feedback in
                 var updatedFeedback = feedback
-                updatedFeedback.isNew = false
+                updatedFeedback.seenByManager = false
                 return updatedFeedback
             }
             
@@ -323,7 +326,7 @@ public extension Session {
             var mutableActivity = mutableManagerData.activity
             mutableActivity.unseenTotal = 0
             for index in mutableActivity.items.indices {
-                mutableActivity.items[index].seenBefore = true
+                mutableActivity.items[index].seenByManager = true
             }
             
             mutableManagerData.activity = mutableActivity

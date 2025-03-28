@@ -17,7 +17,7 @@ struct FeedbackRowView: View {
                     Text(comment)
                         .font(.montserratRegular, 14)
                     Spacer()
-                    if feedback.isNew {
+                    if feedback.seenByManager {
                         Text("New")
                             .font(.montserratMedium, 12)
                             .foregroundColor(Color.themeDarkGray)

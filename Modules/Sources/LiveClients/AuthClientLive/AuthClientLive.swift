@@ -58,15 +58,17 @@ public extension AuthClient {
                     return nil
                 }
                 
-                if role == "Organizer" {
-                    logger.log("🔥 Firebase user loggedin: Organizer role found")
-                    return Role.organizer
+                if role == "Manager" {
+                    logger.log("🔥 Firebase user loggedin: Manager role found")
+                    return Role.manager
                 } else if role == "Participant" {
                     logger.log("🔥 Firebase user loggedin: Participant role found")
                     return Role.participant
                 }
+                logger.log(.error, "Role is unknown: \(role)")
+                struct UnkownRoleError: Error {}
+                throw UnkownRoleError()
                 
-                fatalError("Should not land here")
             },
             googleLogin: {
                 let credential = try await firebaseService.startGoogleSignInFlow()

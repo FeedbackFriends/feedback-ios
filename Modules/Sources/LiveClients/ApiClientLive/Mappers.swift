@@ -15,13 +15,13 @@ extension Feedback {
                     comment: feedback.comment
                 ),
                 questionId: UUID(uuidString: feedback.questionId)!,
-                isNew: feedback.seenByManager
+                seenByManager: feedback.seenByManager
             )
         case .comment:
             self = .init(
                 type: .comment(comment: feedback.comment!),
                 questionId: UUID(uuidString: feedback.questionId)!,
-                isNew: feedback.seenByManager
+                seenByManager: feedback.seenByManager
             )
         case .thumpsUpThumpsDown:
             fatalError()
@@ -94,44 +94,71 @@ extension Components.Schemas.FeedbackInput.OpinionPayload {
 
 extension ManagerEvent {
     init(_ event: Components.Schemas.ManagerEventDto) {
-        let feedbackSummary: FeedbackSummary? = event.feedbackSummary.map {
+        let feedbackSummary: FeedbackSummary? = if let eventSummary = event.feedbackSummary {
             FeedbackSummary(
-                totalFeedback: Int($0.totalFeedback),
-                verySadPercentage: $0.verySadPercentage,
-                sadPercentage: $0.sadPercentage,
-                happyPercentage: $0.happyPercentage,
-                veryHappyPercentage: $0.veryHappyPercentage
+                segmentationStats: .init(
+                    verySadPercentage: eventSummary.segmentationStats.verySadPercentage,
+                    sadPercentage: eventSummary.segmentationStats.sadPercentage,
+                    happyPercentage: eventSummary.segmentationStats.happyPercentage,
+                    veryHappyPercentage: eventSummary.segmentationStats.veryHappyPercentage
+                ),
+                countStats: .init(
+                    verySadCount: Int(eventSummary.countStats.verySadCount),
+                    sadCount: Int(eventSummary.countStats.sadCount),
+                    happyCount: Int(eventSummary.countStats.happyCount),
+                    veryHappyCount: Int(eventSummary.countStats.veryHappyCount),
+                    commentsCount: Int(eventSummary.countStats.commentsCount),
+                    uniqueParticipantFeedback: Int(eventSummary.countStats.uniqueParticipantFeedback)
+                ),
+                unseenCount: Int(eventSummary.unseenCount)
             )
+        } else {
+             nil
         }
         self.init(
             id: UUID(uuidString: event.id)!,
             title: event.title,
             agenda: event.agenda,
             date: event.date,
-            durationInMinutes: Int(event.durationInMinutes),
             pinCode: event.pinCode ?? "Expired",
+            durationInMinutes: Int(event.durationInMinutes),
             location: event.location,
+            ownerInfo: .init(
+                name: event.ownerInfo.name,
+                email: event.ownerInfo.email,
+                phoneNumber: event.ownerInfo.phoneNumber
+            ),
             feedbackSummary: feedbackSummary,
             questions: event.questions.map {
-                ManagerQuestion(
+                let feedbackSummary: FeedbackSummary? = if let questionSummary = $0.feedbackSummary {
+                    FeedbackSummary(
+                        segmentationStats: .init(
+                            verySadPercentage: questionSummary.segmentationStats.verySadPercentage,
+                            sadPercentage: questionSummary.segmentationStats.sadPercentage,
+                            happyPercentage: questionSummary.segmentationStats.happyPercentage,
+                            veryHappyPercentage: questionSummary.segmentationStats.veryHappyPercentage
+                        ),
+                        countStats: .init(
+                            verySadCount: Int(questionSummary.countStats.verySadCount),
+                            sadCount: Int(questionSummary.countStats.sadCount),
+                            happyCount: Int(questionSummary.countStats.happyCount),
+                            veryHappyCount: Int(questionSummary.countStats.veryHappyCount),
+                            commentsCount: Int(questionSummary.countStats.commentsCount),
+                            uniqueParticipantFeedback: Int(questionSummary.countStats.uniqueParticipantFeedback)
+                        ),
+                        unseenCount: Int(questionSummary.unseenCount)
+                    )
+                } else {
+                    nil
+                }
+                return ManagerQuestion(
                     id: UUID(uuidString: $0.id)!,
                     questionText: $0.questionText,
                     feedbackType: .init($0.feedbackType.rawValue),
-                    feedback: $0.feedback?.map { Feedback($0) },
-                    feedbackSummary: $0.feedbackSummary.map {
-                        QuestionFeedbackSummary(
-                            totalFeedback: Int($0.totalFeedback),
-                            verySadCount: Int($0.verySadCount),
-                            sadCount: Int($0.sadCount),
-                            happyCount: Int($0.happyCount),
-                            veryHappyCount: Int($0.veryHappyCount)
-                        )
-                    },
-                    newFeedbackForQuestion: Int($0.newFeedbackForQuestion)
+                    feedback: $0.feedback.map { Feedback($0) },
+                    feedbackSummary: feedbackSummary
                 )
-            },
-            newFeedbackForEvent: Int(event.newFeedbackForEvent),
-            ownerInfo: .init(name: event.ownerInfo.name, email: event.ownerInfo.email, phoneNumber: event.ownerInfo.phoneNumber)
+            }
         )
     }
 }
@@ -223,8 +250,10 @@ extension DomainCode {
             
         case .eventAlreadyJoined:
             self = .eventAlreadyJoined
+            
         case .cannotJoinOwnEvent:
             fatalError()
+            
         case .cannotGiveFeedbackToSelf:
             fatalError()
         }
@@ -241,14 +270,14 @@ extension Session {
         let role: Role? = switch session.role {
         case .some("Participant"):
                 .participant
-        case .some("Organizer"):
-                .organizer
+        case .some("Manager"):
+                .manager
         default:
             nil
         }
         let userType: UserType =
         switch session.role {
-        case .some("Organizer"):
+        case .some("Manager"):
                 .manager(
                     managerData: .init(
                         managerEvents: IdentifiedArray(uniqueElements: session.managerData!.managerEvents.map { .init($0) }),
@@ -320,7 +349,7 @@ extension Activity {
                     eventTitle: $0.eventTitle,
                     eventId: UUID(uuidString: $0.eventId)!,
                     newFeedbackCount: Int($0.newFeedbackCount),
-                    seenBefore: $0.seenBefore
+                    seenByManager: $0.seenByManager
                 )
             },
             unseenTotal: Int(activity.unseenTotal)

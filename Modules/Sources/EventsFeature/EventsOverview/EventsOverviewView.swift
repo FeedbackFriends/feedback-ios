@@ -285,8 +285,8 @@ extension EventsOverviewView {
                         Text(event.title)
                             .font(.montserratSemiBold, 14)
                         Spacer()
-                        if event.newFeedbackForEvent > 0  {
-                            Text("\(event.newFeedbackForEvent) new")
+                        if let eventSummary = event.feedbackSummary, eventSummary.unseenCount > 0 {
+                            Text("\(eventSummary.unseenCount) new")
                                 .font(.montserratBold, 10)
                                 .padding(4)
                                 .padding(.horizontal, 4)
@@ -314,11 +314,11 @@ extension EventsOverviewView {
                 .font(.montserratRegular, 12)
                 .foregroundColor(Color.themeDarkGray)
                 .padding(.all, 10)
-                if let feedback = event.feedbackSummary {
-                    makeFeedbackPercentageBarView(feedback: feedback)
+                if let feedbackSummary = event.feedbackSummary {
+                    makeFeedbackPercentageBarView(feedback: feedbackSummary.segmentationStats)
                         .frame(height: 10)
                 } else {
-                    makeEmptyFeedbackBarView()
+                    makeEmptyFeedbackSegmentationStatsView()
                 }
             }
             .background(Color.themeWhite)

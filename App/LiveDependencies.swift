@@ -63,7 +63,7 @@ extension LogClient: @retroactive DependencyKey {
 }
 
 func logClient() -> LogClient {
-    var logger = LogClient.live
+    let logger = LogClient.live
     logger.addCrashlyticsClient(deviceId: deviceId, minLevel: .error)
     logger.addOSLogClient(subsystem: Bundle.main.bundleIdentifier!, category: "LoggingClient")
     return logger

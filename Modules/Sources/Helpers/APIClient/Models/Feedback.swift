@@ -5,12 +5,27 @@ public struct Feedback: Equatable, Identifiable, Sendable {
     public var id: UUID { UUID() }
     public let type: FeedbackType2
     public let questionId: UUID
-    public var isNew: Bool
+    public var seenByManager: Bool
+    public var commentsReceived: Bool {
+        switch type {
+        case .emoji(let emoji, let comment):
+            if comment != nil { return true }
+        case .comment(let comment):
+            return true
+        case .thumpsUpThumpsDown(let thumbsUpThumpsDown, let comment):
+            if comment != nil { return true }
+        case .opinion(let opinion, let comment):
+            if comment != nil { return true }
+        case .oneToTen(let oneToTen, let comment):
+            if comment != nil { return true }
+        }
+        return false
+    }
     
-    public init(type: FeedbackType2, questionId: UUID, isNew: Bool) {
+    public init(type: FeedbackType2, questionId: UUID, seenByManager: Bool) {
         self.type = type
         self.questionId = questionId
-        self.isNew = isNew
+        self.seenByManager = seenByManager
     }
 }
 
