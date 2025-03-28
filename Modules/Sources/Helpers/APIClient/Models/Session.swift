@@ -284,8 +284,15 @@ public extension Session {
             
             return updatedQuestion
         }
-        
         mutableManagerData.managerEvents[id: eventId] = event
+        
+        var mutableActivity = mutableManagerData.activity
+        mutableActivity.unseenTotal = mutableActivity.unseenTotal-1
+        for index in mutableActivity.items.indices {
+            mutableActivity.items[index].seenByManager = true
+        }
+        mutableManagerData.activity = mutableActivity
+        
         self.userType = .manager(managerData: mutableManagerData, accountInfo: accountInfo)
     }
     

@@ -21,10 +21,6 @@ struct FeedbackCommentRowView: View {
                             .font(.montserratRegular, 14)
                             .fixedSize(horizontal: false, vertical: true)
                         HStack {
-                            Text(feedback.createdAt.timeAgo())
-                                .foregroundStyle(Color.gray)
-                                .font(.montserratRegular, 10)
-                            Spacer()
                             if !feedback.seenByManager {
                                 Text("New")
                                     .font(.montserratBold, 10)
@@ -34,6 +30,11 @@ struct FeedbackCommentRowView: View {
                                     .background(Color.blue.opacity(0.5).gradient)
                                     .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
                             }
+                            Text(feedback.createdAt.timeAgo())
+                                .foregroundStyle(Color.gray)
+                                .font(.montserratRegular, 10)
+                            Spacer()
+                            
                         }
                     }
                 }
