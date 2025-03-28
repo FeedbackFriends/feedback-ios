@@ -354,7 +354,12 @@ public func generateFeedback(amount: Int) -> [Feedback] {
     for _ in 0..<amount {
         let randomEmoji = possibleEmojis.randomElement()!
         let randomComment = possibleComments.randomElement()!
-        let feedback = Feedback(type: .emoji(emoji: randomEmoji, comment: randomComment), questionId: UUID(), seenByManager: Bool.random()) 
+        let feedback = Feedback(
+            type: .emoji(emoji: randomEmoji, comment: randomComment),
+            questionId: UUID(),
+            seenByManager: Bool.random(),
+            createdAt: Date()
+        )
         feedbackArray.append(feedback)
     }
     

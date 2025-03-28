@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.76
+  version: 0.0.80
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -439,6 +439,7 @@ components:
           format: int32
     FeedbackEntity:
       required:
+      - createdAt
       - feedbackType
       - id
       - questionId
@@ -489,6 +490,9 @@ components:
           type: string
         seenByManager:
           type: boolean
+        createdAt:
+          type: string
+          format: date-time
     FeedbackSegmentationStatsDto:
       required:
       - happyPercentage

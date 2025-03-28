@@ -103,11 +103,10 @@ public struct FeedbackFlow {
                         state.selectedFeedbackItemIndex = index
                 case .submitFeedback:
                     state.feedbackItems[id: state.feedbackItems.last!.id]?.submitFeedbackInFlight = true
-                    let feedback: [Feedback] = state.feedbackItems.map {
-                        Feedback(
+                    let feedback: [FeedbackInput] = state.feedbackItems.map {
+                        FeedbackInput(
                             type: .emoji(emoji: $0.selectedEmoji!, comment: $0.commentTextField.nilIfEmpty),
-                            questionId: $0.questionId,
-                            seenByManager: true
+                            questionId: $0.questionId
                         )
                     }
                     return .run { [pinCode = state.feedbackSession.pinCode, apiClient] send in

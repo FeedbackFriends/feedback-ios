@@ -73,6 +73,8 @@ public struct EventDetailFeature {
     @Dependency(\.calendar) var calendar
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.continuousClock) var clock
+    @Dependency(\.apiClient) var apiClient
+    @Dependency(\.logClient) var logger
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -80,7 +82,7 @@ public struct EventDetailFeature {
             state,
             action in
             switch action {
-                
+
             case .destination(.presented(.deleteConfirmation(.delegate(.dismissEventDetail)))):
                 return .run { _ in
                     try await clock.sleep(for: .seconds(2.5))

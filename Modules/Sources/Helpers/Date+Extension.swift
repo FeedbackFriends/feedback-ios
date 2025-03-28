@@ -36,3 +36,11 @@ public extension Date {
         return self < todayStart
     }
 }
+
+public extension Date {
+    func timeAgo() -> String {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .spellOut
+        return formatter.localizedString(for: self, relativeTo: Date())
+    }
+}

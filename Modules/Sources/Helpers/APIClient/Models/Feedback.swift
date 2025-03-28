@@ -1,11 +1,13 @@
 import Foundation
 
+
 public struct Feedback: Equatable, Identifiable, Sendable {
     
     public var id: UUID { UUID() }
     public let type: FeedbackType2
     public let questionId: UUID
     public var seenByManager: Bool
+    public let createdAt: Date
     public var commentsReceived: Bool {
         switch type {
         case .emoji(_, let comment):
@@ -22,10 +24,11 @@ public struct Feedback: Equatable, Identifiable, Sendable {
         return false
     }
     
-    public init(type: FeedbackType2, questionId: UUID, seenByManager: Bool) {
+    public init(type: FeedbackType2, questionId: UUID, seenByManager: Bool, createdAt: Date) {
         self.type = type
         self.questionId = questionId
         self.seenByManager = seenByManager
+        self.createdAt = createdAt
     }
 }
 

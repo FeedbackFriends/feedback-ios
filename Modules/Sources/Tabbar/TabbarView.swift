@@ -52,6 +52,7 @@ private extension TabbarView {
             }
             .tag(Tab.more)
         }
+        .animation(.bouncy, value: store.session)
         .banner(unwrapping: store.bannerState)
         .onChange(of: scenePhase) { _, newValue in
             switch newValue {
@@ -100,3 +101,4 @@ private extension TabbarView {
         .onAppear { store.send(.onAppear) }
     }
 }
+

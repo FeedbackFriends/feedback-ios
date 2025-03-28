@@ -261,6 +261,7 @@ public extension Session {
         guard case let .manager(managerData: managerData, accountInfo: _) = self.userType else { fatalError() }
         return managerData.managerEvents[id: id]!
     }
+    
     mutating func markEventAsSeen(eventId: UUID) {
         guard case let .manager(managerData, accountInfo) = self.userType else { return }
         
@@ -277,7 +278,7 @@ public extension Session {
             
             updatedQuestion.feedback = updatedQuestion.feedback.map { feedback in
                 var updatedFeedback = feedback
-                updatedFeedback.seenByManager = false
+                updatedFeedback.seenByManager = true
                 return updatedFeedback
             }
             
@@ -337,6 +338,4 @@ public extension Session {
             return
         }
     }
-    
-    
 }

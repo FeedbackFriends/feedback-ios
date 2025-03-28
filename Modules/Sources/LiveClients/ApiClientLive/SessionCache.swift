@@ -4,6 +4,7 @@ import Helpers
 actor SessionCache {
     private var session: Session?
     private var sessionContinuation: AsyncStream<Session>.Continuation?
+    private var shouldMarkEventAsSeen = false
     
     func getSession() -> Session? {
         return session

@@ -80,6 +80,19 @@ public struct EventsOverview {
         Reduce { state, action in
             switch action {
                 
+            case .destination(.dismiss):
+                if case .eventDetail(let eventDetailState) = state.destination {
+                    let eventId = eventDetailState.event.id
+                    return .run { send in
+                        do {
+                            try await apiClient.markEventAsSeen(eventId)
+                        } catch {
+                            logger.log("Mark event as seen failed: \(error.localizedDescription)")
+                        }
+                    }
+                }
+                return .none
+                
             case .onTapActivityItem(let activityItem):
                 guard case .manager(let managerData, _) = state.session.userType else { return .none }
                 state.destination = .eventDetail(
@@ -88,18 +101,18 @@ public struct EventsOverview {
                         session: state.$session
                     )
                 )
-                return .run { send in
-                    do {
-                        try await apiClient.markEventAsSeen(activityItem.id)
-                    } catch {
-                        logger.log("Reset new feedback failed with error: \(error.localizedDescription)")
-                    }
-                }
+//                return .run { send in
+//                    do {
+//                        try await apiClient.markEventAsSeen(activityItem.id)
+//                    } catch {
+//                        logger.log("Reset new feedback failed with error: \(error.localizedDescription)")
+//                    }
+//                }
+                return .none
                 
                 
             case .activityButtonTap:
                 if case .manager(let managerData, _) = state.session.userType {
-                    /// Lav kald her som resetter
                     state.destination = .activity(managerData.activity.items)
                 }
                 return .run { send in
@@ -148,13 +161,14 @@ public struct EventsOverview {
                         session: state.$session
                     )
                 )
-                return .run { send in
-                    do {
-                        try await apiClient.markEventAsSeen(event.id)
-                    } catch {
-                        logger.log("Reset new feedback failed with error: \(error.localizedDescription)")
-                    }
-                }
+//                return .run { send in
+//                    do {
+//                        try await apiClient.markEventAsSeen(event.id)
+//                    } catch {
+//                        logger.log("Reset new feedback failed with error: \(error.localizedDescription)")
+//                    }
+//                }
+                return .none
                 
             case .destination(.presented(.createEvent(.delegate(.dismissAndNavigateToDetail(let event))))):
                 state.destination = .eventDetail(

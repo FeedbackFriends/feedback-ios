@@ -8,20 +8,21 @@ extension Feedback {
     init(_ feedback: Components.Schemas.FeedbackEntity) {
         switch feedback.feedbackType {
         case .emoji:
-            
             self = .init(
                 type: .emoji(
                     emoji: .init(rawValue: feedback.emoji!.rawValue.lowercasingFirst())!,
                     comment: feedback.comment
                 ),
                 questionId: UUID(uuidString: feedback.questionId)!,
-                seenByManager: feedback.seenByManager
+                seenByManager: feedback.seenByManager,
+                createdAt: feedback.createdAt
             )
         case .comment:
             self = .init(
                 type: .comment(comment: feedback.comment!),
                 questionId: UUID(uuidString: feedback.questionId)!,
-                seenByManager: feedback.seenByManager
+                seenByManager: feedback.seenByManager,
+                createdAt: feedback.createdAt
             )
         case .thumpsUpThumpsDown:
             fatalError()
@@ -34,7 +35,7 @@ extension Feedback {
 }
 
 extension Components.Schemas.FeedbackInput {
-    init(_ feedback: Feedback) {
+    init(_ feedback: FeedbackInput) {
         switch feedback.type {
         case .emoji(emoji: let emoji, comment: let optionalComment):
             self.init(
