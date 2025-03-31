@@ -39,10 +39,9 @@ public struct AppDelegateReducer {
                 
             case .didFinishLaunchingWithOptions:
                 return .run { send in
-                    await authClient.setupStateListener()
                     let userStateChangedStream = await authClient.userStateChanged()
                     for await loggedInUser in userStateChangedStream {
-                        await send(.authenticationStateChanged(loggedInUser))
+                        await send(.authenticationStateChanged(loggedInUser), animation: .bouncy(duration: 1))
                     }
                 }
                 

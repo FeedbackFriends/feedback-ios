@@ -29,18 +29,6 @@ public extension AuthClient {
         let stateStream = UserStateStream()
         let firebaseService = FirebaseService()
         return Self.init(
-            setupStateListener: {
-//                _ = Auth.auth().addStateDidChangeListener { auth, optionalUser in
-//                    
-//                    let userState: UserState = {
-//                        guard let user = optionalUser.optional else { return .loggedOut }
-//                        return user.isAnonymous ? .anonymous : .authenticated
-//                    }()
-//                    Task { [stateStream] in
-//                        await stateStream.yield(userState)
-//                    }
-//                }
-            },
             signInAnonymously: {
                 guard let _ = Auth.auth().currentUser else {
                     logger.log("🔥 Firebase signInAnonymously: Signing in anonymously since no user was logged in before")

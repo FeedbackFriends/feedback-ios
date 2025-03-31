@@ -11,7 +11,7 @@ import Foundation
 @Reducer
 public struct AppCore {
     
-    @Reducer
+    @Reducer(state: .equatable)
     public enum Destination {
         case signUp(SignUp)
         @ReducerCaseIgnored
@@ -21,12 +21,12 @@ public struct AppCore {
         case isLoading
     }
     
-    public enum ErrorType {
-        case handleAuthenticatedAccountError(Error)
-        case anonymousSignUpError(Error)
-        case createAccountError(Error, Role?)
-        case getSessionError(Error)
-        var error: Error {
+    public enum ErrorType: Equatable {
+        case handleAuthenticatedAccountError(error: PresentableError)
+        case anonymousSignUpError(error: PresentableError)
+        case createAccountError(error: PresentableError, Role?)
+        case getSessionError(error: PresentableError)
+        var error: PresentableError {
             switch self {
             case .handleAuthenticatedAccountError(let error):
                 return error
@@ -69,9 +69,9 @@ public struct AppCore {
         return .run  { send in
             do {
                 let session = try await apiClient.createAccount(role)
-                await send(.createAccountResponse(session, role), animation: .bouncy)
+                await send(.createAccountResponse(session, role))
             } catch {
-                await send(.presentError(ErrorType.createAccountError(error, role)))
+                await send(.presentError(ErrorType.createAccountError(error: error.localized, role)))
             }
         }
     }
@@ -84,7 +84,7 @@ public struct AppCore {
             do {
                 try await authClient.signInAnonymously()
             } catch {
-                await send(.presentError(ErrorType.anonymousSignUpError(error)))
+                await send(.presentError(ErrorType.anonymousSignUpError(error: error.localized)))
             }
         }
     }
@@ -96,7 +96,7 @@ public struct AppCore {
                 let session = try await apiClient.getSession()
                 await send(.getSessionResponse(session))
             } catch {
-                await send(.presentError(ErrorType.getSessionError(error)))
+                await send(.presentError(ErrorType.getSessionError(error: error.localized)))
             }
         }
     }
@@ -113,7 +113,7 @@ public struct AppCore {
                 let session = try await apiClient.createAccount(existingRole)
                 await send(.createAccountResponse(session, existingRole))
             } catch {
-                await send(.presentError(.handleAuthenticatedAccountError(error)))
+                await send(.presentError(.handleAuthenticatedAccountError(error: error.localized)))
             }
         }
     }
@@ -138,10 +138,6 @@ public struct AppCore {
             action in
             switch action {
                 
-            case .destination(.loggedIn(.delegate(.forceRefreshSession))):
-                state.destination = .isLoading
-                return getSession(state: &state)
-                
             case .destination(.signUp(.destination(.presented(.selectUserType(.delegate(.getSession)))))):
                 return getSession(state: &state)
                 
@@ -157,7 +153,7 @@ public struct AppCore {
                 state.isLoading = true
                 switch errorType {
                     
-                case .anonymousSignUpError(_):
+                case .anonymousSignUpError:
                     return signUpAnonymously(state: &state)
                     
                 case .createAccountError(_, let role):

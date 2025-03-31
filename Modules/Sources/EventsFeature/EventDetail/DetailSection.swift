@@ -189,16 +189,10 @@ struct QuestionView: View {
             VStack(alignment: .leading) {
                 HStack {
                     HStack(spacing: 4) {
-                        Image.veryHappy
+                        Image.verySad
                             .resizable()
                             .frame(width: 20, height: 20)
-                        Text(feedback.veryHappyCount.description)
-                    }
-                    HStack(spacing: 4) {
-                        Image.happy
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                        Text(feedback.happyCount.description)
+                        Text(feedback.verySadCount.description)
                     }
                     HStack(spacing: 4) {
                         Image.sad
@@ -207,10 +201,16 @@ struct QuestionView: View {
                         Text(feedback.sadCount.description)
                     }
                     HStack(spacing: 4) {
-                        Image.verySad
+                        Image.happy
                             .resizable()
                             .frame(width: 20, height: 20)
-                        Text(feedback.verySadCount.description)
+                        Text(feedback.happyCount.description)
+                    }
+                    HStack(spacing: 4) {
+                        Image.veryHappy
+                            .resizable()
+                            .frame(width: 20, height: 20)
+                        Text(feedback.veryHappyCount.description)
                     }
                 }
             }

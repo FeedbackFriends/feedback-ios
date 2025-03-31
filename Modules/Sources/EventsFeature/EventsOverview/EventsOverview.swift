@@ -9,7 +9,7 @@ import Logger
 @Reducer
 public struct EventsOverview {
     
-    @Reducer
+    @Reducer(state: .equatable)
     public enum Destination {
         case createEvent(CreateEvent)
         case eventDetail(EventDetailFeature)
@@ -21,13 +21,13 @@ public struct EventsOverview {
         case startFeedbackConfirmation(String)
         @ReducerCaseIgnored
         case activity([ActivityItems])
-        public enum AlertAction {
+        public enum AlertAction: Equatable {
             case confirmedToCreateUser
         }
     }
     
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         var segmentedControl: SegmentedControlMenu
         @Presents public var destination: Destination.State? = nil
         @Shared var session: Session

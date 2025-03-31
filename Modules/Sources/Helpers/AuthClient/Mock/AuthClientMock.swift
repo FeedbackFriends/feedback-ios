@@ -19,7 +19,6 @@ public extension AuthClient {
     static var mock: Self {
         let mockAuthEngine = MockAuthEngine()
         return Self.init(
-            setupStateListener: {},
             signInAnonymously: {
                 await mockAuthEngine.yield(.anonymous)
             },

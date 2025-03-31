@@ -6,10 +6,10 @@ public func makeFeedbackPercentageBarView(feedback: FeedbackSegmentationStats) -
     GeometryReader { proxy in
         let withPercent = proxy.size.width/100
         HStack(spacing: 0) {
-            Color.themeGreen.frame(width: feedback.veryHappyPercentage * withPercent)
-            Color.themeYellow.frame(width: feedback.happyPercentage * withPercent)
-            Color.themeOrange.frame(width: feedback.sadPercentage * withPercent)
             Color.themeRed.frame(width: feedback.verySadPercentage * withPercent)
+            Color.themeOrange.frame(width: feedback.sadPercentage * withPercent)
+            Color.themeYellow.frame(width: feedback.happyPercentage * withPercent)
+            Color.themeGreen.frame(width: feedback.veryHappyPercentage * withPercent)
         }
         .unredacted()
     }

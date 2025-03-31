@@ -12,11 +12,11 @@ public struct AppCoreView: View {
     }
     
     public var body: some View {
-        ZStack {
+        VStack {
             switch(store.destination) {
                 
             case .isLoading:
-                loadingView
+                LoadingView()
                 
             case .signUp:
                 signUpView
@@ -28,22 +28,10 @@ public struct AppCoreView: View {
                 tabbarView
             }
         }
+        .animation(.linear(duration: 0.8), value: store.destination)
         .onOpenURL { incomingURL in
             store.send(.onOpenURL(incomingURL))
         }
-    }
-    
-    private var loadingView: some View {
-        VStack {
-            LottieView(lottieFile: "loading", loopMode: true)
-                .frame(width: 400, height: 50)
-            Text("Loading data")
-                .padding(.top, 20)
-                .font(.montserratRegular, 16)
-                .foregroundStyle(Color.themeDarkGray)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.themeBackground.ignoresSafeArea())
     }
     
     @ViewBuilder
@@ -65,9 +53,9 @@ public struct AppCoreView: View {
     private func errorView(_ errorType: AppCore.ErrorType) -> some View {
         VStack {
             ErrorView(error: errorType.error, isLoading: $store.isLoading) {
+                
                 store.send(.tryAgainButtonTap(errorType))
             }
-            
             Button("Log out") {
                 self.store.send(.onLogoutButtonTap)
             }
@@ -78,6 +66,27 @@ public struct AppCoreView: View {
     }
 }
 
+struct LoadingView: View {
+    @State var didLoad: Bool = false
+    var body: some View {
+        VStack {
+            if didLoad {
+                LottieView(lottieFile: "loading", loopMode: true)
+                    .frame(width: 400, height: 50)
+                Text("Loading data")
+                    .padding(.top, 20)
+                    .font(.montserratRegular, 16)
+                    .foregroundStyle(Color.themeDarkGray)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.themeBackground.ignoresSafeArea())
+        .onAppear {
+            didLoad = true
+        }
+        .animation(.linear(duration: 0.3), value: didLoad)
+    }
+}
 
 #Preview {
     AppCoreView(

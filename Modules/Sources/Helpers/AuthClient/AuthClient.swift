@@ -3,7 +3,6 @@ import ComposableArchitecture
 
 @DependencyClient
 public struct AuthClient: Sendable {
-    public var setupStateListener: @Sendable () async -> ()
     public var signInAnonymously: @Sendable () async throws -> ()
     public var fetchCustomRole: @Sendable () async throws -> Role?
     public var googleLogin: @Sendable () async throws -> ()

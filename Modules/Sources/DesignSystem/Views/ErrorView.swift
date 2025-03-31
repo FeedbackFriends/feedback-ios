@@ -1,11 +1,10 @@
 import SwiftUI
 import Foundation
 import Helpers
-import Helpers
 
 public struct ErrorView: View {
     
-    let error: Error
+    let error: PresentableError
     let tryAgainButtonTapped: (() -> Void)?
     @Binding var isLoading: Bool
     @State var viewDidLoad: Bool = false
@@ -18,7 +17,11 @@ public struct ErrorView: View {
         }
     }
     
-    public init(error: Error, isLoading: Binding<Bool>, tryAgainButtonTapped: (() -> Void)? = nil) {
+    public init(
+        error: PresentableError,
+        isLoading: Binding<Bool>,
+        tryAgainButtonTapped: (() -> Void)? = nil
+    ) {
         self.error = error
         self._isLoading = isLoading
         self.tryAgainButtonTapped = tryAgainButtonTapped
@@ -30,10 +33,10 @@ public struct ErrorView: View {
                 .resizable()
                 .frame(width: exclamationmark, height: exclamationmark)
                 .foregroundColor(.themeRed)
-            Text("\(error.localized.title) 💩")
+            Text("\(error.title) 💩")
                 .font(.montserratBold, 16)
                 .foregroundColor(.themeDarkGray)
-            Text(error.localized.message)
+            Text(error.message)
                 .font(.montserratRegular, 13)
                 .foregroundColor(.themeDarkGray)
                 .multilineTextAlignment(.center)
@@ -57,16 +60,5 @@ public struct ErrorView: View {
             generator.notificationOccurred(.error)
         }
         .padding(.horizontal, 50)
-        
-//        .offset(y: -50)
-    }
-}
-
-struct ErrorView_Previews: PreviewProvider {
-    static var previews: some View {
-        ErrorView(
-            error: URLError(.badServerResponse),
-            isLoading: .constant(false)
-        ) { }
     }
 }

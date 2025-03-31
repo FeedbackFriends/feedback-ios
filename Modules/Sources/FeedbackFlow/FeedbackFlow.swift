@@ -18,7 +18,7 @@ public struct FeedbackFlow {
     }
     
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         var feedbackSession: FeedbackSession
         var selectedFeedbackItemIndex: Int
         var feedbackItems: IdentifiedArrayOf<FeedbackItem.State>

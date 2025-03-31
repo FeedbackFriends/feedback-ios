@@ -10,7 +10,7 @@ import UIKit
 @Reducer
 public struct EventDetailFeature {
     
-    @Reducer
+    @Reducer(state: .equatable)
     public enum Destination {
         case deleteConfirmation(DeleteConfirmation)
         case editEvent(EditEvent)
@@ -27,7 +27,7 @@ public struct EventDetailFeature {
     
     
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         public var event: ManagerEvent
         @Presents var destination: Destination.State?
         var fetchEventDetailInFlight = true

@@ -10,7 +10,7 @@ import SwiftUI
 @Reducer
 public struct FeedbackButton {
     
-    @Reducer
+    @Reducer(state: .equatable)
     public enum Destination {
         case feedbackFeature(FeedbackFlow)
         case alert(AlertState<Never>)
@@ -19,7 +19,7 @@ public struct FeedbackButton {
     }
     
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         @Presents public var destination: Destination.State? = nil
         public init() {}
     }

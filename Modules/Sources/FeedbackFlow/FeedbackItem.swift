@@ -5,11 +5,11 @@ import SwiftUI
 import Helpers
 import Helpers
 
-public enum ButtonPlacement {
+public enum ButtonPlacement: Equatable {
     case leading, center, trailing
 }
 
-public enum FocusField: Hashable {
+public enum FocusField: Hashable, Equatable {
     case field
 }
 
@@ -23,7 +23,7 @@ public enum ButtonType {
 @Reducer
 public struct FeedbackItem {
     @ObservableState
-    public struct State: Identifiable {
+    public struct State: Identifiable, Equatable {
         public var id: Int { index }
         var elementType: ButtonPlacement
         var question: String

@@ -9,7 +9,7 @@ import Helpers
 public struct EditEvent {
    
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         
         var eventInput: EventInput
         var eventId: UUID

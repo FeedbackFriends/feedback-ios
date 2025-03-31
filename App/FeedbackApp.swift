@@ -10,11 +10,18 @@ struct FeedbackApp: App {
     var body: some Scene {
         WindowGroup {
             AppCoreView(store: appDelegate.intialStore)
-//                #if DEBUG
+                #if DEBUG
                 .overlay(alignment: .trailing) {
                     DebugMenuView()
                 }
-//                #endif
+                #endif
+                .onAppear {
+                #if DEBUG
+print("******** er DEBUG")
+                    #else
+                    print("******** er IKKE DEBUG")
+                    #endif
+                }
         }
     }
 }

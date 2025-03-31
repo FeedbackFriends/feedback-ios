@@ -9,9 +9,8 @@ import SwiftUI
 public struct EnterCode {
     
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         var inputCode: String = ""
-        
         public var startFeedbackPincodeInFlight = false
         var disableStartFeedbackButton: Bool {
             if !PinCodeValidator.isValidPinCode(inputCode) || startFeedbackPincodeInFlight {

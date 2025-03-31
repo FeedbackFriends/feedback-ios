@@ -18,7 +18,7 @@ public extension AlertState {
 
 public extension Error {
     
-    var localized: LocalizedError {
+    var localized: PresentableError {
         var title: String = "Something Went Wrong"
         var message: String = "An unexpected issue occurred."
         if let apiError = self as? ApiError, let domainError = apiError.domainCode {
@@ -38,13 +38,13 @@ public extension Error {
         if let localizedMessage = nsError.userInfo[NSLocalizedDescriptionKey] as? String {
             message = localizedMessage
         }
-        return LocalizedError(title: title, message: message)
+        return PresentableError(title: title, message: message)
     }
 }
 
 struct LoginFlowCancelled: Error {}
 
-public struct LocalizedError {
+public struct PresentableError: Equatable {
     public let title: String
     public let message: String
 }

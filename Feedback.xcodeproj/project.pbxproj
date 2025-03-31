@@ -12,6 +12,7 @@
 		2892AA382C0F89C600F12E83 /* FeedbackFlowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2892AA372C0F89C600F12E83 /* FeedbackFlowApp.swift */; };
 		2892AA3C2C0F89C700F12E83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2892AA3B2C0F89C700F12E83 /* Assets.xcassets */; };
 		2892AA3F2C0F89C700F12E83 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2892AA3E2C0F89C700F12E83 /* Preview Assets.xcassets */; };
+		7A034FE02D9AC9430059C6F3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
 		7A16D2E52D5413C200F26994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A16D2E42D5413C200F26994 /* GoogleService-Info.plist */; };
 		7A64E61B2D554DF80093C245 /* InfoDictionaryOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6182D554DF80093C245 /* InfoDictionaryOwner.swift */; };
 		7A64E61C2D554DF80093C245 /* InfoPlistKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6192D554DF80093C245 /* InfoPlistKeys.swift */; };
@@ -47,6 +48,7 @@
 		2892AA372C0F89C600F12E83 /* FeedbackFlowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackFlowApp.swift; sourceTree = "<group>"; };
 		2892AA3B2C0F89C700F12E83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2892AA3E2C0F89C700F12E83 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		7A16D2E42D5413C200F26994 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7A64E6182D554DF80093C245 /* InfoDictionaryOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoDictionaryOwner.swift; sourceTree = "<group>"; };
 		7A64E6192D554DF80093C245 /* InfoPlistKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPlistKeys.swift; sourceTree = "<group>"; };
@@ -68,7 +70,7 @@
 		B1057F3B2843FD8700B9EE2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		B1057F492843FE8000B9EE2F /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		B1FB2E66285B55DE0080543D /* Feedback-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Feedback-Info.plist"; sourceTree = "<group>"; };
+		B1FB2E66285B55DE0080543D /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -181,10 +183,11 @@
 		B1057F2B2843FD8600B9EE2F = {
 			isa = PBXGroup;
 			children = (
+				7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */,
+				B1FB2E66285B55DE0080543D /* Info.plist */,
 				7AC4A9EA2D2FA71D004DF626 /* Modules */,
 				28E304DE2C9041BC0029C2A5 /* GoogleServiceInfoPlists */,
 				284234342B488E1E0083C9E8 /* ci_scripts */,
-				B1FB2E66285B55DE0080543D /* Feedback-Info.plist */,
 				7A6736522D6F5EA300B392DD /* Configuration */,
 				2892AA362C0F89C600F12E83 /* FeedbackFlow */,
 				B1057F362843FD8600B9EE2F /* App */,
@@ -421,6 +424,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A034FE02D9AC9430059C6F3 /* Launch Screen.storyboard in Resources */,
 				7A16D2E52D5413C200F26994 /* GoogleService-Info.plist in Resources */,
 				7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */,
 				B1057F3F2843FD8700B9EE2F /* Preview Assets.xcassets in Resources */,
@@ -608,19 +612,19 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Feedback.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				COMPILER_FLAG = debug;
+				COMPILER_FLAG = DEBUG;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Feedback-Info.plist";
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
@@ -1266,13 +1270,13 @@
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Feedback-Info.plist";
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
@@ -1308,13 +1312,13 @@
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Feedback-Info.plist";
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
@@ -1409,13 +1413,13 @@
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "Feedback-Info.plist";
+				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;

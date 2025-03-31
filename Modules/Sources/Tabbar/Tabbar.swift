@@ -15,14 +15,14 @@ public enum Tab: Hashable {
 @Reducer
 public struct Tabbar {
     
-    @Reducer
+    @Reducer(state: .equatable)
     public enum Destination {
         @ReducerCaseIgnored
         case notificationPermissionPrompt
     }
     
     @ObservableState
-    public struct State {
+    public struct State: Equatable {
         
         public var eventsOverview: EventsOverview.State
         var enterCode: EnterCode.State
@@ -63,12 +63,8 @@ public struct Tabbar {
         case dimissNotificationPermissionButtonTap
         case destination(PresentationAction<Destination.Action>)
         case didEnterForeground
-        case delegate(Delegate)
         case updatedSessionResponse(UpdatedSession)
         case removeBanner
-        public enum Delegate {
-            case forceRefreshSession
-        }
     }
     
     @Dependency(\.apiClient) var apiClient
@@ -199,9 +195,6 @@ public struct Tabbar {
                 return .none
                 
             case .destination:
-                return .none
-                
-            case .delegate:
                 return .none
             }
         }
