@@ -16,17 +16,17 @@ func setupTheme() {
     
     transAppearence.largeTitleTextAttributes = [
         NSAttributedString.Key.foregroundColor: UIColor.themeDarkGray,
-        NSAttributedString.Key.font: UIFont.fontz(.montserratBold, 28)
+        NSAttributedString.Key.font: UIFont.font(.montserratBold, 26)
     ]
     transAppearence.titleTextAttributes = [
         NSAttributedString.Key.foregroundColor: UIColor.themeDarkGray,
-        NSAttributedString.Key.font: UIFont.fontz(.montserratBold, 16)
+        NSAttributedString.Key.font: UIFont.font(.montserratBold, 16)
     ]
     
     UISegmentedControl.appearance().setTitleTextAttributes(
         [
             NSAttributedString.Key.foregroundColor: UIColor.themeDarkGray,
-            NSAttributedString.Key.font: UIFont.fontz(.montserratMedium, 12)
+            NSAttributedString.Key.font: UIFont.font(.montserratMedium, 12)
         ],
         for: UIControl.State.normal
     )
@@ -35,7 +35,7 @@ func setupTheme() {
     UIBarButtonItem.appearance().setTitleTextAttributes(
         [
             NSAttributedString.Key.foregroundColor: UIColor.themeDarkGray,
-            NSAttributedString.Key.font: UIFont.fontz(.montserratMedium, 15)
+            NSAttributedString.Key.font: UIFont.font(.montserratMedium, 15)
         ],
         for: UIControl.State.normal
     )
@@ -51,6 +51,6 @@ func setupTheme() {
     UITabBar.appearance().clipsToBounds = true
     UITabBar.appearance().shadowImage = nil
     
-    UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
+//    UILabel.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).adjustsFontSizeToFitWidth = true
 }
 

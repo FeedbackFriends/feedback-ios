@@ -8,10 +8,12 @@ struct DetailSectionView: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
                 detailSectionView
                 eventPinSectionView
+                    .padding(.top, 4)
                 questionsSectionView
+                    .padding(.top, 4)
             }
             .padding()
             .padding(.bottom, 80)
@@ -59,15 +61,14 @@ private extension DetailSectionView {
             .background(Color.themeWhite)
             .cornerRadius(14)
         } header: {
-            Text("Details")
+            Text("DETAILS")
                 .sectionHeaderStyle()
+                .padding(.leading, 20)
         }
     }
     
     var eventPinSectionView: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Pincode")
-                .sectionHeaderStyle()
+        Section {
             VStack(alignment: .trailing, spacing: 12) {
                 Text("\(event.pinCode.description)")
                     .frame(maxWidth: .infinity)
@@ -94,7 +95,10 @@ private extension DetailSectionView {
             }
             .frame(maxWidth: .infinity)
             .font(.montserratRegular, 14)
-            
+        } header: {
+            Text("PINCODE")
+                .sectionHeaderStyle()
+                .padding(.leading, 20)
         }
     }
     
@@ -102,27 +106,15 @@ private extension DetailSectionView {
     var questionsSectionView: some View {
         Section {
             ForEach(Array(zip(event.questions.indices, event.questions)), id: \.0) { index, question in
-                if question.feedbackSummary == nil {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Question \(index+1)")
-                            .font(.montserratSemiBold, 13)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        Text(question.questionText)
-                            .font(.montserratRegular, 14)
-                    }
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(15)
-                    .background(Color.white)
-                    .cornerRadius(14)
-                } else {
                     QuestionView(question: question, index: index)
                         .disabled(event.feedbackSummary == nil)
-                }
+                
             }
             
         } header: {
-            Text("Questions")
+            Text("QUESTIONS")
                 .sectionHeaderStyle()
+                .padding(.leading, 20)
         }
     }
 }
@@ -140,13 +132,15 @@ struct QuestionView: View {
                         Text("Comments")
                             .font(.montserratSemiBold, 13)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        if question.feedbackSummary?.countStats.commentsCount == 0 {
+                        if question.feedbackSummary == nil || question.feedbackSummary?.countStats.commentsCount == 0 {
                             Text("No comments yet")
                                 .font(.montserratRegular, 14)
                                 .foregroundStyle(Color.gray)
                                 .padding(.vertical, 8)
                         } else {
-                            ForEach(question.feedback) { feedback in
+                            ForEach(question.feedback.sorted(by: {
+                                $0.createdAt > $1.createdAt
+                            })) { feedback in
                                 FeedbackCommentRowView(feedback: feedback)
                             }
                         }

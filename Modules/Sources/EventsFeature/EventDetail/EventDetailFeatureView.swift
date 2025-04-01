@@ -28,7 +28,10 @@ public struct EventDetailFeatureView: View {
             action: \.destination.editEvent
         )
         
-        let deleteConfirmationStore = $store.scope(state: \.destination?.deleteConfirmation, action: \.destination.deleteConfirmation)
+        let deleteConfirmationStore = $store.scope(
+            state: \.destination?.deleteConfirmation,
+            action: \.destination.deleteConfirmation
+        )
         
         DetailSectionView(
             event: store.event
@@ -41,7 +44,7 @@ public struct EventDetailFeatureView: View {
                     code: event.pinCode,
                     inviteLink: store.inviteLink,
                     shareText: store.shareText
-                ).presentationDetents([PresentationDetent.height(350)])
+                ).presentationDetents([.height(350)])
             }
         }
         .confirmationDialog(confirmationStore)
@@ -69,9 +72,7 @@ public struct EventDetailFeatureView: View {
     }
 }
 
-
 private extension EventDetailFeatureView {
-    
     var toolbarContent: some ToolbarContent {
         Group {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -88,8 +89,6 @@ private extension EventDetailFeatureView {
         }
     }
 }
-
-
 
 #Preview {
     NavigationStack {

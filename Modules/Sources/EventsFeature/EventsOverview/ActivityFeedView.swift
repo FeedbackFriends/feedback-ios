@@ -28,22 +28,26 @@ struct ActivityView: View {
                                     dismiss()
                                 } label: {
                                     VStack(alignment: .leading) {
+                                        Text("Feedback on \(item.eventTitle)")
+                                            .font(.montserratSemiBold, 14)
+                                        Text("You have received \(item.newFeedbackCount) new feedback on ‘\(item.eventTitle)’.")
+                                            .font(.montserratRegular, 12)
                                         HStack {
-                                            Text("New feedback on \(item.eventTitle)")
-                                                .font(.montserratSemiBold, 14)
-                                            Spacer()
-                                            if !item.seenByManager  {
+                                            if !item.seenByManager {
                                                 Text("New")
-                                                    .font(.montserratBold, 10)
-                                                    .padding(4)
+                                                    .font(.montserratBold, 8)
+                                                    .padding(2)
                                                     .padding(.horizontal, 4)
                                                     .foregroundStyle(Color.themeWhite)
                                                     .background(Color.blue.opacity(0.5).gradient)
                                                     .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
                                             }
+                                            Text(item.date.timeAgo())
+                                                .foregroundStyle(Color.gray)
+                                                .font(.montserratRegular, 10)
+                                            Spacer()
+                                            
                                         }
-                                        Text("You have received feedback from \(item.newFeedbackCount) people on your event ‘\(item.eventTitle)’.")
-                                            .font(.montserratRegular, 12)
                                     }
                                 }
                             }

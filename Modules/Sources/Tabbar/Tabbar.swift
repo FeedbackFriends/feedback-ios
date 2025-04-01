@@ -126,9 +126,9 @@ public struct Tabbar {
                 if !state.firstFetchAfterEnteringForeground {
                     state.firstFetchAfterEnteringForeground = false
                     if let first = updatedSession.events.first {
-                        state.bannerState = .serverError("Feedback received on event '\(first.title)' 🤝")
+                        state.bannerState = .serverError("New feedback on event '\(first.title)'")
                         return .run { send in
-                            try await clock.sleep(for: .seconds(4))
+                            try await clock.sleep(for: .seconds(5))
                             await send(.removeBanner)
                         }
                     }

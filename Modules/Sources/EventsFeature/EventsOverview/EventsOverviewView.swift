@@ -160,18 +160,20 @@ extension EventsOverviewView {
             Button {
                 store.send(.activityButtonTap)
             } label: {
-                Image(systemName: "bell")
+                Image(systemName: "sparkles")
                     .resizable()
-                    .fontWeight(.medium)
-                    .foregroundStyle(Color.themeDarkGray)
+                    .scaledToFit()
+                    .frame(width: 16, height: 16)
             }
-            .overlay(alignment: .topTrailing) {
+            .buttonStyle(IconToolbarStyle())
+            .overlay(alignment: .bottomTrailing) { 
                 if count > 0 {
                     Text(count.description)
                         .foregroundStyle(Color.white)
                         .font(.montserratSemiBold, 10)
-                        .padding(5)
+                        .padding(6)
                         .background(Circle().foregroundStyle(Color.themeRed))
+                        .offset(x: 7, y: 7)
                 }
             }
         }

@@ -16,7 +16,7 @@ public struct EmptyStateView: View {
             Image(systemName: "rectangle.on.rectangle")
                 .resizable()
                 .frame(width: 40, height: 40)
-                .foregroundColor(.themeDarkGray)
+                .foregroundColor(.gray)
             VStack(spacing: 6) {
                 Text(title)
                     .font(.montserratExtraBold, 18)

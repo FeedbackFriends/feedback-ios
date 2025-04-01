@@ -57,7 +57,7 @@ public extension Font {
 }
 
 public extension UIFont {
-    static func fontz(_ name: Font.FontName, _ size: CGFloat) -> UIFont {
+    static func font(_ name: Font.FontName, _ size: CGFloat) -> UIFont {
         fontRegistration.registerFontsIfNeeded()
         return UIFont(name: name.rawValue, size: size)!
     }

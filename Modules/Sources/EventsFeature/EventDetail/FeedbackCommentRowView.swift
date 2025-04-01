@@ -23,8 +23,8 @@ struct FeedbackCommentRowView: View {
                         HStack {
                             if !feedback.seenByManager {
                                 Text("New")
-                                    .font(.montserratBold, 10)
-                                    .padding(4)
+                                    .font(.montserratBold, 8)
+                                    .padding(2)
                                     .padding(.horizontal, 4)
                                     .foregroundStyle(Color.themeWhite)
                                     .background(Color.blue.opacity(0.5).gradient)

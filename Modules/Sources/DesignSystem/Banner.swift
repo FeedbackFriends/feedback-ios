@@ -24,7 +24,7 @@ public extension View {
                 }
             }
         }
-        .animation(.linear(duration: 1), value: `enum`)
+        .animation(.spring(duration: 0.8), value: `enum`)
     }
     
     func makeBanner(
@@ -49,4 +49,22 @@ public extension View {
                 .move(edge: .top)
             )
     }
+}
+
+
+
+#Preview {
+    @Previewable @State var bannerState: BannerState? = nil
+    
+    VStack {
+        Button("Trigger Banner") {
+            bannerState = .serverError("Server is down!")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                bannerState = nil
+            }
+        }
+        Spacer()
+    }
+    .banner(unwrapping: bannerState)
+    
 }
