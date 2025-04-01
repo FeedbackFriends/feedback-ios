@@ -19,7 +19,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "You have received feedback from %@ people on your event ‘%@’. "
+            "value" : "You have received %@ feedback on ‘%@’ "
           }
         }
       }
@@ -30,7 +30,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Feedback received 🔥"
+            "value" : "New feedback 🔥"
           }
         }
       }

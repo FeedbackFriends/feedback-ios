@@ -633,7 +633,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.1;
+				MARKETING_VERSION = 0.9.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "Lets Grow";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1285,7 +1285,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.1;
+				MARKETING_VERSION = 0.9.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow.mock;
 				PRODUCT_NAME = "Lets Grow";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1327,7 +1327,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.1;
+				MARKETING_VERSION = 0.9.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "Lets Grow";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1428,7 +1428,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.1;
+				MARKETING_VERSION = 0.9.2;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow.test;
 				PRODUCT_NAME = "Lets Grow";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
