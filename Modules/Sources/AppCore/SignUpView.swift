@@ -14,17 +14,19 @@ public struct SignUpView: View {
     
     public var body: some View {
         NavigationStack {
-            VStack {
-                LottieView(lottieFile: "welcome")
-                    .frame(width: 310, height: 310)
-                Spacer()
+            VStack(spacing: 40) {
+                VStack {
+                    Image.signUpIcon
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 200, height: 200)
+                }
                 signUpView
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .navigationBarTitleDisplayMode(.large)
             .background(Color.themeBackground)
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-            .navigationTitle("Sign up")
             .sheet(
                 item: $store.scope(
                     state: \.destination?.selectUserType,
@@ -40,13 +42,13 @@ public struct SignUpView: View {
 }
 
 private extension SignUpView {
-    
     var signUpView: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            
-            Text("Choose your preferred sign up method")
-                .padding(.top, 30)
-                .font(.montserratBold, 14)
+        VStack(alignment: .leading, spacing: 14) {
+            Text("Sign up")
+                .font(.montserratBold, 35)
+                .foregroundStyle(Color.themeDarkGray.gradient)
+            Text("Signup to get started on your feedback jurney.")
+                .font(.montserratRegular, 14)
                 .foregroundColor(.themeDarkGray)
             Button {
                 store.send(.signUpWithAppleButtonTap)
@@ -76,9 +78,11 @@ private extension SignUpView {
                 }
                 .padding(.leading, 24)
             }
-            .buttonStyle(LargeButtonStyle(color: Color.white.gradient))
+            .buttonStyle(LargeButtonStyle(color: Color.white))
+            .shadow(color: .black.opacity(0.08), radius: 2)
             .padding(.bottom, 16)
         }
+        .padding(.bottom, 40)
         .padding(.all, Theme.padding)
     }
 }
@@ -93,4 +97,3 @@ private extension SignUpView {
         )
     )
 }
-

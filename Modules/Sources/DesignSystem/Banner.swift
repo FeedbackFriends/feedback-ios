@@ -25,6 +25,7 @@ public extension View {
             }
         }
         .animation(.spring(duration: 0.8), value: `enum`)
+        .sensoryFeedback(.success, trigger: `enum`)
     }
     
     func makeBanner(
