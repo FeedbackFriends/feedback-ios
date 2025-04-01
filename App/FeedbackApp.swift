@@ -15,13 +15,6 @@ struct FeedbackApp: App {
                     DebugMenuView()
                 }
                 #endif
-                .onAppear {
-                #if DEBUG
-print("******** er DEBUG")
-                    #else
-                    print("******** er IKKE DEBUG")
-                    #endif
-                }
         }
     }
 }
