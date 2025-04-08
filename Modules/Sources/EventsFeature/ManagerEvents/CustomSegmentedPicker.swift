@@ -3,7 +3,7 @@ import DesignSystem
 
 public enum SegmentedControlMenu {
     case yourMeetings
-    case attending
+    case participating
 }
 
 struct CustomSegmentedPicker: View {
@@ -13,7 +13,7 @@ struct CustomSegmentedPicker: View {
     
     var yourOwnBackground: Color {
         switch selectedSegmentedControl {
-        case .attending:
+        case .participating:
             Color.clear
         case .yourMeetings:
             Color.themePrimaryAction
@@ -22,7 +22,7 @@ struct CustomSegmentedPicker: View {
     
     var yourOwnForeground: Color {
         switch selectedSegmentedControl {
-        case .attending:
+        case .participating:
             Color.black
         case .yourMeetings:
             Color.white
@@ -33,23 +33,23 @@ struct CustomSegmentedPicker: View {
         switch selectedSegmentedControl {
         case .yourMeetings:
             yourOwnBackground
-        case .attending:
-            attendingBackground
+        case .participating:
+            participatingBackground
         }
     }
     
-    var attendingBackground: Color {
+    var participatingBackground: Color {
         switch selectedSegmentedControl {
-        case .attending:
+        case .participating:
             Color.themePrimaryAction
         case .yourMeetings:
             Color.clear
         }
     }
     
-    var attendingForeground: Color {
+    var participatingForeground: Color {
         switch selectedSegmentedControl {
-        case .attending:
+        case .participating:
             Color.white
         case .yourMeetings:
             Color.black
@@ -77,7 +77,7 @@ struct CustomSegmentedPicker: View {
                 )
             
             HStack {
-                if case .attending = selectedSegmentedControl {
+                if case .participating = selectedSegmentedControl {
                     Spacer()
                 }
                 Capsule(style: .continuous)
@@ -99,12 +99,12 @@ struct CustomSegmentedPicker: View {
                 .foregroundColor(yourOwnForeground)
                 .clipShape(Capsule(style: .continuous))
                 Button("Attending") {
-                    self.selectedSegmentedControl = .attending
+                    self.selectedSegmentedControl = .participating
                 }
                 .transition(.slide)
                 .padding(10)
                 .frame(width: 90, alignment: .center)
-                .foregroundColor(attendingForeground)
+                .foregroundColor(participatingForeground)
                 .clipShape(Capsule(style: .continuous))
             }
             .frame(height: 35)
@@ -123,11 +123,11 @@ struct CustomSegmentedPicker: View {
         }
         .animation(.easeInOut(duration: 0.3), value: selectedSegmentedControl)
         .animation(.default, value: yourOwnForeground)
-        .animation(.default, value: attendingForeground)
+        .animation(.default, value: participatingForeground)
         
     }
 }
 
 #Preview {
-    CustomSegmentedPicker(selectedSegmentedControl: .constant(.attending))
+    CustomSegmentedPicker(selectedSegmentedControl: .constant(.participating))
 }

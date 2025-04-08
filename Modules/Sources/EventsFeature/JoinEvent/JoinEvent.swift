@@ -38,7 +38,7 @@ public struct JoinEvent {
         case joinSuccess(pinCode: String)
         case delegate(Delegate)
         public enum Delegate {
-            case navigateToAttendingEvent(withPinCode: String)
+            case navigateToParticipantEvent(withPinCode: String)
         }
     }
     
@@ -85,7 +85,7 @@ public struct JoinEvent {
             case .joinSuccess(let pinCode):
                 state.joinRequestInFlight = false
                 state.showSuccessOverlay = true
-                return .send(.delegate(.navigateToAttendingEvent(withPinCode: pinCode)))
+                return .send(.delegate(.navigateToParticipantEvent(withPinCode: pinCode)))
                 
             case .delegate:
                 return .none

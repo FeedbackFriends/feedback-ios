@@ -1,14 +1,90 @@
 import Foundation
 import ComposableArchitecture
 
-public struct Session: Equatable, Sendable {
+public struct ManagerSession: Equatable, Sendable {
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
-    public var userType: UserType
+    public var managerData: ManagerData
+    public var accountInfo: AccountInfo
+}
+
+public struct ParticipantSession: Equatable, Sendable {
+    public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
+    public var accountInfo: AccountInfo
+}
+
+public struct AnonymousSession: Equatable, Sendable {
+    public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
+}
+
+public struct NewSession: Equatable, Sendable {
+    
+    public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
+    public var managerData: ManagerData?
+    public var accountInfo: AccountInfo
     public var role: Role?
-    public init(participantEvents: IdentifiedArrayOf<ParticipantEvent>, userType: UserType, role: Role? = nil) {
+    
+    public init(
+        participantEvents: IdentifiedArrayOf<ParticipantEvent>,
+        managerData: ManagerData? = nil,
+        accountInfo: AccountInfo,
+        role: Role? = nil
+    ) {
         self.participantEvents = participantEvents
-        self.userType = userType
+        self.managerData = managerData
+        self.accountInfo = accountInfo
         self.role = role
+    }
+    
+    public enum Account: Equatable, Sendable {
+        case manager(ManagerSession)
+        case participant(ParticipantSession)
+        case anonymous(AnonymousSession)
+    }
+    
+    public var account: Account {
+        switch role {
+        case .participant:
+            return .participant(
+                .init(
+                    participantEvents: self.participantEvents,
+                    accountInfo: accountInfo
+                )
+            )
+        case .manager:
+            return .manager(
+                .init(
+                    participantEvents: self.participantEvents,
+                    managerData: managerData!,
+                    accountInfo: accountInfo
+                )
+            )
+        case nil:
+            return .anonymous(.init(participantEvents: self.participantEvents))
+        }
+    }
+    
+    public var activity: Activity {
+        switch self.account {
+        case .manager(let managerSession):
+            return managerSession.managerData.activity
+        case .participant(_):
+            return .init(items: [], unseenTotal: 0)
+        case .anonymous(_):
+            return .init(items: [], unseenTotal: 0)
+        }
+    }
+    public var unwrappedManagerSession: ManagerSession {
+        if case .manager(let session) = self.account {
+            return session
+        }
+        fatalError("Could not unwrap manager session")
+    }
+    
+    public var activityBadgeCount: Int {
+        if case .manager(let managerSession) = self.account {
+            return managerSession.managerData.activity.unseenTotal
+        }
+        return 0
     }
 }
 
@@ -231,13 +307,10 @@ public struct ManagerData: Equatable, Sendable {
     }
 }
 
-public extension Session {
+public extension NewSession {
     
     mutating func updateOrAppendManagerEvent(_ event: ManagerEvent) {
-        guard case let .manager(managerData: managerData, accountInfo: accountInfo) = self.userType else { return }
-        var mutableManagerData = managerData
-        mutableManagerData.managerEvents.updateOrAppend(event)
-        self.userType = .manager(managerData: mutableManagerData, accountInfo: accountInfo)
+        self.managerData?.managerEvents.updateOrAppend(event)
     }
     
     mutating func updateOrAppendParticipantEvent(_ event: ParticipantEvent) {
@@ -251,22 +324,16 @@ public extension Session {
     }
     
     mutating func deleteEvent(_ id: UUID) {
-        guard case let .manager(managerData: managerData, accountInfo: accountInfo) = self.userType else { return }
-        var mutableManagerData = managerData
-        mutableManagerData.managerEvents.remove(id: id)
-        self.userType = .manager(managerData: mutableManagerData, accountInfo: accountInfo)
+        self.managerData?.managerEvents.remove(id: id)
     }
     
     func getManagerEventId(_ id: UUID) -> ManagerEvent {
-        guard case let .manager(managerData: managerData, accountInfo: _) = self.userType else { fatalError() }
-        return managerData.managerEvents[id: id]!
+        return self.managerData!.managerEvents[id: id]!
     }
     
     mutating func markEventAsSeen(eventId: UUID) {
-        guard case let .manager(managerData, accountInfo) = self.userType else { return }
         
-        var mutableManagerData = managerData
-        guard var event = mutableManagerData.managerEvents[id: eventId] else { return }
+        guard var event = self.managerData?.managerEvents[id: eventId] else { return }
         
         // Reset event-level feedback
         event.feedbackSummary?.unseenCount = 0
@@ -284,16 +351,14 @@ public extension Session {
             
             return updatedQuestion
         }
-        mutableManagerData.managerEvents[id: eventId] = event
+        self.managerData?.managerEvents[id: eventId] = event
         
-        var mutableActivity = mutableManagerData.activity
+        var mutableActivity = self.managerData!.activity
         mutableActivity.unseenTotal = mutableActivity.unseenTotal-1
         for index in mutableActivity.items.indices {
             mutableActivity.items[index].seenByManager = true
         }
-        mutableManagerData.activity = mutableActivity
-        
-        self.userType = .manager(managerData: mutableManagerData, accountInfo: accountInfo)
+        self.managerData!.activity = mutableActivity
     }
     
     mutating func updateAccount(name: String?, email: String?, phoneNumber: String?) {
@@ -302,47 +367,20 @@ public extension Session {
             email: email,
             phoneNumber: phoneNumber
         )
-        switch self.userType {
-        case .manager(managerData: let managerData, accountInfo: _):
-            self.userType = .manager(managerData: managerData, accountInfo: updatedAccountInfo)
-        case .participant(accountInfo: _):
-            self.userType = .participant(accountInfo: updatedAccountInfo)
-        case .anonymoous:
-            return
-        }
+        self.accountInfo = updatedAccountInfo
     }
     
     mutating func updateActivity(_ updatedActivity: Activity) {
-        switch self.userType {
-            
-        case .manager(managerData: let managerData, accountInfo: let accountInfo):
-            var mutableManagerData = managerData
-            mutableManagerData.activity = updatedActivity
-            self.userType = .manager(managerData: mutableManagerData, accountInfo: accountInfo)
-        case .participant(accountInfo: _):
-            return
-        case .anonymoous:
-            return
-        }
+        self.managerData?.activity = updatedActivity
     }
     
     mutating func markActivityAsSeen() {
-        switch self.userType {
-            
-        case .manager(managerData: let managerData, accountInfo: let accountInfo):
-            var mutableManagerData = managerData
-            var mutableActivity = mutableManagerData.activity
-            mutableActivity.unseenTotal = 0
-            for index in mutableActivity.items.indices {
-                mutableActivity.items[index].seenByManager = true
-            }
-            
-            mutableManagerData.activity = mutableActivity
-            self.userType = .manager(managerData: mutableManagerData, accountInfo: accountInfo)
-        case .participant(accountInfo: _):
-            return
-        case .anonymoous:
-            return
+        var mutableActivity = self.managerData!.activity
+        mutableActivity.unseenTotal = 0
+        for index in mutableActivity.items.indices {
+            mutableActivity.items[index].seenByManager = true
         }
+        
+        self.managerData?.activity = mutableActivity
     }
 }

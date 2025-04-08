@@ -9,7 +9,7 @@ import ComposableArchitecture
 import SwiftUI
 
 public enum Tab: Hashable {
-    case feedback, events, more, teams
+    case feedback, events, more
 }
 
 @Reducer
@@ -17,64 +17,90 @@ public struct Tabbar {
     
     @Reducer(state: .equatable)
     public enum Destination {
+        case alert(AlertState<AlertAction>)
         @ReducerCaseIgnored
         case notificationPermissionPrompt
+        @ReducerCaseEphemeral
+        case confirmationDialog(ConfirmationDialogState<ConfirmationDialog>)
+        case createEvent(CreateEvent)
+        case joinEvent(JoinEvent)
+        @ReducerCaseIgnored
+        case activity([ActivityItems])
+        public enum ConfirmationDialog: Equatable {
+            case logoutConfirmed
+        }
+        public enum AlertAction: Equatable {
+            case confirmedToCreateUser
+        }
     }
     
     @ObservableState
     public struct State: Equatable {
         
-        public var eventsOverview: EventsOverview.State
+        @Shared public var session: NewSession
+        var tabbarLifecyle: TabbarLifecycle.State
         var enterCode: EnterCode.State
-        var more: More.State
+        var moreSection: MoreSection.State
+        var accountSection: AccountSection.State
         public var selectedTab: Tab
-        @Shared public var session: Session
         var initialiseFeedback: FeedbackButton.State
+        var managerEvents: ManagerEvents.State
+        var participantEvents: ParticipantEvents.State
         @Presents var destination: Destination.State?
-        var firstFetchAfterEnteringForeground = false
-        var bannerState: BannerState?
+        var appVersion = "Todo"
         
         public init(
-            session: Shared<Session>,
-            eventsOverview: EventsOverview.State,
-            enterCode: EnterCode.State,
-            selectedTab: Tab,
-            initialiseFeedback: FeedbackButton.State = .init()
+            session: Shared<NewSession>,
+            selectedTab: Tab = .events,
+            destination: Destination.State? = nil
         ) {
             self._session = session
-            self.eventsOverview = eventsOverview
-            self.enterCode = enterCode
+            self.enterCode = .init()
             self.selectedTab = selectedTab
-            self.more = .init(session: session)
-            self.initialiseFeedback = initialiseFeedback
+            self.moreSection = .init()
+            self.accountSection = .init(session: session)
+            self.initialiseFeedback = .init()
+            self.participantEvents = .init(session: session)
+            self.managerEvents = .init(session: session)
+            self.tabbarLifecyle = .init(session: session)
+            self.destination = destination
         }
     }
     
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
         case enterCode(EnterCode.Action)
-        case eventsOverview(EventsOverview.Action)
-        case more(More.Action)
+        case moreSection(MoreSection.Action)
+        case accountSection(AccountSection.Action)
         case initialiseFeedback(FeedbackButton.Action)
-        case onAppear
-        case sessionUpdated(Session)
-        case presentNotificationPermissionPrompt
+        case participantEvents(ParticipantEvents.Action)
+        case managerEvents(ManagerEvents.Action)
         case requestNotificationAuthorization
         case dimissNotificationPermissionButtonTap
         case destination(PresentationAction<Destination.Action>)
-        case didEnterForeground
-        case updatedSessionResponse(UpdatedSession)
-        case removeBanner
+        case toolbar(Toolbar)
+        case delegate(Delegate)
+        case signOutButtonTapped
+        case signUpButtonTap
+        case navigateToManagerEvent(ActivityItems)
+        case tabbarLifecyle(TabbarLifecycle.Action)
+        
+        public enum Toolbar: Equatable {
+            case createEventButtonTap
+            case joinEventButtonTap
+            case activityButtonTap
+        }
+        public enum Delegate {
+            case startFeedback(pinCode: String)
+            case navigateToSignUp
+        }
     }
     
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.logClient) var logger
-    @Dependency(\.continuousClock) var clock
     @Dependency(\.notificationClient) var notificationClient
+    @Dependency(\.logClient) var logger
     
     public init() {}
-    
-    enum CancelID { case timer }
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -84,104 +110,150 @@ public struct Tabbar {
         Scope(state: \.enterCode, action: \.enterCode) {
             EnterCode()
         }
-        Scope(state: \.eventsOverview, action: \.eventsOverview) {
-            EventsOverview()
+        Scope(state: \.participantEvents, action: \.participantEvents) {
+            ParticipantEvents()
         }
-        Scope(state: \.more, action: \.more) {
-            More()
+        Scope(state: \.managerEvents, action: \.managerEvents) {
+            ManagerEvents()
         }
-        Reduce {
-            state,
-            action in
+        Scope(state: \.accountSection, action: \.accountSection) {
+            AccountSection()
+        }
+        Scope(state: \.moreSection, action: \.moreSection) {
+            MoreSection()
+        }
+        Scope(state: \.tabbarLifecyle, action: \.tabbarLifecyle) {
+            TabbarLifecycle()
+        }
+        Reduce { state, action in
             switch action {
                 
-            case .didEnterForeground:
-                state.firstFetchAfterEnteringForeground = true
+            case .tabbarLifecyle(.delegate(.navigateToNotificationPermissionPrompt)):
+                state.destination = .notificationPermissionPrompt
                 return .none
                 
-            case .onAppear:
-                return .merge(
-                    .run { [role = state.session.role] send in
-                        if await notificationClient.shouldPromptForAuthorization(role: role) {
-                            await send(.presentNotificationPermissionPrompt)
-                        }
-                        let sessionChangedListener = await apiClient.sessionChangedListener()
-                        for await session in sessionChangedListener {
-                            await send(.sessionUpdated(session))
-                        }
-                    },
-                    .run {  send in
-                        for await _ in self.clock.timer(interval: .seconds(5)) {
-                            do {
-                                let updatedSession = try await apiClient.getUpdatedSession()
-                                await send(.updatedSessionResponse(updatedSession))
-                            } catch {
-                                logger.log("Failed to send updated session response: \(error)")
-                            }
-                        }
-                    }.cancellable(id: CancelID.timer, cancelInFlight: true)
-                )
+            case .tabbarLifecyle:
+                return .none
                 
-            case .updatedSessionResponse(let updatedSession):
-                if !state.firstFetchAfterEnteringForeground {
-                    state.firstFetchAfterEnteringForeground = false
-                    if let first = updatedSession.events.first {
-                        state.bannerState = .serverError("New feedback on event '\(first.title)'")
-                        return .run { send in
-                            try await clock.sleep(for: .seconds(5))
-                            await send(.removeBanner)
-                        }
+            case .navigateToManagerEvent(let activityItem):
+                state.managerEvents.destination = .eventDetail(
+                    EventDetailFeature.State(
+                        event: state.session.unwrappedManagerSession.managerData.managerEvents[id: activityItem.eventId]!,
+                        session: state.$session
+                    )
+                )
+                return .run { send in
+                    do {
+                        try await apiClient.markEventAsSeen(activityItem.id)
+                    } catch {
+                        logger.log("Reset new feedback failed with error: \(error.localizedDescription)")
                     }
                 }
+                
+            case .destination(.presented(.createEvent(.delegate(.dismissAndNavigateToDetail(let event))))):
+                state.destination = nil
+                state.managerEvents.destination = .eventDetail(
+                    EventDetailFeature.State(
+                        event: event,
+                        session: state.$session,
+                        destination: .invite(event)
+                    )
+                )
+                return .none
+                
+            case .signOutButtonTapped:
+            state.destination = .confirmationDialog(
+                ConfirmationDialogState<Destination.ConfirmationDialog>(
+                    title: { TextState("Are you sure you want to logout?") },
+                    actions: {
+                        ButtonState(role: .cancel, label: { TextState("Cancel") })
+                        ButtonState(role: .destructive, action: .logoutConfirmed, label: { TextState("Logout") })
+                    }
+                )
+            )
+            return .none
+                
+            case .accountSection:
+                return .none
+                
+                
+            case .destination(.presented(.alert(let alertAction))):
+                switch alertAction {
+                case .confirmedToCreateUser:
+                    return .send(.delegate(.navigateToSignUp))
+                }
+                
+            case .destination(.presented(.confirmationDialog(let confirmationDialogAction))):
+                switch confirmationDialogAction {
+                case .logoutConfirmed:
+                    return .send(.delegate(.navigateToSignUp))
+                }
+                             
+            case .destination(.presented(.joinEvent(.delegate(.navigateToParticipantEvent(let pinCode))))):
+                state.participantEvents.destination = .startFeedbackConfirmation(pinCode)
+                return .none
+                
+            case .destination:
                 return .none
                 
             case .binding:
                 return .none
                 
             case .enterCode(.delegate(.startFeedback(let pinCode))),
-                    .eventsOverview(.delegate(.startFeedback(let pinCode))):
+                    .participantEvents(.delegate(.startFeedback(let pinCode))):
                 return .send(.initialiseFeedback(.startFeedback(pinCode: pinCode)))
                 
             case .initialiseFeedback(.delegate(let delegateAction)):
                 switch delegateAction {
                 case .stopLoading:
                     state.enterCode.startFeedbackPincodeInFlight = false
-                    state.eventsOverview.startFeedbackPincodeInFlight = nil
+                    state.participantEvents.startFeedbackPincodeInFlight = nil
                 }
+                return .none
+                
+            case .participantEvents:
                 return .none
                 
             case .enterCode:
                 return .none
                 
-            case .eventsOverview:
-                return .none
-            
-            case .more:
+            case .toolbar(let toolbarButtonAction):
+                switch toolbarButtonAction {
+                    
+                case .createEventButtonTap:
+                    if case .anonymous = state.session.account {
+                    state.destination = .alert(
+                        .init(
+                            title: { TextState("Login påkrævet") },
+                            actions: {
+                                ButtonState(role: .cancel, label: { TextState("Ikke nu") })
+                                ButtonState(action: .confirmedToCreateUser, label: { TextState("Opret bruger") })
+                            },
+                            message: { TextState("Opret bruger for at kunne tilgå dine egne events") })
+                    )
+                    return .none
+                }
+                state.destination = .createEvent(
+                    CreateEvent.State(session: state.$session)
+                )
+                case .joinEventButtonTap:
+                    state.destination = .joinEvent(.init())
+                case .activityButtonTap:
+                    state.destination = .activity(state.session.activity.items)
+                    return .run { send in
+                        do {
+                            try await apiClient.markActivityAsSeen()
+                        } catch {
+                            logger.log("Reset new feedback failed with error: \(error.localizedDescription)")
+                        }
+                    }
+                }
                 return .none
                 
-            case .removeBanner:
-                state.bannerState = nil
+            case .moreSection:
                 return .none
                 
             case .initialiseFeedback:
-                return .none
-                
-            case .sessionUpdated(let session):
-                state.$session.withLock {
-                    $0 = session
-                }
-                guard case .manager(let managerData, _) = state.session.userType else { return .none }
-                if case .eventDetail(let eventState) = state.eventsOverview.destination {
-                    var mutableEventState = eventState
-                    if let event = managerData.managerEvents[id: eventState.event.id] {
-                        mutableEventState.event = event
-                    }
-                    state.eventsOverview.destination = .eventDetail(mutableEventState)
-                }
-                return .none
-                
-            case .presentNotificationPermissionPrompt:
-                state.destination = .notificationPermissionPrompt
                 return .none
                 
             case .requestNotificationAuthorization:
@@ -194,7 +266,13 @@ public struct Tabbar {
                 state.destination = nil
                 return .none
                 
-            case .destination:
+            case .signUpButtonTap:
+                return .send(.delegate(.navigateToSignUp))
+  
+            case .delegate:
+                return .none
+                
+            case .managerEvents(_):
                 return .none
             }
         }

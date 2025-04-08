@@ -16,7 +16,7 @@ public struct EditEvent {
         var createEventRequestInFlight = false
         var editRequestInFlight = false
         var showSuccessOverlay: Bool = false
-        @Shared var session: Session
+        @Shared var session: NewSession
         
         @Presents var alert: AlertState<Never>?
         
@@ -27,7 +27,7 @@ public struct EditEvent {
         public init(
             eventInput: EventInput,
             eventId: UUID,
-            session: Shared<Session>
+            session: Shared<NewSession>
         ) {
             self.eventInput = eventInput
             self.eventId = eventId

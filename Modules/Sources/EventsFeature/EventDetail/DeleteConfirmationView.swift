@@ -52,25 +52,25 @@ struct DeleteConfirmationView: View {
         .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
     }
 }
-
-#Preview {
-    DeleteConfirmationView(store: .init(initialState: .init(session: .init(value: .mock()), eventId: UUID()), reducer: { DeleteConfirmation() }))
-}
-
-#Preview {
-    @Previewable @State var showDeleteConfirmation: Bool = false
-    Button("Delete") {
-        showDeleteConfirmation = true
-    }
-    .sheet(isPresented: $showDeleteConfirmation) {
-        DeleteConfirmationView(
-            store: .init(
-                initialState: .init(session: .init(value: .mock()), eventId: UUID()),
-                reducer: {
-                    DeleteConfirmation()
-                }
-            )
-        )
-            
-    }
-}
+#warning("Fix me")
+//#Preview {
+//    DeleteConfirmationView(store: .init(initialState: .init(session: .init(value: .mock()), eventId: UUID()), reducer: { DeleteConfirmation() }))
+//}
+//
+//#Preview {
+//    @Previewable @State var showDeleteConfirmation: Bool = false
+//    Button("Delete") {
+//        showDeleteConfirmation = true
+//    }
+//    .sheet(isPresented: $showDeleteConfirmation) {
+//        DeleteConfirmationView(
+//            store: .init(
+//                initialState: .init(session: .init(value: .mock()), eventId: UUID()),
+//                reducer: {
+//                    DeleteConfirmation()
+//                }
+//            )
+//        )
+//            
+//    }
+//}

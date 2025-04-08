@@ -114,7 +114,7 @@ extension ManagerEvent {
                 unseenCount: Int(eventSummary.unseenCount)
             )
         } else {
-             nil
+            nil
         }
         self.init(
             id: UUID(uuidString: event.id)!,
@@ -261,7 +261,7 @@ extension DomainCode {
     }
 }
 
-extension Session {
+extension NewSession {
     init(_ session: Components.Schemas.SessionDto) {
         let accountInfo: AccountInfo = AccountInfo(
             name: session.accountInfo.name,
@@ -276,21 +276,16 @@ extension Session {
         default:
             nil
         }
-        let userType: UserType =
-        switch session.role {
-        case .some("Manager"):
-                .manager(
-                    managerData: .init(
-                        managerEvents: IdentifiedArray(uniqueElements: session.managerData!.managerEvents.map { .init($0) }),
-                        activity: .init(session.managerData!.activity)
-                    ),
-                    accountInfo: accountInfo
-                )
-        case .some("Participant"):
-                .participant(accountInfo: accountInfo)
-        default:
-                .anonymoous
+        
+        let managerData: ManagerData? = session.managerData.flatMap {
+            ManagerData(
+                managerEvents: .init(
+                    uniqueElements: $0.managerEvents.map { .init($0)
+                    }),
+                activity: .init($0.activity)
+            )
         }
+        
         self.init(
             participantEvents: .init(
                 uniqueElements: session.participantEvents.map {
@@ -325,7 +320,8 @@ extension Session {
                     )
                 }
             ),
-            userType: userType,
+            managerData: managerData,
+            accountInfo: accountInfo,
             role: role
         )
     }
@@ -333,8 +329,13 @@ extension Session {
 
 extension UpdatedSession {
     init(_ updatedSession: Components.Schemas.UpdatedSessionDto) {
+        let updatedManagerEvents: [ManagerEvent]? = if let updatedEvents = updatedSession.updatedManagerEvents {
+            updatedEvents.map { ManagerEvent($0) }
+        } else {
+            nil
+        }
         self.init(
-            events: updatedSession.events.map { ManagerEvent($0) },
+            updatedManagerEvents: updatedManagerEvents,
             activity: .init(updatedSession.activity)
         )
     }

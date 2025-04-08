@@ -1,10 +1,10 @@
 import Foundation
 
 public struct UpdatedSession: Equatable, Sendable {
-    public let events: [ManagerEvent]
+    public let updatedManagerEvents: [ManagerEvent]?
     public let activity: Activity
-    public init(events: [ManagerEvent], activity: Activity) {
-        self.events = events
+    public init(updatedManagerEvents: [ManagerEvent]?, activity: Activity) {
+        self.updatedManagerEvents = updatedManagerEvents
         self.activity = activity
     }
 }

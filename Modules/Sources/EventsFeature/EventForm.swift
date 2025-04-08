@@ -124,6 +124,7 @@ private extension EventForm {
             } header: {
                 Text("Details")
                     .sectionHeaderStyle()
+                    .padding(.leading, 12)
             }
             QuestionPicker(questions: $eventInput.questions)
         }

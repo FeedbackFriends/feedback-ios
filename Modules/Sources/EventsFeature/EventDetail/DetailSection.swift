@@ -28,7 +28,10 @@ struct DetailSectionView: View {
 private extension DetailSectionView {
     
     var detailSectionView: some View {
-        Section {
+        VStack(alignment: .leading) {
+            Text("DETAILS")
+                .sectionHeaderStyle()
+                .padding(.leading, 18)
             VStack(alignment: .leading, spacing: 0) {
                 VStack(alignment: .leading, spacing: 10) {
                     if let agenda = event.agenda {
@@ -60,15 +63,14 @@ private extension DetailSectionView {
             .font(.montserratRegular, 14)
             .background(Color.themeWhite)
             .cornerRadius(14)
-        } header: {
-            Text("DETAILS")
-                .sectionHeaderStyle()
-                .padding(.leading, 20)
         }
     }
     
     var eventPinSectionView: some View {
-        Section {
+        VStack(alignment: .leading) {
+            Text("PINCODE")
+                .sectionHeaderStyle()
+                .padding(.leading, 18)
             VStack(alignment: .trailing, spacing: 12) {
                 Text("\(event.pinCode.description)")
                     .frame(maxWidth: .infinity)
@@ -95,26 +97,20 @@ private extension DetailSectionView {
             }
             .frame(maxWidth: .infinity)
             .font(.montserratRegular, 14)
-        } header: {
-            Text("PINCODE")
-                .sectionHeaderStyle()
-                .padding(.leading, 20)
         }
     }
     
     @ViewBuilder
     var questionsSectionView: some View {
-        Section {
+        VStack(alignment: .leading) {
+            Text("QUESTIONS")
+                .sectionHeaderStyle()
+                .padding(.leading, 18)
             ForEach(Array(zip(event.questions.indices, event.questions)), id: \.0) { index, question in
                     QuestionView(question: question, index: index)
                         .disabled(event.feedbackSummary == nil)
                 
             }
-            
-        } header: {
-            Text("QUESTIONS")
-                .sectionHeaderStyle()
-                .padding(.leading, 20)
         }
     }
 }
@@ -212,7 +208,6 @@ struct QuestionView: View {
         }
     }
 }
-
 
 #Preview("Detail section with empty event") {
     NavigationStack {

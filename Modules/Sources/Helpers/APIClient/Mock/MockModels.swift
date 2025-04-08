@@ -82,34 +82,67 @@ public extension FeedbackSession {
     )
 }
 
-public extension Session {
-    static func mock(numberOfManagerEvents: Int = 99) -> Self {
-        Session(
-            participantEvents: .init(uniqueElements: (0...100).map { _ in .mock() }),
-            userType: .manager(
-                managerData: .init(
-                    managerEvents: .init(
-                        uniqueElements: generateMockManagerEvents(count: numberOfManagerEvents)
-                    ),
-                    activity: .mock
-                ),
-                accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
+public extension ParticipantSession {
+    static let mock = Self(
+        participantEvents: .init(uniqueElements: (0...100).map { _ in .mock() }),
+        accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
+    )
+}
+
+public extension AnonymousSession {
+    static let mock = Self(
+        participantEvents: .init(uniqueElements: (0...100).map { _ in .mock() })
+    )
+}
+
+public extension ManagerSession {
+    static let mock = Self(
+        participantEvents: .init(uniqueElements: (0...100).map { _ in .mock() }),
+        managerData: .init(
+            managerEvents: .init(
+                uniqueElements: generateMockManagerEvents(count: 100)
             ),
+            activity: .mock
+        ),
+        accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
+    )
+    static let empty = Self(
+        participantEvents: .init(uniqueElements: []),
+        managerData: .init(
+            managerEvents: .init(
+                uniqueElements: []
+            ),
+            activity: .mock
+        ),
+        accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
+    )
+}
+
+public extension NewSession {
+    static func mock(numberOfManagerEvents: Int = 99) -> Self {
+        Self(
+            participantEvents: .init(uniqueElements: (0...100).map { _ in .mock() }),
+            managerData: .init(
+                managerEvents: .init(
+                    uniqueElements: generateMockManagerEvents(count: numberOfManagerEvents)
+                ),
+                activity: .mock
+            ),
+            accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888"),
             role: .manager
         )
     }
     static func mockAnonymous() -> Self {
-        Session(
+        Self(
             participantEvents: .init(uniqueElements: []),
-            userType: .anonymoous
+            accountInfo: .init(name: nil, email: nil, phoneNumber: nil), role: nil
         )
     }
     static func mockParticipant() -> Self {
-        Session(
+        Self(
             participantEvents: .init(uniqueElements: []),
-            userType: .participant(
-                accountInfo: .init(name: nil, email: nil, phoneNumber: nil)
-            )
+            accountInfo: .init(name: nil, email: nil, phoneNumber: nil),
+            role: .participant
         )
     }
         
@@ -375,7 +408,7 @@ public extension Activity {
 
 public extension UpdatedSession {
     static let mock = Self.init(
-        events: [],
+        updatedManagerEvents: [],
         activity: .mock
     )
 }

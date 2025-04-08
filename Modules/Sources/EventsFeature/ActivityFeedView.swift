@@ -2,18 +2,24 @@ import Helpers
 import SwiftUI
 import DesignSystem
 
-struct ActivityView: View {
+public struct ActivityView: View {
     let activityItems: [ActivityItems]
-    let onTapActivityItem: (ActivityItems) -> ()
+    let navigateToManagerEvent: (ActivityItems) -> ()
     @Environment(\.dismiss) var dismiss
-    var body: some View {
+    
+    public init(activityItems: [ActivityItems], navigateToManagerEvent: @escaping (ActivityItems) -> Void) {
+        self.activityItems = activityItems
+        self.navigateToManagerEvent = navigateToManagerEvent
+    }
+    
+    public var body: some View {
         NavigationStack {
             Group {
                 if activityItems.isEmpty {
                     ScrollView {
                         EmptyStateView(
                             title: "Empty",
-                            message: "No new feedback or activity notifications have arrived yet. Once there’s an update, you’ll see it here."
+                            message: "Nothing to show here yet. Once there’s an update, you’ll see it here."
                         )
                     }
                     .scrollContentBackground(.hidden)
@@ -24,7 +30,7 @@ struct ActivityView: View {
                             
                             ForEach(activityItems.sorted(by: { $0.date > $1.date })) { item in
                                 Button {
-                                    onTapActivityItem(item)
+                                    navigateToManagerEvent(item)
                                     dismiss()
                                 } label: {
                                     VStack(alignment: .leading) {
@@ -71,7 +77,7 @@ struct ActivityView: View {
 #Preview {
     ActivityView(
         activityItems: [],
-        onTapActivityItem: { _ in }
+        navigateToManagerEvent: { _ in }
     )
 }
 #Preview {
@@ -94,6 +100,6 @@ struct ActivityView: View {
                 seenByManager: true
             )
         ],
-        onTapActivityItem: { _ in }
+        navigateToManagerEvent: { _ in }
     )
 }

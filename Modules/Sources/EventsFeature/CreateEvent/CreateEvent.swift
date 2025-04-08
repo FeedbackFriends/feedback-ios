@@ -12,14 +12,14 @@ public struct CreateEvent {
         var createEventRequestInFlight = false
         var eventInput = EventInput()
         @Presents var alert: AlertState<Never>?
-        @Shared var session: Session
+        @Shared var session: NewSession
         var showSuccessOverlay: Bool = false
         
         var createEventButtonDisabled: Bool {
             eventInput.title.isEmpty || eventInput.questions.isEmpty || createEventRequestInFlight || showSuccessOverlay
         }
         public init(
-            session: Shared<Session>
+            session: Shared<NewSession>
         ) {
             self._session = session
         }

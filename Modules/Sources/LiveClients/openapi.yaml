@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.81
+  version: 0.0.82
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -904,10 +904,9 @@ components:
     UpdatedSessionDto:
       required:
       - activity
-      - events
       type: object
       properties:
-        events:
+        updatedManagerEvents:
           type: array
           items:
             $ref: '#/components/schemas/ManagerEventDto'

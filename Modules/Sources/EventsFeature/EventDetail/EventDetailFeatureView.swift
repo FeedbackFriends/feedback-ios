@@ -90,15 +90,16 @@ private extension EventDetailFeatureView {
     }
 }
 
-#Preview {
-    NavigationStack {
-        EventDetailFeatureView(
-            store: .init(
-                initialState: .init(event: .mock(), session: .init(value: .mock())),
-                reducer: {
-                    EventDetailFeature()
-                }
-            )
-        )
-    }
-}
+#warning("Fix me")
+//#Preview {
+//    NavigationStack {
+//        EventDetailFeatureView(
+//            store: .init(
+//                initialState: .init(event: .mock(), session: .init(value: .mock())),
+//                reducer: {
+//                    EventDetailFeature()
+//                }
+//            )
+//        )
+//    }
+//}

@@ -16,12 +16,98 @@ public struct TabbarView: View {
     }
     
     public var body: some View {
-        tabbarView
+        let createEventStore = $store.scope(state: \.destination?.createEvent, action: \.destination.createEvent)
+        let joinEventStore = $store.scope(state: \.destination?.joinEvent, action: \.destination.joinEvent)
+        let activityStore = $store.scope(state: \.destination?.activity, action: \.destination.activity)
+        let initialiseFeedbackStore = $store.scope(
+            state: \.initialiseFeedback.destination?.ratingPrompt,
+            action: \.initialiseFeedback.destination.ratingPrompt
+        )
+        let notificationPermissionPromptStore = $store.scope(
+            state: \.destination?.notificationPermissionPrompt,
+            action: \.destination.notificationPermissionPrompt
+        )
+        tabView
+            .toolbarBackground(
+                Color.themeBackground,
+                for: .tabBar
+            )
+            .confirmationDialog(
+                $store.scope(
+                    state: \.destination?.confirmationDialog,
+                    action: \.destination.confirmationDialog
+                )
+            )
+            .sheet(item: createEventStore) { store in
+                NavigationStack {
+                    CreateEventView(store: store)
+                }
+            }
+            .sheet(item: joinEventStore) { store in
+                JoinEventView(store: store)
+                    .presentationDetents([.height(270)])
+            }
+            .sheet(item: activityStore) { activityItems in
+                activityItems.withState { activityItems in
+                    ActivityView(
+                        activityItems: activityItems,
+                        navigateToManagerEvent: {
+                            store.send(.navigateToManagerEvent($0))
+                        }
+                    )
+                    .presentationDetents([.medium, .large])
+                }
+            }
+            .animation(.bouncy, value: store.session)
+            .banner(unwrapping: store.tabbarLifecyle.bannerState)
+            .onChange(of: scenePhase) { _, newValue in
+                switch newValue {
+                case .background, .inactive:
+                    return
+                case .active:
+                    store.send(.tabbarLifecyle(.didEnterForeground))
+                @unknown default:
+                    return
+                }
+            }
+            .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
+            .alert($store.scope(state: \.initialiseFeedback.destination?.alert, action: \.initialiseFeedback.destination.alert))
+            .sheet(
+                item: initialiseFeedbackStore
+            ) { _ in
+                RatingAlertView()
+                    .presentationDetents([.height(300)])
+            }
+            .sheet(
+                item: notificationPermissionPromptStore
+            ) { _ in
+                NotificationPermissionView(
+                    requestAuthorizationButtonTap: {
+                        store.send(.requestNotificationAuthorization)
+                    },
+                    dismissButtonTap: {
+                        store.send(.dimissNotificationPermissionButtonTap)
+                    }
+                )
+                .presentationDetents([.height(600)])
+            }
+            .fullScreenCover(
+                item: $store.scope(
+                    state: \.initialiseFeedback.destination?.feedbackFeature,
+                    action: \.initialiseFeedback.destination.feedbackFeature
+                )
+            ) { store in
+                FeedbackFlowView(store: store)
+            }
+
+            .onAppear { store.send(.tabbarLifecyle(.onAppear)) }
+        
     }
 }
+
 private extension TabbarView {
     
-    var tabbarView: some View {
+    var tabView: some View {
         TabView(selection: $store.selectedTab) {
             NavigationStack {
                 EnterCodeView(store: store.scope(state: \.enterCode, action: \.enterCode))
@@ -33,18 +119,73 @@ private extension TabbarView {
                 Text("Feedback")
             }
             .tag(Tab.feedback)
+            
             NavigationStack {
-                EventsOverviewView(store: store.scope(state: \.eventsOverview, action: \.eventsOverview))
-                    .navigationTitle("Events")
+                Group {
+                    switch store.session.account {
+                    case .manager:
+                        managerEventsView
+                            .toolbar {
+                                createEventToolbarItem
+                                activityToolbarItem(store.session.activityBadgeCount)
+                            }
+                    case .participant:
+                        participantEventsView
+                            .toolbar {
+                                joinEventToolbarItem
+                                activityToolbarItem(store.session.activityBadgeCount)
+                            }
+                    case .anonymous:
+                        participantEventsView
+                            .toolbar {
+                                createEventToolbarItem
+                                activityToolbarItem(store.session.activityBadgeCount)
+                            }
+                    }
+                }.navigationTitle("Events")
             }
             .tabItem {
                 Image(systemName: "calendar")
                 Text("Events")
             }
             .tag(Tab.events)
+            
             NavigationStack {
-                MoreView(store: store.scope(state: \.more, action: \.more))
-                    .navigationTitle("Profile")
+                List {
+                    switch(store.session.account) {
+                    case .manager, .participant:
+                        AccountSectionView(store: store.scope(state: \.accountSection, action: \.accountSection))
+                    case .anonymous:
+                        EmptyView()
+                    }
+                    MoreSectionView(store: store.scope(state: \.moreSection, action: \.moreSection))
+                    switch(store.session.account) {
+                    case .manager, .participant:
+                        logoutSection()
+                    case .anonymous:
+                        signUpSection
+                    }
+                }
+                .navigationDestination(
+                    item: $store.scope(
+                        state: \.accountSection.destination?.modifyAccount,
+                        action: \.accountSection.destination.modifyAccount
+                    )
+                ) { store in
+                    ModifyAccountView(store: store)
+                }
+                .sheet(
+                    item: $store.scope(
+                        state: \.accountSection.destination?.changeUserType,
+                        action: \.accountSection.destination.changeUserType
+                    )
+                ) { store in
+                    ChangeUserTypeView(store: store)
+                        .presentationDetents([.height(240)])
+                }
+                .scrollContentBackground(.hidden)
+                .background(Color.themeBackground)
+                .navigationTitle("Profile")
             }
             .tabItem {
                 Image(systemName: "person.crop.circle")
@@ -52,53 +193,132 @@ private extension TabbarView {
             }
             .tag(Tab.more)
         }
-        .animation(.bouncy, value: store.session)
-        .banner(unwrapping: store.bannerState)
-        .onChange(of: scenePhase) { _, newValue in
-            switch newValue {
-            case .background, .inactive:
-                return
-            case .active:
-                store.send(.didEnterForeground)
-            @unknown default:
-                return
+    }
+    
+    var participantEventsView: some View {
+        ParticipantEventsView(
+            store: store.scope(
+                state: \.participantEvents,
+                action: \.participantEvents
+            )
+        )
+    }
+    
+    var managerEventsView: some View {
+//        TabView(selection: $store.segmentedControl) {
+            ManagerEventsView(
+                store: store.scope(state: \.managerEvents, action: \.managerEvents)
+            )
+            .tag(SegmentedControlMenu.yourMeetings)
+            
+//            ScrollView {
+//                ParticipantEventsView(
+//                    store: store.scope(
+//                        state: \.participantEvents,
+//                        action: \.participantEvents
+//                    )
+//                )
+//            }
+//            .tag(SegmentedControlMenu.participating)
+//        }
+//        .tabViewStyle(.page(indexDisplayMode: .never))
+//        .lineSpacing(7)
+//        .scrollContentBackground(.hidden)
+//        .background(Color.themeBackground)
+//        .overlay(alignment: .bottom) {
+//            CustomSegmentedPicker(selectedSegmentedControl: $store.segmentedControl.animation())
+//        }
+    }
+    
+    var createEventToolbarItem: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Menu {
+                Section {
+                    Button {
+                        store.send(.toolbar(.createEventButtonTap))
+                    } label: {
+                        Text("Create event")
+                    }
+                    
+                }
+                Section {
+                    Button {
+                        store.send(.toolbar(.joinEventButtonTap))
+                    } label: {
+                        Text("Join event")
+                    }
+                }
+                
+            } label: {
+                Image(systemName: "plus.circle.fill")
+                    .resizable()
+                    .frame(width: 35, height: 35)
+                    .foregroundStyle(Color.themePrimaryAction.gradient)
             }
         }
-        .alert($store.scope(state: \.initialiseFeedback.destination?.alert, action: \.initialiseFeedback.destination.alert))
-        .sheet(
-            item: $store.scope(
-                state: \.initialiseFeedback.destination?.ratingPrompt,
-                action: \.initialiseFeedback.destination.ratingPrompt
-            )
-        ) { _ in
-            RatingAlertView()
-                .presentationDetents([.height(300)])
+    }
+    
+    var joinEventToolbarItem: some ToolbarContent {
+        ToolbarItem(placement: .navigationBarTrailing) {
+            Button {
+                store.send(.toolbar(.joinEventButtonTap))
+            } label: {
+                Text("Join")
+            }
+            .buttonStyle(PrimaryToolbarButtonStyle())
         }
-        .sheet(
-            item: $store.scope(
-                state: \.destination?.notificationPermissionPrompt,
-                action: \.destination.notificationPermissionPrompt
-            )
-        ) { _ in
-            NotificationPermissionView(
-                requestAuthorizationButtonTap: {
-                    store.send(.requestNotificationAuthorization)
-                },
-                dismissButtonTap: {
-                    store.send(.dimissNotificationPermissionButtonTap)
+    }
+    
+    func activityToolbarItem(_ count: Int) -> some ToolbarContent {
+        ToolbarItem(placement: .topBarLeading) {
+            Button {
+                store.send(.toolbar(.activityButtonTap))
+            } label: {
+                Image(systemName: "sparkles")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 16, height: 16)
+            }
+            .buttonStyle(IconToolbarStyle())
+            .overlay(alignment: .bottomTrailing) {
+                if count > 0 {
+                    Text(count.description)
+                        .foregroundStyle(Color.white)
+                        .font(.montserratSemiBold, 10)
+                        .padding(6)
+                        .background(Circle().foregroundStyle(Color.themeRed))
+                        .offset(x: 7, y: 7)
                 }
-            )
-            .presentationDetents([.height(600)])
+            }
         }
-        .fullScreenCover(
-            item: $store.scope(
-                state: \.initialiseFeedback.destination?.feedbackFeature,
-                action: \.initialiseFeedback.destination.feedbackFeature
-            )
-        ) { store in
-            FeedbackFlowView(store: store)
+    }
+    
+    
+    func logoutSection() -> some View {
+        Section {
+            Button {
+                store.send(.signOutButtonTapped)
+            } label: {
+                listElement(image: "rectangle.portrait.and.arrow.right", label: "Logout")
+            }
+        } footer: {
+            Text("\(store.appVersion)")
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
+                .font(.montserratThin, 12)
+                .padding(.vertical, 20)
         }
-        .onAppear { store.send(.onAppear) }
+    }
+    
+    var signUpSection: some View {
+        Section {
+            Button {
+                store.send(.signUpButtonTap)
+            } label: {
+                listElement(image: "person.badge.key", label: "Sign up")
+            }
+        } footer: {
+            Text("Sign up to get feedback from others and much more")
+        }
     }
 }
-

@@ -25,7 +25,7 @@ public struct AppCoreView: View {
                 errorView(errorType)
                 
             case .loggedIn:
-                tabbarView
+                loggedInView
             }
         }
         .animation(.linear(duration: 0.8), value: store.destination)
@@ -43,7 +43,7 @@ public struct AppCoreView: View {
     }
     
     @ViewBuilder
-    private var tabbarView: some View {
+    private var loggedInView: some View {
         if let store = store.scope(state: \.destination.loggedIn, action: \.destination.loggedIn) {
             TabbarView(store: store)
                 .transition(.opacity)

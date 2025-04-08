@@ -53,11 +53,11 @@ public struct AppCore {
         case onLogoutButtonTap
         case appDelegate(AppDelegateReducer.Action)
         case destination(Destination.Action)
-        case getSessionResponse(Session)
+        case getSessionResponse(NewSession)
         case presentError(ErrorType)
         case onOpenURL(URL)
         case tryAgainButtonTap(ErrorType)
-        case createAccountResponse(Session, Role?)
+        case createAccountResponse(NewSession, Role?)
         case navigateToSelectUserType
     }
     
@@ -141,11 +141,11 @@ public struct AppCore {
             case .destination(.signUp(.destination(.presented(.selectUserType(.delegate(.getSession)))))):
                 return getSession(state: &state)
                 
-            case .destination(.loggedIn(.more(.destination(.presented(.changeUserType(.delegate(.refreshSession))))))):
+            case .destination(.loggedIn(.accountSection(.destination(.presented(.changeUserType(.delegate(.refreshSession))))))):
                 return getSession(state: &state)
                 
-            case .destination(.loggedIn(.eventsOverview(.delegate(.navigateToSignUp)))),
-                    .destination(.loggedIn(.more(.delegate(.navigateToSignUp)))):
+            case .destination(.loggedIn(.delegate(.navigateToSignUp))),
+                    .destination(.loggedIn(.participantEvents(.delegate(.navigateToSignUp)))):
                 state.destination = .signUp(.init())
                 return .none
                 
@@ -204,8 +204,6 @@ public struct AppCore {
                 state.destination = Destination.State.loggedIn(
                     Tabbar.State(
                         session: sharedSession,
-                        eventsOverview: .init(session: sharedSession),
-                        enterCode: .init(),
                         selectedTab: .feedback
                     )
                 )
@@ -227,8 +225,6 @@ public struct AppCore {
                 state.destination = Destination.State.loggedIn(
                     Tabbar.State(
                         session: sharedSession,
-                        eventsOverview: .init(session: sharedSession),
-                        enterCode: .init(),
                         selectedTab: .feedback
                     )
                 )
@@ -248,11 +244,9 @@ public struct AppCore {
                 case .loggedIn(let existingState):
                     let session = Shared(value: existingState.session)
                     let newState = Destination.State.loggedIn(
-                        Tabbar.State(
+                        Tabbar.State.init(
                             session: session,
-                            eventsOverview: .init(destination: .joinEvent(.init(inputCode: String(pinCode))), session: session),
-                            enterCode: .init(),
-                            selectedTab: .events
+                            destination: .joinEvent(.init(inputCode: String(pinCode)))
                         )
                     )
                     state.destination = newState
