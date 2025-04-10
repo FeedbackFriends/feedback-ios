@@ -44,7 +44,7 @@ public struct EditEvent {
         case binding(BindingAction<State>)
         case editEventButtonTap
         case presentError(Error)
-        case editEventResponse(ManagerEvent)
+        case editEventResponse
         case cancelButtonTap
         case alert(PresentationAction<Never>)
     }
@@ -65,11 +65,11 @@ public struct EditEvent {
                 state.editRequestInFlight = true
                 return .run { [state = state] send in
                     do {
-                        let event = try await apiClient.updateEvent(
+                        let _ = try await apiClient.updateEvent(
                             state.eventInput,
                             state.eventId
                         )
-                        await send(.editEventResponse(event))
+                        await send(.editEventResponse)
                     } catch {
                         await send(.presentError(error))
                     }

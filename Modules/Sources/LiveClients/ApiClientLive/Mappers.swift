@@ -164,6 +164,25 @@ extension ManagerEvent {
     }
 }
 
+
+extension EventWrapper {
+    init(_ event: Components.Schemas.EventWrapperDto) {
+        self.init(
+            event: .init(event.event),
+            recentlyUsedQuestions:
+                Set(
+                    event.recentlyUsedQuestions.map {
+                        .init(
+                            questionText: $0.questionText,
+                            feedbackType: .init($0.feedbackType.rawValue),
+                            updatedAt: $0.updatedAt
+                        )
+                    }
+                )
+        )
+    }
+}
+
 extension ParticipantEvent {
     init(_ event: Components.Schemas.ParticipantEventDto) {
         self.init(
@@ -341,7 +360,8 @@ extension UpdatedSession {
         }
         self.init(
             updatedManagerEvents: updatedManagerEvents,
-            activity: .init(updatedSession.activity)
+            activity: .init(updatedSession.activity),
+            recentlyUsedQuestions: nil
         )
     }
 }

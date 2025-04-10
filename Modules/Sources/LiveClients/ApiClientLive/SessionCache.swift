@@ -24,8 +24,11 @@ actor SessionCache {
         }
     }
     
-    func updateOrAppendManagerEvent(_ managerEvent: ManagerEvent) {
-        session?.updateOrAppendManagerEvent(managerEvent)
+    func updateOrAppendManagerEvent(event: ManagerEvent, recentlyUsedQuestions: Set<RecentlyUsedQuestions>? = nil) {
+        session?.updateOrAppendManagerEvent(event)
+        if let recentlyUsedQuestions {
+            session?.updateRecentlyUsedQuestions(recentlyUsedQuestions)
+        }
         if let updatedSession = session {
             sessionContinuation?.yield(updatedSession)
         }

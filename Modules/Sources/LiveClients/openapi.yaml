@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: Feedback API
   description: API documentation for the Feedback service
-  version: 0.0.85
+  version: 0.0.88
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -33,7 +33,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ManagerEventDto'
+                $ref: '#/components/schemas/EventWrapperDto'
         "500":
           description: Internal Server Error
           content:
@@ -262,7 +262,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ManagerEventDto'
+                $ref: '#/components/schemas/EventWrapperDto'
         "500":
           description: Internal Server Error
           content:
@@ -409,6 +409,18 @@ components:
           - ThumpsUpThumpsDown
           - Opinion
           - OneToTen
+    EventWrapperDto:
+      required:
+      - event
+      - recentlyUsedQuestions
+      type: object
+      properties:
+        event:
+          $ref: '#/components/schemas/ManagerEventDto'
+        recentlyUsedQuestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecentlyUsedQuestions'
     FeedbackCountStatsDto:
       required:
       - commentsCount
@@ -598,6 +610,26 @@ components:
           type: string
         phoneNumber:
           type: string
+    RecentlyUsedQuestions:
+      required:
+      - feedbackType
+      - questionText
+      - updatedAt
+      type: object
+      properties:
+        questionText:
+          type: string
+        feedbackType:
+          type: string
+          enum:
+          - Emoji
+          - Comment
+          - ThumpsUpThumpsDown
+          - Opinion
+          - OneToTen
+        updatedAt:
+          type: string
+          format: date-time
     SendNotificationInput:
       required:
       - fcmToken
@@ -890,26 +922,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RecentlyUsedQuestions'
-    RecentlyUsedQuestions:
-      required:
-      - feedbackType
-      - questionText
-      - updatedAt
-      type: object
-      properties:
-        questionText:
-          type: string
-        feedbackType:
-          type: string
-          enum:
-          - Emoji
-          - Comment
-          - ThumpsUpThumpsDown
-          - Opinion
-          - OneToTen
-        updatedAt:
-          type: string
-          format: date-time
     SessionDto:
       required:
       - accountInfo

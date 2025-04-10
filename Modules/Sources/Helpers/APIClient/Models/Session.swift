@@ -249,6 +249,18 @@ public struct ManagerQuestion: Equatable, Hashable, Sendable {
     }
 }
 
+public struct EventWrapper: Equatable, Sendable {
+    public let event: ManagerEvent
+    public let recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+    public init(
+        event: ManagerEvent,
+        recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+    ) {
+        self.event = event
+        self.recentlyUsedQuestions = recentlyUsedQuestions
+    }
+}
+
 public struct ManagerEvent: Equatable, Identifiable, Sendable {
     public let id: UUID
     public var title: String
@@ -352,6 +364,10 @@ public extension NewSession {
         return self.managerData!.managerEvents[id: id]!
     }
     
+    func recentlyUsedQuestions() -> Set<RecentlyUsedQuestions> {
+        return self.managerData!.recentlyUsedQuestions
+    }
+    
     mutating func markEventAsSeen(eventId: UUID) {
         
         guard var event = self.managerData?.managerEvents[id: eventId] else { return }
@@ -403,5 +419,9 @@ public extension NewSession {
         }
         
         self.managerData?.activity = mutableActivity
+    }
+    
+    mutating func updateRecentlyUsedQuestions(_ questions: Set<RecentlyUsedQuestions>) {
+        self.managerData?.recentlyUsedQuestions = questions
     }
 }

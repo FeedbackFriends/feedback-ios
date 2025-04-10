@@ -6,7 +6,8 @@ public extension APIClient {
         let mockSessionEngine = MockSessionEngine()
         
         return Self(
-            deleteAccount: { },
+            deleteAccount: {
+            },
             updateAccount: { _, _, _ in },
             updateFcmToken: { _ in },
             getSession: {
@@ -26,13 +27,14 @@ public extension APIClient {
                 let id = UUID()
                 await mockSessionEngine.appendManagerEvent(input: eventInput, id: id, ownerInfo: OwnerInfo.mock())
                 try await Task.sleep(for: .seconds(1))
-                return await mockSessionEngine.session.getManagerEventId(id)
+                let event = await mockSessionEngine.session.getManagerEventId(id)
+                return event
             },
             updateEvent: { eventInput, id in
                 try await Task.sleep(for: .seconds(1))
                 await mockSessionEngine.updateManagerEvent(eventInput, id)
-                return await mockSessionEngine.session.getManagerEventId(id)
-                
+                let event = await mockSessionEngine.session.getManagerEventId(id)
+                return event
             },
             deleteEvent: { id in
                 try await Task.sleep(for: .seconds(1))

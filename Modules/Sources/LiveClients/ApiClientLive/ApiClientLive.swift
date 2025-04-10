@@ -104,16 +104,22 @@ public extension APIClient {
             },
             createEvent: { eventInput in
                 try await withAuthorization {
-                    let managerEvent = ManagerEvent(try await api.createEvent(body: .json(.init(eventInput))).ok.body.json)
-                    await sessionCache.updateOrAppendManagerEvent(managerEvent)
-                    return managerEvent
+                    let eventWrapper = EventWrapper(try await api.createEvent(body: .json(.init(eventInput))).ok.body.json)
+                    await sessionCache.updateOrAppendManagerEvent(
+                        event: eventWrapper.event,
+                        recentlyUsedQuestions: eventWrapper.recentlyUsedQuestions
+                    )
+                    return eventWrapper.event
                 }
             },
             updateEvent: { eventInput, eventId in
                 try await withAuthorization {
-                    let managerEvent = ManagerEvent(try await api.updateEvent(path: .init(eventId: eventId.uuidString), body: .json(.init(eventInput))).ok.body.json)
-                    await sessionCache.updateOrAppendManagerEvent(managerEvent)
-                    return managerEvent
+                    let eventWrapper = EventWrapper(try await api.updateEvent(path: .init(eventId: eventId.uuidString), body: .json(.init(eventInput))).ok.body.json)
+                    await sessionCache.updateOrAppendManagerEvent(
+                        event: eventWrapper.event,
+                        recentlyUsedQuestions: eventWrapper.recentlyUsedQuestions
+                    )
+                    return eventWrapper.event
                 }
             },
             deleteEvent: { eventId in
@@ -188,7 +194,7 @@ public extension APIClient {
                     await sessionCache.updateActivity(updatedSession.activity)
                     if let events = updatedSession.updatedManagerEvents {
                         for updatedEvent in events {
-                            await sessionCache.updateOrAppendManagerEvent(updatedEvent)
+                            await sessionCache.updateOrAppendManagerEvent(event: updatedEvent)
                         }
                     }
                     return updatedSession
