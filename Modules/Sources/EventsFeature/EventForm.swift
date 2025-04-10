@@ -25,10 +25,12 @@ public struct EventForm: View {
     @FocusState var focus: FocusedField?
     
     let shouldOpenKeyboardOnAppear: Bool
+    let recentlyUsedQuestions: Set<RecentlyUsedQuestions>
     
     init(
         eventInput: Binding<EventInput>,
-        shouldOpenKeyboardOnAppear: Bool
+        shouldOpenKeyboardOnAppear: Bool,
+        recentlyUsedQuestions: Set<RecentlyUsedQuestions>
     ) {
         let totalMinutes: Int = eventInput.durationInMinutes.wrappedValue
         self._eventInput = eventInput
@@ -38,6 +40,7 @@ public struct EventForm: View {
         self.minutePicker = totalMinutes % 60
         self.hourPicker = totalMinutes / 60
         self.shouldOpenKeyboardOnAppear = shouldOpenKeyboardOnAppear
+        self.recentlyUsedQuestions = recentlyUsedQuestions
     }
 
     @Dependency(\.calendar) var calendar
@@ -105,18 +108,6 @@ private extension EventForm {
                     .lineLimit(2, reservesSpace: true)
                     .submitLabel(.return)
                     .focused($focus, equals: .description)
-//                Picker(
-//                    selection: $teamID, content: {
-//                        Text("No team").tag(nil as TeamID?)
-//                        ForEach(self.teams, id: \.id) { team in
-//                            Text(String(team.teamName)).tag(team.id as TeamID?)
-//                        }
-//                    }, label: {
-//                        Text("Team")
-//                            .foregroundColor(.themeDarkGray)
-//                            .frame(maxWidth: .infinity, alignment: .leading)
-//                    }
-//                )
                 Toggle(isOn: $allDay) {
                     Text("All day")
                 }
@@ -126,7 +117,7 @@ private extension EventForm {
                     .sectionHeaderStyle()
                     .padding(.leading, 12)
             }
-            QuestionPicker(questions: $eventInput.questions)
+            QuestionPicker(questions: $eventInput.questions, recentlyUsedQuestions: recentlyUsedQuestions)
         }
         .animation(.default, value: startNowEnabled)
         .scrollContentBackground(.hidden)

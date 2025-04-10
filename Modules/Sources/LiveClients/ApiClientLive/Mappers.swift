@@ -279,10 +279,15 @@ extension NewSession {
         
         let managerData: ManagerData? = session.managerData.flatMap {
             ManagerData(
-                managerEvents: .init(
-                    uniqueElements: $0.managerEvents.map { .init($0)
-                    }),
-                activity: .init($0.activity)
+                managerEvents: .init(uniqueElements: $0.managerEvents.map { .init($0) }),
+                activity: .init($0.activity),
+                recentlyUsedQuestions: .init($0.recentlyUsedQuestions.map {
+                    .init(
+                        questionText: $0.questionText,
+                        feedbackType: .init($0.feedbackType.rawValue),
+                        updatedAt: $0.updatedAt
+                    )
+                })
             )
         }
         

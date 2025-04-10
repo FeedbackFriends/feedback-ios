@@ -8,11 +8,18 @@ public struct QuestionPicker: View {
     @State var navigateToTemplateQuestionSheet = false
     @Binding var questions: [EventInput.QuestionInput]
     @FocusState var textFieldFocused: Bool
+    let recentlyUsedQuestions: Set<RecentlyUsedQuestions>
     
-    public init(enteredString: String = "", showSheet: Bool = false, questions: Binding<[EventInput.QuestionInput]>) {
+    public init(
+        enteredString: String = "",
+        showSheet: Bool = false,
+        questions: Binding<[EventInput.QuestionInput]>,
+        recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+    ) {
         self.enteredString = enteredString
         self.navigateToTemplateQuestionSheet = showSheet
         self._questions = questions
+        self.recentlyUsedQuestions = recentlyUsedQuestions
     }
     
     public var body: some View {
@@ -57,7 +64,7 @@ private extension QuestionPicker {
                 Text("Questions")
                     .sectionHeaderStyle()
                 Spacer()
-                Button("Recommended") {
+                Button("Recently used") {
                     hideKeyboard()
                     navigateToTemplateQuestionSheet = true
                 }
@@ -66,11 +73,11 @@ private extension QuestionPicker {
             }
             .sheet(isPresented: $navigateToTemplateQuestionSheet) {
                 NavigationStack {
-                    ChooseTemplateView { questions in
+                    ChooseTemplateView(recentlyUsedQuestions: recentlyUsedQuestions) { questions in
                         for element in questions {
                             self.navigateToTemplateQuestionSheet = false
                             withAnimation {
-                                self.questions.append(.init(questionText: element, feedbackType: .emoji))
+                                self.questions.append(.init(questionText: element.questionText, feedbackType: element.feedbackType))
                             }
                         }
                     }
@@ -93,20 +100,23 @@ private extension QuestionPicker {
 struct ChooseTemplateView: View {
     
     @State var editMode: EditMode = .active
-    @State private var selectedQuestions = Set<String>()
-    let addTemplateQuestions: (Set<String>) -> Void
+    @State private var selectedQuestions = Set<RecentlyUsedQuestions>()
+    let recentlyUsedQuestions: [RecentlyUsedQuestions]
+    let addTemplateQuestions: (Set<RecentlyUsedQuestions>) -> Void
     
-    let templateQuestions = [
-        "Did you enjoy the meeting?",
-        "Did you find my style of leading the meeting interesting and compelling?",
-        "Do you feel that we achieved the goals outlined in the meeting agenda?",
-        "Do you think the meeting prepared us to hit our goals?",
-        "Am I performing well in my duties as meeting leader, or would you have me adjust my methods?"
-    ]
+    init(
+        recentlyUsedQuestions: Set<RecentlyUsedQuestions>,
+        addTemplateQuestions: @escaping (Set<RecentlyUsedQuestions>) -> Void
+    ) {
+        self.recentlyUsedQuestions = Array(recentlyUsedQuestions.sorted(by: { $0.updatedAt > $1.updatedAt }))
+        self.addTemplateQuestions = addTemplateQuestions
+    }
     
     var body: some View {
-        List(templateQuestions, id: \.self, selection: $selectedQuestions) { name in
-            Text(name)
+        List(
+            recentlyUsedQuestions, id: \.self, selection: $selectedQuestions
+        ) { question in
+            Text(question.questionText)
                 .font(.montserratRegular, 14)
                 .fixedSize(horizontal: false, vertical: false)
                 .multilineTextAlignment(.leading)
@@ -114,7 +124,7 @@ struct ChooseTemplateView: View {
         .scrollContentBackground(.hidden)
         .background(Color.themeBackground)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle("Recommended")
+        .navigationTitle("Recently used")
         .environment(\.editMode, $editMode)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -132,11 +142,16 @@ struct ChooseTemplateView: View {
 
 #Preview {
     @Previewable @State var questions: [EventInput.QuestionInput] = []
-    Form {
-        QuestionPicker(
-            enteredString: "Hello",
-            showSheet: false,
-            questions: $questions
-        )
+    NavigationStack {
+        Form {
+            QuestionPicker(
+                enteredString: "Hello",
+                showSheet: false,
+                questions: $questions,
+                recentlyUsedQuestions: .init([
+                    .init(questionText: "Hello world", feedbackType: .emoji, updatedAt: Date())
+                ])
+            )
+        }
     }
 }

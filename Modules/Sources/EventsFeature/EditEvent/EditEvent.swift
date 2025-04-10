@@ -23,7 +23,12 @@ public struct EditEvent {
         var editEventButtonDisabled: Bool {
             eventInput.title.isEmpty || eventInput.questions.isEmpty || editRequestInFlight || showSuccessOverlay
         }
-    
+        var recentlyUsedQuestions: Set<RecentlyUsedQuestions> {
+            if let managerData = session.managerData {
+                return managerData.recentlyUsedQuestions
+            }
+            return []
+        }
         public init(
             eventInput: EventInput,
             eventId: UUID,

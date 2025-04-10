@@ -18,6 +18,12 @@ public struct CreateEvent {
         var createEventButtonDisabled: Bool {
             eventInput.title.isEmpty || eventInput.questions.isEmpty || createEventRequestInFlight || showSuccessOverlay
         }
+        var recentlyUsedQuestions: Set<RecentlyUsedQuestions> {
+            if let managerData = session.managerData {
+                return managerData.recentlyUsedQuestions
+            }
+            return []
+        }
         public init(
             session: Shared<NewSession>
         ) {

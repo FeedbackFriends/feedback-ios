@@ -301,9 +301,30 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
 public struct ManagerData: Equatable, Sendable {
     public var managerEvents: IdentifiedArrayOf<ManagerEvent>
     public var activity: Activity
-    public init(managerEvents: IdentifiedArrayOf<ManagerEvent>, activity: Activity) {
+    public var recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+    public init(
+        managerEvents: IdentifiedArrayOf<ManagerEvent>,
+        activity: Activity,
+        recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+    ) {
         self.managerEvents = managerEvents
         self.activity = activity
+        self.recentlyUsedQuestions = recentlyUsedQuestions
+    }
+}
+
+public struct RecentlyUsedQuestions: Equatable, Sendable, Hashable {
+    public let questionText: String
+    public let feedbackType: FeedbackType
+    public let updatedAt: Date
+    public init(
+        questionText: String,
+        feedbackType: FeedbackType,
+        updatedAt: Date
+    ) {
+        self.questionText = questionText
+        self.feedbackType = feedbackType
+        self.updatedAt = updatedAt
     }
 }
 

@@ -14,7 +14,8 @@ public struct CreateEventView: View {
         Form {
             EventForm(
                 eventInput: $store.eventInput,
-                shouldOpenKeyboardOnAppear: true
+                shouldOpenKeyboardOnAppear: true,
+                recentlyUsedQuestions: store.recentlyUsedQuestions
             )
             .listRowBackground(Color.themeWhite)
         }

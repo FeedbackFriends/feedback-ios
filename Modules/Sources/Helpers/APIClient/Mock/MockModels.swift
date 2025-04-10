@@ -102,7 +102,8 @@ public extension ManagerSession {
             managerEvents: .init(
                 uniqueElements: generateMockManagerEvents(count: 100)
             ),
-            activity: .mock
+            activity: .mock,
+            recentlyUsedQuestions: [.init(questionText: "Hello world", feedbackType: .emoji, updatedAt: Date())]
         ),
         accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
     )
@@ -112,11 +113,13 @@ public extension ManagerSession {
             managerEvents: .init(
                 uniqueElements: []
             ),
-            activity: .mock
+            activity: .mock,
+            recentlyUsedQuestions: []
         ),
         accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
     )
 }
+
 
 public extension NewSession {
     static func mock(numberOfManagerEvents: Int = 99) -> Self {
@@ -126,7 +129,8 @@ public extension NewSession {
                 managerEvents: .init(
                     uniqueElements: generateMockManagerEvents(count: numberOfManagerEvents)
                 ),
-                activity: .mock
+                activity: .mock,
+                recentlyUsedQuestions: []
             ),
             accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888"),
             role: .manager

@@ -16,7 +16,8 @@ public struct EditEventView: View {
         Form {
             EventForm(
                 eventInput: $store.eventInput,
-                shouldOpenKeyboardOnAppear: false
+                shouldOpenKeyboardOnAppear: false,
+                recentlyUsedQuestions: store.recentlyUsedQuestions
             )
         }
         .toolbar { toolbarItems }
