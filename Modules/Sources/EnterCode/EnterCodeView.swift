@@ -27,13 +27,14 @@ private extension EnterCodeView {
             VStack(alignment: .leading) {
                 ZStack {
                     VStack(alignment: .center) {
-                        Text("Lets give some")
-                            .font(.montserratBold, 16)
+                        Text("Let's give some")
+                            .font(.montserratBold, 18)
                             .padding(.top, 40)
                         Text("Feedback")
-                            .font(.montserratBlack, 55)
-                        Text("Enter meeting pin")
-                            .font(.montserratBold, 18)
+                            .font(.montserratBlack, 50)
+                            .padding(.top, 4)
+                        Text("Enter PIN Code")
+                            .font(.montserratBold, 20)
                             .padding(.top, 70)
                             .foregroundStyle(Color.themeDarkGray)
                         TextField("", text: $store.inputCode)

@@ -53,7 +53,7 @@ public struct EventDetailFeatureView: View {
         }
         .foregroundColor(Color.themeDarkGray)
         .frame(maxWidth: .infinity)
-        .task { store.send(.onAppear) }
+        .onAppear { store.send(.onAppear) }
         .toolbar { toolbarContent }
         .navigationTitle(store.navigationTitle)
         .sheet(
@@ -69,6 +69,7 @@ public struct EventDetailFeatureView: View {
             DeleteConfirmationView(store: store)
                 .presentationDetents([.height(300)])
         }
+        .animation(.default, value: store.event)
     }
 }
 

@@ -19,7 +19,6 @@ public struct MoreSection {
             @Dependency(\.systemClient) var systemClient
             return systemClient.appStoreReviewUrl()
         }
-        var appVersion =  deviceInformation 
         
         public init() {}
     }

@@ -66,6 +66,7 @@ public struct EventDetailFeature {
         case onAppear
         case retryButtonTap
         case refresh
+        case sessionUpdated(NewSession)
     }
     
     public init() {}
@@ -82,6 +83,7 @@ public struct EventDetailFeature {
             state,
             action in
             switch action {
+                
 
             case .destination(.presented(.deleteConfirmation(.delegate(.dismissEventDetail)))):
                 return .run { _ in
@@ -142,6 +144,19 @@ public struct EventDetailFeature {
                 return .none
                 
             case .onAppear:
+                return .publisher {
+                    state.$session.publisher
+                        .map(Action.sessionUpdated)
+                }
+                
+            case .sessionUpdated(let updatedSession):
+                guard
+                    let managerData = updatedSession.managerData,
+                    let event = managerData.managerEvents[id: state.event.id]
+                else {
+                    return .none
+                }
+                state.event = event
                 return .none
                 
             case .retryButtonTap:

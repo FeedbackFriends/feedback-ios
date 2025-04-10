@@ -47,7 +47,7 @@ public struct Tabbar {
         var managerEvents: ManagerEvents.State
         var participantEvents: ParticipantEvents.State
         @Presents var destination: Destination.State?
-        var appVersion = "Todo"
+        let appVersion = Bundle.main.versionNumber
         
         public init(
             session: Shared<NewSession>,
@@ -128,8 +128,15 @@ public struct Tabbar {
         Reduce { state, action in
             switch action {
                 
-            case .tabbarLifecyle(.delegate(.navigateToNotificationPermissionPrompt)):
-                state.destination = .notificationPermissionPrompt
+            case .tabbarLifecyle(.delegate(let delegateAction)):
+                switch delegateAction {
+                case .updateSession(let updatedSession):
+                    state.$session.withLock {
+                        $0 = updatedSession
+                    }
+                case .navigateToNotificationPermissionPrompt:
+                    state.destination = .notificationPermissionPrompt
+                }
                 return .none
                 
             case .tabbarLifecyle:
