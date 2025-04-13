@@ -34,7 +34,7 @@ public struct ManagerEvents {
         public init(
             destination: Destination.State? = nil,
             session: Shared<NewSession>,
-            segmentedControl: SegmentedControlMenu = .yourMeetings
+            segmentedControl: SegmentedControlMenu = .yourEvents
         ) {
             self.destination = destination
             self._session = session

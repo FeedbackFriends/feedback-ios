@@ -2,7 +2,7 @@ import SwiftUI
 import DesignSystem
 
 public enum SegmentedControlMenu {
-    case yourMeetings
+    case yourEvents
     case participating
 }
 
@@ -15,7 +15,7 @@ struct CustomSegmentedPicker: View {
         switch selectedSegmentedControl {
         case .participating:
             Color.clear
-        case .yourMeetings:
+        case .yourEvents:
             Color.themePrimaryAction
         }
     }
@@ -24,14 +24,14 @@ struct CustomSegmentedPicker: View {
         switch selectedSegmentedControl {
         case .participating:
             Color.black
-        case .yourMeetings:
+        case .yourEvents:
             Color.white
         }
     }
     
     var selectedColor: Color {
         switch selectedSegmentedControl {
-        case .yourMeetings:
+        case .yourEvents:
             yourOwnBackground
         case .participating:
             participatingBackground
@@ -42,7 +42,7 @@ struct CustomSegmentedPicker: View {
         switch selectedSegmentedControl {
         case .participating:
             Color.themePrimaryAction
-        case .yourMeetings:
+        case .yourEvents:
             Color.clear
         }
     }
@@ -51,7 +51,7 @@ struct CustomSegmentedPicker: View {
         switch selectedSegmentedControl {
         case .participating:
             Color.white
-        case .yourMeetings:
+        case .yourEvents:
             Color.black
         }
     }
@@ -84,7 +84,7 @@ struct CustomSegmentedPicker: View {
                     .frame(width: 90, height: 35, alignment: .center)
                     .foregroundStyle(selectedColor.gradient)
                     .padding(.horizontal, 1)
-                if case .yourMeetings = selectedSegmentedControl {
+                if case .yourEvents = selectedSegmentedControl {
                     Spacer()
                 }
             }
@@ -92,7 +92,7 @@ struct CustomSegmentedPicker: View {
             
             HStack(alignment: .center, spacing: 0) {
                 Button("Your own") {
-                    self.selectedSegmentedControl = .yourMeetings
+                    self.selectedSegmentedControl = .yourEvents
                 }
                 .padding(10)
                 .frame(width: 90, alignment: .center)

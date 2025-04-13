@@ -209,7 +209,7 @@ private extension TabbarView {
             ManagerEventsView(
                 store: store.scope(state: \.managerEvents, action: \.managerEvents)
             )
-            .tag(SegmentedControlMenu.yourMeetings)
+            .tag(SegmentedControlMenu.yourEvents)
             
 //            ScrollView {
 //                ParticipantEventsView(

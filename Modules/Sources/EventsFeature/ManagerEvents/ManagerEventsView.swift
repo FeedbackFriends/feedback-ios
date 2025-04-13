@@ -29,7 +29,7 @@ public struct ManagerEventsView: View {
                     }
                 }
             }
-            .tag(SegmentedControlMenu.yourMeetings)
+            .tag(SegmentedControlMenu.yourEvents)
             
             ScrollView {
                 ParticipantEventsView(

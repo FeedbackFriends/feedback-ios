@@ -14,7 +14,7 @@ public struct FeedbackFlow {
     public enum Destination {
         case alert(AlertState<Never>)
         @ReducerCaseIgnored
-        case showMeetingInfo
+        case showEventInfo
     }
     
     @ObservableState
@@ -130,7 +130,7 @@ public struct FeedbackFlow {
                 return .none
                 
             case .infoButtonTap:
-                state.destination = .showMeetingInfo
+                state.destination = .showEventInfo
                 return .none
                 
             case .cancelButtonTapped:

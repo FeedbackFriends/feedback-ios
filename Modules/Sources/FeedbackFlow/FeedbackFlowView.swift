@@ -66,7 +66,7 @@ public struct FeedbackFlowView: View {
             enableAutomaticDismissal: false
         )
         .sheet(
-            item: $store.scope(state: \.destination?.showMeetingInfo, action: \.destination.showMeetingInfo),
+            item: $store.scope(state: \.destination?.showEventInfo, action: \.destination.showEventInfo),
             content: { _ in
                 EventInfoView(
                     eventTitle: store.feedbackSession.title,

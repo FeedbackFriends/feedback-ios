@@ -21,7 +21,7 @@ public struct CreateEventView: View {
         }
         .toolbar { toolbarItems }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .navigationBarTitle("New meeting")
+        .navigationBarTitle("New event")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .background(Color.themeBackground.ignoresSafeArea())
