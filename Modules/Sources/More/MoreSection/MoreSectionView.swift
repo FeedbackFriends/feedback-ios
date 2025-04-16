@@ -26,7 +26,7 @@ public struct MoreSectionView: View {
                 Button {
                     store.send(.onNotificationsButtonTap)
                 } label: {
-                    listElement(image: "bell", label: "Notifications")
+                    listElementView(image: "bell", label: "Notifications")
                 }
                 
                 NavigationLink {
@@ -34,7 +34,7 @@ public struct MoreSectionView: View {
                         .edgesIgnoringSafeArea(.all)
                         .navigationTitle("Privacy policy")
                 } label: {
-                    listElement(image: "doc.plaintext", label: "Privacy policy")
+                    listElementView(image: "doc.plaintext", label: "Privacy policy")
                 }
                 Button {
                     store.send(.onSupportUsButtonTap)
@@ -63,12 +63,12 @@ public struct MoreSectionView: View {
             Button {
                 store.send(.onFeedbackButtonTap)
             } label: {
-                listElement(image: "ellipsis.bubble", label: "Send us feedback")
+                listElementView(image: "ellipsis.bubble", label: "Send us feedback")
             }
             Button {
                 store.send(.onReportBugButtonTap)
             } label: {
-                listElement(image: "exclamationmark.square", label: "Report a bug")
+                listElementView(image: "exclamationmark.square", label: "Report a bug")
             }
         } header: {
             Text("Contact us")
@@ -96,63 +96,17 @@ public struct MoreSectionView: View {
                 .foregroundStyle(Color.themePrimaryAction.gradient)
         )
     }
-    
-#warning("Fix me")
-    //#Preview("Manager") {
-    //    NavigationStack {
-    //        MoreView(
-    //            store: StoreOf<More>(
-    //                initialState: More.State(session: .init(value: .mock())),
-    //                reducer: {
-    //                    More()
-    //                }
-    //            )
-    //        )
-    //    }
-    //}
-    //
-    //#Preview("Participant") {
-    //    NavigationStack {
-    //        MoreView(
-    //            store: StoreOf<More>(
-    //                initialState: More.State(session: .init(value: .mockParticipant())),
-    //                reducer: {
-    //                    More()
-    //                }
-    //            )
-    //        )
-    //    }
-    //}
-    //
-    //
-    //#Preview("Anonymous") {
-    //    NavigationStack {
-    //        MoreView(
-    //            store: StoreOf<More>(
-    //                initialState: More.State(session: .init(value: .mockAnonymous())),
-    //                reducer: {
-    //                    More()
-    //                }
-    //            )
-    //        )
-    //    }
-    //}
 }
 
-#warning("Bedre navn og over i design system")
-public func listElement(
-    image: String,
-    label: String,
-    foregroundColor: Color = Color.themeDarkGray
-) -> some View {
-    HStack {
-        Image(systemName: image)
-            .font(.system(size: 12, weight: .medium))
-            .aspectRatio(contentMode: .fill)
-            .padding(6)
-            .foregroundStyle(Color.themeDarkGray)
-        Text(label)
+#Preview {
+    NavigationStack {
+        MoreSectionView(
+            store: StoreOf<MoreSection>(
+                initialState: MoreSection.State(),
+                reducer: {
+                    MoreSection()
+                }
+            )
+        )
     }
-    .font(.montserratRegular, 13)
-    
 }

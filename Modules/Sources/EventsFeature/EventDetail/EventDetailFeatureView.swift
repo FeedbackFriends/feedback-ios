@@ -91,16 +91,15 @@ private extension EventDetailFeatureView {
     }
 }
 
-#warning("Fix me")
-//#Preview {
-//    NavigationStack {
-//        EventDetailFeatureView(
-//            store: .init(
-//                initialState: .init(event: .mock(), session: .init(value: .mock())),
-//                reducer: {
-//                    EventDetailFeature()
-//                }
-//            )
-//        )
-//    }
-//}
+#Preview {
+    NavigationStack {
+        EventDetailFeatureView(
+            store: .init(
+                initialState: .init(event: .mock(), session: .init(value: .mock())),
+                reducer: {
+                    EventDetailFeature()
+                }
+            )
+        )
+    }
+}

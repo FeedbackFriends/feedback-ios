@@ -136,6 +136,20 @@ public extension NewSession {
             role: .manager
         )
     }
+    static func empty() -> Self {
+        Self(
+            participantEvents: .init(uniqueElements: []),
+            managerData: .init(
+                managerEvents: .init(
+                    uniqueElements: []
+                ),
+                activity: .mock,
+                recentlyUsedQuestions: []
+            ),
+            accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888"),
+            role: .manager
+        )
+    }
     static func mockAnonymous() -> Self {
         Self(
             participantEvents: .init(uniqueElements: []),

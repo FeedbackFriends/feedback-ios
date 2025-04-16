@@ -195,35 +195,34 @@ func section<Content: View>(title: String, content: () -> Content) -> some View 
 }
 
 
-#warning("Fix me")
-//#Preview("Events") {
-//    NavigationStack {
-//        ManagerEventsView(
-//            store: .init(
-//                initialState: ManagerEvents.State(
-//                    session: .init(value: .mock)
-//                ),
-//                reducer: {
-//                    ManagerEvents()
-//                }
-//            )
-//        )
-//        .navigationTitle("Events")
-//    }
-//}
-//
-//#Preview("Empty") {
-//    NavigationStack {
-//        ManagerEventsView(
-//            store: .init(
-//                initialState: ManagerEvents.State(
-//                    session: .init(value: .empty)
-//                ),
-//                reducer: {
-//                    ManagerEvents()
-//                }
-//            )
-//        )
-//        .navigationTitle("Events")
-//    }
-//}
+#Preview("Events") {
+    NavigationStack {
+        ManagerEventsView(
+            store: .init(
+                initialState: ManagerEvents.State(
+                    session: .init(value: .mock())
+                ),
+                reducer: {
+                    ManagerEvents()
+                }
+            )
+        )
+        .navigationTitle("Events")
+    }
+}
+
+#Preview("Empty") {
+    NavigationStack {
+        ManagerEventsView(
+            store: .init(
+                initialState: ManagerEvents.State(
+                    session: .init(value: .empty())
+                ),
+                reducer: {
+                    ManagerEvents()
+                }
+            )
+        )
+        .navigationTitle("Events")
+    }
+}

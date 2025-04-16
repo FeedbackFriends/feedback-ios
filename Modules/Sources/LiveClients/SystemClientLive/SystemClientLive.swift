@@ -25,7 +25,7 @@ public extension SystemClient {
                 URL(string: "\(webUrl)/invite/\(pinCode)")!
             },
             privacyPolicyUrl: {
-                return URL(string: "\(webUrl)/privacy-policy")!
+                return URL(string: "\(webUrl)/privacy-policy/")!
             },
             appleMailUrl: { subject, body in
                 let encodedSubject = subject.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""

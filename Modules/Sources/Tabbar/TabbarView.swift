@@ -299,7 +299,7 @@ private extension TabbarView {
             Button {
                 store.send(.signOutButtonTapped)
             } label: {
-                listElement(image: "rectangle.portrait.and.arrow.right", label: "Logout")
+                listElementView(image: "rectangle.portrait.and.arrow.right", label: "Logout")
             }
         } footer: {
             Text("\(store.appVersion)")
@@ -315,7 +315,7 @@ private extension TabbarView {
             Button {
                 store.send(.signUpButtonTap)
             } label: {
-                listElement(image: "person.badge.key", label: "Sign up")
+                listElementView(image: "person.badge.key", label: "Sign up")
             }
         } footer: {
             Text("Sign up to get feedback from others and much more")
