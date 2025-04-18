@@ -62,7 +62,6 @@ public struct EventDetailFeature {
         case binding(BindingAction<State>)
         case destination(PresentationAction<Destination.Action>)
         case moreButtonTapped
-        case allCommentsButtonTapped
         case onAppear
         case retryButtonTap
         case refresh
@@ -138,9 +137,6 @@ public struct EventDetailFeature {
                         }
                     )
                 )
-                return .none
-                
-            case .allCommentsButtonTapped:
                 return .none
                 
             case .onAppear:

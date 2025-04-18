@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "5701715B-B0E5-4FB3-8E60-D31B80F95C2D",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Modules",
+        "identifier" : "AppCoreTests",
+        "name" : "AppCoreTests"
+      }
+    }
+  ],
+  "version" : 1
+}

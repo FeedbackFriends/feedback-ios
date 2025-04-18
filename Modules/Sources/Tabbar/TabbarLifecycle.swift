@@ -25,7 +25,6 @@ public struct TabbarLifecycle {
     public enum Action {
         case onAppear
         case updatedSessionResponse(UpdatedSession)
-        case didEnterForeground
         case sessionUpdated(NewSession)
         case removeBanner
         case presentNotificationPermissionPrompt
@@ -59,10 +58,6 @@ public struct TabbarLifecycle {
             case .sessionUpdated(let session):
                 return .send(.delegate(.updateSession(session)))
                 
-            case .didEnterForeground:
-                state.firstFetchAfterEnteringForeground = true
-                return .none
-                
             case .onAppear:
                 return .merge(
                     .run { [role = state.session.role] send in
@@ -76,7 +71,7 @@ public struct TabbarLifecycle {
                         }
                     },
                     .run {  send in
-                        for await _ in self.clock.timer(interval: .seconds(5)) {
+                        for await _ in self.clock.timer(interval: .seconds(30)) {
                             do {
                                 let updatedSession = try await apiClient.getUpdatedSession()
                                 await send(
@@ -93,16 +88,16 @@ public struct TabbarLifecycle {
                 )
                 
             case .updatedSessionResponse(let updatedSession):
-                if !state.firstFetchAfterEnteringForeground {
-                    state.firstFetchAfterEnteringForeground = false
-                    if let updatedManagerEvents = updatedSession.updatedManagerEvents, let first = updatedManagerEvents.first {
-                        state.bannerState = .serverError("New feedback on event '\(first.title)'")
-                        return .run { send in
-                            try await clock.sleep(for: .seconds(5))
-                            await send(.removeBanner)
-                        }
-                    }
-                }
+//                if !state.firstFetchAfterEnteringForeground {
+//                    state.firstFetchAfterEnteringForeground = false
+//                    if let updatedManagerEvents = updatedSession.updatedManagerEvents, let first = updatedManagerEvents.first {
+//                        state.bannerState = .serverError("New feedback on event '\(first.title)'")
+//                        return .run { send in
+//                            try await clock.sleep(for: .seconds(5))
+//                            await send(.removeBanner)
+//                        }
+//                    }
+//                }
                 return .none
                 
             case .delegate:

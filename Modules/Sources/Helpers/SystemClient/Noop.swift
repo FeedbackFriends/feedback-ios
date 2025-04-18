@@ -4,10 +4,10 @@ extension SystemClient {
     static let noop = Self.init(
         setUserInterfaceStyle: { _ in },
         hideKeyboard: {}, 
-        openSettingsURLString: { "" },
-        inviteUrl: { _ in URL(string: "")! },
-        privacyPolicyUrl: { URL(string: "")! },
-        appleMailUrl: { _ , _ in URL(string: "")! },
-        appStoreReviewUrl: { URL(string: "")! }
+        openSettingsURLString: { "https://letsgrow.dk" },
+        inviteUrl: { _ in URL(string: "https://letsgrow.dk")! },
+        privacyPolicyUrl: { URL(string: "https://letsgrow.dk")! },
+        appleMailUrl: { _ , _ in URL(string: "https://letsgrow.dk")! },
+        appStoreReviewUrl: { URL(string: "https://letsgrow.dk")! }
     )
 }

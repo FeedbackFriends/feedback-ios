@@ -49,6 +49,7 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(url: "git@github.com:pointfreeco/swift-snapshot-testing.git", exact: "1.18.3"),
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", exact: "11.3.0"),
         .package(url: "https://github.com/airbnb/lottie-ios", from: "3.4.3"),
         .package(url: "https://github.com/google/GoogleSignIn-iOS.git", from: "7.0.0"),
@@ -155,6 +156,7 @@ let package = Package(
             name: "AppCoreTests",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 "AppCore",
             ]
         ),

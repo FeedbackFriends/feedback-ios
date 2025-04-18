@@ -60,16 +60,6 @@ public struct TabbarView: View {
             }
             .animation(.bouncy, value: store.session)
             .banner(unwrapping: store.tabbarLifecyle.bannerState)
-            .onChange(of: scenePhase) { _, newValue in
-                switch newValue {
-                case .background, .inactive:
-                    return
-                case .active:
-                    store.send(.tabbarLifecyle(.didEnterForeground))
-                @unknown default:
-                    return
-                }
-            }
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
             .alert($store.scope(state: \.initialiseFeedback.destination?.alert, action: \.initialiseFeedback.destination.alert))
             .sheet(

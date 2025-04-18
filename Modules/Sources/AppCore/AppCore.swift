@@ -231,55 +231,26 @@ public struct AppCore {
                 return .none
                 
             case .onOpenURL(let url):
-                guard url.scheme == "letsgrow",
-                      let components = URLComponents(url: url, resolvingAgainstBaseURL: true),
-                      let pinCode = components
-                    .path
-                    .components(separatedBy: "/")
-                    .last(where: { !$0.isEmpty && $0 != "invite" }) else {
+                guard let deepLink = DeepLinkParser.parse(url) else {
                     return .none
                 }
-                
-                switch state.destination {
-                case .loggedIn(let existingState):
+                switch (deepLink, state.destination) {
+                case let (.joinEvent(pinCode), .loggedIn(existingState)):
                     let session = Shared(value: existingState.session)
                     let newState = Destination.State.loggedIn(
-                        Tabbar.State.init(
+                        Tabbar.State(
                             session: session,
-                            destination: .joinEvent(.init(inputCode: String(pinCode)))
+                            destination: .joinEvent(.init(inputCode: pinCode))
                         )
                     )
                     state.destination = newState
                     return .none
+                    
                 default:
-                    /// Todo: we could also handle other cases here. Maybe present an alert that you need to be logged in or something
                     return .none
                 }
             }
         }
         ._printChanges()
-    }
-}
-
-extension AsyncStream {
-    static func debounced(
-        from stream: AsyncStream<Element>,
-        debounceIntervalNanoSeconds: UInt64
-    ) -> AsyncStream<Element> {
-        AsyncStream { continuation in
-            Task {
-                var lastEmissionTime: UInt64 = 0
-                
-                for await value in stream {
-                    let now = DispatchTime.now().uptimeNanoseconds
-                    if now - lastEmissionTime > debounceIntervalNanoSeconds {
-                        continuation.yield(value)
-                        lastEmissionTime = now
-                    }
-                }
-                
-                continuation.finish()
-            }
-        }
     }
 }
