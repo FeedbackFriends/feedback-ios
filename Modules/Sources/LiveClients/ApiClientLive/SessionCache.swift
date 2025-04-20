@@ -62,8 +62,9 @@ actor SessionCache {
     }
     
     func updateActivity(_ activity: Activity) {
+        let existingActivity = self.session?.activity
         session?.updateActivity(activity)
-        if let updatedSession = session {
+        if let updatedSession = session, existingActivity != activity {
             sessionContinuation?.yield(updatedSession)
         }
     }

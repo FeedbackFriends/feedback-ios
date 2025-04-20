@@ -70,13 +70,15 @@ public struct TabbarLifecycle {
                             await send(.sessionUpdated(session))
                         }
                     },
-                    .run {  send in
-                        for await _ in self.clock.timer(interval: .seconds(30)) {
+                    .run { send in
+                        for await _ in self.clock.timer(interval: .seconds(10)) {
                             do {
                                 let updatedSession = try await apiClient.getUpdatedSession()
-                                await send(
-                                    .updatedSessionResponse(updatedSession)
-                                )
+                                if let updatedSession {
+                                    await send(
+                                        .updatedSessionResponse(updatedSession)
+                                    )
+                                }
                             } catch {
                                 logger
                                     .log(
@@ -88,16 +90,16 @@ public struct TabbarLifecycle {
                 )
                 
             case .updatedSessionResponse(let updatedSession):
-//                if !state.firstFetchAfterEnteringForeground {
-//                    state.firstFetchAfterEnteringForeground = false
-//                    if let updatedManagerEvents = updatedSession.updatedManagerEvents, let first = updatedManagerEvents.first {
-//                        state.bannerState = .serverError("New feedback on event '\(first.title)'")
-//                        return .run { send in
-//                            try await clock.sleep(for: .seconds(5))
-//                            await send(.removeBanner)
-//                        }
-//                    }
-//                }
+                if !state.firstFetchAfterEnteringForeground {
+                    state.firstFetchAfterEnteringForeground = false
+                    if let updatedManagerEvents = updatedSession.updatedManagerEvents, let first = updatedManagerEvents.first {
+                        state.bannerState = .serverError("New feedback on event '\(first.title)'")
+                        return .run { send in
+                            try await clock.sleep(for: .seconds(5))
+                            await send(.removeBanner)
+                        }
+                    }
+                }
                 return .none
                 
             case .delegate:

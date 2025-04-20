@@ -7,7 +7,6 @@ import Logger
 import ComposableArchitecture
 import Helpers
 
-
 public extension APIClient {
     static func live(
         baseUrl: URL,
@@ -25,7 +24,7 @@ public extension APIClient {
         )
         
         let sessionCache = SessionCache()
-        
+        let updatedSessionManager = UpdatedSessionManager()
         return APIClient(
             deleteAccount: {
                 try await withAuthorization {
@@ -197,7 +196,7 @@ public extension APIClient {
                             await sessionCache.updateOrAppendManagerEvent(event: updatedEvent)
                         }
                     }
-                    return updatedSession
+                    return await updatedSessionManager.updateSession(newSession: updatedSession)
                 }
             },
             markActivityAsSeen: {
@@ -210,5 +209,3 @@ public extension APIClient {
         )
     }
 }
-
-

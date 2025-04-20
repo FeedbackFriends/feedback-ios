@@ -10,4 +10,3 @@ public struct UpdatedSession: Equatable, Sendable {
         self.recentlyUsedQuestions = recentlyUsedQuestions
     }
 }
-

@@ -15,12 +15,14 @@ public struct SignUpView: View {
     public var body: some View {
         NavigationStack {
             VStack(spacing: 40) {
-                VStack {
-                    Image.signUpIcon
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 200, height: 200)
-                }
+                Spacer()
+                Image.letsGrowIcon
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 200, height: 200)
+                Text("Lets Grow")
+                    .font(.montserratBold, 28)
+                Spacer()
                 signUpView
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -45,7 +47,7 @@ private extension SignUpView {
     var signUpView: some View {
         VStack(alignment: .leading, spacing: 14) {
             Text("Sign up")
-                .font(.montserratBold, 35)
+                .font(.montserratBold, 28)
                 .foregroundStyle(Color.themeDarkGray.gradient)
             Text("Signup to get started on your feedback jurney.")
                 .font(.montserratRegular, 14)
@@ -82,7 +84,6 @@ private extension SignUpView {
             .shadow(color: .black.opacity(0.08), radius: 2)
             .padding(.bottom, 16)
         }
-        .padding(.bottom, 40)
         .padding(.all, Theme.padding)
     }
 }

@@ -622,6 +622,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -635,7 +636,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.5;
+				MARKETING_VERSION = 0.9.6;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "Lets Grow";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1263,6 +1264,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1276,7 +1278,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.5;
+				MARKETING_VERSION = 0.9.6;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow.mock;
 				PRODUCT_NAME = "Lets Grow";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1304,6 +1306,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1317,7 +1320,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.5;
+				MARKETING_VERSION = 0.9.6;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "Lets Grow";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1405,6 +1408,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				INFOPLIST_KEY_NSContactsUsageDescription = "Allow contacts";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1418,7 +1422,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.9.5;
+				MARKETING_VERSION = 0.9.6;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow.test;
 				PRODUCT_NAME = "Lets Grow";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

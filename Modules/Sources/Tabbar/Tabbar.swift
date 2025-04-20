@@ -229,19 +229,19 @@ public struct Tabbar {
                     
                 case .createEventButtonTap:
                     if case .anonymous = state.session.account {
-                    state.destination = .alert(
-                        .init(
-                            title: { TextState("Login påkrævet") },
-                            actions: {
-                                ButtonState(role: .cancel, label: { TextState("Ikke nu") })
-                                ButtonState(action: .confirmedToCreateUser, label: { TextState("Opret bruger") })
-                            },
-                            message: { TextState("Opret bruger for at kunne tilgå dine egne events") })
-                    )
-                    return .none
-                }
-                state.destination = .createEvent(
-                    CreateEvent.State(session: state.$session)
+                        state.destination = .alert(
+                            .init(
+                                title: { TextState("Login required") },
+                                actions: {
+                                    ButtonState(action: .confirmedToCreateUser, label: { TextState("Create account") })
+                                    ButtonState(role: .cancel, label: { TextState("Not now") })
+                                },
+                                message: { TextState("Create an account to access your own events") })
+                        )
+                        return .none
+                    }
+                    state.destination = .createEvent(
+                        CreateEvent.State(session: state.$session)
                 )
                 case .joinEventButtonTap:
                     state.destination = .joinEvent(.init())
