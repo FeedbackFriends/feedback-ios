@@ -20,8 +20,6 @@ public struct SignUpView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 200, height: 200)
-                Text("Lets Grow")
-                    .font(.montserratBold, 28)
                 Spacer()
                 signUpView
             }
