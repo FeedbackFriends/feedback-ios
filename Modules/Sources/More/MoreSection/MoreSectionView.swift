@@ -32,7 +32,6 @@ public struct MoreSectionView: View {
                 NavigationLink {
                     WebView(url: store.privacyPolicyUrl)
                         .edgesIgnoringSafeArea(.all)
-                        .navigationTitle("Privacy policy")
                 } label: {
                     listElementView(image: "doc.plaintext", label: "Privacy policy")
                 }
