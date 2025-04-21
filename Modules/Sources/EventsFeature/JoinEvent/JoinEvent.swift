@@ -37,7 +37,7 @@ public struct JoinEvent {
         case joinButtonTap
         case joinSuccess(pinCode: String)
         case delegate(Delegate)
-        public enum Delegate {
+        public enum Delegate: Equatable {
             case navigateToParticipantEvent(withPinCode: String)
         }
     }

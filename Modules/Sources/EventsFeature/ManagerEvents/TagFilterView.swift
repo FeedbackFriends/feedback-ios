@@ -1,11 +1,20 @@
 import SwiftUI
 import DesignSystem
 
-struct FilterCollection: Equatable {
+public struct FilterCollection: Equatable {
     var allEnabled: Bool
     var todayEnabled: Bool
     var comingUpEnabled: Bool
     var previousEnabled: Bool
+}
+
+public extension FilterCollection {
+    static let initial: FilterCollection = .init(
+        allEnabled: true,
+        todayEnabled: false,
+        comingUpEnabled: false,
+        previousEnabled: false
+    )
 }
 
 struct TagFilterView: View {

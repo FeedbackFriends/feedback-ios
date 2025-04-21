@@ -147,3 +147,18 @@ extension ParticipantEventsView {
         }
     }
 }
+
+#Preview {
+    NavigationStack {
+        ParticipantEventsView(
+            store: StoreOf<ParticipantEvents>.init(
+                initialState: ParticipantEvents.State(
+                    session: .init(value: .mock())
+                ),
+                reducer: {
+                    ParticipantEvents()
+                }
+            )
+        )
+    }
+}

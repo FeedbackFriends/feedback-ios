@@ -80,7 +80,7 @@ public struct ChangeUserType {
                 
             case .closeButtonTap:
                 return .run { _ in
-                        await dismiss()
+                    await dismiss()
                 }
             }
         }

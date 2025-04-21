@@ -30,7 +30,7 @@ public struct ParticipantEvents {
         case startFeedbackButtonTap(pinCode: String)
         case confirmedToStartFeedback(pinCode: String)
         case delegate(Delegate)
-        public enum Delegate {
+        public enum Delegate: Equatable {
             case startFeedback(pinCode: String)
             case navigateToSignUp
         }

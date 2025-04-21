@@ -10,22 +10,25 @@ public struct EnterCode {
     
     @ObservableState
     public struct State: Equatable {
-        var inputCode: String = ""
-        public var startFeedbackPincodeInFlight = false
+        var inputCode: String
+        public var startFeedbackPincodeInFlight: Bool
         var disableStartFeedbackButton: Bool {
             if !PinCodeValidator.isValidPinCode(inputCode) || startFeedbackPincodeInFlight {
                 return true
             }
             return false
         }
-        public init() {}
+        public init(inputCode: String = "", startFeedbackPincodeInFlight: Bool = false) {
+            self.inputCode = inputCode
+            self.startFeedbackPincodeInFlight = startFeedbackPincodeInFlight
+        }
     }
     
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
         case startFeedbackButtonTap
         case delegate(Delegate)
-        public enum Delegate {
+        public enum Delegate: Equatable {
             case startFeedback(pinCode: String)
         }
     }
@@ -49,7 +52,7 @@ public struct EnterCode {
                 state.startFeedbackPincodeInFlight = true
                 return .send(.delegate(.startFeedback(pinCode: input)))
                 
-            case .delegate(_):
+            case .delegate:
                 return .none
             }
         }

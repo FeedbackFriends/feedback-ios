@@ -19,7 +19,6 @@ public extension AlertState {
 public extension Error {
     
     var localized: PresentableError {
-        print("Got error: \(self), \(type(of: self))")
         var title: String = "Something Went Wrong"
         var message: String = "An unexpected issue occurred."
         if let apiError = self as? ApiError, let domainError = apiError.domainCode {

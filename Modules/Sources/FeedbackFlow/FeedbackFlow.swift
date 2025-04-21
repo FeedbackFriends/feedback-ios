@@ -69,6 +69,7 @@ public struct FeedbackFlow {
         case destination(PresentationAction<Destination.Action>)
         case delegate(Delegate)
         case sendFeedbackResponse(shouldPresentRatingPrompt: Bool)
+        case hideCommentsTextField
         public enum Delegate: Equatable {
             case presentAppRatingPrompt
         }
@@ -89,8 +90,14 @@ public struct FeedbackFlow {
             switch action {
                 
             case .binding(\.selectedFeedbackItemIndex):
+                return .run { send in
+                    try await clock.sleep(for: .seconds(0.5))
+                    await send(.hideCommentsTextField)
+                }
+                
+            case .hideCommentsTextField:
                 for feedbackItem in state.feedbackItems {
-                    state.feedbackItems[id: feedbackItem.id]?.focusedField = nil
+                    state.feedbackItems[id: feedbackItem.id]?.commentsTextFieldFocused = false
                 }
                 return .none
                 

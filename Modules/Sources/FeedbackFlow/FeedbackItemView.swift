@@ -7,14 +7,14 @@ import Helpers
 
 public struct FeedbackItemView: View {
     
-    @FocusState var focusedField: FocusField?
+    @FocusState var commentsTextFieldFocused: Bool
     @State var didAppear = false
     
-        @Bindable var store: StoreOf<FeedbackItem>
+    @Bindable var store: StoreOf<FeedbackItem>
     
-        public init(store: StoreOf<FeedbackItem>) {
-            self.store = store
-        }
+    public init(store: StoreOf<FeedbackItem>) {
+        self.store = store
+    }
     
     public var body: some View {
         VStack {
@@ -79,8 +79,8 @@ public struct FeedbackItemView: View {
                             .scrollContentBackground(.hidden)
                             .background(Color.themeWhite)
                             .cornerRadius(Theme.cornerRadius)
-                            .focused($focusedField, equals: .field)
-                            
+                            .focused($commentsTextFieldFocused)
+                        
                     }
                     .onAppear {
                         store.send(.onAppear)
@@ -154,6 +154,6 @@ public struct FeedbackItemView: View {
             store.send(.onTapOutsideTextfield)
         }
         .sensoryFeedback(.selection, trigger: store.selectedEmoji)
-        .synchronize($store.focusedField, self.$focusedField)
+        .synchronize($store.commentsTextFieldFocused, self.$commentsTextFieldFocused)
     }
 }

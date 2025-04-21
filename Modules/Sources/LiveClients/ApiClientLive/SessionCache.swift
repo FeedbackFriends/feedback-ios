@@ -4,7 +4,17 @@ import Helpers
 actor SessionCache {
     private var session: NewSession?
     private var sessionContinuation: AsyncStream<NewSession>.Continuation?
-    private var shouldMarkEventAsSeen = false
+    private var shouldMarkEventAsSeen: Bool
+    
+    init(
+        session: NewSession? = nil,
+        sessionContinuation: AsyncStream<NewSession>.Continuation? = nil,
+        shouldMarkEventAsSeen: Bool = false
+    ) {
+        self.session = session
+        self.sessionContinuation = sessionContinuation
+        self.shouldMarkEventAsSeen = shouldMarkEventAsSeen
+    }
     
     func getSession() -> NewSession? {
         return session

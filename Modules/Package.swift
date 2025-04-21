@@ -158,6 +158,7 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 "AppCore",
+                "LiveClients",
             ]
         ),
     ]

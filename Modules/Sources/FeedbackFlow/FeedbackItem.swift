@@ -8,11 +8,6 @@ import Helpers
 public enum ButtonPlacement: Equatable {
     case leading, center, trailing
 }
-
-public enum FocusField: Hashable, Equatable {
-    case field
-}
-
 public enum ButtonType {
     case next
     case previous
@@ -29,7 +24,7 @@ public struct FeedbackItem {
         var question: String
         var selectedEmoji: Emoji?
         var commentTextField: String = ""
-        public var focusedField: FocusField?
+        public var commentsTextFieldFocused: Bool = false
         var count: Int
         var submitFeedbackInFlight: Bool = false
         let questionId: UUID
@@ -72,13 +67,13 @@ public struct FeedbackItem {
                 
             case .onAppear:
                 if !state.commentTextField.isEmpty {
-                    state.focusedField = nil
+                    state.commentsTextFieldFocused = false
                 }
                 return .none
                 
             case .onSmileyTapped(let rating):
                 state.selectedEmoji = rating
-                state.focusedField = .field
+                state.commentsTextFieldFocused = true
                 return .run { send in
                     await send(.delegate(.updateReadyForSubmissionButton))
                 }
@@ -88,10 +83,10 @@ public struct FeedbackItem {
                 
             case .onNextButtonTapped:
                 let newIndex = state.index+1
-                guard state.focusedField != nil else {
+                guard state.commentsTextFieldFocused else {
                     return .send(.delegate(.navigateToIndex(newIndex)))
                 }
-                state.focusedField = nil
+                state.commentsTextFieldFocused = false
                 return .run { [clock] send in
                     try await clock.sleep(for: .seconds(0.6))
                     await send(.delegate(.navigateToIndex(newIndex)), animation: .default)
@@ -99,23 +94,23 @@ public struct FeedbackItem {
                 
             case .onPreviousButtonTapped:
                 let newIndex = state.index-1
-                guard state.focusedField != nil else {
+                guard state.commentsTextFieldFocused else {
                     return .send(.delegate(.navigateToIndex(newIndex)))
                 }
-                state.focusedField = nil
+                state.commentsTextFieldFocused = false
                 return .run { [clock] send in
                     try await clock.sleep(for: .seconds(0.6))
                     await send(.delegate(.navigateToIndex(newIndex)), animation: .default)
                 }
                 
             case .onSubmitFeedbackTapped:
-                state.focusedField = nil
+                state.commentsTextFieldFocused = false
                 state.submitFeedbackRequestinFlight = true
                 // Api call, error alert, and reset loading state happens in outer reducer
                 return .send(.delegate(.submitFeedback))
                 
             case .onTapOutsideTextfield:
-                state.focusedField = nil
+                state.commentsTextFieldFocused = false
                 return .none
                 
             case .delegate:

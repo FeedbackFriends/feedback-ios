@@ -1,0 +1,34 @@
+@testable import More
+import Testing
+import ComposableArchitecture
+import Foundation
+import Helpers
+
+@MainActor
+struct AccountSectionTests {
+    
+    @Test
+    func updateProfileButtonTap() async {
+        let session: NewSession = .mock()
+        let store =  TestStore(initialState: AccountSection.State(session: .init(value: session))) {
+            AccountSection()
+        }
+        await store.send(.updateProfileButtonTap) {
+            $0.destination = .modifyAccount(ModifyAccount.State(
+                nameInput: session.accountInfo.name ?? "",
+                emailInput: session.accountInfo.email ?? "",
+                phoneNumberInput: session.accountInfo.phoneNumber ?? ""
+            ))
+        }
+    }
+    
+    @Test
+    func changeUserTypeButtonTap() async {
+        let store =  TestStore(initialState: AccountSection.State(session: .init(value: .mock()))) {
+            AccountSection()
+        }
+        await store.send(.changeUserTypeButtonTap) {
+            $0.destination = .changeUserType(ChangeUserType.State(selectedUserType: .manager))
+        }
+    }
+}

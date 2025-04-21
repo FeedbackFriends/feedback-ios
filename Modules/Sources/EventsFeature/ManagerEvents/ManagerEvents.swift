@@ -12,34 +12,33 @@ public struct ManagerEvents {
     @Reducer(state: .equatable)
     public enum Destination {
         case eventDetail(EventDetailFeature)
-        @ReducerCaseIgnored
-        case startFeedbackConfirmation(String)
     }
     
     @ObservableState
     public struct State: Equatable {
         
-        @Presents public var destination: Destination.State? = nil
+        @Presents public var destination: Destination.State?
         @Shared var session: NewSession
         var segmentedControl: SegmentedControlMenu
         var participantEvents: ParticipantEvents.State
-        var searchTextfield: String = ""
-        var filterCollection: FilterCollection = .init(
-            allEnabled: true,
-            todayEnabled: false,
-            comingUpEnabled: false,
-            previousEnabled: false
-        )
+        var searchTextfield: String
+        var filterCollection: FilterCollection
         public var startFeedbackPincodeInFlight: String?
         public init(
             destination: Destination.State? = nil,
             session: Shared<NewSession>,
-            segmentedControl: SegmentedControlMenu = .yourEvents
+            segmentedControl: SegmentedControlMenu = .yourEvents,
+            searchTextfield: String = "",
+            filterCollection: FilterCollection = .initial,
+            startFeedbackPincodeInFlight: String? = nil
         ) {
             self.destination = destination
             self._session = session
             self.segmentedControl = segmentedControl
             self.participantEvents = .init(session: session)
+            self.searchTextfield = searchTextfield
+            self.filterCollection = filterCollection
+            self.startFeedbackPincodeInFlight = startFeedbackPincodeInFlight
         }
     }
     
@@ -53,11 +52,13 @@ public struct ManagerEvents {
     public init() {}
     
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.continuousClock) var clock
     @Dependency(\.logClient) var logger
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
+        Scope(state: \.participantEvents, action: \.participantEvents) {
+            ParticipantEvents()
+        }
         Reduce { state, action in
             switch action {
                 
@@ -76,7 +77,6 @@ public struct ManagerEvents {
                     }
                 }
                 return .none
-            
                 
             case .binding:
                 return .none
@@ -88,18 +88,11 @@ public struct ManagerEvents {
                         session: state.$session
                     )
                 )
-                return .run { send in
-                    do {
-                        try await apiClient.markEventAsSeen(event.id)
-                    } catch {
-                        logger.log("Reset new feedback failed with error: \(error.localizedDescription)")
-                    }
-                }
+                return .none
             
                 
             case .destination:
                 return .none
-                
             }
         }
         .ifLet(\.$destination, action: \.destination)

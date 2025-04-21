@@ -15,12 +15,20 @@ public struct DeleteConfirmation {
         @Presents var destination: Destination.State?
         @Shared var session: NewSession
         var eventId: UUID
-        var deleteEventInFlight = false
-        var showSuccessOverlay = false
-        public init(session: Shared<NewSession>, destination: Destination.State? = nil, eventId: UUID) {
-            self._session = session
+        var deleteEventInFlight: Bool
+        var showSuccessOverlay: Bool
+        public init(
+            destination: Destination.State? = nil,
+            session: Shared<NewSession>,
+            eventId: UUID,
+            deleteEventInFlight: Bool = false,
+            showSuccessOverlay: Bool = false
+        ) {
             self.destination = destination
+            self._session = session
             self.eventId = eventId
+            self.deleteEventInFlight = deleteEventInFlight
+            self.showSuccessOverlay = showSuccessOverlay
         }
     }
     
@@ -30,7 +38,7 @@ public struct DeleteConfirmation {
         case presentError(Error)
         case deleteButtonTap
         case cancelButtonTap
-        case eventDeleted
+        case eventDeletedResponse
         case delegate(Delegate)
         public enum Delegate {
             case dismissEventDetail
@@ -67,7 +75,7 @@ public struct DeleteConfirmation {
                 return .run { [eventId = state.eventId] send in
                     do {
                         try await apiClient.deleteEvent(eventId)
-                        await send(.eventDeleted)
+                        await send(.eventDeletedResponse)
                     } catch {
                         await send(.presentError(error))
                     }
@@ -78,7 +86,7 @@ public struct DeleteConfirmation {
                     await dismiss()
                 }
                 
-            case .eventDeleted:
+            case .eventDeletedResponse:
                 state.deleteEventInFlight = false
                 state.showSuccessOverlay = true
                 return .run { send in

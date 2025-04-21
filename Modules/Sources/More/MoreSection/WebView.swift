@@ -1,8 +1,6 @@
-import UIKit
 import SwiftUI
 import WebKit
 
-// WebView Wrapper
 struct WebView: UIViewRepresentable {
     let url: URL
     

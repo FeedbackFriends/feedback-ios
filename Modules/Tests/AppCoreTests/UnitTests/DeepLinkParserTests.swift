@@ -10,8 +10,7 @@ class DeepLinkParserTests {
     func deepLink_joinEvent() {
         let url = URL(string: "letsgrow://invite?pin_code=123456")!
         guard let deepLink = DeepLinkParser.parse(url) else {
-            #expect(false, "Expected .joinEvent, got nil")
-            return
+            fatalError()
         }
         switch deepLink {
         case .joinEvent(let pinCode):
