@@ -3,9 +3,16 @@ import SwiftUI
 public func listElementView(
     image: String,
     label: String,
-    foregroundColor: Color = Color.themeDarkGray
+    foregroundColor: Color = Color.themeDarkGray,
+    isLoading: Bool = false
 ) -> some View {
     HStack {
+        if isLoading {
+            ProgressView()
+                .transition(.blurReplace)
+                .progressViewStyle(CircularProgressViewStyle(tint: foregroundColor))
+            
+        }
         Image(systemName: image)
             .font(.system(size: 12, weight: .medium))
             .aspectRatio(contentMode: .fill)
@@ -14,5 +21,5 @@ public func listElementView(
         Text(label)
     }
     .font(.montserratRegular, 13)
-    
+    .animation(.bouncy, value: isLoading)
 }

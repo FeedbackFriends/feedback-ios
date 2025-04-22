@@ -92,6 +92,7 @@ public struct DeleteAccount {
                     state.deleteAccountInFlight = true
                     return .run { send in
                         do {
+                            try await Task.sleep(for: .seconds(1))
                             _ = try await apiClient.deleteAccount()
                             await send(.accountSuccesfullyDeleted)
                         } catch {

@@ -288,11 +288,8 @@ private extension TabbarView {
             Button {
                 store.send(.deleteAccount(.deleteAccountButtonTapped))
             } label: {
-                listElementView(image: "trash", label: "Delete account")
+                listElementView(image: "trash", label: "Delete account", isLoading: store.deleteAccount.deleteAccountInFlight)
             }
-            .buttonStyle(LargeBoxButtonStyle(color: Color.themeRed))
-            .isLoading(store.deleteAccount.deleteAccountInFlight)
-            
         }
     }
     
