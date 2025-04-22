@@ -44,7 +44,9 @@ public struct FeedbackButton {
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
                 
             case .binding:
@@ -71,7 +73,35 @@ public struct FeedbackButton {
                 return .none
                 
             case .startFeedbackSessionResponse(let feedbackSession):
-                state.destination = .feedbackFeature(.init(feedbackSession: feedbackSession))
+                var feedbackItems: IdentifiedArrayOf<FeedbackItem.State> = []
+                let count = feedbackSession.questions.count
+                
+                for (index, element) in feedbackSession.questions.enumerated() {
+                    let type: ButtonPlacement = if count == 1 {
+                        .trailing
+                    } else if index == 0 {
+                        .leading
+                    } else if index == count-1 {
+                        .trailing
+                    } else {
+                        .center
+                    }
+                    feedbackItems.append(
+                        .init(
+                            elementType: type,
+                            question: element.questionText,
+                            count: count,
+                            questionId: element.id,
+                            index: index
+                        )
+                    )
+                }
+                state.destination = .feedbackFeature(
+                    .init(
+                        feedbackSession: feedbackSession,
+                        feedbackItems: feedbackItems
+                    )
+                )
                 return .send(.delegate(.stopLoading))
                 
             case .presentError(let error):

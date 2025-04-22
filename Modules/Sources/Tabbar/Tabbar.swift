@@ -46,6 +46,7 @@ public struct Tabbar {
         var initialiseFeedback: FeedbackButton.State
         var managerEvents: ManagerEvents.State
         var participantEvents: ParticipantEvents.State
+        var deleteAccount: DeleteAccount.State
         @Presents var destination: Destination.State?
         let appVersion = Bundle.main.versionNumber
         
@@ -61,6 +62,7 @@ public struct Tabbar {
             self.accountSection = .init(session: session)
             self.initialiseFeedback = .init()
             self.participantEvents = .init(session: session)
+            self.deleteAccount = .init()
             self.managerEvents = .init(session: session)
             self.tabbarLifecyle = .init(session: session)
             self.destination = destination
@@ -84,7 +86,7 @@ public struct Tabbar {
         case signUpButtonTap
         case navigateToManagerEvent(ActivityItems)
         case tabbarLifecyle(TabbarLifecycle.Action)
-        
+        case deleteAccount(DeleteAccount.Action)
         public enum Toolbar: Equatable {
             case createEventButtonTap
             case joinEventButtonTap
@@ -124,6 +126,9 @@ public struct Tabbar {
         }
         Scope(state: \.tabbarLifecyle, action: \.tabbarLifecyle) {
             TabbarLifecycle()
+        }
+        Scope(state: \.deleteAccount, action: \.deleteAccount) {
+            DeleteAccount()
         }
         Reduce { state, action in
             switch action {
@@ -279,7 +284,10 @@ public struct Tabbar {
             case .delegate:
                 return .none
                 
-            case .managerEvents(_):
+            case .managerEvents:
+                return .none
+                
+            case .deleteAccount:
                 return .none
             }
         }

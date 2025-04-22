@@ -62,6 +62,7 @@ public struct TabbarView: View {
             .banner(unwrapping: store.tabbarLifecyle.bannerState)
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
             .alert($store.scope(state: \.initialiseFeedback.destination?.alert, action: \.initialiseFeedback.destination.alert))
+            .alert($store.scope(state: \.deleteAccount.destination?.alert, action: \.deleteAccount.destination.alert))
             .sheet(
                 item: initialiseFeedbackStore
             ) { _ in
@@ -152,6 +153,7 @@ private extension TabbarView {
                     switch(store.session.account) {
                     case .manager, .participant:
                         logoutSection()
+                        deleteAccountSection()
                     case .anonymous:
                         signUpSection
                     }
@@ -195,29 +197,10 @@ private extension TabbarView {
     }
     
     var managerEventsView: some View {
-//        TabView(selection: $store.segmentedControl) {
-            ManagerEventsView(
-                store: store.scope(state: \.managerEvents, action: \.managerEvents)
-            )
-            .tag(SegmentedControlMenu.yourEvents)
-            
-//            ScrollView {
-//                ParticipantEventsView(
-//                    store: store.scope(
-//                        state: \.participantEvents,
-//                        action: \.participantEvents
-//                    )
-//                )
-//            }
-//            .tag(SegmentedControlMenu.participating)
-//        }
-//        .tabViewStyle(.page(indexDisplayMode: .never))
-//        .lineSpacing(7)
-//        .scrollContentBackground(.hidden)
-//        .background(Color.themeBackground)
-//        .overlay(alignment: .bottom) {
-//            CustomSegmentedPicker(selectedSegmentedControl: $store.segmentedControl.animation())
-//        }
+        ManagerEventsView(
+            store: store.scope(state: \.managerEvents, action: \.managerEvents)
+        )
+        .tag(SegmentedControlMenu.yourEvents)
     }
     
     var createEventToolbarItem: some ToolbarContent {
@@ -297,6 +280,19 @@ private extension TabbarView {
                 .multilineTextAlignment(.center)
                 .font(.montserratThin, 12)
                 .padding(.vertical, 20)
+        }
+    }
+    
+    func deleteAccountSection() -> some View {
+        Section {
+            Button {
+                store.send(.deleteAccount(.deleteAccountButtonTapped))
+            } label: {
+                listElementView(image: "trash", label: "Delete account")
+            }
+            .buttonStyle(LargeBoxButtonStyle(color: Color.themeRed))
+            .isLoading(store.deleteAccount.deleteAccountInFlight)
+            
         }
     }
     

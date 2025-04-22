@@ -27,35 +27,12 @@ public struct FeedbackFlow {
         
         public init(
             feedbackSession: FeedbackSession,
-            index: Int = 0
+            index: Int = 0,
+            feedbackItems: IdentifiedArrayOf<FeedbackItem.State>
         ) {
             
             self.feedbackSession = feedbackSession
             self.selectedFeedbackItemIndex = 0
-            
-            var feedbackItems: IdentifiedArrayOf<FeedbackItem.State> = []
-            let count = feedbackSession.questions.count
-            
-            for (index, element) in feedbackSession.questions.enumerated() {
-                let type: ButtonPlacement = if count == 1 {
-                    .trailing
-                } else if index == 0 {
-                    .leading
-                } else if index == count-1 {
-                    .trailing
-                } else {
-                    .center
-                }
-                feedbackItems.append(
-                    .init(
-                        elementType: type,
-                        question: element.questionText,
-                        count: count,
-                        questionId: element.id,
-                        index: index
-                    )
-                )
-            }
             self.feedbackItems = feedbackItems
         }
     }

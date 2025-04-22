@@ -138,16 +138,6 @@ public struct FeedbackItemView: View {
             .offset(y: self.didAppear ? 0 : 200)
             .onAppear {
                 store.send(.onAppear)
-                guard case .leading = store.elementType else {
-                    self.didAppear = true
-                    return
-                }
-                Task {
-                    try await Task.sleep(for: .seconds(0.5))
-                    withAnimation(.bouncy(duration: 1)) {
-                        self.didAppear = true
-                    }
-                }
             }
         }
         .onTapGesture {
@@ -155,5 +145,21 @@ public struct FeedbackItemView: View {
         }
         .sensoryFeedback(.selection, trigger: store.selectedEmoji)
         .synchronize($store.commentsTextFieldFocused, self.$commentsTextFieldFocused)
+    }
+}
+
+struct DidAppearModifier: ViewModifier {
+    @Binding var didAppear: Bool
+    
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                Task {
+                    try await Task.sleep(for: .seconds(0.5))
+                    withAnimation(.bouncy(duration: 1)) {
+                        self.didAppear = true
+                    }
+                }
+            }
     }
 }

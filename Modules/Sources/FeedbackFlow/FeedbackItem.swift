@@ -2,17 +2,10 @@ import Helpers
 import Combine
 import ComposableArchitecture
 import SwiftUI
-import Helpers
-import Helpers
 
 public enum ButtonPlacement: Equatable {
+//    case first, middle, last
     case leading, center, trailing
-}
-public enum ButtonType {
-    case next
-    case previous
-    case submit
-    case smiley
 }
 
 @Reducer
@@ -29,10 +22,22 @@ public struct FeedbackItem {
         var submitFeedbackInFlight: Bool = false
         let questionId: UUID
         let index: Int
-        var submitFeedbackRequestinFlight: Bool = false
         public var readyForSubmission: Bool = false
         var disableSendButton: Bool {
             submitFeedbackInFlight || !readyForSubmission
+        }
+        public init(
+            elementType: ButtonPlacement,
+            question: String,
+            count: Int,
+            questionId: UUID,
+            index: Int
+        ) {
+            self.elementType = elementType
+            self.question = question
+            self.count = count
+            self.questionId = questionId
+            self.index = index
         }
     }
     
@@ -105,7 +110,7 @@ public struct FeedbackItem {
                 
             case .onSubmitFeedbackTapped:
                 state.commentsTextFieldFocused = false
-                state.submitFeedbackRequestinFlight = true
+                state.submitFeedbackInFlight = true
                 // Api call, error alert, and reset loading state happens in outer reducer
                 return .send(.delegate(.submitFeedback))
                 
@@ -115,7 +120,6 @@ public struct FeedbackItem {
                 
             case .delegate:
                 return .none
-                
             }
         }
     }

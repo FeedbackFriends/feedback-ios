@@ -66,6 +66,7 @@
 		7AD8AA1B2DB0FAB4007B7CF7 /* Feedback Dev.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Feedback Dev.xctestplan"; sourceTree = "<group>"; };
 		7AE155DC2D26A31100440870 /* Lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7AE156202D26AD4900440870 /* OpenApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7AED2A242DB6DEF400ACE4B3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		B1057F342843FD8600B9EE2F /* Lets Grow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lets Grow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1057F372843FD8600B9EE2F /* FeedbackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackApp.swift; sourceTree = "<group>"; };
 		B1057F3B2843FD8700B9EE2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -184,6 +185,7 @@
 		B1057F2B2843FD8600B9EE2F = {
 			isa = PBXGroup;
 			children = (
+				7AED2A242DB6DEF400ACE4B3 /* README.md */,
 				7AD8AA1B2DB0FAB4007B7CF7 /* Feedback Dev.xctestplan */,
 				7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */,
 				B1FB2E66285B55DE0080543D /* Info.plist */,

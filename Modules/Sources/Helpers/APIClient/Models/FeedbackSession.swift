@@ -1,5 +1,6 @@
 import Foundation
 import OpenAPIRuntime
+import IdentifiedCollections
 
 public struct FeedbackSession: Equatable, Sendable {
     public let title: String
