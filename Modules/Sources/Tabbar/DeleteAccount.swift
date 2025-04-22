@@ -11,6 +11,7 @@ public struct DeleteAccount {
         public enum AlertAction: Equatable {
             case confirmedToDeleteAccount
             case closeSessionButtonTap
+            case logout
         }
     }
     
@@ -31,11 +32,8 @@ public struct DeleteAccount {
         case destination(PresentationAction<Destination.Action>)
         case deleteAccountButtonTapped
         case presentError(Error)
-        case delegate(Delegate)
         case accountSuccesfullyDeleted
-        public enum Delegate: Equatable {
-            case navigateToSignUp
-        }
+        case logoutFailed
     }
     
     @Dependency(\.apiClient) var apiClient
@@ -102,14 +100,39 @@ public struct DeleteAccount {
                     
                 case .closeSessionButtonTap:
                     return .run { send in
-                        try await authClient.logout()
+                        do {
+                            try await authClient.logout()
+                        } catch {
+                            await send(.logoutFailed)
+                        }
+                    }
+                    
+                case .logout:
+                    return .run { send in
+                        do {
+                            try await authClient.logout()
+                        } catch {
+                            await send(.logoutFailed)
+                        }
                     }
                 }
                 
-            case .destination:
+            case .logoutFailed:
+                state.destination = .alert(
+                    AlertState<Destination.AlertAction>(
+                        title: { TextState("Logout failed.") },
+                        actions: {
+                            ButtonState(
+                                action: .send(.logout),
+                                label: { TextState("Log out") }
+                            )
+                        },
+                        message: { TextState("Please try again.") }
+                    )
+                )
                 return .none
                 
-            case .delegate:
+            case .destination:
                 return .none
                 
             case .presentError(let error):
