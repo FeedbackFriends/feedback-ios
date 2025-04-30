@@ -27,7 +27,7 @@ public struct ParticipantEventsView: View {
                     let pastMeetings = participantEvents.filter { $0.date.isBeforeToday }
                     if !todayMeetings.isEmpty {
                         section(title: "Today") {
-                            ForEach(todayMeetings) { event in
+                            ForEach(todayMeetings.sorted { $0.date > $1.date }) { event in
                                 listItem(event)
                             }
                         }

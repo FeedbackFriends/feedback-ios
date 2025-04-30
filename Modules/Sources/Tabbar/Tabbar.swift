@@ -202,6 +202,8 @@ public struct Tabbar {
                 }
                              
             case .destination(.presented(.joinEvent(.delegate(.navigateToParticipantEvent(let pinCode))))):
+                state.managerEvents.segmentedControl = .participating
+                state.managerEvents.participantEvents.destination = .startFeedbackConfirmation(pinCode)
                 state.participantEvents.destination = .startFeedbackConfirmation(pinCode)
                 return .none
                 
@@ -212,7 +214,8 @@ public struct Tabbar {
                 return .none
                 
             case .enterCode(.delegate(.startFeedback(let pinCode))),
-                    .participantEvents(.delegate(.startFeedback(let pinCode))):
+                    .participantEvents(.delegate(.startFeedback(let pinCode))),
+                    .managerEvents(.participantEvents(.delegate(.startFeedback(let pinCode)))):
                 return .send(.initialiseFeedback(.startFeedback(pinCode: pinCode)))
                 
             case .initialiseFeedback(.delegate(let delegateAction)):
@@ -220,6 +223,7 @@ public struct Tabbar {
                 case .stopLoading:
                     state.enterCode.startFeedbackPincodeInFlight = false
                     state.participantEvents.startFeedbackPincodeInFlight = nil
+                    state.managerEvents.participantEvents.startFeedbackPincodeInFlight = nil
                 }
                 return .none
                 

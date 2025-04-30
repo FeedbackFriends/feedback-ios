@@ -152,7 +152,7 @@
 //    }
 ////    
 ////    @Test
-////    func navigateToNextFeedbackItem() async {
+////    func navigateToNextFeedbackItemEmoji() async {
 ////        let store = await TestStore(initialState: FeedbackFlow.State(
 ////            feedbackSession: .mock,
 ////            index: 0
@@ -161,12 +161,12 @@
 ////        }
 ////        
 ////        await store.send(.feedbackItems(.element(id: 0, action: .delegate(.navigateToIndex(1))))) {
-////            $0.selectedFeedbackItemIndex = 1
+////            $0.selectedFeedbackItemEmojiIndex = 1
 ////        }
 ////    }
 ////    
 ////    @Test
-////    func navigateToPreviousFeedbackItem() async {
+////    func navigateToPreviousFeedbackItemEmoji() async {
 ////        let store = await TestStore(initialState: FeedbackFlow.State(
 ////            feedbackSession: .mock,
 ////            index: 1
@@ -175,7 +175,7 @@
 ////        }
 ////        
 ////        await store.send(.feedbackItems(.element(id: 1, action: .delegate(.navigateToIndex(0))))) {
-////            $0.selectedFeedbackItemIndex = 0
+////            $0.selectedFeedbackItemEmojiIndex = 0
 ////        }
 ////    }
 //}

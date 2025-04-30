@@ -5,11 +5,11 @@
 //import Helpers
 //
 //@MainActor
-//struct FeedbackItemTests {
+//struct FeedbackItemEmojiTests {
 //    
 //    @Test
 //    func onSmileyTapped() async {
-//        let store = TestStore(initialState: FeedbackItem.State(
+//        let store = TestStore(initialState: FeedbackItemEmoji.State(
 //            elementType: .leading,
 //            question: "How was your experience?",
 //            selectedEmoji: nil,
@@ -18,7 +18,7 @@
 //            questionId: UUID(),
 //            index: 0
 //        )) {
-//            FeedbackItem()
+//            FeedbackItemEmoji()
 //        }
 //        
 //        let emoji = Emoji.happy
@@ -33,7 +33,7 @@
 //    
 //    @Test
 //    func onNextButtonTapped() async {
-//        let store = TestStore(initialState: FeedbackItem.State(
+//        let store = TestStore(initialState: FeedbackItemEmoji.State(
 //            elementType: .leading,
 //            question: "How was your experience?",
 //            selectedEmoji: nil,
@@ -42,7 +42,7 @@
 //            questionId: UUID(),
 //            index: 0
 //        )) {
-//            FeedbackItem()
+//            FeedbackItemEmoji()
 //        } withDependencies: {
 //            $0.continuousClock = ImmediateClock()
 //        }
@@ -55,7 +55,7 @@
 //    
 //    @Test
 //    func onPreviousButtonTapped() async {
-//        let store = TestStore(initialState: FeedbackItem.State(
+//        let store = TestStore(initialState: FeedbackItemEmoji.State(
 //            elementType: .leading,
 //            question: "How was your experience?",
 //            selectedEmoji: nil,
@@ -64,7 +64,7 @@
 //            questionId: UUID(),
 //            index: 1
 //        )) {
-//            FeedbackItem()
+//            FeedbackItemEmoji()
 //        } withDependencies: {
 //            $0.continuousClock = ImmediateClock()
 //        }
@@ -77,7 +77,7 @@
 //    
 //    @Test
 //    func onSubmitFeedbackTapped() async {
-//        let store = TestStore(initialState: FeedbackItem.State(
+//        let store = TestStore(initialState: FeedbackItemEmoji.State(
 //            elementType: .leading,
 //            question: "How was your experience?",
 //            selectedEmoji: Emoji.happy,
@@ -85,7 +85,7 @@
 //            questionId: UUID(),
 //            index: 0
 //        )) {
-//            FeedbackItem()
+//            FeedbackItemEmoji()
 //        }
 //        
 //        await store.send(.onSubmitFeedbackTapped) {
@@ -98,7 +98,7 @@
 //    
 //    @Test
 //    func onTapOutsideTextfield() async {
-//        let store = TestStore(initialState: FeedbackItem.State(
+//        let store = TestStore(initialState: FeedbackItemEmoji.State(
 //            elementType: .leading,
 //            question: "How was your experience?",
 //            selectedEmoji: nil,
@@ -107,7 +107,7 @@
 //            questionId: UUID(),
 //            index: 0
 //        )) {
-//            FeedbackItem()
+//            FeedbackItemEmoji()
 //        }
 //        
 //        await store.send(.onTapOutsideTextfield) {

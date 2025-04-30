@@ -1,9 +1,6 @@
-import FeedbackFlow
 import ComposableArchitecture
 import SwiftUI
-import Helpers
-import FirebaseAuth
-import Helpers
+import FeedbackFlow
 
 @main
 struct FeedbackFlowApp: App {
@@ -15,10 +12,10 @@ struct FeedbackFlowApp: App {
                         feedbackSession: .mock
                     ),
                     reducer: {
-                        FeedbackFlow()
+                        FeedbackFlow()._printChanges()
                     },
                     withDependencies: {
-                        $0.apiClient = .mock
+                        $0.apiClient = .mock()
                     }
                 )
             )
@@ -26,6 +23,6 @@ struct FeedbackFlowApp: App {
     }
 }
 
-extension SystemClient: @retroactive DependencyKey {
-    public static var liveValue: SystemClient { .live }
-}
+//extension SystemClient: @retroactive DependencyKey {
+//    public static var liveValue: SystemClient { .live }
+//}

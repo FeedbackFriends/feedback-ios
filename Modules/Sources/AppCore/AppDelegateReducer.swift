@@ -47,7 +47,11 @@ public struct AppDelegateReducer {
                 
             case .didReceiveRegistrationToken(let fcmToken):
                 return .run { send in
-                    try await apiClient.updateFcmToken(fcmToken)
+                    do {
+                        try await apiClient.updateFcmToken(fcmToken)
+                    } catch {
+                        logger.log(.error, "Update fcm token api call failed silently with error: \(error.localizedDescription)")
+                    }
                 }
                 
             case .onTapNotification(_):

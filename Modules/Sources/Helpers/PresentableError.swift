@@ -39,6 +39,7 @@ public extension Error {
         if let localizedMessage = nsError.userInfo[NSLocalizedDescriptionKey] as? String {
             message = localizedMessage
         }
+        print("Error of type: \(type(of: self))/nlocalizedDescription: \(self.localizedDescription)")
         return PresentableError(title: title, message: message)
     }
 }

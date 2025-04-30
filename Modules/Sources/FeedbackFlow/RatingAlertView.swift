@@ -25,6 +25,7 @@ public struct RatingAlertView: View {
                 .presentationDetents([.height(300)])
                 .frame(maxWidth: .infinity)
                 .background(Color.themeBackground.ignoresSafeArea())
+                .interactiveDismissDisabled()
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         SharedCloseButton {

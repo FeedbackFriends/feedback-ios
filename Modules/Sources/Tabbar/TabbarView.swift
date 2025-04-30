@@ -19,10 +19,7 @@ public struct TabbarView: View {
         let createEventStore = $store.scope(state: \.destination?.createEvent, action: \.destination.createEvent)
         let joinEventStore = $store.scope(state: \.destination?.joinEvent, action: \.destination.joinEvent)
         let activityStore = $store.scope(state: \.destination?.activity, action: \.destination.activity)
-        let initialiseFeedbackStore = $store.scope(
-            state: \.initialiseFeedback.destination?.ratingPrompt,
-            action: \.initialiseFeedback.destination.ratingPrompt
-        )
+        
         let notificationPermissionPromptStore = $store.scope(
             state: \.destination?.notificationPermissionPrompt,
             action: \.destination.notificationPermissionPrompt
@@ -63,12 +60,6 @@ public struct TabbarView: View {
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
             .alert($store.scope(state: \.initialiseFeedback.destination?.alert, action: \.initialiseFeedback.destination.alert))
             .alert($store.scope(state: \.deleteAccount.destination?.alert, action: \.deleteAccount.destination.alert))
-            .sheet(
-                item: initialiseFeedbackStore
-            ) { _ in
-                RatingAlertView()
-                    .presentationDetents([.height(300)])
-            }
             .sheet(
                 item: notificationPermissionPromptStore
             ) { _ in

@@ -19,8 +19,8 @@ public struct ManagerEvents {
         
         @Presents public var destination: Destination.State?
         @Shared var session: NewSession
-        var segmentedControl: SegmentedControlMenu
-        var participantEvents: ParticipantEvents.State
+        public var segmentedControl: SegmentedControlMenu
+        public var participantEvents: ParticipantEvents.State
         var searchTextfield: String
         var filterCollection: FilterCollection
         public var startFeedbackPincodeInFlight: String?

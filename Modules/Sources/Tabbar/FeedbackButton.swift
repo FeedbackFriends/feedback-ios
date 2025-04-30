@@ -2,8 +2,6 @@ import Foundation
 import Helpers
 import DesignSystem
 import FeedbackFlow
-import Helpers
-import Helpers
 import ComposableArchitecture
 import SwiftUI
 
@@ -14,8 +12,6 @@ public struct FeedbackButton {
     public enum Destination {
         case feedbackFeature(FeedbackFlow)
         case alert(AlertState<Never>)
-        @ReducerCaseIgnored
-        case ratingPrompt
     }
     
     @ObservableState
@@ -52,13 +48,6 @@ public struct FeedbackButton {
             case .binding:
                 return .none
                 
-            case .destination(.presented(.feedbackFeature(.delegate(let delegateAction)))):
-                switch delegateAction {
-                case .presentAppRatingPrompt:
-                    state.destination = .ratingPrompt
-                    return .none
-                }
-                
             case .startFeedback(let pinCode):
                 return .run { send in
                     do {
@@ -73,34 +62,8 @@ public struct FeedbackButton {
                 return .none
                 
             case .startFeedbackSessionResponse(let feedbackSession):
-                var feedbackItems: IdentifiedArrayOf<FeedbackItem.State> = []
-                let count = feedbackSession.questions.count
-                
-                for (index, element) in feedbackSession.questions.enumerated() {
-                    let type: ButtonPlacement = if count == 1 {
-                        .trailing
-                    } else if index == 0 {
-                        .leading
-                    } else if index == count-1 {
-                        .trailing
-                    } else {
-                        .center
-                    }
-                    feedbackItems.append(
-                        .init(
-                            elementType: type,
-                            question: element.questionText,
-                            count: count,
-                            questionId: element.id,
-                            index: index
-                        )
-                    )
-                }
                 state.destination = .feedbackFeature(
-                    .init(
-                        feedbackSession: feedbackSession,
-                        feedbackItems: feedbackItems
-                    )
+                    FeedbackFlow.State.init(feedbackSession: feedbackSession)
                 )
                 return .send(.delegate(.stopLoading))
                 

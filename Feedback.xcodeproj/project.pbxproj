@@ -14,6 +14,7 @@
 		2892AA3F2C0F89C700F12E83 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2892AA3E2C0F89C700F12E83 /* Preview Assets.xcassets */; };
 		7A034FE02D9AC9430059C6F3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
 		7A16D2E52D5413C200F26994 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7A16D2E42D5413C200F26994 /* GoogleService-Info.plist */; };
+		7A5D85812DBA91B400737F11 /* LiveClients in Frameworks */ = {isa = PBXBuildFile; productRef = 7A5D85802DBA91B400737F11 /* LiveClients */; };
 		7A64E61B2D554DF80093C245 /* InfoDictionaryOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6182D554DF80093C245 /* InfoDictionaryOwner.swift */; };
 		7A64E61C2D554DF80093C245 /* InfoPlistKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6192D554DF80093C245 /* InfoPlistKeys.swift */; };
 		7A8892242D2FAE6A00B0276B /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = B1AD719D28D9C85600CC44B4 /* AppCore */; };
@@ -98,6 +99,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A8892262D2FAE6A00B0276B /* FeedbackFlow in Frameworks */,
+				7A5D85812DBA91B400737F11 /* LiveClients in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +282,7 @@
 			name = FeedbackFlowTest;
 			packageProductDependencies = (
 				285F02882C12328F00AE8942 /* FeedbackFlow */,
+				7A5D85802DBA91B400737F11 /* LiveClients */,
 			);
 			productName = FeedbackFlow;
 			productReference = 2892AA352C0F89C600F12E83 /* FeedbackFlowTest.app */;
@@ -672,7 +675,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -708,7 +711,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -743,7 +746,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -777,7 +780,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1502,6 +1505,10 @@
 		285F02882C12328F00AE8942 /* FeedbackFlow */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FeedbackFlow;
+		};
+		7A5D85802DBA91B400737F11 /* LiveClients */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = LiveClients;
 		};
 		7AC03C232D7A126B009A06C7 /* LiveClients */ = {
 			isa = XCSwiftPackageProductDependency;

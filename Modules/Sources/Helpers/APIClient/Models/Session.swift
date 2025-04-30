@@ -165,7 +165,8 @@ public struct OwnerInfo: Equatable, Sendable {
         self.phoneNumber = phoneNumber
     }
 }
-public struct ParticipantQuestion: Equatable, Sendable {
+
+public struct ParticipantQuestion: Equatable, Sendable, Identifiable {
     public let id: UUID
     public let questionText: String
     public let feedbackType: FeedbackType
