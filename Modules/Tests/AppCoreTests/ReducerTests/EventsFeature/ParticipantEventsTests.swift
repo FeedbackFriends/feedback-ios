@@ -25,7 +25,7 @@ struct ParticipantEventsTests {
     
     @Test
     func startFeedbackButtonTap() async {
-        let pinCode = "1234"
+        let pinCode = PinCode(value: "1234")
         
         let store = TestStore(initialState: ParticipantEvents.State(session: .init(value: .mock()))) {
             ParticipantEvents()
@@ -40,7 +40,7 @@ struct ParticipantEventsTests {
     
     @Test
     func confirmedToStartFeedback() async {
-        let pinCode = "1234"
+        let pinCode = PinCode(value: "1234")
         
         let store = TestStore(initialState: ParticipantEvents.State(session: .init(value: .mock()))) {
             ParticipantEvents()

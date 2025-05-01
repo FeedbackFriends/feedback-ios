@@ -23,7 +23,7 @@ public struct FeedbackButton {
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
         case destination(PresentationAction<Destination.Action>)
-        case startFeedback(pinCode: String)
+        case startFeedback(pinCode: PinCode)
         case startFeedbackSessionResponse(FeedbackSession)
         case presentError(Error)
         case delegate(Delegate)

@@ -68,11 +68,11 @@ private extension DetailSectionView {
     
     var eventPinSectionView: some View {
         VStack(alignment: .leading) {
-            Text("PINCODE")
+            Text("PIN CODE")
                 .sectionHeaderStyle()
                 .padding(.leading, 18)
             VStack(alignment: .trailing, spacing: 12) {
-                Text("\(event.pinCode.description)")
+                Text("\(event.pinCode.value.description)")
                     .frame(maxWidth: .infinity)
                     .font(.montserratMedium, 30)
                     .foregroundStyle(Color.themeDarkGray.gradient)
@@ -81,7 +81,7 @@ private extension DetailSectionView {
                     .overlay(
                         alignment: .trailing,
                         content: {
-                            ShareLink(item: event.pinCode) {
+                            ShareLink(item: event.pinCode.value) {
                                 HStack {
                                     Image(systemName: "document.on.document")
                                         .font(.system(size: 16, weight: .regular))

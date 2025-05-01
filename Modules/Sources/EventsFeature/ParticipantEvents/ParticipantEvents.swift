@@ -10,14 +10,14 @@ public struct ParticipantEvents {
         @ReducerCaseIgnored
         case info(ParticipantEvent)
         @ReducerCaseIgnored
-        case startFeedbackConfirmation(String)
+        case startFeedbackConfirmation(PinCode)
     }
     
     @ObservableState
     public struct State: Equatable {
         @Presents public var destination: Destination.State?
         @Shared var session: NewSession
-        public var startFeedbackPincodeInFlight:  String?
+        public var startFeedbackPincodeInFlight: PinCode?
         public init(session: Shared<NewSession>) {
             self._session = session
         }
@@ -27,11 +27,11 @@ public struct ParticipantEvents {
         case destination(PresentationAction<Destination.Action>)
         case binding(BindingAction<State>)
         case infoButtonTap(ParticipantEvent)
-        case startFeedbackButtonTap(pinCode: String)
-        case confirmedToStartFeedback(pinCode: String)
+        case startFeedbackButtonTap(pinCode: PinCode)
+        case confirmedToStartFeedback(pinCode: PinCode)
         case delegate(Delegate)
         public enum Delegate: Equatable {
-            case startFeedback(pinCode: String)
+            case startFeedback(pinCode: PinCode)
             case navigateToSignUp
         }
     }

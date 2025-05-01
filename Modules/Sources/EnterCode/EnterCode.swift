@@ -10,17 +10,23 @@ public struct EnterCode {
     
     @ObservableState
     public struct State: Equatable {
-        var inputCode: String
+        var pinCodeInput: PinCodeInput
         public var startFeedbackPincodeInFlight: Bool
+        var enterCodeTextfieldFocused: Bool
         var disableStartFeedbackButton: Bool {
-            if !PinCodeValidator.isValidPinCode(inputCode) || startFeedbackPincodeInFlight {
+            if pinCodeInput.pinCode() == nil, startFeedbackPincodeInFlight {
                 return true
             }
             return false
         }
-        public init(inputCode: String = "", startFeedbackPincodeInFlight: Bool = false) {
-            self.inputCode = inputCode
+        public init(
+            pinCodeInput: PinCodeInput = .initial(),
+            startFeedbackPincodeInFlight: Bool = false,
+            enterCodeTextfieldFocused: Bool = false
+        ) {
+            self.pinCodeInput = pinCodeInput
             self.startFeedbackPincodeInFlight = startFeedbackPincodeInFlight
+            self.enterCodeTextfieldFocused = enterCodeTextfieldFocused
         }
     }
     
@@ -28,8 +34,9 @@ public struct EnterCode {
         case binding(BindingAction<State>)
         case startFeedbackButtonTap
         case delegate(Delegate)
+        case backgroundTap
         public enum Delegate: Equatable {
-            case startFeedback(pinCode: String)
+            case startFeedback(pinCode: PinCode)
         }
     }
     
@@ -47,12 +54,16 @@ public struct EnterCode {
                 return .none
                 
             case .startFeedbackButtonTap:
-                let input = state.inputCode
-                state.inputCode = ""
+                guard let pinCode = state.pinCodeInput.pinCode() else { return .none }
+                state.enterCodeTextfieldFocused = false
                 state.startFeedbackPincodeInFlight = true
-                return .send(.delegate(.startFeedback(pinCode: input)))
+                return .send(.delegate(.startFeedback(pinCode: pinCode)))
                 
             case .delegate:
+                return .none
+                
+            case .backgroundTap:
+                state.enterCodeTextfieldFocused = false
                 return .none
             }
         }

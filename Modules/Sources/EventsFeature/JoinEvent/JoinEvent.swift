@@ -14,18 +14,19 @@ public struct JoinEvent {
     @ObservableState
     public struct State: Equatable {
         @Presents var destination: Destination.State?
-        var inputCode: String
+        var pinCodeInput: PinCodeInput
         var enterCodeKeyboardIsFocused = false
         var showSuccessOverlay = false
         var joinRequestInFlight = false
+        var pinCodeTextfieldFocused = false
         var disableJoinButton: Bool {
-            if !PinCodeValidator.isValidPinCode(inputCode) || joinRequestInFlight || showSuccessOverlay {
+            if pinCodeInput.pinCode() == nil || joinRequestInFlight || showSuccessOverlay {
                 return true
             }
             return false
         }
-        public init(inputCode: String = "") {
-            self.inputCode = inputCode
+        public init(pinCodeInput: PinCodeInput = .initial()) {
+            self.pinCodeInput = pinCodeInput
         }
     }
     
@@ -35,10 +36,10 @@ public struct JoinEvent {
         case presentError(Error)
         case closeButtonTap
         case joinButtonTap
-        case joinSuccess(pinCode: String)
+        case joinSuccess(pinCode: PinCode)
         case delegate(Delegate)
         public enum Delegate: Equatable {
-            case navigateToParticipantEvent(withPinCode: String)
+            case navigateToParticipantEvent(withPinCode: PinCode)
         }
     }
     
@@ -72,10 +73,14 @@ public struct JoinEvent {
                 }
                 
             case .joinButtonTap:
+                guard let pinCode = state.pinCodeInput.pinCode() else {
+                    return .none
+                }
+                state.pinCodeTextfieldFocused = false
                 state.joinRequestInFlight = true
-                return .run { [pinCode = state.inputCode] send in
+                return .run { send in
                     do {
-                        _ = try await apiClient.joinEvent(eventCode: pinCode)
+                        _ = try await apiClient.joinEvent(pinCode: pinCode)
                         await send(.joinSuccess(pinCode: pinCode))
                     } catch {
                         await send(.presentError(error))

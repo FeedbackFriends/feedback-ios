@@ -4,7 +4,6 @@ import Helpers
 public struct UserTypePickerView: View {
     
     @Binding var selectedUserType: Role?
-    let impactMed = UIImpactFeedbackGenerator(style: .medium)
     
     public init(selectedUserType: Binding<Role?>) {
         self._selectedUserType = selectedUserType
@@ -12,7 +11,6 @@ public struct UserTypePickerView: View {
     
     public var body: some View {
         Button {
-            impactMed.impactOccurred()
             self.selectedUserType = .participant
         } label: {
             HStack {
@@ -34,7 +32,6 @@ public struct UserTypePickerView: View {
         }
         .buttonStyle(LargeBoxButtonStyle())
         Button {
-            impactMed.impactOccurred()
             self.selectedUserType = .manager
         } label: {
             HStack {
@@ -52,6 +49,7 @@ public struct UserTypePickerView: View {
             }
         }
         .buttonStyle(LargeBoxButtonStyle())
+        .sensoryFeedback(.selection, trigger: selectedUserType)
     }
 }
 

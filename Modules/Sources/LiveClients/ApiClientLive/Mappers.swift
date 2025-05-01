@@ -121,7 +121,7 @@ extension ManagerEvent {
             title: event.title,
             agenda: event.agenda,
             date: event.date,
-            pinCode: event.pinCode ?? "Expired",
+            pinCode: PinCode(value: event.pinCode ?? "Expired"),
             durationInMinutes: Int(event.durationInMinutes),
             location: event.location,
             ownerInfo: .init(
@@ -190,7 +190,7 @@ extension ParticipantEvent {
             title: event.title,
             agenda: event.agenda,
             date: event.date,
-            pinCode: event.pinCode,
+            pinCode: PinCode(value: event.pinCode),
             location: event.location,
             durationInMinutes: Int(event.durationInMinutes),
             questions: event.questions.map {
@@ -227,7 +227,7 @@ extension Components.Schemas.EventInput {
 }
 
 extension FeedbackSession {
-    init(_ feedbackSession: Components.Schemas.FeedbackSessionDto, pinCode: String) {
+    init(_ feedbackSession: Components.Schemas.FeedbackSessionDto, pinCode: PinCode) {
         self.init(
             title: feedbackSession.title,
             agenda: feedbackSession.agenda,
@@ -321,7 +321,7 @@ extension NewSession {
                         title: $0.title,
                         agenda: $0.agenda,
                         date: $0.date,
-                        pinCode: $0.pinCode,
+                        pinCode: .init(value: $0.pinCode),
                         location: $0.location,
                         durationInMinutes: Int($0.durationInMinutes),
                         questions: $0.questions.map {

@@ -14,9 +14,9 @@ public struct APIClient: Sendable {
     public var updateFcmToken: @Sendable (_ fcmToken: String?) async throws -> ()
     public var getSession: @Sendable () async throws -> NewSession
     @DependencyEndpoint
-    public var startFeedbackSession: @Sendable (_ pinCode: String) async throws -> FeedbackSession
+    public var startFeedbackSession: @Sendable (_ pinCode: PinCode) async throws -> FeedbackSession
     @DependencyEndpoint
-    public var sendFeedback: @Sendable (_ feedback: [FeedbackInput], _ pinCode: String) async throws -> Bool
+    public var sendFeedback: @Sendable (_ feedback: [FeedbackInput], _ pinCode: PinCode) async throws -> Bool
     @DependencyEndpoint
     public var createEvent: @Sendable (_ eventInput: EventInput) async throws -> ManagerEvent
     @DependencyEndpoint
@@ -27,7 +27,7 @@ public struct APIClient: Sendable {
     public var createAccount: @Sendable (_ role: Role?) async throws -> NewSession
     public var sessionChangedListener: @Sendable () async -> AsyncStream<NewSession> = { .never }
     @DependencyEndpoint
-    public var joinEvent: @Sendable (_ eventCode: String) async throws -> ()
+    public var joinEvent: @Sendable (_ pinCode: PinCode) async throws -> ()
     @DependencyEndpoint
     public var markEventAsSeen: @Sendable (_ eventId: UUID) async throws -> ()
     @DependencyEndpoint

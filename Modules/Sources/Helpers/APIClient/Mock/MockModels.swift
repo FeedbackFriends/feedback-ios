@@ -77,7 +77,7 @@ public extension FeedbackSession {
             email: "nicolaidam@gmail.com",
             phoneNumber: "27639523"
         ),
-        pinCode: "1234",
+        pinCode: .init(value: "1234"),
         date: Date()
     )
 }
@@ -278,9 +278,9 @@ func generateRandomLocation() -> String {
     return possibleLocations.randomElement() ?? "Unknown Location"
 }
 
-func generateRandomPin() -> String {
+func generateRandomPin() -> PinCode {
     let pin = Int.random(in: 1000...9999)
-    return String(pin)
+    return PinCode(value: String(pin))
 }
 
 func generateFeedbackEventTitle() -> String {
@@ -353,7 +353,7 @@ public extension ManagerEvent {
         title: "Standup Meeting",
         agenda: mockAgenda,
         date: .init(timeIntervalSince1970: 0),
-        pinCode: "1234",
+        pinCode: PinCode(value: "1234"),
         durationInMinutes: 30,
         location: "Roskilde",
         ownerInfo: .mock(),

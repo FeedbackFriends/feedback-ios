@@ -4,6 +4,7 @@ import DesignSystem
 
 public struct JoinEventView: View {
     
+    @FocusState var pinCodeTextfieldFocused: Bool
     @Bindable var store: StoreOf<JoinEvent>
     @FocusState private var isFocused: Bool
     
@@ -26,7 +27,7 @@ public struct JoinEventView: View {
                 .padding(.top, 20)
                 .font(.montserratBold, 18)
                 .foregroundStyle(Color.themeDarkGray)
-            TextField("", text: $store.inputCode)
+            TextField("", text: $store.pinCodeInput.value)
                 .font(.montserratBold, 16)
                 .padding()
                 .foregroundColor(Color.themeDarkGray)
@@ -37,9 +38,8 @@ public struct JoinEventView: View {
                 .submitLabel(.next)
                 .focused($isFocused)
                 .padding(.top, 5)
-                .pinCodeValidation(text: $store.inputCode)
+                .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
             Button("Join") {
-                hideKeyboard()
                 store.send(.joinButtonTap)
             }
             .buttonStyle(LargeButtonStyle())
@@ -47,6 +47,7 @@ public struct JoinEventView: View {
             .padding(.bottom, 20)
             .disabled(store.disableJoinButton)
         }
+        .synchronize($store.pinCodeTextfieldFocused, $pinCodeTextfieldFocused)
         .onAppear { isFocused = true }
         .padding(.all, Theme.padding)
         .multilineTextAlignment(.center)

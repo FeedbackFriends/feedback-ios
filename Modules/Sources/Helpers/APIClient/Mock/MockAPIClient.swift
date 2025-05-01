@@ -48,11 +48,11 @@ public extension APIClient {
             sessionChangedListener: {
                 await mockSessionEngine.stream()
             },
-            joinEvent: { eventCode in
+            joinEvent: { pinCode in
                 try await Task.sleep(for: .seconds(1))
-                await mockSessionEngine.appendParticipantEvent(eventCode)
+                await mockSessionEngine.appendParticipantEvent(pinCode)
             },
-            markEventAsSeen: { eventCode in
+            markEventAsSeen: { _ in
                 return ()
             },
             updateAccountRole: { _ in

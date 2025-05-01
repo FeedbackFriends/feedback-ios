@@ -224,7 +224,7 @@ private extension FeedbackFlowTests {
                 )
             ],
             ownerInfo: .init(name: "Romain", email: "romain@example.com", phoneNumber: "88888888"),
-            pinCode: "1234",
+            pinCode: .init(value: "1234"),
             date: .init(timeIntervalSince1970: 0)
         )
     }

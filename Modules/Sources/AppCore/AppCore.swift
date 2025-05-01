@@ -231,16 +231,16 @@ public struct AppCore {
                 return .none
                 
             case .onOpenURL(let url):
-                guard let deepLink = DeepLinkParser.parse(url) else {
+                guard let deepLink = url.parseDeepLink() else {
                     return .none
                 }
                 switch (deepLink, state.destination) {
-                case let (.joinEvent(pinCode), .loggedIn(existingState)):
+                case let (.joinEvent(pinCodeInput), .loggedIn(existingState)):
                     let session = Shared(value: existingState.session)
                     let newState = Destination.State.loggedIn(
                         Tabbar.State(
                             session: session,
-                            destination: .joinEvent(.init(inputCode: pinCode))
+                            destination: .joinEvent(.init(pinCodeInput: pinCodeInput))
                         )
                     )
                     state.destination = newState

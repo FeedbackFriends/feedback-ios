@@ -73,7 +73,7 @@ public extension APIClient {
             },
             startFeedbackSession: { pinCode in
                 try await withAuthorization {
-                    let response = try await api.startFeedbackSession(.init(body: .json(.init(pinCode: pinCode))))
+                    let response = try await api.startFeedbackSession(.init(body: .json(.init(pinCode: pinCode.value))))
                     switch response {
                     case .ok(let output):
                         return .init(try output.body.json, pinCode: pinCode)
@@ -92,7 +92,7 @@ public extension APIClient {
                             body: .json(
                                 .init(
                                     feedback: feedback.map { .init($0) },
-                                    pinCode: pinCode
+                                    pinCode: pinCode.value
                                 )
                             )
                         )
@@ -154,7 +154,7 @@ public extension APIClient {
                 do {
                     return try await withAuthorization {
                         
-                        let response = try await api.joinEvent(.init(path: .init(pinCode: pinCode)))
+                        let response = try await api.joinEvent(.init(path: .init(pinCode: pinCode.value)))
                         
                         switch response {
                         case .ok(let output):

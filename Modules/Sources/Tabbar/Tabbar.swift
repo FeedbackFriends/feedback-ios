@@ -93,7 +93,7 @@ public struct Tabbar {
             case activityButtonTap
         }
         public enum Delegate {
-            case startFeedback(pinCode: String)
+            case startFeedback(pinCode: PinCode)
             case navigateToSignUp
         }
     }

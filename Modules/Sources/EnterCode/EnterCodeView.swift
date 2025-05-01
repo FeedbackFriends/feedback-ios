@@ -5,6 +5,7 @@ import ComposableArchitecture
 
 public struct EnterCodeView: View {
     
+    @FocusState var enterCodeTextfieldFocused: Bool
     @Bindable var store: StoreOf<EnterCode>
     
     public init(store: StoreOf<EnterCode>) {
@@ -13,7 +14,7 @@ public struct EnterCodeView: View {
     
     public var body: some View {
         content
-            .onTapGesture(perform: hideKeyboard)
+            .onTapGesture { store.send(.backgroundTap) }
             .background(Color.themeBackground.ignoresSafeArea())
     }
 }
@@ -35,7 +36,7 @@ private extension EnterCodeView {
                             .font(.montserratBold, 20)
                             .padding(.top, 70)
                             .foregroundStyle(Color.themeDarkGray)
-                        TextField("", text: $store.inputCode)
+                        TextField("", text: $store.pinCodeInput.value)
                             .font(.montserratBold, 16)
                             .padding()
                             .foregroundColor(Color.themeDarkGray)
@@ -44,9 +45,9 @@ private extension EnterCodeView {
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.center)
                             .submitLabel(.next)
-                            .pinCodeValidation(text: $store.inputCode)
+                            .focused($enterCodeTextfieldFocused)
+                            .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
                         Button("Start feedback") {
-                            hideKeyboard()
                             store.send(.startFeedbackButtonTap)
                         }
                         .disabled(store.disableStartFeedbackButton)
@@ -55,6 +56,7 @@ private extension EnterCodeView {
                         .padding(.top, 12)
                         Spacer()
                     }
+                    .synchronize($store.enterCodeTextfieldFocused, $enterCodeTextfieldFocused)
                     .padding(.all, Theme.padding)
                     .padding(.top, 30)
                     .multilineTextAlignment(.center)

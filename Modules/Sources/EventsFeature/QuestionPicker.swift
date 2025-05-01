@@ -65,7 +65,7 @@ private extension QuestionPicker {
                     .sectionHeaderStyle()
                 Spacer()
                 Button("Recently used") {
-                    hideKeyboard()
+                    textFieldFocused = false
                     navigateToTemplateQuestionSheet = true
                 }
                 .buttonStyle(PrimaryToolbarButtonStyle())

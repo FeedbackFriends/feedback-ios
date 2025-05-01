@@ -5,14 +5,14 @@ public struct FeedbackSession: Equatable, Sendable {
     public let agenda: String?
     public let questions: [ParticipantQuestion]
     public let ownerInfo: OwnerInfo
-    public let pinCode: String
+    public let pinCode: PinCode
     public let date: Date
     public init(
         title: String,
         agenda: String?,
         questions: [ParticipantQuestion],
         ownerInfo: OwnerInfo,
-        pinCode: String,
+        pinCode: PinCode,
         date: Date
     ) {
         self.title = title

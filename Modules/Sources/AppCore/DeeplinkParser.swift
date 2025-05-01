@@ -1,10 +1,11 @@
 import Foundation
+import Helpers
 
 public enum DeepLink {
-    case joinEvent(pinCode: String)
+    case joinEvent(pinCodeInput: PinCodeInput)
 }
 
-public struct DeepLinkParser {
+struct DeepLinkParser {
     public static func parse(_ url: URL) -> DeepLink? {
         guard
             url.scheme == "letsgrow",
@@ -13,12 +14,18 @@ public struct DeepLinkParser {
         }
         switch (comps.host, comps.queryItems) {
         case ("invite", let items?):
-            if let pinCode = items.first(where: { $0.name=="pin_code" })?.value {
-                return .joinEvent(pinCode: pinCode)
+            if let pinCodeInput = items.first(where: { $0.name=="pin_code" })?.value {
+                return .joinEvent(pinCodeInput: .init(value: pinCodeInput))
             }
             return nil
         default:
             return nil
         }
+    }
+}
+
+public extension URL {
+    func parseDeepLink() -> DeepLink? {
+        return DeepLinkParser.parse(self)
     }
 }

@@ -66,7 +66,7 @@ public struct FeedbackFlow {
         var questionIndex: Int {
             path.count - 1
         }
-        var pinCode: String {
+        var pinCode: PinCode {
             feedbackSession.pinCode
         }
     }

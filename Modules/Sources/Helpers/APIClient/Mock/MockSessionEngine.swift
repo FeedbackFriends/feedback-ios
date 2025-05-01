@@ -21,7 +21,7 @@ actor MockSessionEngine {
         session.deleteEvent(id)
     }
     
-    func appendParticipantEvent(_ pinCode: String) {
+    func appendParticipantEvent(_ pinCode: PinCode) {
         session.appendParticipantEvent(pinCode)
     }
     
@@ -79,7 +79,7 @@ private extension NewSession {
         self.managerData = mutableManagerData
     }
     
-    mutating func appendParticipantEvent(_ pinCode: String) {
+    mutating func appendParticipantEvent(_ pinCode: PinCode) {
         let participantEvent = ParticipantEvent(
             id: UUID(),
             title: generateFeedbackEventTitle(),

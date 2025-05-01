@@ -48,7 +48,6 @@ public struct CreateEvent {
     
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.calendar) var calendar
-    @Dependency(\.systemClient.hideKeyboard) var hideKeyboard
     @Dependency(\.date) var date
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.continuousClock) var clock

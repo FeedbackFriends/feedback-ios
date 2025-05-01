@@ -17,9 +17,6 @@ public extension SystemClient {
                     scene.keyWindow?.overrideUserInterfaceStyle = userInterfaceStyle
                 }
             },
-            hideKeyboard: {
-                await UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            },
             openSettingsURLString: { UIApplication.openSettingsURLString },
             inviteUrl: { pinCode in
                 URL(string: "\(webUrl)/invite/\(pinCode)")!

@@ -6,27 +6,30 @@ import Foundation
 struct JoinEventTests {
     @Test
     func testJoinSuccess() async {
-        let store = await TestStore(initialState: JoinEvent.State(inputCode: "1234")) {
+        let store = await TestStore(initialState: JoinEvent.State(pinCodeInput: .init(value: "1234"))) {
             JoinEvent()
         } withDependencies: {
             $0.apiClient.joinEvent = { _ in () }
         }
-        
+        await store.send(.binding(.set(\.pinCodeTextfieldFocused, true))) {
+            $0.pinCodeTextfieldFocused = true
+        }
         await store.send(.joinButtonTap) {
             $0.joinRequestInFlight = true
+            $0.pinCodeTextfieldFocused = false
         }
         
         await store.receive(\.joinSuccess) {
             $0.joinRequestInFlight = false
             $0.showSuccessOverlay = true
         }
-        await store.receive(\.delegate, .navigateToParticipantEvent(withPinCode: "1234"))
+        await store.receive(\.delegate, .navigateToParticipantEvent(withPinCode: .init(value: "1234")))
     }
     
     @Test
     func testJoinFailure() async {
         struct Failure: Error, Equatable {}
-        let store = await TestStore(initialState: JoinEvent.State(inputCode: "1234")) {
+        let store = await TestStore(initialState: JoinEvent.State(pinCodeInput: .init(value: "1234"))) {
             JoinEvent()
         } withDependencies: {
             $0.apiClient.joinEvent = { _ in throw Failure() }
@@ -47,7 +50,7 @@ struct JoinEventTests {
         
         let didDismiss = LockIsolated(false)
         
-        let store = await TestStore(initialState: JoinEvent.State(inputCode: "1234")) {
+        let store = await TestStore(initialState: JoinEvent.State(pinCodeInput: .init(value: "1234"))) {
             JoinEvent()
         } withDependencies: {
             $0.dismiss = .init({
