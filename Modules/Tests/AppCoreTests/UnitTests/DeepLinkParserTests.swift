@@ -7,7 +7,7 @@ import Testing
 class DeepLinkParserTests {
     
     @Test
-    func deepLink_joinEvent() {
+    func deepLinkJoinEvent() {
         let url = URL(string: "letsgrow://invite?pin_code=123456")!
         guard let deepLink = DeepLinkParser.parse(url) else {
             fatalError()
@@ -19,14 +19,14 @@ class DeepLinkParserTests {
     }
     
     @Test
-    func deepLink_empty() {
+    func deepLinkEmpty() {
         let url = URL(string: "letsgrow://")!
         let deepLink = DeepLinkParser.parse(url)
         #expect(deepLink == nil)
     }
     
     @Test
-    func deepLink_wrongScheme() {
+    func deepLinkWrongScheme() {
         let url = URL(string: "wtf://")!
         let deepLink = DeepLinkParser.parse(url)
         #expect(deepLink == nil)

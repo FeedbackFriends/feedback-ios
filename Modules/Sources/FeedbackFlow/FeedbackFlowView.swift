@@ -5,6 +5,7 @@ import SwiftUI
 
 public struct FeedbackFlowView: View {
     @Bindable var store: StoreOf<FeedbackFlow>
+    @FocusState var commentTextfieldFocused: Bool
     var showNavigateBackButton: Bool {
         store.questionIndex != 0
     }
@@ -31,7 +32,7 @@ public struct FeedbackFlowView: View {
                 VStack {
                     switch store.case {
                     case let .emoji(store):
-                        EmojiFeedbackView(store: store)
+                        EmojiFeedbackView(store: store, commentTextfieldFocused: $commentTextfieldFocused)
                     case let .screenB(store):
                         ScreenBView(store: store)
                     case let .screenC(store):
@@ -44,6 +45,7 @@ public struct FeedbackFlowView: View {
             }
             bottomBar
         }
+        .synchronize($store.commentTextfieldFocused, self.$commentTextfieldFocused)
         .sheet(
             item: $store.scope(
                 state: \.destination?.ratingPrompt,
@@ -172,7 +174,7 @@ public struct FeedbackFlowView: View {
 
 #Preview {
     FeedbackFlowView(
-        store: Store(initialState: FeedbackFlow.State(feedbackSession: .mock)) {
+        store: Store(initialState: FeedbackFlow.State.initialState(feedbackSession: .mock)) {
             FeedbackFlow()
         }
     )

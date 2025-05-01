@@ -9,11 +9,10 @@ public struct EmojiFeedback {
     
     @ObservableState
     public struct State: Equatable {
-        let questionId: UUID
-        let questionText: String
+        var questionId: UUID
+        var questionText: String
         var selectedEmoji: Emoji?
         var commentTextField: String
-        var commentTextfieldFocused: Bool
         var feedbackCompleted: Bool {
             selectedEmoji != nil
         }
@@ -21,14 +20,12 @@ public struct EmojiFeedback {
             questionId: UUID,
             questionText: String,
             selectedEmoji: Emoji? = nil,
-            commentTextField: String = "",
-            commentTextfieldFocused: Bool = false
+            commentTextField: String = ""
         ) {
             self.questionId = questionId
             self.questionText = questionText
             self.selectedEmoji = selectedEmoji
             self.commentTextField = commentTextField
-            self.commentTextfieldFocused = commentTextfieldFocused
         }
     }
     
@@ -36,6 +33,10 @@ public struct EmojiFeedback {
         case onSmileyTapped(Emoji)
         case binding(BindingAction<State>)
         case onTapOutsideTextfield
+        case delegate(Delegate)
+        public enum Delegate: Equatable {
+            case setCommentTextfieldFocus(Bool)
+        }
     }
     
     public var body: some Reducer<State, Action> {
@@ -44,15 +45,16 @@ public struct EmojiFeedback {
             switch action {
                 
             case .onTapOutsideTextfield:
-                state.commentTextfieldFocused = false
-                return .none
+                return .send(.delegate(.setCommentTextfieldFocus(false)))
                 
             case .binding:
                 return .none
                 
             case .onSmileyTapped(let rating):
                 state.selectedEmoji = rating
-                state.commentTextfieldFocused = true
+                return .send(.delegate(.setCommentTextfieldFocus(true)))
+                
+            case .delegate:
                 return .none
             }
         }

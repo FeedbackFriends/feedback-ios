@@ -5,13 +5,14 @@ import SwiftUI
 
 public struct EmojiFeedbackView: View {
     
-    @FocusState var commentTextfieldFocused: Bool
+    @FocusState.Binding var commentTextfieldFocused: Bool
     @State var didAppear = false
     
     @Bindable var store: StoreOf<EmojiFeedback>
     
-    public init(store: StoreOf<EmojiFeedback>) {
+    public init(store: StoreOf<EmojiFeedback>, commentTextfieldFocused: FocusState<Bool>.Binding) {
         self.store = store
+        self._commentTextfieldFocused = commentTextfieldFocused
     }
     
     public var body: some View {
@@ -76,11 +77,7 @@ public struct EmojiFeedbackView: View {
         .padding(.horizontal, 20)
         .padding(.top, 20)
         .animation(.easeInOut(duration: 0.2), value: store.selectedEmoji)
-        .onTapGesture {
-            store.send(.onTapOutsideTextfield)
-        }
+        .onTapGesture { store.send(.onTapOutsideTextfield) }
         .sensoryFeedback(.selection, trigger: store.selectedEmoji)
-        .synchronize($store.commentTextfieldFocused, self.$commentTextfieldFocused)
-
     }
 }

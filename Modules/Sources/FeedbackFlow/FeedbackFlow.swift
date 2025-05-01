@@ -46,8 +46,11 @@ public struct FeedbackFlow {
             }
         }
         var questions: IdentifiedArrayOf<Path.State>
-        let date: Date
+        var date: Date {
+            feedbackSession.date
+        }
         let feedbackSession: FeedbackSession
+        var commentTextfieldFocused: Bool
         var title: String {
             feedbackSession.title
         }
@@ -65,22 +68,6 @@ public struct FeedbackFlow {
         }
         var pinCode: String {
             feedbackSession.pinCode
-        }
-        
-        public init(
-            feedbackSession: FeedbackSession,
-        ) {
-            self.feedbackSession = feedbackSession
-            self.submitFeedbackInFlight = false
-            self.presentSuccessOverlay = false
-            self.questions = .init(uniqueElements: feedbackSession.questions.map { .init($0) })
-            guard let firstQuestion = feedbackSession.questions.first else {
-                fatalError("There should be atleast one question in a feedback session")
-            }
-            self.path = StackState<Path.State>.init([.init(firstQuestion)])
-//            self.feedbackItemCompleted = false
-            self.date = feedbackSession.date
-            
         }
     }
     
@@ -106,6 +93,7 @@ public struct FeedbackFlow {
     @Dependency(\.continuousClock) var clock
     
     public var body: some Reducer<State, Action> {
+        BindingReducer()
         Reduce {
             state,
             action in
@@ -120,8 +108,14 @@ public struct FeedbackFlow {
             case .destination:
                 return .none
                 
-            case .path:
-                return .none
+            case .path(let pathAction):
+                switch pathAction {
+                case .element(id: _, action: .emoji(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))):
+                    state.commentTextfieldFocused = commentTextfieldFocused
+                    return .none
+                default:
+                    return .none
+                }
                 
             case .infoButtonTap:
                 state.destination = .showEventInfo
@@ -149,8 +143,8 @@ public struct FeedbackFlow {
                 
             case .previousQuestionButtonTap:
                 guard state.path.count > 0 else { return .none }
-                guard !state.path[state.questionIndex].textfieldFocused else {
-                    hideKeyboard()
+                guard !state.commentTextfieldFocused else {
+                    state.commentTextfieldFocused = false
                     return .run { send in
                         try await self.clock.sleep(for: .seconds(0.5))
                         await send(.navigateToPreviousQuestion)
@@ -161,8 +155,8 @@ public struct FeedbackFlow {
                 
             case .nextQuestionButtonTap:
                 guard state.path.count < state.questions.count else { return .none }
-                guard !state.path[state.questionIndex].textfieldFocused else {
-                    hideKeyboard()
+                guard !state.commentTextfieldFocused else {
+                    state.commentTextfieldFocused = false
                     return .run { send in
                         try await self.clock.sleep(for: .seconds(0.5))
                         await send(.navigateToNextQuestion)
@@ -171,25 +165,12 @@ public struct FeedbackFlow {
                 return .send(.navigateToNextQuestion)
                 
             case .submitButtonTap:
-                hideKeyboard()
+                state.commentTextfieldFocused = false
                 state.submitFeedbackInFlight = true
                 return .run { [state = state] send in
                     do {
                         let shouldPresentRatingPrompt = try await apiClient.sendFeedback(
-                            feedback: state.path.map {
-                                switch $0 {
-                                    
-                                case .emoji(let emojiFeedback):
-                                        .init(
-                                            type: .emoji(emoji: emojiFeedback.selectedEmoji!, comment: emojiFeedback.commentTextField.nilIfEmpty),
-                                            questionId: $0.questionId
-                                        )
-                                case .screenB(_):
-                                    fatalError("Not implemented")
-                                case .screenC(_):
-                                    fatalError("Not implemented")
-                                }
-                            },
+                            feedback: state.path.map { .init($0) },
                             pinCode: state.pinCode
                         )
                         await send(.sendFeedbackResponse(shouldPresentRatingPrompt: shouldPresentRatingPrompt))
@@ -230,6 +211,22 @@ public struct FeedbackFlow {
 extension Collection {
     subscript(safe index: Index) -> Element? {
         indices.contains(index) ? self[index] : nil
+    }
+}
+
+extension FeedbackFlow.State {
+    public static func initialState(feedbackSession: FeedbackSession) -> Self {
+        guard let firstQuestion = feedbackSession.questions.first else {
+            fatalError("There should be atleast one question in a feedback session")
+        }
+        return .init(
+            path: StackState<FeedbackFlow.Path.State>.init([.init(firstQuestion)]),
+            submitFeedbackInFlight: false,
+            presentSuccessOverlay: false,
+            questions: .init(uniqueElements: feedbackSession.questions.map { .init($0) }),
+            feedbackSession: feedbackSession,
+            commentTextfieldFocused: false
+        )
     }
 }
 
@@ -281,10 +278,20 @@ extension FeedbackFlow.Path.State: Identifiable {
             fatalError("Not implemented")
         }
     }
-    var textfieldFocused: Bool {
-        switch self {
-        case .emoji(let state):
-            state.commentTextfieldFocused
+}
+
+extension FeedbackInput {
+    init(_ input: FeedbackFlow.Path.State) {
+        switch input {
+            
+        case .emoji(let emojiFeedback):
+            self = .init(
+                type: .emoji(
+                    emoji: emojiFeedback.selectedEmoji!,
+                    comment: emojiFeedback.commentTextField.nilIfEmpty
+                ),
+                    questionId: input.questionId
+                )
         case .screenB(_):
             fatalError("Not implemented")
         case .screenC(_):

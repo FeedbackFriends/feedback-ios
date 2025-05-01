@@ -63,7 +63,7 @@ public struct FeedbackButton {
                 
             case .startFeedbackSessionResponse(let feedbackSession):
                 state.destination = .feedbackFeature(
-                    FeedbackFlow.State.init(feedbackSession: feedbackSession)
+                    FeedbackFlow.State.initialState(feedbackSession: feedbackSession)
                 )
                 return .send(.delegate(.stopLoading))
                 
