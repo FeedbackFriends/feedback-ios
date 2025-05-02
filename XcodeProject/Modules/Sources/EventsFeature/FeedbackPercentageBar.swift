@@ -2,7 +2,7 @@ import Helpers
 import SwiftUI
 import DesignSystem
 
-public func makeFeedbackPercentageBarView(feedback: FeedbackSegmentationStats) -> some View {
+func feedbackPercentageBarView(feedback: FeedbackSegmentationStats) -> some View {
     GeometryReader { proxy in
         let withPercent = proxy.size.width/100
         HStack(spacing: 0) {
@@ -16,7 +16,7 @@ public func makeFeedbackPercentageBarView(feedback: FeedbackSegmentationStats) -
     .frame(minHeight: 10)
 }
 
-public func makeEmptyFeedbackSegmentationStatsView() -> some View {
+func emptyFeedbackSegmentationStatsView() -> some View {
     GeometryReader { proxy in
         HStack(spacing: 0) {
             Color.gray.opacity(0.2).frame(width: proxy.size.width)

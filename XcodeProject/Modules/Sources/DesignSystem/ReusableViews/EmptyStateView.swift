@@ -34,10 +34,8 @@ public struct EmptyStateView: View {
     }
 }
 
-struct EmptyStateView_Previews: PreviewProvider {
-    static var previews: some View {
-        EmptyStateView(
-            message: "Message bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla"
-        )
-    }
+#Preview {
+    EmptyStateView(
+        message: "Message bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla"
+    )
 }

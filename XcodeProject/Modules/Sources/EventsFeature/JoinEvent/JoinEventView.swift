@@ -18,7 +18,7 @@ public struct JoinEventView: View {
                 Text("Join event")
                     .font(.montserratBold, 28)
                 Spacer()
-                SharedCloseButton {
+                SharedCloseButtonView {
                     store.send(.closeButtonTap)
                 }
             }

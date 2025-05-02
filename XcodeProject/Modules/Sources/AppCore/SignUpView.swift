@@ -79,7 +79,7 @@ private extension SignUpView {
                 .padding(.leading, 24)
             }
             .buttonStyle(LargeButtonStyle(color: Color.white))
-            .shadow(color: .black.opacity(0.08), radius: 2)
+            .lightShadow()
             .padding(.bottom, 16)
         }
         .padding(.all, Theme.padding)

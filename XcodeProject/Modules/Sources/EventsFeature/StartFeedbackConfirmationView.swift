@@ -38,7 +38,7 @@ struct StartFeedbackConfirmationView: View {
             .background(Color.themeBackground.ignoresSafeArea())
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    SharedCloseButton {
+                    SharedCloseButtonView {
                         dismiss()
                     }
                 }

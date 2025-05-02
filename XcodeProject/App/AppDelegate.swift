@@ -26,7 +26,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         FirebaseApp.configure()
-        setupTheme()
+        AppTheme.setUp()
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
         UIApplication.shared.registerForRemoteNotifications()

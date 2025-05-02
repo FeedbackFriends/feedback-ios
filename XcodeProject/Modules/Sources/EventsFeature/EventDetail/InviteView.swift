@@ -22,7 +22,7 @@ struct InviteView: View {
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        SharedCloseButton { dismiss() }
+                        SharedCloseButtonView { dismiss() }
                     }
                 }
                 .foregroundStyle(Color.themeDarkGray)

@@ -49,14 +49,38 @@ let package = Package(
         )
     ],
     dependencies: [
-        .package(url: "git@github.com:pointfreeco/swift-snapshot-testing.git", exact: "1.18.3"),
-        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", exact: "11.3.0"),
-        .package(url: "https://github.com/airbnb/lottie-ios", from: "3.4.3"),
-        .package(url: "https://github.com/google/GoogleSignIn-iOS.git", from: "7.0.0"),
-        .package(url: "https://github.com/pointfreeco/swift-composable-architecture.git", revision: "1.17.1"),
-        .package(url: "https://github.com/apple/swift-openapi-generator", .upToNextMinor(from: "1.7.0")),
-        .package(url: "https://github.com/apple/swift-openapi-runtime", .upToNextMinor(from: "1.8.0")),
-        .package(url: "https://github.com/apple/swift-openapi-urlsession", .upToNextMinor(from: "1.0.2")),
+        .package(
+            url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
+            exact: "1.18.3"
+        ),
+        .package(
+            url: "https://github.com/firebase/firebase-ios-sdk.git",
+            exact: "11.3.0"
+        ),
+        .package(
+            url: "https://github.com/airbnb/lottie-ios",
+            from: "3.4.3"
+        ),
+        .package(
+            url: "https://github.com/google/GoogleSignIn-iOS.git",
+            from: "7.0.0"
+        ),
+        .package(
+            url: "https://github.com/pointfreeco/swift-composable-architecture.git",
+            revision: "1.17.1"
+        ),
+        .package(
+            url: "https://github.com/apple/swift-openapi-generator",
+            .upToNextMinor(from: "1.7.0")
+        ),
+        .package(
+            url: "https://github.com/apple/swift-openapi-runtime",
+            .upToNextMinor(from: "1.8.0")
+        ),
+        .package(
+            url: "https://github.com/apple/swift-openapi-urlsession",
+            .upToNextMinor(from: "1.0.2")
+        ),
     ],
     targets: [
         .target(
@@ -76,9 +100,9 @@ let package = Package(
                 .product(name: "Lottie", package: "lottie-ios"),
             ],
             resources: [
-                .process("Resources/Font"),
-                .process("Resources/Images.xcassets"),
-                .process("Resources/Lottie")
+                .process("Resources/Fonts/Montserrat"),
+                .process("Resources/Images/Images.xcassets"),
+                .process("Resources/Lottie/Files")
             ]),
         .target(
             name: "EnterCode",

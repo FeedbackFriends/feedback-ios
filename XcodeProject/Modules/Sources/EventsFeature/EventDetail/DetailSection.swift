@@ -55,9 +55,9 @@ private extension DetailSectionView {
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(15)
                 if let feedback = event.feedbackSummary {
-                    makeFeedbackPercentageBarView(feedback: feedback.segmentationStats)
+                    feedbackPercentageBarView(feedback: feedback.segmentationStats)
                 } else {
-                    makeEmptyFeedbackSegmentationStatsView()
+                    emptyFeedbackSegmentationStatsView()
                 }
             }
             .font(.montserratRegular, 14)
@@ -154,7 +154,7 @@ struct QuestionView: View {
                                     .multilineTextAlignment(.leading)
                                 if let feedback = question.feedbackSummary {
                                     smileyView(feedback.countStats)
-                                    makeFeedbackPercentageBarView(
+                                    feedbackPercentageBarView(
                                         feedback: feedback.segmentationStats
                                     )
                                     .frame(height: 8)

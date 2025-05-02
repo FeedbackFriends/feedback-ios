@@ -50,7 +50,7 @@ struct TagFilterView: View {
             .foregroundColor(Color.themeDarkGray)
             .background(allBackground)
             .cornerRadius(16)
-            .shadow(color: .black.opacity(0.08), radius: 2)
+            .lightShadow()
             Button("Today") {
                 self.filter.allEnabled = false
                 self.filter.comingUpEnabled = false
@@ -62,7 +62,7 @@ struct TagFilterView: View {
             .foregroundColor(Color.themeDarkGray)
             .background(todayBackground)
             .cornerRadius(16)
-            .shadow(color: .black.opacity(0.08), radius: 2)
+            .lightShadow()
             Button("Coming up") {
                 self.filter.allEnabled = false
                 self.filter.comingUpEnabled = true
@@ -74,7 +74,7 @@ struct TagFilterView: View {
             .foregroundColor(Color.themeDarkGray)
             .background(comingUpBackground)
             .cornerRadius(16)
-            .shadow(color: .black.opacity(0.08), radius: 2)
+            .lightShadow()
             Button("Previous") {
                 self.filter.allEnabled = false
                 self.filter.comingUpEnabled = false
@@ -87,7 +87,7 @@ struct TagFilterView: View {
             .foregroundColor(Color.themeDarkGray)
             .background(previousBackground)
             .cornerRadius(16)
-            .shadow(color: .black.opacity(0.08), radius: 2)
+            .lightShadow()
             Spacer()
         }
         .sensoryFeedback(.selection, trigger: filter)

@@ -19,7 +19,7 @@ public struct ChangeUserTypeView: View {
                     .font(.montserratBold, 14)
                     .foregroundColor(.themeDarkGray)
                 Spacer()
-                SharedCloseButton {
+                SharedCloseButtonView {
                     store.send(.closeButtonTap)
                 }
             }

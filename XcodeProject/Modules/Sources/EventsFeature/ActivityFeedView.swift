@@ -67,7 +67,7 @@ public struct ActivityView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    SharedCloseButton { dismiss() }
+                    SharedCloseButtonView { dismiss() }
                 }
             }
         }

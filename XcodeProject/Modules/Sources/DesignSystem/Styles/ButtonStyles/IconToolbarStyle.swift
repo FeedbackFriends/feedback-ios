@@ -14,7 +14,7 @@ public struct IconToolbarStyle: ButtonStyle {
             .foregroundColor(Color.themeDarkGray)
             .background(isEnabled ? background : Color.themeHighligted)
             .cornerRadius(16)
-            .shadow(color: .black.opacity(0.08), radius: 2)
+            .lightShadow()
             .opacity(configuration.isPressed ? 0.5 : 1.0)
     }
 }

@@ -28,7 +28,7 @@ public struct RatingAlertView: View {
                 .interactiveDismissDisabled()
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
-                        SharedCloseButton {
+                        SharedCloseButtonView {
                             self.dismiss()
                         }
                     }
@@ -71,7 +71,7 @@ private extension RatingAlertView {
                 .foregroundColor(Color.themeDarkGray)
                 .multilineTextAlignment(.center)
                 .accessibilityFocused($isFocused)
-            LottieView(lottieFile: "five-stars")
+            LottieView(lottieFile: .fiveStars)
                 .frame(width: 300, height: 36)
             Text(message)
                 .font(.montserratRegular, 14)

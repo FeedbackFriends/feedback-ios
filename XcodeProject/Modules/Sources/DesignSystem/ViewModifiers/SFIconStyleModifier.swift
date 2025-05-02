@@ -29,18 +29,11 @@ struct SFIconModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-//            .font(.system(size: size, weight: weight))
-//            .aspectRatio(contentMode: .fill)
-//            .padding(padding)
-//            .background(backgroundColor)
-//            .clipShape(Circle())
-//            .foregroundStyle(foregroundColor)
-//            .resizable()
             .fontWeight(.medium)
             .frame(width: size, height: size, alignment: .center)
             .foregroundColor(.themeDarkGray.opacity(0.6))
             .padding(8)
             .background(Color.white, in: Capsule())
-            .shadow(color: Color.themeDarkGray.opacity(0.1), radius: 2)
+            .lightShadow()
     }
 }

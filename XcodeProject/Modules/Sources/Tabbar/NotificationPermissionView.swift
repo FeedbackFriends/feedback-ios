@@ -10,7 +10,7 @@ struct NotificationPermissionView: View {
         NavigationStack {
             VStack {
                 Spacer()
-                LottieView(lottieFile: "message-permission")
+                LottieView(lottieFile: .messagePermission)
                     .frame(width: 300, height: 200)
                     Text("Please allow notifications so we can send you important messages.")
                         .padding(.top, 30)

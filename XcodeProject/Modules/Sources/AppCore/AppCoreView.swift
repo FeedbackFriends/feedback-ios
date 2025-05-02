@@ -71,7 +71,7 @@ struct LoadingView: View {
     var body: some View {
         VStack {
             if didLoad {
-                LottieView(lottieFile: "loading", loopMode: true)
+                LottieView(lottieFile: .loading, loopMode: true)
                     .frame(width: 400, height: 50)
                 Text("Loading data")
                     .padding(.top, 20)

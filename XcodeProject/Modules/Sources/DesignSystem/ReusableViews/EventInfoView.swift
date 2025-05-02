@@ -75,7 +75,7 @@ public struct EventInfoView: View {
             .navigationTitle(eventTitle)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    SharedCloseButton { dismiss() }
+                    SharedCloseButtonView { dismiss() }
                 }
             }
         }

@@ -166,10 +166,10 @@ extension ManagerEventsView {
                 .foregroundColor(Color.themeDarkGray)
                 .padding(.all, 10)
                 if let feedbackSummary = event.feedbackSummary {
-                    makeFeedbackPercentageBarView(feedback: feedbackSummary.segmentationStats)
+                    feedbackPercentageBarView(feedback: feedbackSummary.segmentationStats)
                         .frame(height: 10)
                 } else {
-                    makeEmptyFeedbackSegmentationStatsView()
+                    emptyFeedbackSegmentationStatsView()
                 }
             }
             .background(Color.themeWhite)

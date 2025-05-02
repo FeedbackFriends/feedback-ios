@@ -40,7 +40,7 @@ public extension View {
                 .background(Color.white)
                 .foregroundColor(Color.themeDarkGray)
                 .cornerRadius(24)
-                .shadow(color: .black.opacity(0.08), radius: 2)
+                .lightShadow()
                 .padding(.horizontal, 16)
                 .padding(.top, 12)
             Spacer()

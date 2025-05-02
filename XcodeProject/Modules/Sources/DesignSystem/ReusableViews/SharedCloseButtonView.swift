@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct SharedCloseButton: View {
+public struct SharedCloseButtonView: View {
         
     var closeButtonTapped: () -> Void
     

@@ -3,19 +3,19 @@ import Lottie
 
 public struct LottieView: UIViewRepresentable {
     
-    let lottieFile: String
+    let lottieFile: LottieFile
     let loopMode: Bool
+    let animationView = LottieAnimationView()
     
-    public init(lottieFile: String, loopMode: Bool = false) {
+    public init(lottieFile: LottieFile, loopMode: Bool = false) {
         self.lottieFile = lottieFile
         self.loopMode = loopMode
     }
-    let animationView = LottieAnimationView()
     
     public func makeUIView(context: Context) -> some UIView {
         let view = UIView(frame: .zero)
         
-        animationView.animation = LottieAnimation.named(lottieFile, bundle: .module)
+        animationView.animation = LottieAnimation.named(lottieFile.rawValue, bundle: .module)
         animationView.contentMode = .scaleAspectFit
         animationView.loopMode = loopMode ? .loop : .playOnce
         animationView.animationSpeed = 0.5
@@ -33,9 +33,7 @@ public struct LottieView: UIViewRepresentable {
     public func updateUIView(_ uiView: UIViewType, context: Context) {}
 }
 
-struct LottieView_Previews: PreviewProvider {
-    static var previews: some View {
-        LottieView(lottieFile: "need-location")
-            .frame(width: 300, height: 300)
-    }
+#Preview {
+    LottieView(lottieFile: .loading)
+        .frame(width: 300, height: 300)
 }

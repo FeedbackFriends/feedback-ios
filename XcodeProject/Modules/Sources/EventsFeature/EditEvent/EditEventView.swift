@@ -49,7 +49,7 @@ private extension EditEventView {
                     .disabled(store.editEventButtonDisabled)
             }
             ToolbarItem(placement: .navigationBarLeading) {
-                SharedCloseButton {
+                SharedCloseButtonView {
                     store.send(.cancelButtonTap)
                 }
                 .buttonStyle(SecondaryToolbarButtonStyle())
