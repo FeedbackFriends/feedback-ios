@@ -360,8 +360,7 @@ extension UpdatedSession {
         }
         self.init(
             updatedManagerEvents: updatedManagerEvents,
-            activity: .init(updatedSession.activity),
-            recentlyUsedQuestions: nil
+            activity: .init(updatedSession.activity)
         )
     }
 }

@@ -1,7 +1,6 @@
 import Helpers
 import Foundation
 
-
 extension FeedbackSession {
     static var mock: Self {
         .init(

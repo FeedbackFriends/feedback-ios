@@ -1,33 +1,51 @@
-//@testable import Tabbar
-//import ComposableArchitecture
-//import Testing
-//import Foundation
-//import Helpers
-//
-//@MainActor
-//struct TabbarLifecycleTests {
-//
-//    @Test
-//    func testNotificationPromptTriggeredOnAppear() async {
-//        let session = Shared(Session(participantEvents: <#T##IdentifiedArrayOf<ParticipantEvent>#>, managerData: <#T##ManagerData?#>, accountInfo: <#T##AccountInfo#>, role: <#T##Role?#>))
-//
-//        let store = TestStore(initialState: TabbarLifecycle.State(session: session)) {
-//            TabbarLifecycle()
-//        } withDependencies: {
-//            $0.notificationClient.shouldPromptForAuthorization = { _ in true }
-//            $0.apiClient.sessionChangedListener = {
-//                AsyncStream { continuation in
-//                    continuation.finish()
-//                }
-//            }
-//            $0.clock = ImmediateClock()
-//        }
-//
-//        await store.send(.onAppear)
-//        await store.receive(\.presentNotificationPermissionPrompt)
-//        await store.receive(\.delegate(.navigateToNotificationPermissionPrompt))
-//    }
-//
+@testable import Tabbar
+import ComposableArchitecture
+import Testing
+import Foundation
+import Helpers
+
+@MainActor
+struct TabbarLifecycleTests {
+
+    @Test
+    func testNotificationPromptTriggeredOnAppear() async {
+        let session = Shared(value: Session.mock())
+        let clock = TestClock()
+        let store = TestStore(initialState: TabbarLifecycle.State(session: session)) {
+            TabbarLifecycle()
+        } withDependencies: {
+            $0.notificationClient.shouldPromptForAuthorization = { _ in true }
+            $0.apiClient.sessionChangedListener = {
+                AsyncStream { continuation in
+                    continuation.finish()
+                }
+            }
+            $0.continuousClock = clock
+            $0.apiClient.getUpdatedSession = {
+                return .init(
+                    updatedManagerEvents: nil,
+                    activity: .init(
+                        items: [.init(
+                            id: UUID(),
+                            date: Date(),
+                            eventTitle: "Hello",
+                            eventId: UUID(),
+                            newFeedbackCount: 2,
+                            seenByManager: false
+                        )],
+                        unseenTotal: 2
+                    )
+                )
+            }
+        }
+        store.exhaustivity = .off
+
+        await store.send(.onAppear)
+        await store.receive(\.presentNotificationPermissionPrompt)
+        await store.receive(\.delegate, .presentNotificationPermissionPrompt)
+        await clock.advance(by: .seconds(30))
+    }
+
 //    @Test
 //    func testUpdatedSessionWithManagerEventsShowsBanner() async {
 //        let clock = TestClock()
@@ -73,8 +91,8 @@
 //        await store.send(.sessionUpdated(newSession))
 //        await store.receive(\.delegate(.updateSession(newSession)))
 //    }
-//}
-//
+}
+
 //extension Event {
 //    static func mock(title: String = "Mock Event") -> Event {
 //        .init(

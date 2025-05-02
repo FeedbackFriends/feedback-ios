@@ -14,7 +14,6 @@ public struct Config {
     enum CompilerFlag: String {
         case dev
         case prod
-        case test
     }
     
     var compilerFlag: CompilerFlag {

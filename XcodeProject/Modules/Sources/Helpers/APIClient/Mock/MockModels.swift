@@ -429,8 +429,7 @@ public extension Activity {
 public extension UpdatedSession {
     static let mock = Self.init(
         updatedManagerEvents: [],
-        activity: .mock,
-        recentlyUsedQuestions: Set()
+        activity: .mock
     )
 }
 #endif

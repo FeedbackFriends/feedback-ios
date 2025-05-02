@@ -66,7 +66,7 @@ public struct SignUp {
                     catch let error as AuthenticationError where error == .loginCancelled {
                         return
                     }
-                    catch let error {
+                    catch {
                         await send(.presentError(error))
                     }
                 }
@@ -79,7 +79,7 @@ public struct SignUp {
                     catch let error as AuthenticationError where error == .loginCancelled {
                         return
                     }
-                    catch let error {
+                    catch {
                         await send(.presentError(error))
                     }
                 }

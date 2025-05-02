@@ -25,6 +25,19 @@ public struct TabbarView: View {
             action: \.destination.notificationPermissionPrompt
         )
         tabView
+            .onChange(of: scenePhase) { _, newValue in
+                switch newValue {
+                
+                case .background:
+                    store.send(.tabbarLifecyle(.enterBackground))
+                case .inactive:
+                    return
+                case .active:
+                    store.send(.tabbarLifecyle(.enterForeground))
+                @unknown default:
+                    return
+                }
+            }
             .toolbarBackground(
                 Color.themeBackground,
                 for: .tabBar

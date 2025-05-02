@@ -10,7 +10,7 @@ import LiveClients
 import Logger
 
 var deviceId: String {
-    let deviceIdKey = "dk.nicolaidam.device-id"
+    let deviceIdKey = "iCloud.dk.nicolaidam.device-id"
     if let uuidString = NSUbiquitousKeyValueStore.default.string(forKey: deviceIdKey),
        let uuid = UUID(uuidString: uuidString) {
         return uuid.uuidString

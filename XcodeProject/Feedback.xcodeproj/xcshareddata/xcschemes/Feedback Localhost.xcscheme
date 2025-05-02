@@ -15,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "2892AA342C0F89C600F12E83"
-               BuildableName = "FeedbackFlow.app"
-               BlueprintName = "FeedbackFlow"
+               BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
+               BuildableName = "Lets Grow.app"
+               BlueprintName = "App"
                ReferencedContainer = "container:Feedback.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -44,9 +44,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2892AA342C0F89C600F12E83"
-            BuildableName = "FeedbackFlow.app"
-            BlueprintName = "FeedbackFlow"
+            BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
+            BuildableName = "Lets Grow.app"
+            BlueprintName = "App"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -61,9 +61,9 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "2892AA342C0F89C600F12E83"
-            BuildableName = "FeedbackFlow.app"
-            BlueprintName = "FeedbackFlow"
+            BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
+            BuildableName = "Lets Grow.app"
+            BlueprintName = "App"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
