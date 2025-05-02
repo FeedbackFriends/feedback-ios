@@ -39,7 +39,7 @@ extension SystemClient: @retroactive DependencyKey {
     
     public static var liveValue: SystemClient {
         .live(
-            webUrl: config.apiBaseUrl,
+            webUrl: config.webBaseUrl,
             appstoreId: config.appStoreId,
             supportEmail: config.supportEmail
         )

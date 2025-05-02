@@ -10,11 +10,11 @@ public struct EnterCode {
     
     @ObservableState
     public struct State: Equatable {
-        var pinCodeInput: PinCodeInput
+        public var pinCodeInput: PinCodeInput
         public var startFeedbackPincodeInFlight: Bool
         var enterCodeTextfieldFocused: Bool
         var disableStartFeedbackButton: Bool {
-            if pinCodeInput.pinCode() == nil, startFeedbackPincodeInFlight {
+            if pinCodeInput.pinCode() == nil || startFeedbackPincodeInFlight {
                 return true
             }
             return false

@@ -11,14 +11,6 @@ public struct Config {
         self.plist = infoPlist
     }
     
-    enum CompilerFlag: String {
-        case dev
-        case prod
-    }
-    
-    var compilerFlag: CompilerFlag {
-        plist.value(for: "COMPILER_FLAG")!
-    }
     var apiBaseUrl: URL {
         plist.url(for: "API_BASE_URL", scheme: "API_SCHEME")!
     }

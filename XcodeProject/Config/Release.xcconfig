@@ -1,10 +1,4 @@
-COMPILER_FLAG = prod
-
-WEB_BASE_URL = letsgrow.dk
-WEB_SCHEME = https
-
-APPSTORE_ID = 6742420307
-SUPPORT_EMAIL = nicolaidam96@gmail.com
+#include "Default.xcconfig"
 
 API_BASE_URL = api.letsgrow.dk
 API_SCHEME = https

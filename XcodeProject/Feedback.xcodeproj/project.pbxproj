@@ -65,6 +65,7 @@
 		7A9E6BCC2DC52183005F4828 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7A9E6BCD2DC52183005F4828 /* FeedbackFlowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackFlowApp.swift; sourceTree = "<group>"; };
 		7A9E6BD62DC521DD005F4828 /* Localhost.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Localhost.xcconfig; sourceTree = "<group>"; };
+		7A9E6BDD2DC52530005F4828 /* Default.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Default.xcconfig; sourceTree = "<group>"; };
 		7AB225402D7B2B89002BEF81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugMenuView.swift; sourceTree = "<group>"; };
@@ -126,6 +127,7 @@
 				7A67364E2D6F5EA300B392DD /* Debug.xcconfig */,
 				7A9E6BD62DC521DD005F4828 /* Localhost.xcconfig */,
 				7A6736502D6F5EA300B392DD /* Release.xcconfig */,
+				7A9E6BDD2DC52530005F4828 /* Default.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";

@@ -150,7 +150,7 @@ extension ManagerEventsView {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("\(event.date.formatted(date: .abbreviated, time: .omitted))")
                                 .font(.montserratRegular, 10)
-                            Text("#\(event.pinCode)")
+                            Text("#\(event.pinCode.value)")
                                 .font(.montserratSemiBold, 10)
                         }
                         Spacer()

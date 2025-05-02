@@ -1,0 +1,8 @@
+APPSTORE_ID = 6742420307
+SUPPORT_EMAIL = nicolaidam96@gmail.com
+
+API_BASE_URL = api.letsgrow.dk
+API_SCHEME = https
+
+WEB_BASE_URL = letsgrow.dk
+WEB_SCHEME = https

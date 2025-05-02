@@ -218,6 +218,7 @@ public struct Tabbar {
                 switch delegateAction {
                 case .stopLoading:
                     state.enterCode.startFeedbackPincodeInFlight = false
+                    state.enterCode.pinCodeInput.value = ""
                     state.participantEvents.startFeedbackPincodeInFlight = nil
                     state.managerEvents.participantEvents.startFeedbackPincodeInFlight = nil
                 }
