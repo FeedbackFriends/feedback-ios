@@ -12,7 +12,7 @@ public struct APIClient: Sendable {
     ) async throws -> ()
     @DependencyEndpoint
     public var updateFcmToken: @Sendable (_ fcmToken: String?) async throws -> ()
-    public var getSession: @Sendable () async throws -> NewSession
+    public var getSession: @Sendable () async throws -> Session
     @DependencyEndpoint
     public var startFeedbackSession: @Sendable (_ pinCode: PinCode) async throws -> FeedbackSession
     @DependencyEndpoint
@@ -24,8 +24,8 @@ public struct APIClient: Sendable {
     @DependencyEndpoint
     public var deleteEvent: @Sendable (_ id: UUID) async throws -> ()
     @DependencyEndpoint
-    public var createAccount: @Sendable (_ role: Role?) async throws -> NewSession
-    public var sessionChangedListener: @Sendable () async -> AsyncStream<NewSession> = { .never }
+    public var createAccount: @Sendable (_ role: Role?) async throws -> Session
+    public var sessionChangedListener: @Sendable () async -> AsyncStream<Session> = { .never }
     @DependencyEndpoint
     public var joinEvent: @Sendable (_ pinCode: PinCode) async throws -> ()
     @DependencyEndpoint

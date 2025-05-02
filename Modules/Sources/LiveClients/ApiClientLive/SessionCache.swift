@@ -2,13 +2,13 @@ import Foundation
 import Helpers
 
 actor SessionCache {
-    private var session: NewSession?
-    private var sessionContinuation: AsyncStream<NewSession>.Continuation?
+    private var session: Session?
+    private var sessionContinuation: AsyncStream<Session>.Continuation?
     private var shouldMarkEventAsSeen: Bool
     
     init(
-        session: NewSession? = nil,
-        sessionContinuation: AsyncStream<NewSession>.Continuation? = nil,
+        session: Session? = nil,
+        sessionContinuation: AsyncStream<Session>.Continuation? = nil,
         shouldMarkEventAsSeen: Bool = false
     ) {
         self.session = session
@@ -16,11 +16,11 @@ actor SessionCache {
         self.shouldMarkEventAsSeen = shouldMarkEventAsSeen
     }
     
-    func getSession() -> NewSession? {
+    func getSession() -> Session? {
         return session
     }
     
-    func updateSession(_ newSession: NewSession) {
+    func updateSession(_ newSession: Session) {
         if newSession != session {
             sessionContinuation?.yield(newSession)
             session = newSession
@@ -44,7 +44,7 @@ actor SessionCache {
         }
     }
     
-    func sessionChangedListener() -> AsyncStream<NewSession> {
+    func sessionChangedListener() -> AsyncStream<Session> {
         AsyncStream { continuation in
             self.sessionContinuation = continuation
         }

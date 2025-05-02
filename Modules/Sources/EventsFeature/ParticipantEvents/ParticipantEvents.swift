@@ -16,9 +16,9 @@ public struct ParticipantEvents {
     @ObservableState
     public struct State: Equatable {
         @Presents public var destination: Destination.State?
-        @Shared var session: NewSession
+        @Shared var session: Session
         public var startFeedbackPincodeInFlight: PinCode?
-        public init(session: Shared<NewSession>) {
+        public init(session: Shared<Session>) {
             self._session = session
         }
     }

@@ -10,7 +10,7 @@
 //    @Test
 //    func testUpdateSession() async {
 //        var sessionCache: SessionCache = SessionCache()
-//        let session: NewSession = .mockAnonymous()
+//        let session: Session = .mockAnonymous()
 //        await sessionCache.updateSession(session)
 //        #expect(await sessionCache.getSession() == session, "Session should be updated correctly.")
 //    }

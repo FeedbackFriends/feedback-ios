@@ -280,7 +280,7 @@ extension DomainCode {
     }
 }
 
-extension NewSession {
+extension Session {
     init(_ session: Components.Schemas.SessionDto) {
         let accountInfo: AccountInfo = AccountInfo(
             name: session.accountInfo.name,

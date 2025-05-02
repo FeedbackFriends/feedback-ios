@@ -18,7 +18,7 @@ public struct ManagerEvents {
     public struct State: Equatable {
         
         @Presents public var destination: Destination.State?
-        @Shared var session: NewSession
+        @Shared var session: Session
         public var segmentedControl: SegmentedControlMenu
         public var participantEvents: ParticipantEvents.State
         var searchTextfield: String
@@ -26,7 +26,7 @@ public struct ManagerEvents {
         public var startFeedbackPincodeInFlight: String?
         public init(
             destination: Destination.State? = nil,
-            session: Shared<NewSession>,
+            session: Shared<Session>,
             segmentedControl: SegmentedControlMenu = .yourEvents,
             searchTextfield: String = "",
             filterCollection: FilterCollection = .initial,

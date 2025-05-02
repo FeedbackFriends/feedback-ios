@@ -14,10 +14,10 @@ public struct TabbarLifecycle {
     
     @ObservableState
     public struct State: Equatable {
-        @Shared var session: NewSession
+        @Shared var session: Session
         var firstFetchAfterEnteringForeground = false
         var bannerState: BannerState?
-        public init(session: Shared<NewSession>) {
+        public init(session: Shared<Session>) {
             self._session = session
         }
     }
@@ -25,13 +25,12 @@ public struct TabbarLifecycle {
     public enum Action {
         case onAppear
         case updatedSessionResponse(UpdatedSession)
-        case sessionUpdated(NewSession)
+        case sessionUpdated(Session)
         case removeBanner
         case presentNotificationPermissionPrompt
         case delegate(Delegate)
         public enum Delegate: Equatable {
-            case navigateToNotificationPermissionPrompt
-            case updateSession(NewSession)
+            case presentNotificationPermissionPrompt
         }
     }
     
@@ -53,10 +52,13 @@ public struct TabbarLifecycle {
                 return .none
                 
             case .presentNotificationPermissionPrompt:
-                return .send(.delegate(.navigateToNotificationPermissionPrompt))
+                return .send(.delegate(.presentNotificationPermissionPrompt))
                 
             case .sessionUpdated(let session):
-                return .send(.delegate(.updateSession(session)))
+                state.$session.withLock {
+                    $0 = session
+                }
+                return .none
                 
             case .onAppear:
                 return .merge(

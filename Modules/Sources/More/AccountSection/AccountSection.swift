@@ -15,11 +15,11 @@ public struct AccountSection {
     @ObservableState
     public struct State: Equatable {
         @Presents public var destination: Destination.State?
-        @Shared var session: NewSession
+        @Shared var session: Session
         var accountInfo: AccountInfo {
             session.accountInfo
         }
-        public init(session: Shared<NewSession>) {
+        public init(session: Shared<Session>) {
             self._session = session
         }
     }

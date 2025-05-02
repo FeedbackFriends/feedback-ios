@@ -53,11 +53,11 @@ public struct AppCore {
         case onLogoutButtonTap
         case appDelegate(AppDelegateReducer.Action)
         case destination(Destination.Action)
-        case getSessionResponse(NewSession)
+        case getSessionResponse(Session)
         case presentError(ErrorType)
         case onOpenURL(URL)
         case tryAgainButtonTap(ErrorType)
-        case createAccountResponse(NewSession, Role?)
+        case createAccountResponse(Session, Role?)
         case navigateToSelectUserType
     }
     

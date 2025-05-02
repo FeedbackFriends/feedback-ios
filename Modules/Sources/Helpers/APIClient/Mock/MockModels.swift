@@ -121,7 +121,7 @@ public extension ManagerSession {
 }
 
 
-public extension NewSession {
+public extension Session {
     static func mock(numberOfManagerEvents: Int = 99) -> Self {
         Self(
             participantEvents: .init(uniqueElements: (0...100).map { _ in .mock() }),

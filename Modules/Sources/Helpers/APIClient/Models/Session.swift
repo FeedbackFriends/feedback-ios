@@ -16,7 +16,7 @@ public struct AnonymousSession: Equatable, Sendable {
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
 }
 
-public struct NewSession: Equatable, Sendable {
+public struct Session: Equatable, Sendable {
     
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
     public var managerData: ManagerData?
@@ -341,7 +341,7 @@ public struct RecentlyUsedQuestions: Equatable, Sendable, Hashable {
     }
 }
 
-public extension NewSession {
+public extension Session {
     
     mutating func updateOrAppendManagerEvent(_ event: ManagerEvent) {
         self.managerData?.managerEvents.updateOrAppend(event)

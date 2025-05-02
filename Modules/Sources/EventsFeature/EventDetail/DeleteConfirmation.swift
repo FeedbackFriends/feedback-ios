@@ -13,13 +13,13 @@ public struct DeleteConfirmation {
     @ObservableState
     public struct State: Equatable {
         @Presents var destination: Destination.State?
-        @Shared var session: NewSession
+        @Shared var session: Session
         var eventId: UUID
         var deleteEventInFlight: Bool
         var showSuccessOverlay: Bool
         public init(
             destination: Destination.State? = nil,
-            session: Shared<NewSession>,
+            session: Shared<Session>,
             eventId: UUID,
             deleteEventInFlight: Bool = false,
             showSuccessOverlay: Bool = false

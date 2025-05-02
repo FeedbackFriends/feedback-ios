@@ -6,7 +6,7 @@ import ComposableArchitecture
 import SwiftUI
 
 @Reducer
-public struct FeedbackButton {
+public struct InitialiseFeedback {
     
     @Reducer(state: .equatable)
     public enum Destination {

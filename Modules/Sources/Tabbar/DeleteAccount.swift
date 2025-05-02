@@ -39,6 +39,7 @@ public struct DeleteAccount {
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.notificationClient) var notificationClient
     @Dependency(\.authClient) var authClient
+    @Dependency(\.continuousClock) var clock
     
     public init() {}
     
@@ -90,7 +91,7 @@ public struct DeleteAccount {
                     state.deleteAccountInFlight = true
                     return .run { send in
                         do {
-                            try await Task.sleep(for: .seconds(1))
+                            try await clock.sleep(for: .seconds(1))
                             _ = try await apiClient.deleteAccount()
                             await send(.accountSuccesfullyDeleted)
                         } catch {

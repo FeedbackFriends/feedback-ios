@@ -9,7 +9,7 @@ struct ManagerEventsTests {
     
     @Test
     func managerEvent_eventDetail() async {
-        let session: NewSession = .mock(numberOfManagerEvents: 2)
+        let session: Session = .mock(numberOfManagerEvents: 2)
         let mockEvent = session.managerData!.managerEvents[0]
         var eventMarkedAsSeen: UUID?
         

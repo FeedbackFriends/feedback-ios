@@ -9,7 +9,7 @@ struct AccountSectionTests {
     
     @Test
     func updateProfileButtonTap() async {
-        let session: NewSession = .mock()
+        let session: Session = .mock()
         let store =  TestStore(initialState: AccountSection.State(session: .init(value: session))) {
             AccountSection()
         }

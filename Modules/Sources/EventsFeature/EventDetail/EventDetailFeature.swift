@@ -34,7 +34,7 @@ public struct EventDetailFeature {
         var navigationTitle: String {
             event.title
         }
-        @Shared var session: NewSession
+        @Shared var session: Session
         var shareText: String {
         """
         You are invited to a feedback event '\(event.title)' with the code: \(event.pinCode).
@@ -51,7 +51,7 @@ public struct EventDetailFeature {
         }
 
         
-        public init(event: ManagerEvent, session: Shared<NewSession>, destination: Destination.State? = nil) {
+        public init(event: ManagerEvent, session: Shared<Session>, destination: Destination.State? = nil) {
             self.event = event
             self._session = session
             self.destination = destination
@@ -65,7 +65,7 @@ public struct EventDetailFeature {
         case onAppear
         case retryButtonTap
         case refresh
-        case sessionUpdated(NewSession)
+        case sessionUpdated(Session)
     }
     
     public init() {}

@@ -37,13 +37,13 @@ public struct Tabbar {
     @ObservableState
     public struct State: Equatable {
         
-        @Shared public var session: NewSession
+        @Shared public var session: Session
         var tabbarLifecyle: TabbarLifecycle.State
         var enterCode: EnterCode.State
         var moreSection: MoreSection.State
         var accountSection: AccountSection.State
         public var selectedTab: Tab
-        var initialiseFeedback: FeedbackButton.State
+        var initialiseFeedback: InitialiseFeedback.State
         var managerEvents: ManagerEvents.State
         var participantEvents: ParticipantEvents.State
         var deleteAccount: DeleteAccount.State
@@ -51,7 +51,7 @@ public struct Tabbar {
         let appVersion = Bundle.main.versionNumber
         
         public init(
-            session: Shared<NewSession>,
+            session: Shared<Session>,
             selectedTab: Tab = .events,
             destination: Destination.State? = nil
         ) {
@@ -74,7 +74,7 @@ public struct Tabbar {
         case enterCode(EnterCode.Action)
         case moreSection(MoreSection.Action)
         case accountSection(AccountSection.Action)
-        case initialiseFeedback(FeedbackButton.Action)
+        case initialiseFeedback(InitialiseFeedback.Action)
         case participantEvents(ParticipantEvents.Action)
         case managerEvents(ManagerEvents.Action)
         case requestNotificationAuthorization
@@ -107,7 +107,7 @@ public struct Tabbar {
     public var body: some ReducerOf<Self> {
         BindingReducer()
         Scope(state: \.initialiseFeedback, action: \.initialiseFeedback) {
-            FeedbackButton()
+            InitialiseFeedback()
         }
         Scope(state: \.enterCode, action: \.enterCode) {
             EnterCode()
@@ -135,11 +135,7 @@ public struct Tabbar {
                 
             case .tabbarLifecyle(.delegate(let delegateAction)):
                 switch delegateAction {
-                case .updateSession(let updatedSession):
-                    state.$session.withLock {
-                        $0 = updatedSession
-                    }
-                case .navigateToNotificationPermissionPrompt:
+                case .presentNotificationPermissionPrompt:
                     state.destination = .notificationPermissionPrompt
                 }
                 return .none

@@ -216,14 +216,16 @@ extension Collection {
 
 extension FeedbackFlow.State {
     public static func initialState(feedbackSession: FeedbackSession) -> Self {
-        guard let firstQuestion = feedbackSession.questions.first else {
-            fatalError("There should be atleast one question in a feedback session")
+        let questionStates = IdentifiedArrayOf(uniqueElements: feedbackSession.questions.map { FeedbackFlow.Path.State($0) })
+        guard let first = questionStates.first else {
+            fatalError("There should be at least one question in a feedback session")
         }
+        
         return .init(
-            path: StackState<FeedbackFlow.Path.State>.init([.init(firstQuestion)]),
+            path: .init([first]),
             submitFeedbackInFlight: false,
             presentSuccessOverlay: false,
-            questions: .init(uniqueElements: feedbackSession.questions.map { .init($0) }),
+            questions: questionStates,
             feedbackSession: feedbackSession,
             commentTextfieldFocused: false
         )

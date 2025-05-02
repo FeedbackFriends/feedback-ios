@@ -2,10 +2,10 @@ import Foundation
 
 actor MockSessionEngine {
     
-    var session = NewSession.mock(numberOfManagerEvents: 99)
-    var sessionContinuation: AsyncStream<NewSession>.Continuation!
+    var session = Session.mock(numberOfManagerEvents: 99)
+    var sessionContinuation: AsyncStream<Session>.Continuation!
     
-    func getSession() -> NewSession {
+    func getSession() -> Session {
         return session
     }
     
@@ -25,14 +25,14 @@ actor MockSessionEngine {
         session.appendParticipantEvent(pinCode)
     }
     
-    func stream() -> AsyncStream<NewSession> {
+    func stream() -> AsyncStream<Session> {
         AsyncStream { continuation in
             sessionContinuation = continuation
         }
     }
 }
 
-private extension NewSession {
+private extension Session {
     
     mutating func updateManagerEvent(_ input: EventInput, _ id: UUID) {
         var mutableManagerData = self.managerData!
