@@ -1,9 +1,7 @@
 import ComposableArchitecture
-import Helpers
+import Model
 import DesignSystem
-import Helpers
 import Foundation
-import Helpers
 
 @Reducer
 public struct CreateEvent {

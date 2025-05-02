@@ -1,6 +1,6 @@
 import SwiftUI
 import DesignSystem
-import Helpers
+import Model
 
 public struct QuestionPicker: View {
     

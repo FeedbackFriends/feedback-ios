@@ -1,8 +1,7 @@
 import ComposableArchitecture
 import SwiftUI
-import Helpers
-import Helpers
-import Helpers
+import Model
+import Utility
 
 extension EventForm {
     
@@ -36,7 +35,7 @@ public struct EventForm: View {
         self._eventInput = eventInput
         self.startNowEnabled = .init(false)
         self.durationPicker = DurationPicker(durationInMinutes: eventInput.durationInMinutes.wrappedValue)
-        self._allDay = .init(initialValue: eventInput.durationInMinutes.wrappedValue == minutesOneDay ? true : false)
+        self._allDay = .init(initialValue: eventInput.durationInMinutes.wrappedValue == .minutesOneDay ? true : false)
         self.minutePicker = totalMinutes % 60
         self.hourPicker = totalMinutes / 60
         self.shouldOpenKeyboardOnAppear = shouldOpenKeyboardOnAppear
@@ -75,7 +74,7 @@ public struct EventForm: View {
                 )
             }
             .onChange(of: allDay) { _, _ in
-                eventInput.durationInMinutes = minutesOneDay
+                eventInput.durationInMinutes = .minutesOneDay
             }
             .onChange(of: durationPicker) { _, newValue in
                 eventInput.durationInMinutes = switch newValue {

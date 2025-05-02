@@ -1,6 +1,6 @@
 import DesignSystem
 import ComposableArchitecture
-import Helpers
+import Model
 import SwiftUI
 
 public struct EmojiFeedbackView: View {

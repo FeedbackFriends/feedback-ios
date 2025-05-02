@@ -1,4 +1,4 @@
-import Helpers
+import Model
 import DesignSystem
 import SwiftUI
 

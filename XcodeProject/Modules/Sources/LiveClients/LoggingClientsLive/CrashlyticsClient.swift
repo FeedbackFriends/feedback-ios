@@ -1,5 +1,5 @@
 import FirebaseCrashlytics
-import Helpers
+import Model
 import FirebaseCrashlytics
 import Logger
 

@@ -1,6 +1,7 @@
 import Combine
 import ComposableArchitecture
 import UserNotifications
+import Model
 
 extension NotificationClient {
     public static let live = Self(
@@ -43,14 +44,5 @@ extension NotificationClient {
         removeLocalPendingNotificationRequests: { ids in
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ids)
         }
-    )
-}
-
-extension NotificationClient {
-    public static let noop = Self(
-        shouldPromptForAuthorization: { _ in true },
-        requestAuthorization: { true },
-        scheduleLocalNotification: { _, _, _, _ , _ in },
-        removeLocalPendingNotificationRequests: { _ in }
     )
 }

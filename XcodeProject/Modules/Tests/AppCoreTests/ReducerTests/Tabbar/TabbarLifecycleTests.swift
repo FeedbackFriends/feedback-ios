@@ -2,7 +2,7 @@
 import ComposableArchitecture
 import Testing
 import Foundation
-import Helpers
+import Model
 
 @MainActor
 struct TabbarLifecycleTests {

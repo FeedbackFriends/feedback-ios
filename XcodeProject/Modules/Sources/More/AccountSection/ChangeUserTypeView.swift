@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import ComposableArchitecture
 import DesignSystem
-import Helpers
+import Model
 
 public struct ChangeUserTypeView: View {
     

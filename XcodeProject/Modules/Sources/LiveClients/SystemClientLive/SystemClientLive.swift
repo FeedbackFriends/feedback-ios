@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import Helpers
+import Model
 
 public extension SystemClient {
     static func live(

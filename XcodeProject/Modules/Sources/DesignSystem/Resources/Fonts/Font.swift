@@ -31,16 +31,18 @@ func fontsURLs() -> [URL] {
         }.compactMap { $0 }
 }
 
+let fontRegistration = FontRegistration()
+
 public extension UIFont {
     static func font(_ name: Font.FontName, _ size: CGFloat) -> UIFont {
-        FontRegistration().registerFontsIfNeeded()
+        fontRegistration.registerFontsIfNeeded()
         return UIFont(name: name.rawValue, size: size)!
     }
 }
 
 public extension View {
     func font(_ name: Font.FontName, _ size: CGFloat) -> some View {
-        FontRegistration().registerFontsIfNeeded()
+        fontRegistration.registerFontsIfNeeded()
         return font(.custom(name.rawValue, size: size))
     }
 }

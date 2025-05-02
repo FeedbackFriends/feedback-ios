@@ -4,9 +4,10 @@ import SwiftUI
 import Foundation
 import More
 import DesignSystem
-import Helpers
+import Model
 import ComposableArchitecture
 import SwiftUI
+import Utility
 
 public enum Tab: Hashable {
     case feedback, events, more

@@ -2,6 +2,7 @@ import Combine
 import ComposableArchitecture
 import UserNotifications
 
+@DependencyClient
 public struct NotificationClient {
     @DependencyEndpoint
     public var shouldPromptForAuthorization: @Sendable (_ role: Role?) async -> Bool = { _ in false }

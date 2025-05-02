@@ -3,7 +3,7 @@ import ComposableArchitecture
 import Tabbar
 import Network
 import DesignSystem
-import Helpers
+import Model
 import EventsFeature
 import Logger
 import Foundation

@@ -1,10 +1,8 @@
-import Helpers
+import Model
 import Combine
 import DesignSystem
 import Foundation
 import ComposableArchitecture
-import Helpers
-import Helpers
 import UIKit
 
 @Reducer

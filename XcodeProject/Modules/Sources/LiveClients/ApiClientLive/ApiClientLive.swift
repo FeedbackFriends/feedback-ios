@@ -5,7 +5,7 @@ import FirebaseAuth
 import FirebaseMessaging
 import Logger
 import ComposableArchitecture
-import Helpers
+import Model
 
 public extension APIClient {
     static func live(

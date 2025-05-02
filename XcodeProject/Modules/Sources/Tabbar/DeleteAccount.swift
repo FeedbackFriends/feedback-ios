@@ -1,5 +1,5 @@
 import Foundation
-import Helpers
+import Model
 import ComposableArchitecture
 
 @Reducer

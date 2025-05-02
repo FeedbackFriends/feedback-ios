@@ -1,6 +1,6 @@
 import SwiftUI
 import Foundation
-import Helpers
+import Model
 
 public struct ErrorView: View {
     

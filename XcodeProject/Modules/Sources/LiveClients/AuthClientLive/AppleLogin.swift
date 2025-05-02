@@ -1,7 +1,7 @@
 import AuthenticationServices
 import Foundation
 import FirebaseAuth
-import Helpers
+import Model
 
 class AppleLogin: NSObject, ASAuthorizationControllerDelegate {
     

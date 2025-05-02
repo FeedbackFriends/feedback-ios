@@ -1,6 +1,6 @@
 import SwiftUI
 import StoreKit
-import Helpers
+import Model
 import DesignSystem
 
 public struct RatingAlertView: View {

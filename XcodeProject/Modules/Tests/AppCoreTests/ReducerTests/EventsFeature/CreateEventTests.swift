@@ -2,7 +2,7 @@
 import Testing
 import ComposableArchitecture
 import Foundation
-import Helpers
+import Model
 
 struct CreateEventTests {
     @Test

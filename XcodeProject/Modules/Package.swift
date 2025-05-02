@@ -32,10 +32,6 @@ let package = Package(
             name: "Tabbar",
             targets: ["Tabbar"]),
         .library(
-            name: "Helpers",
-            targets: ["Helpers"]
-        ),
-        .library(
             name: "Logger",
             targets: ["Logger"]
         ),
@@ -46,6 +42,14 @@ let package = Package(
         .library(
             name: "LiveClients",
             targets: ["LiveClients"]
+        ),
+        .library(
+            name: "Model",
+            targets: ["Model"]
+        ),
+        .library(
+            name: "Utility",
+            targets: ["Utility"]
         )
     ],
     dependencies: [
@@ -88,52 +92,64 @@ let package = Package(
             dependencies: [
                 "DesignSystem",
                 "Tabbar",
-                "Helpers",
+                "Model",
+                "Utility",
                 "EventsFeature",
                 "Logger",
+                "Model",
             ]
         ),
         .target(
             name: "DesignSystem",
             dependencies: [
-                "Helpers",
+                "Model",
+                "Utility",
                 .product(name: "Lottie", package: "lottie-ios"),
             ],
             resources: [
                 .process("Resources/Fonts/Montserrat"),
                 .process("Resources/Images/Images.xcassets"),
                 .process("Resources/Lottie/Files")
-            ]),
+            ]
+        ),
         .target(
             name: "EnterCode",
             dependencies: [
                 "DesignSystem",
                 "FeedbackFlow",
-                "Helpers",
+                "Model",
+                "Utility",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ]),
+            ]
+        ),
         .target(
             name: "FeedbackFlow",
             dependencies: [
                 "DesignSystem",
-                "Helpers",
+                "Model",
+                "Utility",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ]),
+            ]
+        ),
         .target(
             name: "More",
             dependencies: [
                 "DesignSystem",
-                "Helpers",
+                "Model",
+                "Utility",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ]),
+            ]
+        ),
         .target(
             name: "EventsFeature",
             dependencies: [
                 "DesignSystem",
-                "Helpers",
+                "Model",
+                "Utility",
                 "FeedbackFlow",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ]),
+            ]
+        ),
         .target(
             name: "Tabbar",
             dependencies: [
@@ -141,13 +157,22 @@ let package = Package(
                 "EnterCode",
                 "EventsFeature",
                 "More",
-                "Helpers",
+                "Model",
+                "Utility",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-            ]),
+            ]
+        ),
         .target(
-            name: "Helpers",
+            name: "Model",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "Logger",
+                "Utility",
+            ]
+        ),
+        .target(
+            name: "Utility",
+            dependencies: [
                 "Logger",
             ]
         ),
@@ -163,7 +188,8 @@ let package = Package(
                 .product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession"),
                 .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
                 "Logger",
-                "Helpers",
+                "Model",
+                "Utility",
             ],
             plugins: [.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")]
         ),

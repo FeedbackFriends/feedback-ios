@@ -1,4 +1,4 @@
-@testable import Helpers
+@testable import Model
 import Foundation
 import Testing
 

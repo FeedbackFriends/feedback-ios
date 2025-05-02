@@ -1,4 +1,4 @@
-import Helpers
+import Model
 
 actor UpdatedSessionManager {
     private var lastUpdatedSession: UpdatedSession?

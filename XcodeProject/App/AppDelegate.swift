@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import Helpers
+import Model
 import AppCore
 import FirebaseAuth
 import FirebaseCore

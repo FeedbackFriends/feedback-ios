@@ -1,12 +1,9 @@
-import Helpers
 import ComposableArchitecture
 import Foundation
-import DesignSystem
-import Helpers
 import UIKit
-import DesignSystem
-import Helpers
+import AppCore
 import LiveClients
+import Model
 import Logger
 
 var deviceId: String {
@@ -57,3 +54,6 @@ func logClient() -> LogClient {
     return logger
 }
 
+extension NotificationClient: @retroactive DependencyKey {
+    public static let liveValue = Self.live
+}

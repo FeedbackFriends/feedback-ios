@@ -1,5 +1,5 @@
 import SwiftUI
-import Helpers
+import Model
 
 public extension View {
     func pinCodeInputValidation(pinCodeInput: Binding<PinCodeInput>) -> some View {

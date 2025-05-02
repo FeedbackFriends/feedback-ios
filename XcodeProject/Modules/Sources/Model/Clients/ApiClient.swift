@@ -36,15 +36,3 @@ public struct APIClient: Sendable {
     public var getUpdatedSession: @Sendable () async throws -> UpdatedSession?
     public var markActivityAsSeen: @Sendable () async throws -> ()
 }
-
-public extension DependencyValues {
-    var apiClient: APIClient {
-        get { self[APIClient.self] }
-        set { self[APIClient.self] = newValue }
-    }
-}
-
-extension APIClient: TestDependencyKey {
-    public static let previewValue = APIClient.mock()
-    public static let testValue = APIClient()
-}

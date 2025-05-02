@@ -1,6 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
-import Helpers
+import Model
 import DesignSystem
 
 public struct ParticipantEventsView: View {

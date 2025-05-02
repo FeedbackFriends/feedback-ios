@@ -2,11 +2,8 @@ import Combine
 import DesignSystem
 import SwiftUI
 import Foundation
-import Helpers
 import ComposableArchitecture
-import Helpers
-import ComposableArchitecture
-import Helpers
+import Model
 
 @Reducer
 public struct SignUp {

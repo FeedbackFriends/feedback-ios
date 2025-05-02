@@ -1,6 +1,5 @@
 import Foundation
 
-
 public struct Feedback: Equatable, Identifiable, Sendable {
     
     public var id: UUID { UUID() }

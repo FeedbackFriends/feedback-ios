@@ -1,5 +1,5 @@
 import SwiftUI
-import Helpers
+import Model
 
 public struct UserTypePickerView: View {
     

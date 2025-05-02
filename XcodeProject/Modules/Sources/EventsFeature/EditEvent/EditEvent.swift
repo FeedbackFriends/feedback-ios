@@ -1,9 +1,7 @@
-import Helpers
+import Model
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI
-import Helpers
-import Helpers
 
 @Reducer
 public struct EditEvent {

@@ -9,5 +9,5 @@ public extension DependencyValues {
 
 extension SystemClient: TestDependencyKey {
     public static let previewValue = SystemClient.noop
-    public static let testValue = Self()
+    public static let testValue = SystemClient()
 }

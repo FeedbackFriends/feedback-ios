@@ -1,10 +1,8 @@
 import Combine
 import ComposableArchitecture
-import Helpers
+import Model
 import DesignSystem
 import SwiftUI
-import Helpers
-import Helpers
 
 public struct ManagerEventsView: View {
     

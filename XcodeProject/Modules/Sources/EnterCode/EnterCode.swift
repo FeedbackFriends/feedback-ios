@@ -2,7 +2,7 @@ import Combine
 import DesignSystem
 import ComposableArchitecture
 import Foundation
-import Helpers
+import Model
 import SwiftUI
 
 @Reducer

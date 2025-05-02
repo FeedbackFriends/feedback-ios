@@ -1,6 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
-import Helpers
+import Model
 @preconcurrency import FirebaseAuth
 @preconcurrency import FirebaseMessaging
 import Tabbar

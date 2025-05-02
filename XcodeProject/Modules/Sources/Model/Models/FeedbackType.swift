@@ -1,4 +1,5 @@
 import Foundation
+import Utility
 
 public enum FeedbackType: String, Codable, Equatable, RawRepresentable, Sendable {
     case emoji, comment, thumpsUpThumpsDown, opinion, oneToTen

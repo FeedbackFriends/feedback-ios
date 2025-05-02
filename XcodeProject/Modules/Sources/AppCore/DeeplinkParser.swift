@@ -1,5 +1,5 @@
 import Foundation
-import Helpers
+import Model
 
 public enum DeepLink {
     case joinEvent(pinCodeInput: PinCodeInput)
