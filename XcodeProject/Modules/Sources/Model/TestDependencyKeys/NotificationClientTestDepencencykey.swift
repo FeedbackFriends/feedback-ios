@@ -8,6 +8,11 @@ public extension DependencyValues {
 }
 
 extension NotificationClient: TestDependencyKey {
-    public static let previewValue = NotificationClient.noop
+    public static let previewValue = Self.init(
+        shouldPromptForAuthorization: { _ in true },
+        requestAuthorization: { true },
+        scheduleLocalNotification: { _, _, _, _ , _ in },
+        removeLocalPendingNotificationRequests: { _ in }
+    )
     public static let testValue = NotificationClient()
 }

@@ -1,7 +1,8 @@
-import Tabbar
+import TabbarFeature
 import ComposableArchitecture
 import SwiftUI
 import DesignSystem
+import SignUpFeature
 
 public struct AppCoreView: View {
     
@@ -36,7 +37,7 @@ public struct AppCoreView: View {
     
     @ViewBuilder
     private var signUpView: some View {
-        if let store = store.scope(state: \.destination.signUp, action: \.destination.signUp) {
+        IfLetStore(store.scope(state: \.destination.signUp, action: \.destination.signUp)) { store in
             SignUpView(store: store)
                 .transition(.opacity)
         }
@@ -44,7 +45,7 @@ public struct AppCoreView: View {
     
     @ViewBuilder
     private var loggedInView: some View {
-        if let store = store.scope(state: \.destination.loggedIn, action: \.destination.loggedIn) {
+        IfLetStore(store.scope(state: \.destination.loggedIn, action: \.destination.loggedIn)) { store in
             TabbarView(store: store)
                 .transition(.opacity)
         }

@@ -13,6 +13,11 @@
 		7A64E61C2D554DF80093C245 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6192D554DF80093C245 /* Config.swift */; };
 		7A8892242D2FAE6A00B0276B /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = B1AD719D28D9C85600CC44B4 /* AppCore */; };
 		7A8892262D2FAE6A00B0276B /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
+		7A924BD82DCAB397005F9D84 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 7A924BD72DCAB397005F9D84 /* APIClient */; };
+		7A924BDB2DCAB87F005F9D84 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 7A924BDA2DCAB87F005F9D84 /* Authentication */; };
+		7A924BDD2DCABBD3005F9D84 /* NotificationClient in Frameworks */ = {isa = PBXBuildFile; productRef = 7A924BDC2DCABBD3005F9D84 /* NotificationClient */; };
+		7A924BDF2DCABBD8005F9D84 /* SystemClient in Frameworks */ = {isa = PBXBuildFile; productRef = 7A924BDE2DCABBD8005F9D84 /* SystemClient */; };
+		7A924BE12DCABDBB005F9D84 /* Crashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7A924BE02DCABDBB005F9D84 /* Crashlytics */; };
 		7A9E6BB12DC4F512005F4828 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */; };
 		7A9E6BD02DC52183005F4828 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A9E6BCA2DC52183005F4828 /* Preview Assets.xcassets */; };
 		7A9E6BD12DC52183005F4828 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A9E6BCC2DC52183005F4828 /* Assets.xcassets */; };
@@ -22,7 +27,6 @@
 		7A9E6BD52DC52183005F4828 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9E6BC72DC52183005F4828 /* ContentView.swift */; };
 		7AB225412D7B2B89002BEF81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB225402D7B2B89002BEF81 /* AppDelegate.swift */; };
 		7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
-		7AC03C242D7A126B009A06C7 /* LiveClients in Frameworks */ = {isa = PBXBuildFile; productRef = 7AC03C232D7A126B009A06C7 /* LiveClients */; };
 		7AC03C262D7A4CE6009A06C7 /* DebugMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */; };
 		7AC3C87A2DC4E9B200EF8389 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7AC3C8792DC4E9B200EF8389 /* AppCore */; };
 		B1057F382843FD8600B9EE2F /* FeedbackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1057F372843FD8600B9EE2F /* FeedbackApp.swift */; };
@@ -113,8 +117,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A924BDD2DCABBD3005F9D84 /* NotificationClient in Frameworks */,
+				7A924BDF2DCABBD8005F9D84 /* SystemClient in Frameworks */,
+				7A924BD82DCAB397005F9D84 /* APIClient in Frameworks */,
+				7A924BDB2DCAB87F005F9D84 /* Authentication in Frameworks */,
+				7A924BE12DCABDBB005F9D84 /* Crashlytics in Frameworks */,
 				7A8892242D2FAE6A00B0276B /* AppCore in Frameworks */,
-				7AC03C242D7A126B009A06C7 /* LiveClients in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,6 +138,13 @@
 				7A9E6BDD2DC52530005F4828 /* Default.xcconfig */,
 			);
 			path = Config;
+			sourceTree = "<group>";
+		};
+		7A924BD42DCAA63C005F9D84 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		7A9A211D2D89CD7500C40A41 /* PushNotifications */ = {
@@ -193,6 +208,7 @@
 				7A9E6BAE2DC4ECEB005F4828 /* Lint.framework */,
 				7A9E6BAF2DC4ECEB005F4828 /* OpenApi.framework */,
 				7A9E6BB02DC4ECEB005F4828 /* FeedbackMock.app */,
+				7A924BD42DCAA63C005F9D84 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -342,7 +358,11 @@
 			name = App;
 			packageProductDependencies = (
 				B1AD719D28D9C85600CC44B4 /* AppCore */,
-				7AC03C232D7A126B009A06C7 /* LiveClients */,
+				7A924BD72DCAB397005F9D84 /* APIClient */,
+				7A924BDA2DCAB87F005F9D84 /* Authentication */,
+				7A924BDC2DCABBD3005F9D84 /* NotificationClient */,
+				7A924BDE2DCABBD8005F9D84 /* SystemClient */,
+				7A924BE02DCABDBB005F9D84 /* Crashlytics */,
 			);
 			productName = Feedback;
 			productReference = 7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */;
@@ -1415,9 +1435,25 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = LiveClients;
 		};
-		7AC03C232D7A126B009A06C7 /* LiveClients */ = {
+		7A924BD72DCAB397005F9D84 /* APIClient */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = LiveClients;
+			productName = APIClient;
+		};
+		7A924BDA2DCAB87F005F9D84 /* Authentication */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Authentication;
+		};
+		7A924BDC2DCABBD3005F9D84 /* NotificationClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NotificationClient;
+		};
+		7A924BDE2DCABBD8005F9D84 /* SystemClient */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SystemClient;
+		};
+		7A924BE02DCABDBB005F9D84 /* Crashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Crashlytics;
 		};
 		7AC3C8792DC4E9B200EF8389 /* AppCore */ = {
 			isa = XCSwiftPackageProductDependency;

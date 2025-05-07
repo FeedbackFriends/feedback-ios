@@ -2,9 +2,17 @@ import ComposableArchitecture
 import Foundation
 import UIKit
 import AppCore
-import LiveClients
+import APIClient
 import Model
 import Logger
+import OpenAPIURLSession
+import OpenAPIRuntime
+import SystemClient
+import NotificationClient
+import OpenAPI
+import Authentication
+import Crashlytics
+import FirebaseMessaging
 
 var deviceId: String {
     let deviceIdKey = "iCloud.dk.nicolaidam.device-id"
@@ -25,9 +33,20 @@ extension AuthClient: @retroactive DependencyKey {
 
 extension APIClient: @retroactive DependencyKey {
     public static var liveValue: APIClient {
-        return .live(
-            baseUrl: config.apiBaseUrl,
-            deviceId: deviceId
+        return .api(
+            client: Client(
+                serverURL: config.apiBaseUrl,
+                configuration: Configuration(),
+                transport: URLSessionTransport(),
+                middlewares: [
+                    AuthorisationMiddleware(),
+                    DelayMiddleware(),
+                    DeviceIdHeaderMiddleware(deviceId: deviceId)
+                ]
+            ),
+            fcmToken: {
+                try await Messaging.messaging().token()
+            }
         )
     }
 }
@@ -41,17 +60,6 @@ extension SystemClient: @retroactive DependencyKey {
             supportEmail: config.supportEmail
         )
     }
-}
-
-extension LogClient: @retroactive DependencyKey {
-    public static let liveValue = logClient()
-}
-
-func logClient() -> LogClient {
-    let logger = LogClient.live
-    logger.addCrashlyticsClient(deviceId: deviceId, minLevel: .error)
-    logger.addOSLogClient(subsystem: Bundle.main.bundleIdentifier!, category: "LoggingClient")
-    return logger
 }
 
 extension NotificationClient: @retroactive DependencyKey {

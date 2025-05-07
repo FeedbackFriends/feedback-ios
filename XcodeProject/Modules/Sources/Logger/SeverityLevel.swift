@@ -1,5 +1,4 @@
 import OSLog
-import Dependencies
 
 public enum SeverityLevel: Sendable {
     case info
@@ -24,8 +23,6 @@ extension SeverityLevel: Comparable {
         return lhs.levelValue < rhs.levelValue
     }
 }
-
-
 
 public extension SeverityLevel {
     var osLogLevel: OSLogType {

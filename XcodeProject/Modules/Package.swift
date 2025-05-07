@@ -11,26 +11,32 @@ let package = Package(
     ],
     products: [
         .library(
+            name: "APIClient",
+            targets: ["APIClient"]),
+        .library(
+            name: "Authentication",
+            targets: ["Authentication"]),
+        .library(
             name: "AppCore",
             targets: ["AppCore"]),
         .library(
             name: "DesignSystem",
             targets: ["DesignSystem"]),
         .library(
-            name: "EnterCode",
-            targets: ["EnterCode"]),
+            name: "EnterCodeFeature",
+            targets: ["EnterCodeFeature"]),
         .library(
-            name: "FeedbackFlow",
-            targets: ["FeedbackFlow"]),
+            name: "FeedbackFlowFeature",
+            targets: ["FeedbackFlowFeature"]),
         .library(
-            name: "More",
-            targets: ["More"]),
+            name: "MoreFeature",
+            targets: ["MoreFeature"]),
         .library(
             name: "EventsFeature",
             targets: ["EventsFeature"]),
         .library(
-            name: "Tabbar",
-            targets: ["Tabbar"]),
+            name: "TabbarFeature",
+            targets: ["TabbarFeature"]),
         .library(
             name: "Logger",
             targets: ["Logger"]
@@ -40,8 +46,12 @@ let package = Package(
             targets: ["Localization"]
         ),
         .library(
-            name: "LiveClients",
-            targets: ["LiveClients"]
+            name: "NotificationClient",
+            targets: ["NotificationClient"]
+        ),
+        .library(
+            name: "SystemClient",
+            targets: ["SystemClient"]
         ),
         .library(
             name: "Model",
@@ -50,6 +60,18 @@ let package = Package(
         .library(
             name: "Utility",
             targets: ["Utility"]
+        ),
+        .library(
+            name: "SignUpFeature",
+            targets: ["SignUpFeature"]
+        ),
+        .library(
+            name: "OpenAPI",
+            targets: ["OpenAPI"]
+        ),
+        .library(
+            name: "Crashlytics",
+            targets: ["Crashlytics"]
         )
     ],
     dependencies: [
@@ -88,15 +110,35 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "APIClient",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "Logger",
+                "Model",
+                "Utility",
+                "OpenAPI",
+            ],
+        ),
+        .target(
+            name: "OpenAPI",
+            dependencies: [
+                .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
+                .product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession"),
+                "Model",
+                "Utility",
+            ],
+            plugins: [.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")]
+        ),
+        .target(
             name: "AppCore",
             dependencies: [
                 "DesignSystem",
-                "Tabbar",
+                "TabbarFeature",
                 "Model",
                 "Utility",
                 "EventsFeature",
                 "Logger",
-                "Model",
+                "SignUpFeature",
             ]
         ),
         .target(
@@ -113,17 +155,17 @@ let package = Package(
             ]
         ),
         .target(
-            name: "EnterCode",
+            name: "EnterCodeFeature",
             dependencies: [
                 "DesignSystem",
-                "FeedbackFlow",
+                "FeedbackFlowFeature",
                 "Model",
                 "Utility",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
         .target(
-            name: "FeedbackFlow",
+            name: "FeedbackFlowFeature",
             dependencies: [
                 "DesignSystem",
                 "Model",
@@ -132,7 +174,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "More",
+            name: "MoreFeature",
             dependencies: [
                 "DesignSystem",
                 "Model",
@@ -146,17 +188,17 @@ let package = Package(
                 "DesignSystem",
                 "Model",
                 "Utility",
-                "FeedbackFlow",
+                "FeedbackFlowFeature",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
             ]
         ),
         .target(
-            name: "Tabbar",
+            name: "TabbarFeature",
             dependencies: [
                 "DesignSystem",
-                "EnterCode",
+                "EnterCodeFeature",
                 "EventsFeature",
-                "More",
+                "MoreFeature",
                 "Model",
                 "Utility",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
@@ -177,38 +219,64 @@ let package = Package(
             ]
         ),
         .target(
-            name: "LiveClients",
+            name: "Authentication",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
+                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
                 .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
-                .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
-                .product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession"),
-                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
                 "Logger",
                 "Model",
                 "Utility",
+                "APIClient",
             ],
-            plugins: [.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")]
         ),
         .target(
-            name: "Logger",
+            name: "SystemClient",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "Model"
+            ]
+        ),
+        .target(
+            name: "NotificationClient",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "Model"
+            ]
+        ),
+        .target(
+            name: "Logger"
+        ),
+        .target(
+            name: "Crashlytics",
+            dependencies: [
+                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
+                "Logger"
             ]
         ),
         .target(
             name: "Localization"
         ),
+        .target(
+            name: "SignUpFeature",
+            dependencies: [
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                "DesignSystem",
+                "Model",
+                "Utility",
+                "Logger",
+            ]
+        ),
         .testTarget(
-            name: "AppCoreTests",
+            name: "AppTests",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 "AppCore",
-                "LiveClients",
+                "APIClient"
             ]
         ),
     ]

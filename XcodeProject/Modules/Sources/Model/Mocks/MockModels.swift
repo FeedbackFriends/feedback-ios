@@ -1,7 +1,5 @@
+#if DEBUG
 import Foundation
-
-#if !RELEASE
-
 let mockAgenda =
     """
     1. Opening Remarks (5 minutes)
@@ -121,7 +119,6 @@ public extension ManagerSession {
         accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
     )
 }
-
 
 public extension Session {
     static func mock(numberOfManagerEvents: Int = 99) -> Self {

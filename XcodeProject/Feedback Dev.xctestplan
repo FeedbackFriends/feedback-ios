@@ -15,8 +15,8 @@
     {
       "target" : {
         "containerPath" : "container:Modules",
-        "identifier" : "AppCoreTests",
-        "name" : "AppCoreTests"
+        "identifier" : "AppTests",
+        "name" : "AppTests"
       }
     }
   ],

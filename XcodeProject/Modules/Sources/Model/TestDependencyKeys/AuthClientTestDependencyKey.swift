@@ -8,8 +8,6 @@ public extension DependencyValues {
 }
 
 extension AuthClient: TestDependencyKey {
-    public static let previewValue = AuthClient.mock
+    public static let previewValue = AuthClient()
     public static let testValue = AuthClient()
 }
-
-

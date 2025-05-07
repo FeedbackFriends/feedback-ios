@@ -51,7 +51,6 @@ public struct ManagerEvents {
     public init() {}
     
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.logClient) var logger
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -71,7 +70,7 @@ public struct ManagerEvents {
                         do {
                             try await apiClient.markEventAsSeen(eventId)
                         } catch {
-                            logger.log("Mark event as seen failed: \(error.localizedDescription)")
+                            Logger.debug("Mark event as seen failed: \(error.localizedDescription)")
                         }
                     }
                 }

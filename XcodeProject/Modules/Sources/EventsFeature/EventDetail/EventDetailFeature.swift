@@ -72,7 +72,6 @@ public struct EventDetailFeature {
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.continuousClock) var clock
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.logClient) var logger
     
     public var body: some ReducerOf<Self> {
         BindingReducer()

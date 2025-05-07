@@ -8,6 +8,6 @@ public extension DependencyValues {
 }
 
 extension APIClient: TestDependencyKey {
-    public static let previewValue = APIClient.mock()
+    public static let previewValue = APIClient()
     public static let testValue = APIClient()
 }

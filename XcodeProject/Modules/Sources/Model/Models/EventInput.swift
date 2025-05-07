@@ -1,4 +1,5 @@
 import Foundation
+import Utility
 
 public struct EventInput: Equatable, Sendable {
     public var title: String

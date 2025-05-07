@@ -1,7 +1,8 @@
 import Combine
 import ComposableArchitecture
-import Tabbar
+import TabbarFeature
 import Network
+import SignUpFeature
 import DesignSystem
 import Model
 import EventsFeature
@@ -124,7 +125,6 @@ public struct AppCore {
     @Dependency(\.authClient) var authClient
     @Dependency(\.mainQueue) var mainQueue
     @Dependency(\.continuousClock) var clock
-    @Dependency(\.logClient) var logger
     
     public var body: some ReducerOf<Self> {
         Scope(state: \.appDelegate, action: \.appDelegate) {
@@ -171,7 +171,7 @@ public struct AppCore {
                 }
                 
             case .appDelegate(.authenticationStateChanged(let authState)):
-                logger.log("🐸 Auth state changed: \(authState)")
+                Logger.debug("🐸 Auth state changed: \(authState)")
                 switch authState {
                     
                 case .authenticated:
@@ -210,7 +210,7 @@ public struct AppCore {
                 return .none
                 
             case .presentError(let errorType):
-                logger.log(.default, "Received error in app core: \(errorType)", nil)
+                Logger.log(.default, "Received error in app core: \(errorType)", nil)
                 state.isLoading = false
                 state.destination = .error(errorType)
                 return .none

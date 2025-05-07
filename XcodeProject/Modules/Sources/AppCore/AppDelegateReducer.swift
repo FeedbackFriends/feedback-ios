@@ -27,7 +27,6 @@ public struct AppDelegateReducer {
     public init() {}
     @Dependency(\.authClient) var authClient
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.logClient) var logger
     @Dependency(\.continuousClock) var clock
     
     public var body: some ReducerOf<Self> {
@@ -50,7 +49,7 @@ public struct AppDelegateReducer {
                     do {
                         try await apiClient.updateFcmToken(fcmToken)
                     } catch {
-                        logger.log(.error, "Update fcm token api call failed silently with error: \(error.localizedDescription)")
+                        Logger.log(.error, "Update fcm token api call failed silently with error: \(error.localizedDescription)")
                     }
                 }
                 
@@ -60,6 +59,3 @@ public struct AppDelegateReducer {
         }
     }
 }
-
-
-

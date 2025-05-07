@@ -1,6 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
-import FeedbackFlow
+import FeedbackFlowFeature
 
 @main
 struct FeedbackFlowApp: App {

@@ -3,7 +3,7 @@ import SwiftUI
 import Model
 @preconcurrency import FirebaseAuth
 @preconcurrency import FirebaseMessaging
-import Tabbar
+import TabbarFeature
 import DesignSystem
 
 struct DebugMenuView: View {
