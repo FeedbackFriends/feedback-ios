@@ -1,4 +1,4 @@
-#if DEBUG
+#if !RELEASE
 import Foundation
 
 public let mockAgenda =

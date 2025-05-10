@@ -74,13 +74,13 @@ struct APIClientLiveTests {
         let client = APIClient.live(
             client: MockAPI(
                 getSessionHandler: { _ in
-                    .ok(
-                        .init(
-                            body: .json(
-                                apiResponse
+                        .ok(
+                            .init(
+                                body: .json(
+                                    apiResponse
+                                )
                             )
                         )
-                    )
                 }
             ),
             provideFcmToken: { "" },
@@ -140,8 +140,8 @@ struct APIClientLiveTests {
         #expect(updatedSession2 == snapshot2)
     }
     
-    @Test
-    func sessionCacheUpdateOrAppendManagerEvent() async {
+    @Test("Testing that updating an event updates the cache and stream is triggered with updated session")
+    func sessionCacheUpdateOrAppendManagerEvent() async throws {
         let eventId = UUID()
         let originalEvent = ManagerEvent(
             id: eventId,
@@ -156,15 +156,6 @@ struct APIClientLiveTests {
             questions: []
         )
         
-        let session = Session(
-            participantEvents: [],
-            managerData: .init(managerEvents: [originalEvent], activity: .init(items: [], unseenTotal: 0), recentlyUsedQuestions: []),
-            accountInfo: .init(name: nil, email: nil, phoneNumber: nil),
-            role: .manager
-        )
-        
-        let cache = SessionCache(session: session)
-        
         let updatedEvent = ManagerEvent(
             id: eventId,
             title: "Updated Title",
@@ -178,16 +169,39 @@ struct APIClientLiveTests {
             questions: []
         )
         
+        let cache = SessionCache(
+            session: .init(
+                participantEvents: [],
+                managerData: .init(
+                    managerEvents: [originalEvent],
+                    activity: .mock,
+                    recentlyUsedQuestions: []
+                ),
+                accountInfo: .init(name: nil, email: nil, phoneNumber: nil),
+                role: .manager
+            )
+        )
+        
+        let client = APIClient.live(
+            client: MockAPI(), // no network call needed
+            provideFcmToken: { "" },
+            sessionCache: cache
+        )
+        
+        var sessionChangedListener = await cache.sessionChangedListener().makeAsyncIterator()
         await cache.updateOrAppendManagerEvent(event: updatedEvent)
+        let snapshot = await cache.getSession()
         
-        let updatedSession = await cache.getSession()
-        let event = updatedSession?.managerData?.managerEvents.first
-        
+        let event = snapshot?.managerData?.managerEvents.first
+        #expect(event?.id == updatedEvent.id)
         #expect(event?.title == "Updated Title")
         #expect(event?.agenda == "Updated Agenda")
         #expect(event?.durationInMinutes == 60)
         #expect(event?.location == "Room 2")
         #expect(event?.ownerInfo.name == "John")
+        
+        let updatedSession = await sessionChangedListener.next()
+        #expect(updatedSession == snapshot)
     }
     
     @Test
