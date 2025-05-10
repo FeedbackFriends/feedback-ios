@@ -349,11 +349,6 @@
 			);
 			name = App;
 			packageProductDependencies = (
-				7A924BD72DCAB397005F9D84 /* APIClient */,
-				7A924BDA2DCAB87F005F9D84 /* Authentication */,
-				7A924BDC2DCABBD3005F9D84 /* NotificationClient */,
-				7A924BDE2DCABBD8005F9D84 /* SystemClient */,
-				7A924BE02DCABDBB005F9D84 /* Crashlytics */,
 				7A3B924D2DCFC4CD00CE50F5 /* AppCore */,
 				7A3B924F2DCFC4D000CE50F5 /* Implementations */,
 			);
@@ -1431,30 +1426,6 @@
 		7A3B924F2DCFC4D000CE50F5 /* Implementations */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Implementations;
-		};
-		7A5D85802DBA91B400737F11 /* LiveClients */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = LiveClients;
-		};
-		7A924BD72DCAB397005F9D84 /* APIClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = APIClient;
-		};
-		7A924BDA2DCAB87F005F9D84 /* Authentication */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Authentication;
-		};
-		7A924BDC2DCABBD3005F9D84 /* NotificationClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = NotificationClient;
-		};
-		7A924BDE2DCABBD8005F9D84 /* SystemClient */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = SystemClient;
-		};
-		7A924BE02DCABDBB005F9D84 /* Crashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Crashlytics;
 		};
 		7AC3C8792DC4E9B200EF8389 /* AppCore */ = {
 			isa = XCSwiftPackageProductDependency;
