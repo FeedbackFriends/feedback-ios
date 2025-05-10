@@ -7,59 +7,59 @@ import OpenAPI
 struct MockAPI: APIProtocol {
     
     // MARK: - Handlers for endpoints
-    var markActivityAsSeenHandler: (Operations.MarkActivityAsSeen.Input) async throws -> Operations.MarkActivityAsSeen.Output = { _ in
+    var markActivityAsSeenHandler: @Sendable (Operations.MarkActivityAsSeen.Input) async throws -> Operations.MarkActivityAsSeen.Output = { _ in
         fatalError("MockAPI: markActivityAsSeen unimplemented")
     }
-    var getUpdatedSessionHandler: (Operations.GetUpdatedSession.Input) async throws -> Operations.GetUpdatedSession.Output = { _ in
+    var getUpdatedSessionHandler: @Sendable (Operations.GetUpdatedSession.Input) async throws -> Operations.GetUpdatedSession.Output = { _ in
         fatalError("MockAPI: getUpdatedSession unimplemented")
     }
-    var getSessionHandler: (Operations.GetSession.Input) async throws -> Operations.GetSession.Output = { _ in
+    var getSessionHandler: @Sendable (Operations.GetSession.Input) async throws -> Operations.GetSession.Output = { _ in
         fatalError("MockAPI: getSession unimplemented")
     }
-    var mockIdTokenHandler: (Operations.MockIdToken.Input) async throws -> Operations.MockIdToken.Output = { _ in
+    var mockIdTokenHandler: @Sendable (Operations.MockIdToken.Input) async throws -> Operations.MockIdToken.Output = { _ in
         fatalError("MockAPI: mockIdToken unimplemented")
     }
-    var joinEventHandler: (Operations.JoinEvent.Input) async throws -> Operations.JoinEvent.Output = { _ in
+    var joinEventHandler: @Sendable (Operations.JoinEvent.Input) async throws -> Operations.JoinEvent.Output = { _ in
         fatalError("MockAPI: joinEvent unimplemented")
     }
-    var createEventHandler: (Operations.CreateEvent.Input) async throws -> Operations.CreateEvent.Output = { _ in
+    var createEventHandler: @Sendable (Operations.CreateEvent.Input) async throws -> Operations.CreateEvent.Output = { _ in
         fatalError("MockAPI: createEvent unimplemented")
     }
-    var startFeedbackSessionHandler: (Operations.StartFeedbackSession.Input) async throws -> Operations.StartFeedbackSession.Output = { _ in
+    var startFeedbackSessionHandler: @Sendable (Operations.StartFeedbackSession.Input) async throws -> Operations.StartFeedbackSession.Output = { _ in
         fatalError("MockAPI: startFeedbackSession unimplemented")
     }
-    var sendFeedbackHandler: (Operations.SendFeedback.Input) async throws -> Operations.SendFeedback.Output = { _ in
+    var sendFeedbackHandler: @Sendable (Operations.SendFeedback.Input) async throws -> Operations.SendFeedback.Output = { _ in
         fatalError("MockAPI: sendFeedback unimplemented")
     }
-    var linkFCMTokenToAccountHandler: (Operations.LinkFCMTokenToAccount.Input) async throws -> Operations.LinkFCMTokenToAccount.Output = { _ in
+    var linkFCMTokenToAccountHandler: @Sendable (Operations.LinkFCMTokenToAccount.Input) async throws -> Operations.LinkFCMTokenToAccount.Output = { _ in
         fatalError("MockAPI: linkFCMTokenToAccount unimplemented")
     }
-    var updateRoleHandler: (Operations.UpdateRole.Input) async throws -> Operations.UpdateRole.Output = { _ in
+    var updateRoleHandler: @Sendable (Operations.UpdateRole.Input) async throws -> Operations.UpdateRole.Output = { _ in
         fatalError("MockAPI: updateRole unimplemented")
     }
-    var deleteAccountHandler: (Operations.DeleteAccount.Input) async throws -> Operations.DeleteAccount.Output = { _ in
+    var deleteAccountHandler: @Sendable (Operations.DeleteAccount.Input) async throws -> Operations.DeleteAccount.Output = { _ in
         fatalError("MockAPI: deleteAccount unimplemented")
     }
-    var modifyAccountHandler: (Operations.ModifyAccount.Input) async throws -> Operations.ModifyAccount.Output = { _ in
+    var modifyAccountHandler: @Sendable (Operations.ModifyAccount.Input) async throws -> Operations.ModifyAccount.Output = { _ in
         fatalError("MockAPI: modifyAccount unimplemented")
     }
-    var createAccountHandler: (Operations.CreateAccount.Input) async throws -> Operations.CreateAccount.Output = { _ in
+    var createAccountHandler: @Sendable (Operations.CreateAccount.Input) async throws -> Operations.CreateAccount.Output = { _ in
         fatalError("MockAPI: createAccount unimplemented")
     }
-    var sendNotificationHandler: (Operations.SendNotification.Input) async throws -> Operations.SendNotification.Output = { _ in
+    var sendNotificationHandler: @Sendable (Operations.SendNotification.Input) async throws -> Operations.SendNotification.Output = { _ in
         fatalError("MockAPI: sendNotification unimplemented")
     }
-    var markEventAsSeenHandler: (Operations.MarkEventAsSeen.Input) async throws -> Operations.MarkEventAsSeen.Output = { _ in
+    var markEventAsSeenHandler: @Sendable (Operations.MarkEventAsSeen.Input) async throws -> Operations.MarkEventAsSeen.Output = { _ in
         fatalError("MockAPI: markEventAsSeen unimplemented")
     }
-    var deleteEventHandler: (Operations.DeleteEvent.Input) async throws -> Operations.DeleteEvent.Output = { _ in
+    var deleteEventHandler: @Sendable (Operations.DeleteEvent.Input) async throws -> Operations.DeleteEvent.Output = { _ in
         fatalError("MockAPI: deleteEvent unimplemented")
     }
-    var updateEventHandler: (Operations.UpdateEvent.Input) async throws -> Operations.UpdateEvent.Output = { _ in
+    var updateEventHandler: @Sendable (Operations.UpdateEvent.Input) async throws -> Operations.UpdateEvent.Output = { _ in
         fatalError("MockAPI: updateEvent unimplemented")
     }
     
-    func logoutHandler(_ input: OpenAPI.Operations.Logout.Input) async throws -> OpenAPI.Operations.Logout.Output {
+    var logoutHandler: @Sendable (Operations.Logout.Input) async throws -> Operations.Logout.Output = { _ in
         fatalError("MockAPI: logout unimplemented")
     }
     
