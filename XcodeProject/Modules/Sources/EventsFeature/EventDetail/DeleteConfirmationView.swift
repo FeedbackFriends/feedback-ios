@@ -52,6 +52,7 @@ struct DeleteConfirmationView: View {
         .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
     }
 }
+
 #Preview {
     DeleteConfirmationView(
         store: .init(

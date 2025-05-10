@@ -2,77 +2,142 @@
 import Testing
 import ComposableArchitecture
 import Foundation
-import APIClient
+import Implementations
+import OpenAPI
+
+#warning("Maybe add sorting of feedback etc in cache so its testable")
+
+// deleteAccount
+
+// updateAccount
+
+// linkFCMTokenToAccount
+
+// getSession ✅
+// Testing that session is returned and saved in cache after being fetched
+
+// startFeedbackSession
+
+// sendFeedback
+
+// createEvent
+
+// updateEvent
+// Test that updating an event updates cache and onChange is triggered with updated session
+
+
+// deleteEvent ✅
+// Testing that event is removed from cache after deletion and onChange is triggered with updated session
+
+// createAccount
+
+// sessionChangedListener
+
+// joinEvent
+
+// markEventAsSeen
+
+// updateAccountRole
+
+// getMockToken
+
+// getUpdatedSession
+
+// markActivityAsSeen
 
 @MainActor
-struct SessionCacheTests {
+struct APIClientLiveTests {
     
-    @Test
-    func sessionCacheYieldsOnSessionChange() async {
-        let initial = Session.mock()
-        let updated = Session.mockParticipant()
+    @Test("Testing that session is returned and saved in cache after being fetched")
+    func getSessionCachesSession() async throws {
         
-        let cache = SessionCache(session: initial)
-        let stream = await cache.sessionChangedListener()
-        var streamIterator = stream.makeAsyncIterator()
-        
-        await cache.updateSession(updated)
-        
-        let next = await streamIterator.next()
-        #expect(next == updated)
-    }
-    
-    @Test
-    func sessionCacheDoesNotYieldOnSameSession() async {
-        let session = Session.mock()
-        let cache = SessionCache(session: session)
-        let stream = await cache.sessionChangedListener()
-        var iterator = stream.makeAsyncIterator()
-        
-        await cache.updateSession(session)
-        let result = await withTimeout(seconds: 0.2) { await iterator.next() }
-        
-        #expect(result == nil)
-    }
-    
-    @Test
-    func getSessionReturnsInitialState() async {
-        let session = Session.mock()
-        let cache = SessionCache(session: session)
-        let result = await cache.getSession()
-        #expect(result == session)
-    }
-    
-    @Test
-    func sessionCacheDeleteEvent() async {
-        let eventId = UUID()
-        let event = ManagerEvent(
-            id: eventId,
-            title: "Event",
-            agenda: nil,
-            date: .now,
-            pinCode: PinCode(value: "123456"),
-            durationInMinutes: 30,
-            location: "Online",
-            ownerInfo: .init(name: nil, email: nil, phoneNumber: nil),
-            feedbackSummary: nil,
-            questions: []
-        )
-        
-        let session = Session(
+        let apiResponse: Components.Schemas.SessionDto = .init(
+            role: "Manager",
+            accountInfo: .init(),
             participantEvents: [],
-            managerData: .init(managerEvents: [event], activity: .init(items: [], unseenTotal: 0), recentlyUsedQuestions: []),
-            accountInfo: .init(name: nil, email: nil, phoneNumber: nil),
-            role: .manager
+            managerData: .init(
+                managerEvents: [],
+                activity: .init(
+                    items: [],
+                    unseenTotal: 5
+                ),
+                recentlyUsedQuestions: [
+                    .init(
+                        questionText: "Hello world",
+                        feedbackType: .emoji,
+                        updatedAt: Date(timeIntervalSince1970: 0)
+                    )
+                ]
+            )
+        )
+        let cache = SessionCache(session: nil)
+        let client = APIClient.live(
+            client: MockAPI(
+                getSessionHandler: { _ in
+                    .ok(
+                        .init(
+                            body: .json(
+                                apiResponse
+                            )
+                        )
+                    )
+                }
+            ),
+            provideFcmToken: { "" },
+            sessionCache: cache
+        )
+        let result = try await client.getSession()
+        let snapshot = await cache.getSession()
+        #expect(result == Session(apiResponse))
+        #expect(snapshot == Session(apiResponse))
+    }
+    
+    @Test("Testing that event is removed from cache after deletion and stream is triggered with updated session")
+    func sessionCacheDeleteEvent() async throws {
+        
+        let event1 = ManagerEvent.mock()
+        let event2 = ManagerEvent.mock()
+        
+        let cache = SessionCache(
+            session: .init(
+                participantEvents: .init(),
+                managerData: .init(
+                    managerEvents: .init(arrayLiteral: event1, event2),
+                    activity: .mock,
+                    recentlyUsedQuestions: []
+                ),
+                accountInfo: .init(
+                    name: nil,
+                    email: nil,
+                    phoneNumber: nil
+                ),
+                role: .manager
+            )
         )
         
-        let cache = SessionCache(session: session)
+        let client = APIClient.live(
+            client: MockAPI(
+                deleteEventHandler: { _ in
+                        .ok(.init())
+                }
+            ),
+            fcmToken: { "" },
+            sessionCache: cache
+        )
         
-        let initial = await cache.getSession()
-        #expect(initial?.managerData?.managerEvents.count == 1)
-        await cache.deleteEvent(eventId)
-        let after = await cache.getSession()
-        #expect(after?.managerData?.managerEvents.count == 0)
+        var sessionChangedListener = await cache.sessionChangedListener().makeAsyncIterator()
+        try await client.deleteEvent(event1.id)
+        let snapshot = await cache.getSession()
+        #expect(snapshot?.managerData?.managerEvents.count == 1)
+        #expect(snapshot?.managerData?.managerEvents.first?.id == event2.id)
+        let updatedSession =  await sessionChangedListener.next()
+        #expect(updatedSession == snapshot)
+        
+        try await client.deleteEvent(id: event2.id)
+        let snapshot2 = await cache.getSession()
+        #expect(snapshot2?.managerData?.managerEvents.isEmpty == true)
+        let updatedSession2 =  await sessionChangedListener.next()
+        #expect(updatedSession2 == snapshot2)
     }
     
     @Test
@@ -293,19 +358,5 @@ struct SessionCacheTests {
         let result = await cache.getSession()
         
         #expect(result == nil)
-    }
-}
-
-
-func withTimeout<T>(seconds: TimeInterval, _ operation: @escaping () async -> T?) async -> T? {
-    await withTaskGroup(of: T?.self) { group in
-        group.addTask {
-            await operation()
-        }
-        group.addTask {
-            try? await Task.sleep(nanoseconds: UInt64(seconds * 1_000_000_000))
-            return nil
-        }
-        return await group.next() ?? nil
     }
 }

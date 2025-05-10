@@ -46,12 +46,12 @@ public struct AppCore {
         var destination: Destination.State = .isLoading
         var isLoading = false
         var appDelegate: AppDelegateReducer.State = .init()
+        var logout: Logout.State = .init()
         public init() {}
     }
     
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
-        case onLogoutButtonTap
         case appDelegate(AppDelegateReducer.Action)
         case destination(Destination.Action)
         case getSessionResponse(Session)
@@ -60,6 +60,7 @@ public struct AppCore {
         case tryAgainButtonTap(ErrorType)
         case createAccountResponse(Session, Role?)
         case navigateToSelectUserType
+        case logout(Logout.Action)
     }
     
     private func createAccount(
@@ -130,6 +131,9 @@ public struct AppCore {
         Scope(state: \.appDelegate, action: \.appDelegate) {
             AppDelegateReducer()
         }
+        Scope(state: \.logout, action: \.logout) {
+            Logout()
+        }
         Scope(state: \.destination, action: \.destination) {
             Destination.body
         }
@@ -161,17 +165,14 @@ public struct AppCore {
                     
                 case .getSessionError(_):
                     return getSession(state: &state)
+                    
                 case .handleAuthenticatedAccountError(_):
                     return handeAuthenticatedAccount(state: &state)
-                }
                 
-            case .onLogoutButtonTap:
-                return .run { send in
-                    try await authClient.logout()
                 }
                 
             case .appDelegate(.authenticationStateChanged(let authState)):
-                Logger.debug("🐸 Auth state changed: \(authState)")
+                Logger.debug("Auth state changed: \(authState)")
                 switch authState {
                     
                 case .authenticated:
@@ -249,6 +250,9 @@ public struct AppCore {
                 default:
                     return .none
                 }
+                
+            case .logout:
+                return .none
             }
         }
     }

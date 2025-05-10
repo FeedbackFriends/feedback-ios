@@ -207,6 +207,7 @@ func section<Content: View>(title: String, content: () -> Content) -> some View 
         .navigationTitle("Events")
     }
 }
+
 #Preview("Empty") {
     NavigationStack {
         ManagerEventsView(

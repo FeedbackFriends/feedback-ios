@@ -6,7 +6,6 @@ import HTTPTypes
 import Logger
 import ComposableArchitecture
 import FirebaseAuth
-import APIClient
 
 public struct AuthorisationMiddleware: ClientMiddleware {
     public init() {}

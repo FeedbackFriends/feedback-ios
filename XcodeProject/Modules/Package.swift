@@ -11,12 +11,6 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "APIClient",
-            targets: ["APIClient"]),
-        .library(
-            name: "Authentication",
-            targets: ["Authentication"]),
-        .library(
             name: "AppCore",
             targets: ["AppCore"]),
         .library(
@@ -46,14 +40,6 @@ let package = Package(
             targets: ["Localization"]
         ),
         .library(
-            name: "NotificationClient",
-            targets: ["NotificationClient"]
-        ),
-        .library(
-            name: "SystemClient",
-            targets: ["SystemClient"]
-        ),
-        .library(
             name: "Model",
             targets: ["Model"]
         ),
@@ -70,9 +56,9 @@ let package = Package(
             targets: ["OpenAPI"]
         ),
         .library(
-            name: "Crashlytics",
-            targets: ["Crashlytics"]
-        )
+            name: "Implementations",
+            targets: ["Implementations"]
+        ),
     ],
     dependencies: [
         .package(
@@ -110,9 +96,14 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "APIClient",
+            name: "Implementations",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
                 "Logger",
                 "Model",
                 "Utility",
@@ -219,43 +210,7 @@ let package = Package(
             ]
         ),
         .target(
-            name: "Authentication",
-            dependencies: [
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
-                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseMessaging", package: "firebase-ios-sdk"),
-                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
-                .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
-                "Logger",
-                "Model",
-                "Utility",
-                "APIClient",
-            ],
-        ),
-        .target(
-            name: "SystemClient",
-            dependencies: [
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                "Model"
-            ]
-        ),
-        .target(
-            name: "NotificationClient",
-            dependencies: [
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                "Model"
-            ]
-        ),
-        .target(
             name: "Logger"
-        ),
-        .target(
-            name: "Crashlytics",
-            dependencies: [
-                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
-                "Logger"
-            ]
         ),
         .target(
             name: "Localization"
@@ -276,7 +231,7 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 "AppCore",
-                "APIClient"
+                "Implementations"
             ]
         ),
     ]

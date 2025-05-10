@@ -5,15 +5,36 @@ public struct ManagerSession: Equatable, Sendable {
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
     public var managerData: ManagerData
     public var accountInfo: AccountInfo
+    public init(
+        participantEvents: IdentifiedArrayOf<ParticipantEvent>,
+        managerData: ManagerData,
+        accountInfo: AccountInfo
+    ) {
+        self.participantEvents = participantEvents
+        self.managerData = managerData
+        self.accountInfo = accountInfo
+    }
 }
 
 public struct ParticipantSession: Equatable, Sendable {
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
     public var accountInfo: AccountInfo
+    public init(
+        participantEvents: IdentifiedArrayOf<ParticipantEvent>,
+        accountInfo: AccountInfo
+    ) {
+        self.participantEvents = participantEvents
+        self.accountInfo = accountInfo
+    }
 }
 
 public struct AnonymousSession: Equatable, Sendable {
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
+    public init(
+        participantEvents: IdentifiedArrayOf<ParticipantEvent>
+    ) {
+        self.participantEvents = participantEvents
+    }
 }
 
 public struct Session: Equatable, Sendable {

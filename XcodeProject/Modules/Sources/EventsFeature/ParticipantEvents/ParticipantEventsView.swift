@@ -147,6 +147,7 @@ extension ParticipantEventsView {
         }
     }
 }
+
 #Preview {
     NavigationStack {
         ParticipantEventsView(

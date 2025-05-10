@@ -1,8 +1,10 @@
 openapi: 3.0.1
 info:
   title: Feedback API
-  description: API documentation for the Feedback service
-  version: 0.0.91
+  description: |-
+    API documentation for Lets Grow application.
+    GitHub: https://github.com/FeedbackFriends/feedback-backend/commit/c97d14d
+  version: 90-c97d14d
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -181,12 +183,12 @@ paths:
     put:
       tags:
       - Account
-      operationId: updateFcmToken
+      operationId: linkFCMTokenToAccount
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SetFcmTokenInput'
+              $ref: '#/components/schemas/LinkFCMTokenToAccountInput'
         required: true
       responses:
         "200":
@@ -311,6 +313,26 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/MockTokenDto'
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiError'
+  /account/logout:
+    post:
+      tags:
+      - Account
+      operationId: logout
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogoutInput'
+        required: true
+      responses:
+        "200":
+          description: OK
         "500":
           description: Internal Server Error
           content:
@@ -660,7 +682,9 @@ components:
       properties:
         role:
           type: string
-    SetFcmTokenInput:
+    LinkFCMTokenToAccountInput:
+      required:
+      - fcmToken
       type: object
       properties:
         fcmToken:
@@ -938,6 +962,13 @@ components:
             $ref: '#/components/schemas/ParticipantEventDto'
         managerData:
           $ref: '#/components/schemas/ManagerDataDto'
+    LogoutInput:
+      required:
+      - fcmToken
+      type: object
+      properties:
+        fcmToken:
+          type: string
     UpdatedSessionDto:
       required:
       - activity

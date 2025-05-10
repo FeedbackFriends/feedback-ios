@@ -9,15 +9,11 @@
 /* Begin PBXBuildFile section */
 		280DA2DE29A1361400B6E04D /* LiveDependencies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 280DA2DD29A1361400B6E04D /* LiveDependencies.swift */; };
 		7A034FE02D9AC9430059C6F3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
+		7A3B92002DCC072500CE50F5 /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A3B91FF2DCC072500CE50F5 /* Implementations */; };
 		7A5D85812DBA91B400737F11 /* LiveClients in Frameworks */ = {isa = PBXBuildFile; productRef = 7A5D85802DBA91B400737F11 /* LiveClients */; };
 		7A64E61C2D554DF80093C245 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6192D554DF80093C245 /* Config.swift */; };
 		7A8892242D2FAE6A00B0276B /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = B1AD719D28D9C85600CC44B4 /* AppCore */; };
 		7A8892262D2FAE6A00B0276B /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
-		7A924BD82DCAB397005F9D84 /* APIClient in Frameworks */ = {isa = PBXBuildFile; productRef = 7A924BD72DCAB397005F9D84 /* APIClient */; };
-		7A924BDB2DCAB87F005F9D84 /* Authentication in Frameworks */ = {isa = PBXBuildFile; productRef = 7A924BDA2DCAB87F005F9D84 /* Authentication */; };
-		7A924BDD2DCABBD3005F9D84 /* NotificationClient in Frameworks */ = {isa = PBXBuildFile; productRef = 7A924BDC2DCABBD3005F9D84 /* NotificationClient */; };
-		7A924BDF2DCABBD8005F9D84 /* SystemClient in Frameworks */ = {isa = PBXBuildFile; productRef = 7A924BDE2DCABBD8005F9D84 /* SystemClient */; };
-		7A924BE12DCABDBB005F9D84 /* Crashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 7A924BE02DCABDBB005F9D84 /* Crashlytics */; };
 		7A9E6BB12DC4F512005F4828 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */; };
 		7A9E6BD02DC52183005F4828 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A9E6BCA2DC52183005F4828 /* Preview Assets.xcassets */; };
 		7A9E6BD12DC52183005F4828 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7A9E6BCC2DC52183005F4828 /* Assets.xcassets */; };
@@ -117,11 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A924BDD2DCABBD3005F9D84 /* NotificationClient in Frameworks */,
-				7A924BDF2DCABBD8005F9D84 /* SystemClient in Frameworks */,
-				7A924BD82DCAB397005F9D84 /* APIClient in Frameworks */,
-				7A924BDB2DCAB87F005F9D84 /* Authentication in Frameworks */,
-				7A924BE12DCABDBB005F9D84 /* Crashlytics in Frameworks */,
+				7A3B92002DCC072500CE50F5 /* Implementations in Frameworks */,
 				7A8892242D2FAE6A00B0276B /* AppCore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,13 +177,13 @@
 			path = "Feedback Flow";
 			sourceTree = "<group>";
 		};
-		7A9E6BCF2DC52183005F4828 /* Mocks */ = {
+		7A9E6BCF2DC52183005F4828 /* DevApps */ = {
 			isa = PBXGroup;
 			children = (
 				7A9E6BC92DC52183005F4828 /* Feedback Mock */,
 				7A9E6BCE2DC52183005F4828 /* Feedback Flow */,
 			);
-			path = Mocks;
+			path = DevApps;
 			sourceTree = "<group>";
 		};
 		B1057F2B2843FD8600B9EE2F = {
@@ -202,7 +194,7 @@
 				7A9A211D2D89CD7500C40A41 /* PushNotifications */,
 				7A6736522D6F5EA300B392DD /* Config */,
 				B1057F362843FD8600B9EE2F /* App */,
-				7A9E6BCF2DC52183005F4828 /* Mocks */,
+				7A9E6BCF2DC52183005F4828 /* DevApps */,
 				7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */,
 				7A9E6BAD2DC4ECEB005F4828 /* FeedbackFlow.app */,
 				7A9E6BAE2DC4ECEB005F4828 /* Lint.framework */,
@@ -363,6 +355,7 @@
 				7A924BDC2DCABBD3005F9D84 /* NotificationClient */,
 				7A924BDE2DCABBD8005F9D84 /* SystemClient */,
 				7A924BE02DCABDBB005F9D84 /* Crashlytics */,
+				7A3B91FF2DCC072500CE50F5 /* Implementations */,
 			);
 			productName = Feedback;
 			productReference = 7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */;
@@ -1430,6 +1423,10 @@
 		285F02882C12328F00AE8942 /* FeedbackFlow */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FeedbackFlow;
+		};
+		7A3B91FF2DCC072500CE50F5 /* Implementations */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Implementations;
 		};
 		7A5D85802DBA91B400737F11 /* LiveClients */ = {
 			isa = XCSwiftPackageProductDependency;

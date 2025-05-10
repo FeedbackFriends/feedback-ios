@@ -171,6 +171,7 @@ public struct FeedbackFlowView: View {
         .animation(.bouncy, value: showNavigateBackButton)
     }
 }
+
 #Preview {
     FeedbackFlowView(
         store: Store(initialState: FeedbackFlow.State.initialState(feedbackSession: .mock)) {

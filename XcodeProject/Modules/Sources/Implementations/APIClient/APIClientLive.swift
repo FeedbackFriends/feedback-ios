@@ -6,11 +6,11 @@ import Model
 import OpenAPI
 
 public extension APIClient {
-    static func api(
+    static func live(
         client api: APIProtocol,
-        fcmToken: @escaping () async throws -> String
+        provideFcmToken: @escaping () async -> String?,
+        sessionCache: SessionCache = SessionCache()
     ) -> APIClient {
-        let sessionCache = SessionCache()
         let updatedSessionManager = UpdatedSessionManager()
         return APIClient(
             deleteAccount: {
@@ -44,9 +44,17 @@ public extension APIClient {
                     return ()
                 }
             },
-            updateFcmToken: { fcmToken in
+            linkFCMTokenToAccount: {
+                guard let fcmToken = await provideFcmToken() else { return }
                 try await withAuthorization {
-                    _ = try await api.updateFcmToken(body: .json(.init(fcmToken: fcmToken)))
+                    _ = try await api.linkFCMTokenToAccount(body: .json(.init(fcmToken: fcmToken)))
+                    return ()
+                }
+            },
+            logout: {
+                guard let fcmToken = await provideFcmToken() else { return }
+                try await withAuthorization {
+                    _ = try await api.logout(body: .json(.init(fcmToken: fcmToken)))
                     return ()
                 }
             },
@@ -122,7 +130,7 @@ public extension APIClient {
                             body: .json(
                                 .init(
                                     requestedRole: optionalRole?.rawValue.uppercasingFirst(),
-                                    fcmToken: fcmToken()
+                                    fcmToken: provideFcmToken()
                                 )
                             )
                         )

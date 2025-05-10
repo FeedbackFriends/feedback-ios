@@ -33,6 +33,7 @@ public struct AppCoreView: View {
         .onOpenURL { incomingURL in
             store.send(.onOpenURL(incomingURL))
         }
+        .alert($store.scope(state: \.logout.destination?.alert, action: \.logout.destination.alert))
     }
     
     @ViewBuilder
@@ -54,14 +55,14 @@ public struct AppCoreView: View {
     private func errorView(_ errorType: AppCore.ErrorType) -> some View {
         VStack {
             ErrorView(error: errorType.error, isLoading: $store.isLoading) {
-                
                 store.send(.tryAgainButtonTap(errorType))
             }
             Button("Log out") {
-                self.store.send(.onLogoutButtonTap)
+                store.send(.logout(.logoutButtonTap))
             }
-            .padding(.bottom, 20)
             .buttonStyle(SecondaryToolbarButtonStyle())
+            .isLoading(store.logout.logoutInFlight)
+            .padding(.bottom, 20)
         }
         .background(Color.themeBackground.ignoresSafeArea())
     }

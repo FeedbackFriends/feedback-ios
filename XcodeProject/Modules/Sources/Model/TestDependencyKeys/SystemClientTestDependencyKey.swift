@@ -9,6 +9,7 @@ public extension DependencyValues {
 }
 
 extension SystemClient: TestDependencyKey {
+    public static let testValue = SystemClient()
     public static let previewValue = Self.init(
         setUserInterfaceStyle: { _ in },
         openSettingsURLString: { "https://letsgrow.dk" },
@@ -17,5 +18,4 @@ extension SystemClient: TestDependencyKey {
         appleMailUrl: { _ , _ in URL(string: "https://letsgrow.dk")! },
         appStoreReviewUrl: { URL(string: "https://letsgrow.dk")! }
     )
-    public static let testValue = SystemClient()
 }

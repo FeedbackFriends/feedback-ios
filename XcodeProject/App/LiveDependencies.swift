@@ -2,16 +2,12 @@ import ComposableArchitecture
 import Foundation
 import UIKit
 import AppCore
-import APIClient
 import Model
 import Logger
+import Implementations
 import OpenAPIURLSession
 import OpenAPIRuntime
-import SystemClient
-import NotificationClient
 import OpenAPI
-import Authentication
-import Crashlytics
 import FirebaseMessaging
 
 var deviceId: String {
@@ -33,7 +29,7 @@ extension AuthClient: @retroactive DependencyKey {
 
 extension APIClient: @retroactive DependencyKey {
     public static var liveValue: APIClient {
-        return .api(
+        return .live(
             client: Client(
                 serverURL: config.apiBaseUrl,
                 configuration: Configuration(),
@@ -44,8 +40,12 @@ extension APIClient: @retroactive DependencyKey {
                     DeviceIdHeaderMiddleware(deviceId: deviceId)
                 ]
             ),
-            fcmToken: {
-                try await Messaging.messaging().token()
+            provideFcmToken: {
+                do {
+                    return try await Messaging.messaging().token()
+                } catch {
+                    return nil
+                }
             }
         )
     }

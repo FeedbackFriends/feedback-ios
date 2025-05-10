@@ -1,6 +1,7 @@
 #if DEBUG
 import Foundation
-let mockAgenda =
+
+public let mockAgenda =
     """
     1. Opening Remarks (5 minutes)
     2. Team Member Updates (15 minutes)
@@ -10,7 +11,7 @@ let mockAgenda =
         - Updates on assigned tasks
     """
 
-func generateAgenda() -> String? {
+public func generateAgenda() -> String? {
     // 30% chance the agenda is nil
     if Bool.random() && Bool.random() {
         return nil
@@ -38,11 +39,11 @@ func generateAgenda() -> String? {
     return agenda.trimmingCharacters(in: .whitespacesAndNewlines)
 }
 
-func generateRandomDurationInMinutes() -> Int {
+public func generateRandomDurationInMinutes() -> Int {
     Int.random(in: 0...2400)
 }
 
-func generateRandomQuestions() -> [ParticipantQuestion] {
+public func generateRandomQuestions() -> [ParticipantQuestion] {
     [
         .init(
             id: UUID(),

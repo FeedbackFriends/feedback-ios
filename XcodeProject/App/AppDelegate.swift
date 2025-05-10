@@ -13,7 +13,7 @@ import UIKit
 import Firebase
 import UserNotifications
 import Logger
-import Crashlytics
+import Implementations
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     
