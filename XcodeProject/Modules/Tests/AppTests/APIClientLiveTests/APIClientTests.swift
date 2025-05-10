@@ -121,7 +121,7 @@ struct APIClientLiveTests {
                         .ok(.init())
                 }
             ),
-            fcmToken: { "" },
+            provideFcmToken: { "" },
             sessionCache: cache
         )
         

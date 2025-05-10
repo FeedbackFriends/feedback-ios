@@ -1,9 +1,11 @@
 @testable import Implementations
 @testable import Model
 import ComposableArchitecture
+import OpenAPI
 
 
 struct MockAPI: APIProtocol {
+    
     // MARK: - Handlers for endpoints
     var markActivityAsSeenHandler: (Operations.MarkActivityAsSeen.Input) async throws -> Operations.MarkActivityAsSeen.Output = { _ in
         fatalError("MockAPI: markActivityAsSeen unimplemented")
@@ -29,7 +31,7 @@ struct MockAPI: APIProtocol {
     var sendFeedbackHandler: (Operations.SendFeedback.Input) async throws -> Operations.SendFeedback.Output = { _ in
         fatalError("MockAPI: sendFeedback unimplemented")
     }
-    var linkFCMTokenToAccountHandler: (Operations.UpdateFcmToken.Input) async throws -> Operations.UpdateFcmToken.Output = { _ in
+    var linkFCMTokenToAccountHandler: (Operations.LinkFCMTokenToAccount.Input) async throws -> Operations.LinkFCMTokenToAccount.Output = { _ in
         fatalError("MockAPI: linkFCMTokenToAccount unimplemented")
     }
     var updateRoleHandler: (Operations.UpdateRole.Input) async throws -> Operations.UpdateRole.Output = { _ in
@@ -57,6 +59,10 @@ struct MockAPI: APIProtocol {
         fatalError("MockAPI: updateEvent unimplemented")
     }
     
+    func logoutHandler(_ input: OpenAPI.Operations.Logout.Input) async throws -> OpenAPI.Operations.Logout.Output {
+        fatalError("MockAPI: logout unimplemented")
+    }
+    
     // MARK: - APIProtocol conformance
     func markActivityAsSeen(_ input: Operations.MarkActivityAsSeen.Input) async throws -> Operations.MarkActivityAsSeen.Output {
         try await markActivityAsSeenHandler(input)
@@ -82,7 +88,7 @@ struct MockAPI: APIProtocol {
     func sendFeedback(_ input: Operations.SendFeedback.Input) async throws -> Operations.SendFeedback.Output {
         try await sendFeedbackHandler(input)
     }
-    func linkFCMTokenToAccount(_ input: Operations.UpdateFcmToken.Input) async throws -> Operations.UpdateFcmToken.Output {
+    func linkFCMTokenToAccount(_ input: Operations.LinkFCMTokenToAccount.Input) async throws -> Operations.LinkFCMTokenToAccount.Output {
         try await linkFCMTokenToAccountHandler(input)
     }
     func updateRole(_ input: Operations.UpdateRole.Input) async throws -> Operations.UpdateRole.Output {
@@ -108,5 +114,8 @@ struct MockAPI: APIProtocol {
     }
     func updateEvent(_ input: Operations.UpdateEvent.Input) async throws -> Operations.UpdateEvent.Output {
         try await updateEventHandler(input)
+    }
+    func logout(_ input: Operations.Logout.Input) async throws -> Operations.Logout.Output {
+        try await logoutHandler(input)
     }
 }

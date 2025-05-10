@@ -3,8 +3,9 @@ info:
   title: Feedback API
   description: |-
     API documentation for Lets Grow application.
-    GitHub: https://github.com/FeedbackFriends/feedback-backend/commit/c97d14d
-  version: 90-c97d14d
+
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/5ef343a)
+  version: 91-5ef343a
 servers:
 - url: http://localhost:8080
   description: Generated server url
