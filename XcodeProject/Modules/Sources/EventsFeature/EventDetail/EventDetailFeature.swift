@@ -35,11 +35,11 @@ public struct EventDetailFeature {
         @Shared var session: Session
         var shareText: String {
         """
-        You are invited to a feedback event '\(event.title)' with the code: \(event.pinCode).
-        Join here 
+        You’re invited to \(event.title)!   
+        Use pin code \(event.pinCode.value) to join.
+        
+        👇🏼 Tap the link to join:  
         \(inviteLink)
-        Best
-        \(event.ownerInfo.name ?? "")
         """
         }
         
