@@ -195,6 +195,16 @@ struct APIClientLiveTests {
                                             ),
                                             feedbackSummary: nil,
                                             questions: []
+//                                                body.questions.map {
+//                                                    .init(
+//                                                        id: $0.,
+//                                                        questionText: <#T##String#>,
+//                                                        feedbackType: <#T##Components.Schemas.ManagerQuestion.FeedbackTypePayload#>,
+//                                                        feedback: <#T##[Components.Schemas.FeedbackEntity]#>,
+//                                                        feedbackSummary: <#T##Components.Schemas.FeedbackSummaryDto?#>
+//                                                    )
+//                                                }
+                                            
                                         ),
                                         recentlyUsedQuestions: [
                                             .init(
@@ -210,12 +220,13 @@ struct APIClientLiveTests {
                     }
                 }
             ),
-            provideFcmToken: { "" },
+            provideFcmToken: { ""
+            },
             sessionCache: cache
         )
         
         var sessionChangedListener = await cache.sessionChangedListener().makeAsyncIterator()
-        let result = try await client.updateEvent(
+        let response = try await client.updateEvent(
             eventInput: .init(
                 title: "New title",
                 agenda: "New agenda",
@@ -232,17 +243,12 @@ struct APIClientLiveTests {
             id: originalEvent.id
         )
         let snapshot = await cache.getSession()
-        
-        let event = snapshot?.managerData?.managerEvents.first
-//        #expect(event?.id == updatedEvent.id)
-//        #expect(event?.title == "Updated Title")
-//        #expect(event?.agenda == "Updated Agenda")
-//        #expect(event?.durationInMinutes == 60)
-//        #expect(event?.location == "Room 2")
-//        #expect(event?.ownerInfo.name == "John")
-//        
-//        let updatedSession = await sessionChangedListener.next()
-//        #expect(updatedSession == snapshot)
+        #expect(snapshot?.managerData?.managerEvents.first == response)
+        #expect(snapshot?.managerData?.managerEvents.count == 1)
+        let onChangeSession = await sessionChangedListener.next()
+        #expect(onChangeSession?.managerData?.managerEvents.first == snapshot?.managerData?.managerEvents.first)
+//        #expect(onChangeSession?.managerData?.recentlyUsedQuestions.count == 1)
+//        #expect(onChangeSession?.managerData?.recentlyUsedQuestions.first?.questionText == "")
     }
     
     @Test
