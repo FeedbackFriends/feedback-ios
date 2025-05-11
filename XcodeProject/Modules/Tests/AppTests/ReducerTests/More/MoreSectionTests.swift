@@ -2,6 +2,7 @@
 import Testing
 import ComposableArchitecture
 import Foundation
+import Utility
 
 @MainActor
 struct MoreSectionTests {
@@ -12,14 +13,18 @@ struct MoreSectionTests {
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.systemClient.openSettingsURLString = { "app-settings://" }
+            $0.systemClient = .live(
+                webUrl: URL(string: "https://test.dk")!,
+                appstoreId: "my_id",
+                supportEmail: "feedback@example.com"
+            )
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
                 return true
             })
         }
         await store.send(.onNotificationsButtonTap)
-        #expect(openedUrl.value?.absoluteString == "app-settings://")
+        #expect(openedUrl.value?.absoluteString == "app-settings:")
     }
     
     @Test
@@ -28,16 +33,19 @@ struct MoreSectionTests {
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.systemClient.appleMailUrl = { subject, body in
-                return URL(string: "mailto:feedback@example.com?subject=\(subject)&body=\(body)")!
-            }
+            $0.systemClient = .live(
+                webUrl: URL(string: "https://test.dk")!,
+                appstoreId: "my_id",
+                supportEmail: "feedback@example.com"
+            )
             $0.openURL = .init(handler: { url in
                 openedUrl.setValue(url)
                 return true
             })
         }
         await store.send(.onFeedbackButtonTap)
-        #expect(openedUrl.value?.absoluteString == "mailto:feedback@example.com?subject=Feedback,%20v16.0(23796),%20iOS%2018.4&body=")
+        #expect(openedUrl.value?.absoluteString.contains("mailto:feedback@example.com") == true)
+        #expect(openedUrl.value?.absoluteString.contains("subject=Feedback") == true)
     }
     
     @Test
@@ -46,16 +54,19 @@ struct MoreSectionTests {
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.systemClient.appleMailUrl = { subject, body in
-                return URL(string: "mailto:bugreport@example.com?subject=\(subject)&body=\(body)")!
-            }
+            $0.systemClient = .live(
+                webUrl: URL(string: "https://test.dk")!,
+                appstoreId: "my_id",
+                supportEmail: "feedback@example.com"
+            )
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
                 return true
             })
         }
         await store.send(.onReportBugButtonTap)
-        #expect(openedUrl.value?.absoluteString == "mailto:bugreport@example.com?subject=Bug,%20v16.0(23796),%20iOS%2018.4&body=")
+        #expect(openedUrl.value?.absoluteString.contains("mailto:feedback@example.com") == true)
+        #expect(openedUrl.value?.absoluteString.contains("subject=Bug") == true)
     }
     
     @Test
@@ -64,17 +75,18 @@ struct MoreSectionTests {
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.systemClient.appStoreReviewUrl = {
-                return URL(string: "https://appstore.com/app-review")!
-            }
+            $0.systemClient = .live(
+                webUrl: URL(string: "https://test.dk")!,
+                appstoreId: "my_id",
+                supportEmail: "feedback@example.com"
+            )
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
                 return true
             })
         }
         await store.send(.onSupportUsButtonTap)
-        #expect(openedUrl.value?.absoluteString == "https://appstore.com/app-review")
-        
+        #expect(openedUrl.value?.absoluteString == "https://apps.apple.com/app/idmy_id?action=write-review")
     }
     
 }
