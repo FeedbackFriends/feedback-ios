@@ -9,17 +9,7 @@ import OpenAPIURLSession
 import OpenAPIRuntime
 import OpenAPI
 import FirebaseMessaging
-
-var deviceId: String {
-    let deviceIdKey = "iCloud.dk.nicolaidam.device-id"
-    if let uuidString = NSUbiquitousKeyValueStore.default.string(forKey: deviceIdKey),
-       let uuid = UUID(uuidString: uuidString) {
-        return uuid.uuidString
-    }
-    let uuid = UUID()
-    NSUbiquitousKeyValueStore.default.set(uuid.uuidString, forKey: deviceIdKey)
-    return uuid.uuidString
-}
+import Utility
 
 extension AuthClient: @retroactive DependencyKey {
     public static var liveValue:  AuthClient {
@@ -37,7 +27,7 @@ extension APIClient: @retroactive DependencyKey {
                 middlewares: [
                     AuthorisationMiddleware(),
                     DelayMiddleware(),
-                    DeviceIdHeaderMiddleware(deviceId: deviceId)
+                    DeviceIdHeaderMiddleware(deviceId: DeviceInfo().deviceID())
                 ]
             ),
             provideFcmToken: {

@@ -14,6 +14,7 @@ import Firebase
 import UserNotifications
 import Logger
 import Implementations
+import Utility
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     
@@ -34,7 +35,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         UIApplication.shared.registerForRemoteNotifications()
         Logger.setup(
             logClients: [
-                CrashlyticsLoggingClient.create(deviceId: deviceId, minLevel: .error),
+                CrashlyticsLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .error),
                 OSLogClient(subsystem: Bundle.main.bundleIdentifier!, category: "LoggingClient")
             ]
         )

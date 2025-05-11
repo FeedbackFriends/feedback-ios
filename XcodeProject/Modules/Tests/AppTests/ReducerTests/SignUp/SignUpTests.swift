@@ -17,6 +17,9 @@ struct SignUpTests {
         await store.send(.signUpWithAppleButtonTap) {
             $0.appleLoginInFlight = true
         }
+        await store.receive(\.signUpSuccess) {
+            $0.appleLoginInFlight = false
+        }
     }
 
     @Test
@@ -29,6 +32,9 @@ struct SignUpTests {
 
         await store.send(.signUpWithGoogleButtonTap) {
             $0.googleLoginInFlight = true
+        }
+        await store.receive(\.signUpSuccess) {
+            $0.googleLoginInFlight = false
         }
     }
 

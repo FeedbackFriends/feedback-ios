@@ -2,7 +2,6 @@ import Combine
 import Model
 import Foundation
 import DesignSystem
-import UIKit
 import ComposableArchitecture
 import Logger
 import Utility
@@ -50,15 +49,25 @@ public struct MoreSection {
                 }
                 
             case .onFeedbackButtonTap:
-                let subject = "Feedback, \(deviceInformation)"
-                let body = ""
+                let subject = "Feedback"
+                let body = """
+                    <Add your message here>
+                    
+                    Device info
+                    \(DeviceInfo().summary())
+                    """
                 return .run { send in
                     await openURL(systemClient.appleMailUrl(subject: subject, body: body))
                 }
                 
             case .onReportBugButtonTap:
-                let subject = "Bug, \(deviceInformation)"
-                let body = ""
+                let subject = "Bug"
+                let body = """
+                    <Add your message here>
+                    
+                    Device info
+                    \(DeviceInfo().summary())
+                    """
                 return .run { send in
                     await openURL(systemClient.appleMailUrl(subject: subject, body: body))
                 }
@@ -73,11 +82,4 @@ public struct MoreSection {
             }
         }
     }
-}
-
-var deviceInformation: String {
-    let version = Bundle.main.versionNumber
-    let build = Bundle.main.buildNumber
-    let os = "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)"
-    return "v\(version)(\(build)), \(os)"
 }

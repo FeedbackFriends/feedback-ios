@@ -11,7 +11,7 @@
 		7A034FE02D9AC9430059C6F3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
 		7A3B924E2DCFC4CD00CE50F5 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A3B924D2DCFC4CD00CE50F5 /* AppCore */; };
 		7A3B92502DCFC4D000CE50F5 /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A3B924F2DCFC4D000CE50F5 /* Implementations */; };
-		7A5D85812DBA91B400737F11 /* LiveClients in Frameworks */ = {isa = PBXBuildFile; productRef = 7A5D85802DBA91B400737F11 /* LiveClients */; };
+		7A5D85812DBA91B400737F11 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		7A64E61C2D554DF80093C245 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A64E6192D554DF80093C245 /* Config.swift */; };
 		7A8892262D2FAE6A00B0276B /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
 		7A9E6BB12DC4F512005F4828 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */; };
@@ -83,7 +83,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A8892262D2FAE6A00B0276B /* FeedbackFlow in Frameworks */,
-				7A5D85812DBA91B400737F11 /* LiveClients in Frameworks */,
+				7A5D85812DBA91B400737F11 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -265,7 +265,6 @@
 			name = FeedbackFlow;
 			packageProductDependencies = (
 				285F02882C12328F00AE8942 /* FeedbackFlow */,
-				7A5D85802DBA91B400737F11 /* LiveClients */,
 			);
 			productName = FeedbackFlow;
 			productReference = 7A9E6BAD2DC4ECEB005F4828 /* FeedbackFlow.app */;

@@ -48,11 +48,11 @@ class FirebaseService {
                 throw AuthenticationError.couldNotFindWindow
             }
             
-            guard let deviceId = FirebaseApp.app()?.options.clientID else {
+            guard let clientID = FirebaseApp.app()?.options.clientID else {
                 throw AuthenticationError.couldNotFindClientID
             }
             
-            let config = GIDConfiguration(clientID: deviceId)
+            let config = GIDConfiguration(clientID: clientID)
             
             GIDSignIn.sharedInstance.configuration = config
             let googleResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: rootViewController)

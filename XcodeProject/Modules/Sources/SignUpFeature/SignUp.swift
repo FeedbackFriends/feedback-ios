@@ -38,6 +38,7 @@ public struct SignUp {
         case binding(BindingAction<State>)
         case presentError(Error)
         case loginCancelled
+        case signUpSuccess
     }
     
     public init() {}
@@ -69,6 +70,7 @@ public struct SignUp {
                 return .run { send in
                     do {
                         _ = try await authClient.appleLogin()
+                        await send(.signUpSuccess)
                     }
                     catch let error as AuthenticationError where error == .loginCancelled {
                         await send(.loginCancelled)
@@ -84,6 +86,7 @@ public struct SignUp {
                 return .run { send in
                     do {
                         _ = try await authClient.googleLogin()
+                        await send(.signUpSuccess)
                     }
                     catch let error as AuthenticationError where error == .loginCancelled {
                         await send(.loginCancelled)
@@ -94,6 +97,11 @@ public struct SignUp {
                     }
                 }
             case .loginCancelled:
+                state.appleLoginInFlight = false
+                state.googleLoginInFlight = false
+                return .none
+                
+            case .signUpSuccess:
                 state.appleLoginInFlight = false
                 state.googleLoginInFlight = false
                 return .none

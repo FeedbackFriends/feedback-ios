@@ -40,6 +40,7 @@ public struct AppDelegateReducer {
                 return .run { send in
                     let userStateChangedStream = await authClient.userStateChanged()
                     for await loggedInUser in userStateChangedStream {
+                        Logger.debug("🔐 Auth state changed to: \(loggedInUser)")
                         await send(.authenticationStateChanged(loggedInUser), animation: .bouncy(duration: 1))
                     }
                 }

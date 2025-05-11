@@ -5,6 +5,7 @@ import DesignSystem
 import SwiftUI
 import ComposableArchitecture
 import FeedbackFlowFeature
+import Utility
 
 public struct TabbarView: View {
     
@@ -278,7 +279,7 @@ private extension TabbarView {
                 listElementView(image: "rectangle.portrait.and.arrow.right", label: "Logout")
             }
         } footer: {
-            Text("\(store.appVersion)")
+            Text("\(DeviceInfo().version())")
                 .frame(maxWidth: .infinity)
                 .multilineTextAlignment(.center)
                 .font(.montserratThin, 12)

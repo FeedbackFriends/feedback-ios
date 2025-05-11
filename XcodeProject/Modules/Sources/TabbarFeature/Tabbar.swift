@@ -50,7 +50,6 @@ public struct Tabbar {
         var participantEvents: ParticipantEvents.State
         var deleteAccount: DeleteAccount.State
         @Presents var destination: Destination.State?
-        let appVersion = Bundle.main.versionNumber
         
         public init(
             session: Shared<Session>,
