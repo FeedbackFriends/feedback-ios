@@ -53,7 +53,7 @@ public struct EventDetailFeatureView: View {
         }
         .foregroundColor(Color.themeDarkGray)
         .frame(maxWidth: .infinity)
-        .onAppear { store.send(.onAppear) }
+        .task { await store.send(.onTask).finish() }
         .toolbar { toolbarContent }
         .navigationTitle(store.navigationTitle)
         .sheet(

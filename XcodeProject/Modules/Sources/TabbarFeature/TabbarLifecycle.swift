@@ -23,7 +23,7 @@ public struct TabbarLifecycle {
     }
     
     public enum Action {
-        case onAppear
+        case onTask
         case updatedSessionResponse(UpdatedSession?)
         case sessionUpdated(Session)
         case removeBanner
@@ -42,8 +42,6 @@ public struct TabbarLifecycle {
     @Dependency(\.continuousClock) var clock
     @Dependency(\.notificationClient) var notificationClient
     
-    enum CancelID { case timer }
-    
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -61,7 +59,7 @@ public struct TabbarLifecycle {
                 }
                 return .none
                 
-            case .onAppear:
+            case .onTask:
                 return .merge(
                     .run { [role = state.session.role] send in
                         if await notificationClient
@@ -87,7 +85,7 @@ public struct TabbarLifecycle {
                                     )
                             }
                         }
-                    }.cancellable(id: CancelID.timer, cancelInFlight: true)
+                    }
                 )
                 
             case .updatedSessionResponse(let updatedSession):

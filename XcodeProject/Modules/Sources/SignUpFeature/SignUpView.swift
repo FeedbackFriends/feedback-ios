@@ -54,6 +54,13 @@ private extension SignUpView {
                 store.send(.signUpWithAppleButtonTap)
             } label: {
                 HStack(spacing: 14) {
+                    if store.appleLoginInFlight {
+                        ProgressView()
+                            .transition(.blurReplace)
+                            .progressViewStyle(
+                                CircularProgressViewStyle(tint: Color.white)
+                            )
+                    }
                     Image.iconApple
                         .resizable()
                         .scaledToFill()
@@ -64,10 +71,18 @@ private extension SignUpView {
                 .padding(.leading, 24)
             }
             .buttonStyle(LargeButtonStyle(color: Color.black.gradient))
+            .disabled(store.googleLoginInFlight || store.appleLoginInFlight)
             Button {
                 store.send(.signUpWithGoogleButtonTap)
             } label: {
                 HStack(spacing: 14) {
+                    if store.googleLoginInFlight {
+                        ProgressView()
+                            .transition(.blurReplace)
+                            .progressViewStyle(
+                                CircularProgressViewStyle(tint: Color.themeDarkGray)
+                            )
+                    }
                     Image.iconGoogle
                         .resizable()
                         .scaledToFill()
@@ -78,10 +93,17 @@ private extension SignUpView {
                 }
                 .padding(.leading, 24)
             }
-            .buttonStyle(LargeButtonStyle(color: Color.white))
+            .buttonStyle(
+                LargeButtonStyle(
+                    color: Color.white
+                )
+            )
+            .disabled(store.googleLoginInFlight || store.appleLoginInFlight)
             .lightShadow()
             .padding(.bottom, 16)
         }
+        .animation(.bouncy, value: store.googleLoginInFlight)
+        .animation(.bouncy, value: store.appleLoginInFlight)
         .padding(.all, Theme.padding)
     }
 }

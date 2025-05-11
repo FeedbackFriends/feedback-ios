@@ -19,12 +19,14 @@ public struct TabbarView: View {
         let createEventStore = $store.scope(state: \.destination?.createEvent, action: \.destination.createEvent)
         let joinEventStore = $store.scope(state: \.destination?.joinEvent, action: \.destination.joinEvent)
         let activityStore = $store.scope(state: \.destination?.activity, action: \.destination.activity)
-        
         let notificationPermissionPromptStore = $store.scope(
             state: \.destination?.notificationPermissionPrompt,
             action: \.destination.notificationPermissionPrompt
         )
         tabView
+            .task {
+                await self.store.send(.tabbarLifecyle(.onTask)).finish()
+            }
             .onChange(of: scenePhase) { _, newValue in
                 switch newValue {
                 
@@ -94,9 +96,6 @@ public struct TabbarView: View {
             ) { store in
                 FeedbackFlowView(store: store)
             }
-
-            .onAppear { store.send(.tabbarLifecyle(.onAppear)) }
-        
     }
 }
 

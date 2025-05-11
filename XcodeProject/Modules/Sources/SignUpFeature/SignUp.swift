@@ -18,10 +18,16 @@ public struct SignUp {
     @ObservableState
     public struct State: Equatable {
         @Presents public var destination: Destination.State?
+        var googleLoginInFlight: Bool
+        var appleLoginInFlight: Bool
         public init(
-            destination: Destination.State? = nil
+            destination: Destination.State? = nil,
+            googleLoginInFlight: Bool = false,
+            appleLoginInFlight: Bool = false
         ) {
             self.destination = destination
+            self.googleLoginInFlight = googleLoginInFlight
+            self.appleLoginInFlight = appleLoginInFlight
         }
     }
     
@@ -31,6 +37,7 @@ public struct SignUp {
         case destination(PresentationAction<Destination.Action>)
         case binding(BindingAction<State>)
         case presentError(Error)
+        case loginCancelled
     }
     
     public init() {}
@@ -46,6 +53,8 @@ public struct SignUp {
             switch action {
                 
             case .presentError(let error):
+                state.appleLoginInFlight = false
+                state.googleLoginInFlight = false
                 state.destination = .alert(.init(error: error))
                 return .none
                 
@@ -56,11 +65,13 @@ public struct SignUp {
                 return .none
                 
             case .signUpWithAppleButtonTap:
+                state.appleLoginInFlight = true
                 return .run { send in
                     do {
                         _ = try await authClient.appleLogin()
                     }
                     catch let error as AuthenticationError where error == .loginCancelled {
+                        await send(.loginCancelled)
                         return
                     }
                     catch {
@@ -69,17 +80,23 @@ public struct SignUp {
                 }
                 
             case .signUpWithGoogleButtonTap:
+                state.googleLoginInFlight = true
                 return .run { send in
                     do {
                         _ = try await authClient.googleLogin()
                     }
                     catch let error as AuthenticationError where error == .loginCancelled {
+                        await send(.loginCancelled)
                         return
                     }
                     catch {
                         await send(.presentError(error))
                     }
                 }
+            case .loginCancelled:
+                state.appleLoginInFlight = false
+                state.googleLoginInFlight = false
+                return .none
             }
         }
         .ifLet(\.$destination, action: \.destination)

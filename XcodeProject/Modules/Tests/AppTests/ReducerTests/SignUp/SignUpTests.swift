@@ -14,7 +14,9 @@ struct SignUpTests {
             $0.authClient.appleLogin = { () }
         }
 
-        await store.send(.signUpWithAppleButtonTap)
+        await store.send(.signUpWithAppleButtonTap) {
+            $0.appleLoginInFlight = true
+        }
     }
 
     @Test
@@ -25,7 +27,9 @@ struct SignUpTests {
             $0.authClient.googleLogin = { () }
         }
 
-        await store.send(.signUpWithGoogleButtonTap)
+        await store.send(.signUpWithGoogleButtonTap) {
+            $0.googleLoginInFlight = true
+        }
     }
 
     @Test
@@ -35,7 +39,12 @@ struct SignUpTests {
         } withDependencies: {
             $0.authClient.appleLogin = { throw AuthenticationError.loginCancelled }
         }
-        await store.send(.signUpWithAppleButtonTap)
+        await store.send(.signUpWithAppleButtonTap) {
+            $0.appleLoginInFlight = true
+        }
+        await store.receive(\.loginCancelled) {
+            $0.appleLoginInFlight = false
+        }
     }
 
     @Test
@@ -46,7 +55,12 @@ struct SignUpTests {
             $0.authClient.googleLogin = { throw AuthenticationError.loginCancelled }
         }
 
-        await store.send(.signUpWithGoogleButtonTap)
+        await store.send(.signUpWithGoogleButtonTap) {
+            $0.googleLoginInFlight = true
+        }
+        await store.receive(\.loginCancelled) {
+            $0.googleLoginInFlight = false
+        }
     }
 
     @Test
@@ -57,9 +71,12 @@ struct SignUpTests {
             $0.authClient.appleLogin = { throw TestError.mock }
         }
 
-        await store.send(.signUpWithAppleButtonTap)
+        await store.send(.signUpWithAppleButtonTap) {
+            $0.appleLoginInFlight = true
+        }
         await store.receive(\.presentError) {
             $0.destination = .alert(.init(error: TestError.mock))
+            $0.appleLoginInFlight = false
         }
     }
 
@@ -71,9 +88,12 @@ struct SignUpTests {
             $0.authClient.googleLogin = { throw TestError.mock }
         }
 
-        await store.send(.signUpWithGoogleButtonTap)
+        await store.send(.signUpWithGoogleButtonTap) {
+            $0.googleLoginInFlight = true
+        }
         await store.receive(\.presentError) {
             $0.destination = .alert(.init(error: TestError.mock))
+            $0.googleLoginInFlight = false
         }
     }
 }

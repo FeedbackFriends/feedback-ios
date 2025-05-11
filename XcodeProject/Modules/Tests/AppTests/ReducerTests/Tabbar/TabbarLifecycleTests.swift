@@ -8,7 +8,7 @@ import Model
 struct TabbarLifecycleTests {
 
     @Test
-    func testNotificationPromptTriggeredOnAppear() async {
+    func testNotificationPromptTriggeredOnTask() async {
         let session = Shared(value: Session.mock())
         let clock = TestClock()
         let store = TestStore(initialState: TabbarLifecycle.State(session: session)) {
@@ -40,7 +40,7 @@ struct TabbarLifecycleTests {
         }
         store.exhaustivity = .off
 
-        await store.send(.onAppear)
+        await store.send(.onTask)
         await store.receive(\.presentNotificationPermissionPrompt)
         await store.receive(\.delegate, .presentNotificationPermissionPrompt)
         await clock.advance(by: .seconds(30))

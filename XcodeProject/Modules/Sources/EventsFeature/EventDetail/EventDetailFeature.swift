@@ -60,7 +60,7 @@ public struct EventDetailFeature {
         case binding(BindingAction<State>)
         case destination(PresentationAction<Destination.Action>)
         case moreButtonTapped
-        case onAppear
+        case onTask
         case retryButtonTap
         case refresh
         case sessionUpdated(Session)
@@ -136,7 +136,7 @@ public struct EventDetailFeature {
                 )
                 return .none
                 
-            case .onAppear:
+            case .onTask:
                 return .publisher {
                     state.$session.publisher
                         .map(Action.sessionUpdated)

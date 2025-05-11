@@ -30,8 +30,8 @@ public struct AppCoreView: View {
             }
         }
         .animation(.linear(duration: 0.8), value: store.destination)
-        .onOpenURL { incomingURL in
-            store.send(.onOpenURL(incomingURL))
+        .onOpenURL { url in
+            store.send(.onOpenURL(url))
         }
         .alert($store.scope(state: \.logout.destination?.alert, action: \.logout.destination.alert))
     }
