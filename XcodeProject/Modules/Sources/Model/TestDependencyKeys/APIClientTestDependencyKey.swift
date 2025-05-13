@@ -16,7 +16,7 @@ extension APIClient: TestDependencyKey {
         logout: {},
         getSession: { .mock() },
         startFeedbackSession: { _ in .mock },
-        sendFeedback: { _, _ in true },
+        submitFeedback: { _, _ in true },
         createEvent: { _ in .mock() },
         updateEvent: { _, _ in .mock() },
         deleteEvent: { _ in },

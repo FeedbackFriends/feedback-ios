@@ -79,9 +79,9 @@ public extension APIClient {
                     }
                 }
             },
-            sendFeedback: { feedback, pinCode in
+            submitFeedback: { feedback, pinCode in
                 try await withAuthorization {
-                    let response = try await api.sendFeedback(
+                    let response = try await api.submitFeedback(
                         .init(
                             body: .json(
                                 .init(

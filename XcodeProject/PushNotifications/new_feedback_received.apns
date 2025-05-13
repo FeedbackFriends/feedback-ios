@@ -1,0 +1,10 @@
+{
+    "Simulator Target Bundle": "dk.nicolaidam.letsgrow",
+    "aps": {
+        "alert": {
+            "title-loc-key": "notification_feedback_received_title",
+            "loc-key": "notification_feedback_received_body",
+            "loc-args": ["<count>", "<event_title>"]
+        }
+    }
+}

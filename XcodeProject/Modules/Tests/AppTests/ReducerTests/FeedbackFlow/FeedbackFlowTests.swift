@@ -57,7 +57,7 @@ struct FeedbackFlowTests {
         let store = TestStore(initialState: .initialState(feedbackSession: session)) {
             FeedbackFlow()
         } withDependencies: {
-            $0.apiClient.sendFeedback = { _, _ in true }
+            $0.apiClient.submitFeedback = { _, _ in true }
             $0.continuousClock = clock
             $0.dismiss = .init { didDismiss.setValue(true) }
         }
@@ -121,7 +121,7 @@ struct FeedbackFlowTests {
             $0.submitFeedbackInFlight = true
         }
         
-        await store.receive(\.sendFeedbackResponse) {
+        await store.receive(\.submitFeedbackResponse) {
             $0.presentSuccessOverlay = true
             $0.submitFeedbackInFlight = false
         }
@@ -146,14 +146,14 @@ struct FeedbackFlowTests {
         let store = TestStore(initialState: readyForSubmissionState) {
             FeedbackFlow()
         } withDependencies: {
-            $0.apiClient.sendFeedback = { _, _ in false }
+            $0.apiClient.submitFeedback = { _, _ in false }
             $0.continuousClock = ImmediateClock()
             $0.dismiss = .init { didDismiss.setValue(true) }
         }
         await store.send(.submitButtonTap) {
             $0.submitFeedbackInFlight = true
         }
-        await store.receive(\.sendFeedbackResponse) {
+        await store.receive(\.submitFeedbackResponse) {
             $0.presentSuccessOverlay = true
             $0.submitFeedbackInFlight = false
         }
@@ -167,7 +167,7 @@ struct FeedbackFlowTests {
         let store = TestStore(initialState: readyForSubmissionState) {
             FeedbackFlow()
         } withDependencies: {
-            $0.apiClient.sendFeedback = { _, _ in throw error }
+            $0.apiClient.submitFeedback = { _, _ in throw error }
             $0.continuousClock = ImmediateClock()
         }
         await store.send(.submitButtonTap) {

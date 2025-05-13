@@ -4,8 +4,8 @@ info:
   description: |-
     API documentation for Lets Grow application.
 
-    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/d59c8a7)
-  version: 94-d59c8a7
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/a8a5bae)
+  version: 97-a8a5bae
 servers:
 - url: http://localhost:8080
   description: Generated server url
@@ -204,12 +204,12 @@ paths:
     post:
       tags:
       - Feedback
-      operationId: sendFeedback
+      operationId: submitFeedback
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SendFeedbackInput'
+              $ref: '#/components/schemas/SubmitFeedbackInput'
         required: true
       responses:
         "200":
@@ -733,7 +733,7 @@ components:
           - ThumpsUpThumpsDown
           - Opinion
           - OneToTen
-    SendFeedbackInput:
+    SubmitFeedbackInput:
       required:
       - feedback
       - pinCode

@@ -28,8 +28,8 @@ struct MockAPI: APIProtocol {
     var startFeedbackSessionHandler: @Sendable (Operations.StartFeedbackSession.Input) async throws -> Operations.StartFeedbackSession.Output = { _ in
         fatalError("MockAPI: startFeedbackSession unimplemented")
     }
-    var sendFeedbackHandler: @Sendable (Operations.SendFeedback.Input) async throws -> Operations.SendFeedback.Output = { _ in
-        fatalError("MockAPI: sendFeedback unimplemented")
+    var submitFeedbackHandler: @Sendable (Operations.SubmitFeedback.Input) async throws -> Operations.SubmitFeedback.Output = { _ in
+        fatalError("MockAPI: submitFeedback unimplemented")
     }
     var linkFCMTokenToAccountHandler: @Sendable (Operations.LinkFCMTokenToAccount.Input) async throws -> Operations.LinkFCMTokenToAccount.Output = { _ in
         fatalError("MockAPI: linkFCMTokenToAccount unimplemented")
@@ -85,8 +85,8 @@ struct MockAPI: APIProtocol {
     func startFeedbackSession(_ input: Operations.StartFeedbackSession.Input) async throws -> Operations.StartFeedbackSession.Output {
         try await startFeedbackSessionHandler(input)
     }
-    func sendFeedback(_ input: Operations.SendFeedback.Input) async throws -> Operations.SendFeedback.Output {
-        try await sendFeedbackHandler(input)
+    func submitFeedback(_ input: Operations.SubmitFeedback.Input) async throws -> Operations.SubmitFeedback.Output {
+        try await submitFeedbackHandler(input)
     }
     func linkFCMTokenToAccount(_ input: Operations.LinkFCMTokenToAccount.Input) async throws -> Operations.LinkFCMTokenToAccount.Output {
         try await linkFCMTokenToAccountHandler(input)

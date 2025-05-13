@@ -191,6 +191,10 @@ public struct AppCore {
                     }
                 }
                 
+            case .appDelegate(.notificationReceived):
+                state.destination = .isLoading
+                return getSession(state: &state)
+                
             case .appDelegate:
                 return .none
                 

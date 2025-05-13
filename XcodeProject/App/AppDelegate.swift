@@ -24,6 +24,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         AppCore()._printChanges()
     }
     
+    /// On app launch
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
@@ -41,6 +42,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         )
         intialStore.send(.appDelegate(.didFinishLaunchingWithOptions))
         return true
+    }
+    
+    /// When a notification is received while the app is alive
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        intialStore.send(.appDelegate(.notificationReceived))
     }
 }
 

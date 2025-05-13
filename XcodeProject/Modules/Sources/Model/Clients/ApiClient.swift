@@ -16,7 +16,7 @@ public struct APIClient: Sendable {
     @DependencyEndpoint
     public var startFeedbackSession: @Sendable (_ pinCode: PinCode) async throws -> FeedbackSession
     @DependencyEndpoint
-    public var sendFeedback: @Sendable (_ feedback: [FeedbackInput], _ pinCode: PinCode) async throws -> Bool
+    public var submitFeedback: @Sendable (_ feedback: [FeedbackInput], _ pinCode: PinCode) async throws -> Bool
     @DependencyEndpoint
     public var createEvent: @Sendable (_ eventInput: EventInput) async throws -> ManagerEvent
     @DependencyEndpoint

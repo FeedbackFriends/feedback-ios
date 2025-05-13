@@ -21,7 +21,7 @@ extension APIClient: @retroactive DependencyKey {
     public static var liveValue: APIClient {
         return .live(
             client: Client(
-                serverURL: config.apiBaseUrl,
+                serverURL: Config().apiBaseUrl,
                 configuration: Configuration(),
                 transport: URLSessionTransport(),
                 middlewares: [
@@ -45,9 +45,9 @@ extension SystemClient: @retroactive DependencyKey {
     
     public static var liveValue: SystemClient {
         .live(
-            webUrl: config.webBaseUrl,
-            appstoreId: config.appStoreId,
-            supportEmail: config.supportEmail
+            webUrl: Config().webBaseUrl,
+            appstoreId: Config().appStoreId,
+            supportEmail: Config().supportEmail
         )
     }
 }

@@ -13,15 +13,8 @@ public struct AppDelegateReducer {
     public enum Action {
         case didFinishLaunchingWithOptions
         case didReceiveRegistrationToken(String?)
-        case onTapNotification(NotificationType)
         case authenticationStateChanged(UserState)
-        public enum NotificationType {
-            public struct ReceivedFeedback {
-                let eventId: String
-                let eventTitle: String
-            }
-            case feedbackReceived(ReceivedFeedback)
-        }
+        case notificationReceived
     }
     
     public init() {}
@@ -54,8 +47,7 @@ public struct AppDelegateReducer {
                         Logger.log(.error, "Update fcm token api call failed silently with error: \(error.localizedDescription)")
                     }
                 }
-                
-            case .onTapNotification(_):
+            case .notificationReceived:
                 return .none
             }
         }

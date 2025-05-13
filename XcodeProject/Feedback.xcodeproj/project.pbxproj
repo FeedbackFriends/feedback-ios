@@ -49,9 +49,6 @@
 		7A64E6192D554DF80093C245 /* Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		7A67364E2D6F5EA300B392DD /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7A6736502D6F5EA300B392DD /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
-		7A9A211A2D89CD7500C40A41 /* start_feedback.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = start_feedback.apns; sourceTree = "<group>"; };
-		7A9A211B2D89CD7500C40A41 /* team_invite.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = team_invite.apns; sourceTree = "<group>"; };
-		7A9A211C2D89CD7500C40A41 /* view_meeting.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = view_meeting.apns; sourceTree = "<group>"; };
 		7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lets Grow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAD2DC4ECEB005F4828 /* FeedbackFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedbackFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAE2DC4ECEB005F4828 /* Lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +68,7 @@
 		7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugMenuView.swift; sourceTree = "<group>"; };
 		7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7AC4A9EA2D2FA71D004DF626 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
+		7ACCA6AE2DD3494200C641F0 /* new_feedback_received.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = new_feedback_received.apns; sourceTree = "<group>"; };
 		B1057F372843FD8600B9EE2F /* FeedbackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackApp.swift; sourceTree = "<group>"; };
 		B1057F3B2843FD8700B9EE2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -142,9 +140,7 @@
 		7A9A211D2D89CD7500C40A41 /* PushNotifications */ = {
 			isa = PBXGroup;
 			children = (
-				7A9A211A2D89CD7500C40A41 /* start_feedback.apns */,
-				7A9A211B2D89CD7500C40A41 /* team_invite.apns */,
-				7A9A211C2D89CD7500C40A41 /* view_meeting.apns */,
+				7ACCA6AE2DD3494200C641F0 /* new_feedback_received.apns */,
 			);
 			path = PushNotifications;
 			sourceTree = "<group>";

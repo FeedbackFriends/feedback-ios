@@ -77,7 +77,7 @@ public struct FeedbackFlow {
         case infoButtonTap
         case cancelButtonTap
         case presentError(Error)
-        case sendFeedbackResponse(shouldPresentRatingPrompt: Bool)
+        case submitFeedbackResponse(shouldPresentRatingPrompt: Bool)
         case previousQuestionButtonTap
         case nextQuestionButtonTap
         case submitButtonTap
@@ -129,7 +129,7 @@ public struct FeedbackFlow {
                 state.destination = .alert(.init(error: error))
                 return .none
                 
-            case .sendFeedbackResponse(let shouldPrompt):
+            case .submitFeedbackResponse(let shouldPrompt):
                 state.presentSuccessOverlay = true
                 state.submitFeedbackInFlight = false
                 return .run { send in
@@ -169,11 +169,11 @@ public struct FeedbackFlow {
                 state.submitFeedbackInFlight = true
                 return .run { [state = state] send in
                     do {
-                        let shouldPresentRatingPrompt = try await apiClient.sendFeedback(
+                        let shouldPresentRatingPrompt = try await apiClient.submitFeedback(
                             feedback: state.path.map { .init($0) },
                             pinCode: state.pinCode
                         )
-                        await send(.sendFeedbackResponse(shouldPresentRatingPrompt: shouldPresentRatingPrompt))
+                        await send(.submitFeedbackResponse(shouldPresentRatingPrompt: shouldPresentRatingPrompt))
                     } catch {
                         await send(.presentError(error))
                     }

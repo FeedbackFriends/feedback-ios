@@ -18,7 +18,7 @@ import OpenAPI
 
 // startFeedbackSession
 
-// sendFeedback
+// submitFeedback
 
 // createEvent
 
