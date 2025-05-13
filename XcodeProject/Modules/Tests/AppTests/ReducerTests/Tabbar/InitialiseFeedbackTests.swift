@@ -34,21 +34,22 @@ struct InitialiseFeedbackTests {
         } withDependencies: {
             $0.apiClient.startFeedbackSession = { _ in session }
         }
-        store.exhaustivity = .off
-
         await store.send(.startFeedback(pinCode: session.pinCode))
-        await store.receive(\.startFeedbackSessionResponse) {
-            guard case let .feedbackFeature(flowState) = $0.destination else {
-                XCTFail("Expected .feedbackFeature")
-                return
+        await store.withExhaustivity(.off) {
+            await store.receive(\.startFeedbackSessionResponse) {
+                guard case let .feedbackFeature(flowState) = $0.destination else {
+                    XCTFail("Expected .feedbackFeature")
+                    return
+                }
+                
+                #expect(flowState.feedbackSession == session)
+                #expect(flowState.submitFeedbackInFlight == false)
+                #expect(flowState.presentSuccessOverlay == false)
+                #expect(flowState.commentTextfieldFocused == false)
+                #expect(flowState.questions.count == session.questions.count)
+                #expect(flowState.path.count == 1)
             }
-            
-            #expect(flowState.feedbackSession == session)
-            #expect(flowState.submitFeedbackInFlight == false)
-            #expect(flowState.presentSuccessOverlay == false)
-            #expect(flowState.commentTextfieldFocused == false)
-            #expect(flowState.questions.count == session.questions.count)
-            #expect(flowState.path.count == 1)
+
         }
         await store.receive(\.delegate, .stopLoading)
     }

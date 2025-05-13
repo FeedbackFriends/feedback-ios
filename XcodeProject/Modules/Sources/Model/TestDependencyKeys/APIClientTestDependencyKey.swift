@@ -12,7 +12,7 @@ extension APIClient: TestDependencyKey {
     public static let testValue = APIClient(
         deleteAccount: {},
         updateAccount: { _, _, _ in},
-        linkFCMTokenToAccount: {},
+        linkFCMTokenToAccount: { _ in },
         logout: {},
         getSession: { .mock() },
         startFeedbackSession: { _ in .mock },

@@ -8,7 +8,8 @@ public struct EmojiFeedback {
     public init() {}
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Identifiable {
+        public var id: UUID { questionId }
         var questionId: UUID
         var questionText: String
         var selectedEmoji: Emoji?

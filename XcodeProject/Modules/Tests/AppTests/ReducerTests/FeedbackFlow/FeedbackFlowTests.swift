@@ -61,7 +61,6 @@ struct FeedbackFlowTests {
             $0.continuousClock = clock
             $0.dismiss = .init { didDismiss.setValue(true) }
         }
-        store.exhaustivity = .off
         
         #expect(store.state.path.count == 1)
         #expect(store.state.questionText == session.questions[0].questionText)
@@ -79,7 +78,9 @@ struct FeedbackFlowTests {
             $0.commentTextfieldFocused = false
         }
         await clock.advance(by: .seconds(0.5))
-        await store.receive(\.navigateToNextQuestion)
+        await store.withExhaustivity(.off) {
+            await store.receive(\.navigateToNextQuestion)
+        }
         #expect(store.state.path.count == 2)
         #expect(store.state.questionText == session.questions[1].questionText)
         #expect(store.state.questionIndex == 1)
@@ -96,7 +97,9 @@ struct FeedbackFlowTests {
             $0.commentTextfieldFocused = false
         }
         await clock.advance(by: .seconds(0.5))
-        await store.receive(\.navigateToPreviousQuestion)
+        await store.withExhaustivity(.off) {
+            await store.receive(\.navigateToPreviousQuestion)
+        }
         #expect(store.state.path.count == 1)
         #expect(store.state.questionText == session.questions[0].questionText)
         #expect(store.state.questionIndex == 0)
@@ -104,7 +107,9 @@ struct FeedbackFlowTests {
         
         // Tap next (expecting no delay)
         await store.send(.nextQuestionButtonTap)
-        await store.receive(\.navigateToNextQuestion)
+        await store.withExhaustivity(.off) {
+            await store.receive(\.navigateToNextQuestion)
+        }
         #expect(store.state.path.count == 2)
         #expect(store.state.questionText == session.questions[1].questionText)
         #expect(store.state.questionIndex == 1)
@@ -145,7 +150,6 @@ struct FeedbackFlowTests {
             $0.continuousClock = ImmediateClock()
             $0.dismiss = .init { didDismiss.setValue(true) }
         }
-        store.exhaustivity = .off
         await store.send(.submitButtonTap) {
             $0.submitFeedbackInFlight = true
         }

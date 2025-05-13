@@ -39,7 +39,6 @@ struct TabbarLifecycleTests {
             }
         }
         store.exhaustivity = .off
-
         await store.send(.onTask)
         await store.receive(\.presentNotificationPermissionPrompt)
         await store.receive(\.delegate, .presentNotificationPermissionPrompt)

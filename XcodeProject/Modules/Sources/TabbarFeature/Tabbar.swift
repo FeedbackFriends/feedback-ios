@@ -69,7 +69,6 @@ public struct Tabbar {
             self.destination = destination
         }
     }
-    
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
         case enterCode(EnterCode.Action)
@@ -85,7 +84,7 @@ public struct Tabbar {
         case delegate(Delegate)
         case signOutButtonTapped
         case signUpButtonTap
-        case navigateToManagerEvent(ActivityItems)
+        case activityManagerEventButtonTap(ActivityItems)
         case tabbarLifecyle(TabbarLifecycle.Action)
         case deleteAccount(DeleteAccount.Action)
         public enum Toolbar: Equatable {
@@ -93,7 +92,7 @@ public struct Tabbar {
             case joinEventButtonTap
             case activityButtonTap
         }
-        public enum Delegate {
+        public enum Delegate: Equatable {
             case startFeedback(pinCode: PinCode)
             case navigateToSignUp
         }
@@ -143,7 +142,7 @@ public struct Tabbar {
             case .tabbarLifecyle:
                 return .none
                 
-            case .navigateToManagerEvent(let activityItem):
+            case .activityManagerEventButtonTap(let activityItem):
                 state.managerEvents.destination = .eventDetail(
                     EventDetailFeature.State(
                         event: state.session.unwrappedManagerSession.managerData.managerEvents[id: activityItem.eventId]!,

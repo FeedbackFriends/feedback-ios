@@ -10,7 +10,7 @@ public struct APIClient: Sendable {
         _ email: String,
         _ phoneNumber: String
     ) async throws -> ()
-    public var linkFCMTokenToAccount: @Sendable () async throws -> ()
+    public var linkFCMTokenToAccount: @Sendable (String) async throws -> ()
     public var logout: @Sendable () async throws -> ()
     public var getSession: @Sendable () async throws -> Session
     @DependencyEndpoint

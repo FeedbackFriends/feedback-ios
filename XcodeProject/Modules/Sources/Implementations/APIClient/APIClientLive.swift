@@ -44,8 +44,7 @@ public extension APIClient {
                     return ()
                 }
             },
-            linkFCMTokenToAccount: {
-                guard let fcmToken = await provideFcmToken() else { return }
+            linkFCMTokenToAccount: { fcmToken in
                 try await withAuthorization {
                     _ = try await api.linkFCMTokenToAccount(body: .json(.init(fcmToken: fcmToken)))
                     return ()

@@ -4,12 +4,12 @@ import DesignSystem
 
 public struct ActivityView: View {
     let activityItems: [ActivityItems]
-    let navigateToManagerEvent: (ActivityItems) -> ()
+    let activityManagerEventButtonTap: (ActivityItems) -> ()
     @Environment(\.dismiss) var dismiss
     
-    public init(activityItems: [ActivityItems], navigateToManagerEvent: @escaping (ActivityItems) -> Void) {
+    public init(activityItems: [ActivityItems], activityManagerEventButtonTap: @escaping (ActivityItems) -> Void) {
         self.activityItems = activityItems
-        self.navigateToManagerEvent = navigateToManagerEvent
+        self.activityManagerEventButtonTap = activityManagerEventButtonTap
     }
     
     public var body: some View {
@@ -30,7 +30,7 @@ public struct ActivityView: View {
                             
                             ForEach(activityItems.sorted(by: { $0.date > $1.date })) { item in
                                 Button {
-                                    navigateToManagerEvent(item)
+                                    activityManagerEventButtonTap(item)
                                     dismiss()
                                 } label: {
                                     VStack(alignment: .leading) {
@@ -77,7 +77,7 @@ public struct ActivityView: View {
 #Preview {
     ActivityView(
         activityItems: [],
-        navigateToManagerEvent: { _ in }
+        activityManagerEventButtonTap: { _ in }
     )
 }
 #Preview {
@@ -100,6 +100,6 @@ public struct ActivityView: View {
                 seenByManager: true
             )
         ],
-        navigateToManagerEvent: { _ in }
+        activityManagerEventButtonTap: { _ in }
     )
 }

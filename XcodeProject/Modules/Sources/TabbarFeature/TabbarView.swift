@@ -64,8 +64,8 @@ public struct TabbarView: View {
                 activityItems.withState { activityItems in
                     ActivityView(
                         activityItems: activityItems,
-                        navigateToManagerEvent: {
-                            store.send(.navigateToManagerEvent($0))
+                        activityManagerEventButtonTap: {
+                            store.send(.activityManagerEventButtonTap($0))
                         }
                     )
                     .presentationDetents([.medium, .large])
