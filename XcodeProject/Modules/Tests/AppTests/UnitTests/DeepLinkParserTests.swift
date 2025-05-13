@@ -4,31 +4,31 @@ import Testing
 @testable import AppCore
 
 @MainActor
-class DeepLinkParserTests {
+class DeeplinkParserTests {
     
     @Test
-    func deepLinkJoinEvent() {
+    func deeplinkJoinEvent() {
         let url = URL(string: "letsgrow://invite?pin_code=1234")!
-        guard let deepLink = url.parseDeepLink() else {
+        guard let deeplink = url.parseDeeplink() else {
             fatalError()
         }
-        switch deepLink {
+        switch deeplink {
         case .joinEvent(let pinCode):
             #expect(pinCode == .init(value: "1234"))
         }
     }
     
     @Test
-    func deepLinkEmpty() {
+    func deeplinkEmpty() {
         let url = URL(string: "letsgrow://")!
-        let deepLink = url.parseDeepLink()
-        #expect(deepLink == nil)
+        let deeplink = url.parseDeeplink()
+        #expect(deeplink == nil)
     }
     
     @Test
-    func deepLinkWrongScheme() {
+    func deeplinkWrongScheme() {
         let url = URL(string: "wtf://")!
-        let deepLink = url.parseDeepLink()
-        #expect(deepLink == nil)
+        let deeplink = url.parseDeeplink()
+        #expect(deeplink == nil)
     }
 }

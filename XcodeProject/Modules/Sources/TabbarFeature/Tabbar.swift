@@ -46,7 +46,7 @@ public struct Tabbar {
         var accountSection: AccountSection.State
         public var selectedTab: Tab
         var initialiseFeedback: InitialiseFeedback.State
-        var managerEvents: ManagerEvents.State
+        public var managerEvents: ManagerEvents.State
         var participantEvents: ParticipantEvents.State
         var deleteAccount: DeleteAccount.State
         @Presents var destination: Destination.State?

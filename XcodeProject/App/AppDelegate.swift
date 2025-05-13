@@ -44,9 +44,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         return true
     }
     
-    /// When a notification is received while the app is alive
+    /// When a notification is tapped
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        intialStore.send(.appDelegate(.notificationReceived))
+        guard let deeplink = DeeplinkParser.fromNotification(response) else { return }
+        intialStore.send(.onNotificationTap(deeplink))
     }
 }
 

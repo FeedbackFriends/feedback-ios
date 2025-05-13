@@ -7,14 +7,12 @@ import Foundation
 public struct AppDelegateReducer {
     @ObservableState
     public struct State {
-        var didLoad: Bool = false
         public init() {}
     }
     public enum Action {
         case didFinishLaunchingWithOptions
         case didReceiveRegistrationToken(String?)
         case authenticationStateChanged(UserState)
-        case notificationReceived
     }
     
     public init() {}
@@ -47,8 +45,6 @@ public struct AppDelegateReducer {
                         Logger.log(.error, "Update fcm token api call failed silently with error: \(error.localizedDescription)")
                     }
                 }
-            case .notificationReceived:
-                return .none
             }
         }
     }

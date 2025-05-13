@@ -11,6 +11,10 @@ struct FeedbackApp: App {
     var body: some Scene {
         WindowGroup {
             AppCoreView(store: appDelegate.intialStore)
+                .onOpenURL { url in
+                    guard let deeplink = DeeplinkParser.fromUrl(url) else { return }
+                    appDelegate.intialStore.send(.onUrlOpen(deeplink))
+                }
                 #if DEBUG
                 .overlay(alignment: .trailing) {
                     DebugMenuView()
