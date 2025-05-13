@@ -5,24 +5,6 @@
    <BuildAction
       parallelizeBuildables = "YES"
       buildImplicitDependencies = "YES">
-      <PreActions>
-         <ExecutionAction
-            ActionType = "Xcode.IDEStandardExecutionActionsCore.ExecutionActionType.ShellScriptAction">
-            <ActionContent
-               title = "Fetch openapi"
-               scriptText = "&#10;OPEN_API_PATH=&quot;$SRCROOT/Modules/Sources/OpenAPI/openapi.yaml&quot;&#10;OPENAPI_URL=&quot;https://raw.githubusercontent.com/FeedbackFriends/feedback-openapi/main/openapi.yaml&quot;&#10;&#10;# Fetch the OpenAPI YAML from the provided URL&#10;curl -s $OPENAPI_URL -o /tmp/openapi.yaml&#10;&#10;# Check if the download was successful&#10;if [ $? -ne 0 ]; then&#10;    echo &quot;Failed to download the OpenAPI YAML file.&quot;&#10;    exit 0  # Continue the build without failing&#10;fi&#10;&#10;#Replace the existing YAML file only if the download was successful&#10;if [ -f /tmp/openapi.yaml ]; then&#10;    mv /tmp/openapi.yaml $OPEN_API_PATH&#10;    echo &quot;openapi.yaml updated successfully.&quot;&#10;else&#10;    echo &quot;Temporary openapi.yaml file not found. Keeping the old version.&quot;&#10;fi&#10;">
-               <EnvironmentBuildable>
-                  <BuildableReference
-                     BuildableIdentifier = "primary"
-                     BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
-                     BuildableName = "Lets Grow.app"
-                     BlueprintName = "App"
-                     ReferencedContainer = "container:Feedback.xcodeproj">
-                  </BuildableReference>
-               </EnvironmentBuildable>
-            </ActionContent>
-         </ExecutionAction>
-      </PreActions>
       <BuildActionEntries>
          <BuildActionEntry
             buildForTesting = "YES"

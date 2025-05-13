@@ -305,7 +305,8 @@ public extension Session {
                         feedbackType: .init($0.feedbackType.rawValue),
                         updatedAt: $0.updatedAt
                     )
-                })
+                }),
+                feedbackSessionHash: .init(uuidString: $0.feedbackSessionHash)!
             )
         }
         
@@ -346,20 +347,6 @@ public extension Session {
             managerData: managerData,
             accountInfo: accountInfo,
             role: role
-        )
-    }
-}
-
-public extension UpdatedSession {
-    init(_ updatedSession: Components.Schemas.UpdatedSessionDto) {
-        let updatedManagerEvents: [ManagerEvent]? = if let updatedEvents = updatedSession.updatedManagerEvents {
-            updatedEvents.map { ManagerEvent($0) }
-        } else {
-            nil
-        }
-        self.init(
-            updatedManagerEvents: updatedManagerEvents,
-            activity: .init(updatedSession.activity)
         )
     }
 }

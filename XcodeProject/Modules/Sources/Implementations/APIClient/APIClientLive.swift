@@ -11,7 +11,6 @@ public extension APIClient {
         provideFcmToken: @escaping () async -> String?,
         sessionCache: SessionCache = SessionCache()
     ) -> APIClient {
-        let updatedSessionManager = UpdatedSessionManager()
         return APIClient(
             deleteAccount: {
                 try await withAuthorization {
@@ -180,17 +179,20 @@ public extension APIClient {
                 return try await api.mockIdToken(body: .json(.init(role: "Manager", id: "mock_id"))).ok.body.json.token
             },
             getUpdatedSession: {
-                try await withAuthorization {
-                    let updatedSessionDto = try await api.getUpdatedSession().ok.body.json
-                    let updatedSession: UpdatedSession = .init(updatedSessionDto)
-                    await sessionCache.updateActivity(updatedSession.activity)
-                    if let events = updatedSession.updatedManagerEvents {
-                        for updatedEvent in events {
-                            await sessionCache.updateOrAppendManagerEvent(event: updatedEvent)
-                        }
-                    }
-                    return await updatedSessionManager.updateSession(newSession: updatedSession)
+                guard let feedbackSessionHash = await sessionCache.feedbackSessionHash else { return .none }
+                let optionalSessionDto = try await withAuthorization {
+                    try await api.getUpdatedSession(
+                        .init(
+                            path: .init(feedbackSessionHash: feedbackSessionHash.uuidString)
+                        )
+                    ).ok.body.json.session
                 }
+                guard let sessionDto = optionalSessionDto else  {
+                    return .none
+                }
+                let session = Session(sessionDto)
+                await sessionCache.updateSession(session)
+                return session
             },
             markActivityAsSeen: {
                 try await withAuthorization {

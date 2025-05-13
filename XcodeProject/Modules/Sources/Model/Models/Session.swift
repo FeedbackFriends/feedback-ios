@@ -336,14 +336,17 @@ public struct ManagerData: Equatable, Sendable {
     public var managerEvents: IdentifiedArrayOf<ManagerEvent>
     public var activity: Activity
     public var recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+    public var feedbackSessionHash: UUID
     public init(
         managerEvents: IdentifiedArrayOf<ManagerEvent>,
         activity: Activity,
-        recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+        recentlyUsedQuestions: Set<RecentlyUsedQuestions>,
+        feedbackSessionHash: UUID
     ) {
         self.managerEvents = managerEvents
         self.activity = activity
         self.recentlyUsedQuestions = recentlyUsedQuestions
+        self.feedbackSessionHash = feedbackSessionHash
     }
 }
 

@@ -104,7 +104,8 @@ public extension ManagerSession {
                 uniqueElements: generateMockManagerEvents(count: 100)
             ),
             activity: .mock,
-            recentlyUsedQuestions: [.init(questionText: "Hello world", feedbackType: .emoji, updatedAt: Date())]
+            recentlyUsedQuestions: [.init(questionText: "Hello world", feedbackType: .emoji, updatedAt: Date())],
+            feedbackSessionHash: UUID()
         ),
         accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
     )
@@ -115,7 +116,8 @@ public extension ManagerSession {
                 uniqueElements: []
             ),
             activity: .mock,
-            recentlyUsedQuestions: []
+            recentlyUsedQuestions: [],
+            feedbackSessionHash: UUID()
         ),
         accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888")
     )
@@ -130,7 +132,8 @@ public extension Session {
                     uniqueElements: generateMockManagerEvents(count: numberOfManagerEvents)
                 ),
                 activity: .mock,
-                recentlyUsedQuestions: []
+                recentlyUsedQuestions: [],
+                feedbackSessionHash: UUID()
             ),
             accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888"),
             role: .manager
@@ -144,7 +147,8 @@ public extension Session {
                     uniqueElements: []
                 ),
                 activity: .mock,
-                recentlyUsedQuestions: []
+                recentlyUsedQuestions: [],
+                feedbackSessionHash: UUID()
             ),
             accountInfo: .init(name: "Nicolai", email: "Nicolai@letsgrow.dk", phoneNumber: "88888888"),
             role: .manager
@@ -421,13 +425,6 @@ public extension Activity {
     static let mock = Self.init(
         items: [],
         unseenTotal: 5
-    )
-}
-
-public extension UpdatedSession {
-    static let mock = Self.init(
-        updatedManagerEvents: [],
-        activity: .mock
     )
 }
 #endif

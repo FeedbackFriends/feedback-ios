@@ -15,7 +15,7 @@ public struct TabbarLifecycle {
     @ObservableState
     public struct State: Equatable {
         @Shared var session: Session
-        var firstUpdateSessionFetchAfterEnterForeground = false
+        #warning("Todo implement banner")
         var bannerState: BannerState?
         public init(session: Shared<Session>) {
             self._session = session
@@ -24,7 +24,6 @@ public struct TabbarLifecycle {
     
     public enum Action {
         case onTask
-        case updatedSessionResponse(UpdatedSession?)
         case sessionUpdated(Session)
         case removeBanner
         case presentNotificationPermissionPrompt
@@ -74,10 +73,7 @@ public struct TabbarLifecycle {
                     .run { send in
                         for await _ in self.clock.timer(interval: .seconds(10)) {
                             do {
-                                let updatedSession = try await apiClient.getUpdatedSession()
-                                await send(
-                                    .updatedSessionResponse(updatedSession)
-                                )
+                                let _ = try await apiClient.getUpdatedSession()
                             } catch {
                                 Logger
                                     .debug(
@@ -88,26 +84,10 @@ public struct TabbarLifecycle {
                     }
                 )
                 
-            case .updatedSessionResponse(let updatedSession):
-                if state.firstUpdateSessionFetchAfterEnterForeground {
-                    state.firstUpdateSessionFetchAfterEnterForeground = false
-                    return .none
-                }
-                guard let updatedSession else { return .none }
-                if let updatedManagerEvents = updatedSession.updatedManagerEvents, let first = updatedManagerEvents.first {
-                    state.bannerState = .serverError("New feedback on event '\(first.title)'")
-                    return .run { send in
-                        try await clock.sleep(for: .seconds(5))
-                        await send(.removeBanner)
-                    }
-                }
-                return .none
-                
             case .delegate:
                 return .none
                 
             case .enterForeground:
-                state.firstUpdateSessionFetchAfterEnterForeground = true
                 return .none
                 
             case .enterBackground:

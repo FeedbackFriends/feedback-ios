@@ -52,7 +52,7 @@
 		7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lets Grow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAD2DC4ECEB005F4828 /* FeedbackFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedbackFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAE2DC4ECEB005F4828 /* Lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A9E6BAF2DC4ECEB005F4828 /* OpenApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OpenApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A9E6BAF2DC4ECEB005F4828 /* Fetch_OpenApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fetch_OpenApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BB02DC4ECEB005F4828 /* FeedbackMock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedbackMock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BB32DC51EB7005F4828 /* Entitlements.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Entitlements.entitlements; sourceTree = "<group>"; };
 		7A9E6BC62DC52183005F4828 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -69,6 +69,7 @@
 		7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7AC4A9EA2D2FA71D004DF626 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 		7ACCA6AE2DD3494200C641F0 /* new_feedback_received.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = new_feedback_received.apns; sourceTree = "<group>"; };
+		7ACCA6AF2DD359D300C641F0 /* Info-disable-ssl.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Info-disable-ssl.plist"; sourceTree = "<group>"; };
 		B1057F372843FD8600B9EE2F /* FeedbackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackApp.swift; sourceTree = "<group>"; };
 		B1057F3B2843FD8700B9EE2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -194,7 +195,7 @@
 				7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */,
 				7A9E6BAD2DC4ECEB005F4828 /* FeedbackFlow.app */,
 				7A9E6BAE2DC4ECEB005F4828 /* Lint.framework */,
-				7A9E6BAF2DC4ECEB005F4828 /* OpenApi.framework */,
+				7A9E6BAF2DC4ECEB005F4828 /* Fetch_OpenApi.framework */,
 				7A9E6BB02DC4ECEB005F4828 /* FeedbackMock.app */,
 				7A924BD42DCAA63C005F9D84 /* Frameworks */,
 			);
@@ -214,6 +215,7 @@
 				7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */,
 				7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */,
 				B1FB2E66285B55DE0080543D /* Info.plist */,
+				7ACCA6AF2DD359D300C641F0 /* Info-disable-ssl.plist */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -307,9 +309,9 @@
 			productReference = 7A9E6BAE2DC4ECEB005F4828 /* Lint.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		7AE1561F2D26AD4900440870 /* OpenApi */ = {
+		7AE1561F2D26AD4900440870 /* Fetch OpenApi */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7AE1562B2D26AD4900440870 /* Build configuration list for PBXNativeTarget "OpenApi" */;
+			buildConfigurationList = 7AE1562B2D26AD4900440870 /* Build configuration list for PBXNativeTarget "Fetch OpenApi" */;
 			buildPhases = (
 				7AE1561B2D26AD4900440870 /* Headers */,
 				7AE1561C2D26AD4900440870 /* Sources */,
@@ -321,11 +323,11 @@
 			);
 			dependencies = (
 			);
-			name = OpenApi;
+			name = "Fetch OpenApi";
 			packageProductDependencies = (
 			);
 			productName = OpenApi;
-			productReference = 7A9E6BAF2DC4ECEB005F4828 /* OpenApi.framework */;
+			productReference = 7A9E6BAF2DC4ECEB005F4828 /* Fetch_OpenApi.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		B1057F332843FD8600B9EE2F /* App */ = {
@@ -396,7 +398,7 @@
 				B1057F332843FD8600B9EE2F /* App */,
 				2892AA342C0F89C600F12E83 /* FeedbackFlow */,
 				7AE155DB2D26A31100440870 /* Lint */,
-				7AE1561F2D26AD4900440870 /* OpenApi */,
+				7AE1561F2D26AD4900440870 /* Fetch OpenApi */,
 				7AC3C86B2DC4E36800EF8389 /* FeedbackMock */,
 			);
 		};
@@ -508,7 +510,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nOPEN_API_PATH=\"$SRCROOT/FeedbackPackage/Sources/APIClient/openapi.yaml\"\nOPENAPI_URL=\"http://localhost:8080/v3/api-docs.yaml\"\n\n# Fetch the OpenAPI YAML from the provided URL\ncurl -s $OPENAPI_URL -o /tmp/openapi.yaml\n\n# Check if the download was successful\nif [ $? -ne 0 ]; then\n    echo \"Failed to download the OpenAPI YAML file.\"\n    exit 0  # Continue the build without failing\nfi\n\n# Replace the existing YAML file only if the download was successful\nif [ -f /tmp/openapi.yaml ]; then\n    cp /tmp/openapi.yaml $OPEN_API_PATH\n    echo \"openapi.yaml updated successfully.\"\nelse\n    echo \"Temporary openapi.yaml file not found. Keeping the old version.\"\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nOPEN_API_PATH=\"$SRCROOT/Modules/Sources/OpenAPI/openapi.yaml\"\nOPENAPI_URL=\"https://api.letsgrow.dk/v3/api-docs.yaml\"\n\n# Fetch the OpenAPI YAML from the provided URL\ncurl -s $OPENAPI_URL -o /tmp/openapi.yaml\n\n# Check if the download was successful\nif [ $? -ne 0 ]; then\n    echo \"Failed to download the OpenAPI YAML file.\"\n    exit 0  # Continue the build without failing\nfi\n\n# Replace the existing YAML file only if the download was successful\nif [ -f /tmp/openapi.yaml ]; then\n    cp /tmp/openapi.yaml $OPEN_API_PATH\n    echo \"openapi.yaml updated successfully.\"\nelse\n    echo \"Temporary openapi.yaml file not found. Keeping the old version.\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -638,7 +640,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"App/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = App/Info.plist;
+				INFOPLIST_FILE = "App/Info-disable-ssl.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
 				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -1377,7 +1379,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7AE1562B2D26AD4900440870 /* Build configuration list for PBXNativeTarget "OpenApi" */ = {
+		7AE1562B2D26AD4900440870 /* Build configuration list for PBXNativeTarget "Fetch OpenApi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7AE1562D2D26AD4900440870 /* Debug */,

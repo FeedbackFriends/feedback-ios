@@ -4,10 +4,10 @@ info:
   description: |-
     API documentation for Lets Grow application.
 
-    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/a8a5bae)
-  version: 97-a8a5bae
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/00e4d28)
+  version: 101-00e4d28
 servers:
-- url: http://localhost:8080
+- url: http://api.letsgrow.dk
   description: Generated server url
 security:
 - bearerAuth: []
@@ -358,18 +358,25 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ApiError'
-  /session/real-time-updates:
+  /session/session-update/{feedbackSessionHash}:
     get:
       tags:
       - Session
       operationId: getUpdatedSession
+      parameters:
+      - name: feedbackSessionHash
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
       responses:
         "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UpdatedSessionDto'
+                $ref: '#/components/schemas/UpdatedSessionResponse'
         "500":
           description: Internal Server Error
           content:
@@ -933,6 +940,7 @@ components:
     ManagerDataDto:
       required:
       - activity
+      - feedbackSessionHash
       - managerEvents
       - recentlyUsedQuestions
       type: object
@@ -947,6 +955,9 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/RecentlyUsedQuestions'
+        feedbackSessionHash:
+          type: string
+          format: uuid
     SessionDto:
       required:
       - accountInfo
@@ -970,17 +981,11 @@ components:
       properties:
         fcmToken:
           type: string
-    UpdatedSessionDto:
-      required:
-      - activity
+    UpdatedSessionResponse:
       type: object
       properties:
-        updatedManagerEvents:
-          type: array
-          items:
-            $ref: '#/components/schemas/ManagerEventDto'
-        activity:
-          $ref: '#/components/schemas/ActivityDto'
+        session:
+          $ref: '#/components/schemas/SessionDto'
     ApiError:
       properties:
         timestamp:

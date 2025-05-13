@@ -33,6 +33,6 @@ public struct APIClient: Sendable {
     @DependencyEndpoint
     public var updateAccountRole: @Sendable (_ role: Role) async throws -> ()
     public var getMockToken: @Sendable () async throws -> (String)
-    public var getUpdatedSession: @Sendable () async throws -> UpdatedSession?
+    public var getUpdatedSession: @Sendable () async throws -> Session?
     public var markActivityAsSeen: @Sendable () async throws -> ()
 }

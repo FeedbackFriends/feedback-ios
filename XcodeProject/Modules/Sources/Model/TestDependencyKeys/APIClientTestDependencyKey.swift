@@ -26,7 +26,7 @@ extension APIClient: TestDependencyKey {
         markEventAsSeen: { _ in },
         updateAccountRole: { _ in },
         getMockToken: { "" },
-        getUpdatedSession: { .mock },
+        getUpdatedSession: { .mock() },
         markActivityAsSeen: { }
     )
 }

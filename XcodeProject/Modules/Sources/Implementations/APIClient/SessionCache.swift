@@ -69,6 +69,10 @@ public actor SessionCache {
     public func reset() {
         self.session = nil
     }
+    
+    public var feedbackSessionHash: UUID? {
+        self.session?.managerData?.feedbackSessionHash
+    }
 }
 
 
