@@ -4,7 +4,7 @@ import DesignSystem
 
 public struct ActivityView: View {
     let activityItems: [ActivityItems]
-    let activityManagerEventButtonTap: (ActivityItems) -> ()
+    let activityManagerEventButtonTap: (ActivityItems) -> Void
     @Environment(\.dismiss) var dismiss
     
     public init(activityItems: [ActivityItems], activityManagerEventButtonTap: @escaping (ActivityItems) -> Void) {

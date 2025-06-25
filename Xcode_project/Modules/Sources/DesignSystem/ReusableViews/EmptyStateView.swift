@@ -10,7 +10,6 @@ public struct EmptyStateView: View {
         self.message = message
     }
     
-    
     public var body: some View {
         VStack(alignment: .center, spacing: 16) {
             Image(systemName: "rectangle.on.rectangle")

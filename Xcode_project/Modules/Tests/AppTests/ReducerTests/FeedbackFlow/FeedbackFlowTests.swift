@@ -217,13 +217,13 @@ private extension FeedbackFlowTests {
             agenda: "Discuss new UI components",
             questions: [
                 .init(
-                    id: q1.questionId,
-                    questionText: q1.questionText,
+                    id: question1.questionId,
+                    questionText: question1.questionText,
                     feedbackType: .emoji
                 ),
                 .init(
-                    id: q2.questionId,
-                    questionText: q2.questionText,
+                    id: question2.questionId,
+                    questionText: question2.questionText,
                     feedbackType: .emoji
                 )
             ],
@@ -233,7 +233,7 @@ private extension FeedbackFlowTests {
         )
     }
     
-    var q1: EmojiFeedback.State {
+    var question1: EmojiFeedback.State {
         .init(
             questionId: UUID(uuidString: "00000000-0000-0000-0000-000000000000")!,
             questionText: "How do you feel?",
@@ -241,7 +241,7 @@ private extension FeedbackFlowTests {
             commentTextField: "So good!"
         )
     }
-    var q2: EmojiFeedback.State {
+    var question2: EmojiFeedback.State {
         .init(
             questionId: UUID(uuidString: "00000000-0000-0000-0000-000000000001")!,
             questionText: "How would you rate this session?",
@@ -254,15 +254,15 @@ private extension FeedbackFlowTests {
         return .init(
             path: .init(
                 [
-                    .emoji(q1),
-                    .emoji(q2),
+                    .emoji(question1),
+                    .emoji(question2)
                     
                 ]
             ),
             submitFeedbackInFlight: false,
             presentSuccessOverlay: false,
             questions: IdentifiedArrayOf<FeedbackFlow.Path.State>.init(
-                arrayLiteral: .emoji(q1),.emoji(q2)
+                arrayLiteral: .emoji(question1), .emoji(question2)
             ),
             feedbackSession: session,
             commentTextfieldFocused: false

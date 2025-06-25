@@ -3,7 +3,7 @@ import Foundation
 public struct Feedback: Equatable, Identifiable, Sendable {
     
     public var id: UUID { UUID() }
-    public let type: FeedbackType2
+    public let type: FeedbackTypeWithData
     public let questionId: UUID
     public var seenByManager: Bool
     public let createdAt: Date
@@ -11,7 +11,7 @@ public struct Feedback: Equatable, Identifiable, Sendable {
         switch type {
         case .emoji(_, let comment):
             if comment != nil { return true }
-        case .comment(_):
+        case .comment:
             return true
         case .thumpsUpThumpsDown(_, let comment):
             if comment != nil { return true }
@@ -23,7 +23,7 @@ public struct Feedback: Equatable, Identifiable, Sendable {
         return false
     }
     
-    public init(type: FeedbackType2, questionId: UUID, seenByManager: Bool, createdAt: Date) {
+    public init(type: FeedbackTypeWithData, questionId: UUID, seenByManager: Bool, createdAt: Date) {
         self.type = type
         self.questionId = questionId
         self.seenByManager = seenByManager
@@ -31,7 +31,7 @@ public struct Feedback: Equatable, Identifiable, Sendable {
     }
 }
 
-public enum FeedbackType2: Equatable, Sendable {
+public enum FeedbackTypeWithData: Equatable, Sendable {
     case emoji(emoji: Emoji, comment: String?)
     case comment(comment: String)
     case thumpsUpThumpsDown(thumbsUpThumpsDown: ThumbsUpThumpsDown, comment: String?)

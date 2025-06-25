@@ -14,4 +14,3 @@ public extension Image {
     static let letsGrowIcon = Image("letsGrowIcon", bundle: Bundle.module)
     static let signUpIcon = Image("signup_icon", bundle: Bundle.module)
 }
-

@@ -1,8 +1,6 @@
 import Model
 import SwiftUI
 import ComposableArchitecture
-import Model
-
 @Reducer
 public struct ChangeUserType {
     
@@ -87,4 +85,3 @@ public struct ChangeUserType {
         .ifLet(\.$destination, action: \.destination)
     }
 }
-

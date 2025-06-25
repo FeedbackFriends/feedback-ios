@@ -15,7 +15,6 @@ public struct TabbarLifecycle {
     @ObservableState
     public struct State: Equatable {
         @Shared var session: Session
-        #warning("Todo implement banner")
         var bannerState: BannerState?
         public init(session: Shared<Session>) {
             self._session = session
@@ -70,10 +69,10 @@ public struct TabbarLifecycle {
                             await send(.sessionUpdated(session))
                         }
                     },
-                    .run { send in
+                    .run { _ in
                         for await _ in self.clock.timer(interval: .seconds(10)) {
                             do {
-                                let _ = try await apiClient.getUpdatedSession()
+                                _ = try await apiClient.getUpdatedSession()
                             } catch {
                                 Logger
                                     .debug(

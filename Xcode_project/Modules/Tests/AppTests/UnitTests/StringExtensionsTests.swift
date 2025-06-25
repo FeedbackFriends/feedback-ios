@@ -18,7 +18,7 @@ final class StringExtensionsTests {
     @Test
     func testLowercasingFirst_withEmptyString_returnsEmptyString() {
         let emptyString = ""
-        #expect(emptyString.lowercasingFirst() == "")
+		#expect(emptyString.lowercasingFirst().isEmpty)
     }
     
     @Test
@@ -30,7 +30,7 @@ final class StringExtensionsTests {
     @Test
     func testUppercasingFirst_withEmptyString_returnsEmptyString() {
         let emptyString = ""
-        #expect(emptyString.uppercasingFirst() == "")
+		#expect(emptyString.uppercasingFirst().isEmpty)
     }
     
     @Test

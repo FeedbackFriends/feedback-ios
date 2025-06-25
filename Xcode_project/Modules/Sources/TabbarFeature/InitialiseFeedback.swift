@@ -16,7 +16,7 @@ public struct InitialiseFeedback {
     
     @ObservableState
     public struct State: Equatable {
-        @Presents public var destination: Destination.State? = nil
+        @Presents public var destination: Destination.State?
         public init() {}
     }
     
@@ -34,15 +34,12 @@ public struct InitialiseFeedback {
     
     public init() {}
     
-    
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.continuousClock) var clock
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
-        Reduce {
-            state,
-            action in
+        Reduce { state, action in
             switch action {
                 
             case .binding:

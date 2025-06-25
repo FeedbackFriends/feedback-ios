@@ -38,10 +38,10 @@ public struct FeedbackFlow {
             case .emoji(let emojiFeedback):
                 emojiFeedback.feedbackCompleted
                 
-            case .screenB(_):
+            case .screenB:
                 fatalError("Not implemented")
                 
-            case .screenC(_):
+            case .screenC:
                 fatalError("Not implemented")
             }
         }
@@ -94,13 +94,11 @@ public struct FeedbackFlow {
     
     public var body: some Reducer<State, Action> {
         BindingReducer()
-        Reduce {
-            state,
-            action in
+        Reduce { state, action in
             switch action {
                 
             case .ratingPromptDismissed:
-                return .run { send in
+                return .run { _ in
                     try await self.clock.sleep(for: .seconds(1))
                     await self.dismiss()
                 }
@@ -142,7 +140,7 @@ public struct FeedbackFlow {
                 }
                 
             case .previousQuestionButtonTap:
-                guard state.path.count > 0 else { return .none }
+                guard !state.path.isEmpty else { return .none }
                 guard !state.commentTextfieldFocused else {
                     state.commentTextfieldFocused = false
                     return .run { send in
@@ -151,7 +149,6 @@ public struct FeedbackFlow {
                     }
                 }
                 return .send(.navigateToPreviousQuestion)
-                
                 
             case .nextQuestionButtonTap:
                 guard state.path.count < state.questions.count else { return .none }
@@ -264,9 +261,9 @@ extension FeedbackFlow.Path.State: Identifiable {
         switch self {
         case .emoji(let state):
             state.questionId
-        case .screenB(_):
+        case .screenB:
             fatalError("Not implemented")
-        case .screenC(_):
+        case .screenC:
             fatalError("Not implemented")
         }
     }
@@ -274,9 +271,9 @@ extension FeedbackFlow.Path.State: Identifiable {
         switch self {
         case .emoji(let state):
             state.questionText
-        case .screenB(_):
+        case .screenB:
             fatalError("Not implemented")
-        case .screenC(_):
+        case .screenC:
             fatalError("Not implemented")
         }
     }
@@ -294,9 +291,9 @@ extension FeedbackInput {
                 ),
                     questionId: input.questionId
                 )
-        case .screenB(_):
+        case .screenB:
             fatalError("Not implemented")
-        case .screenC(_):
+        case .screenC:
             fatalError("Not implemented")
         }
     }

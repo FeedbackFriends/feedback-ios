@@ -107,8 +107,8 @@ private extension DetailSectionView {
                 .sectionHeaderStyle()
                 .padding(.leading, 18)
             ForEach(Array(zip(event.questions.indices, event.questions)), id: \.0) { index, question in
-                    QuestionView(question: question, index: index)
-                        .disabled(event.feedbackSummary == nil)
+                QuestionView(question: question, index: index)
+                    .disabled(event.feedbackSummary == nil)
                 
             }
         }
@@ -146,7 +146,7 @@ struct QuestionView: View {
                     VStack(spacing: 10) {
                         HStack(alignment: .top) {
                             VStack(alignment: .leading, spacing: 12) {
-                                Text("Question \(index+1)")
+                                Text("Question \(index + 1)")
                                     .font(.montserratSemiBold, 13)
                                     .frame(maxWidth: .infinity, alignment: .leading)
                                 Text(question.questionText)

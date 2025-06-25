@@ -88,9 +88,9 @@ public struct Session: Equatable, Sendable {
         switch self.account {
         case .manager(let managerSession):
             return managerSession.managerData.activity
-        case .participant(_):
+        case .participant:
             return .init(items: [], unseenTotal: 0)
-        case .anonymous(_):
+        case .anonymous:
             return .init(items: [], unseenTotal: 0)
         }
     }
@@ -290,12 +290,12 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
     public var date: Date
     public let pinCode: PinCode
     public var durationInMinutes: Int
-    public var location : String?
+    public var location: String?
     public let ownerInfo: OwnerInfo
     public var feedbackSummary: FeedbackSummary?
     public var questions: [ManagerQuestion]
     public var end: Date {
-        date + TimeInterval(durationInMinutes*60)
+        date + TimeInterval(durationInMinutes * 60)
     }
     public var formattedDate: String {
         if Calendar.current.dateComponents([.minute], from: date, to: end).minute == 1440 {

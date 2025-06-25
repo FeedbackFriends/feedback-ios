@@ -88,9 +88,7 @@ public struct AppCore {
         Scope(state: \.destination, action: \.destination) {
             Destination.body
         }
-        Reduce {
-            state,
-            action in
+        Reduce { state, action in
             switch action {
                 
             case .destination(.signUp(.destination(.presented(.selectUserType(.delegate(.getSession)))))):
@@ -100,7 +98,7 @@ public struct AppCore {
                 return getSession(state: &state, deeplink: nil)
                 
             case .destination(.loggedIn(.delegate(.navigateToSignUp))),
-                    .destination(.loggedIn(.participantEvents(.delegate(.navigateToSignUp)))):
+                .destination(.loggedIn(.participantEvents(.delegate(.navigateToSignUp)))):
                 state.destination = .signUp(.init())
                 return .none
                 
@@ -114,10 +112,10 @@ public struct AppCore {
                 case .createAccountError(_, let role):
                     return createAccount(withRole: role, state: &state)
                     
-                case .getSessionError(_):
+                case .getSessionError:
                     return getSession(state: &state, deeplink: nil)
                     
-                case .handleAuthenticatedAccountError(_):
+                case .handleAuthenticatedAccountError:
                     return handeAuthenticatedAccount(state: &state)
                 }
                 
@@ -219,7 +217,7 @@ public struct AppCore {
                 
             case .didReceiveFCMToken(let fcmToken):
                 guard let fcmToken else { return .none }
-                return .run { send in
+                return .run { _ in
                     do {
                         try await apiClient.linkFCMTokenToAccount(fcmToken)
                     } catch {
@@ -273,7 +271,7 @@ private extension AppCore {
         state: inout State
     ) -> EffectOf<Self> {
         state.isLoading = true
-        return .run  { send in
+        return .run { send in
             do {
                 let session = try await apiClient.createAccount(role)
                 await send(.createAccountResponse(session, role))
@@ -288,7 +286,7 @@ private extension AppCore {
     ) -> EffectOf<Self> {
         state.isLoading = true
         state.destination = .isLoading
-        return .run  { send in
+        return .run { send in
             do {
                 try await authClient.signInAnonymously()
             } catch {
@@ -300,7 +298,7 @@ private extension AppCore {
     func getSession(state: inout State, deeplink: Deeplink?) -> EffectOf<Self> {
         state.isLoading = true
         state.destination = .isLoading
-        return .run  { send in
+        return .run { send in
             do {
                 let session = try await apiClient.getSession()
                 await send(.getSessionResponse(session: session, deeplink: deeplink))

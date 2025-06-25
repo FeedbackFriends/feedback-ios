@@ -57,9 +57,7 @@ public struct ManagerEvents {
         Scope(state: \.participantEvents, action: \.participantEvents) {
             ParticipantEvents()
         }
-        Reduce {
-            state,
-            action in
+        Reduce { state, action in
             switch action {
                 
             case .participantEvents:
@@ -68,7 +66,7 @@ public struct ManagerEvents {
             case .destination(.dismiss):
                 if case .eventDetail(let eventDetailState) = state.destination {
                     let eventId = eventDetailState.event.id
-                    return .run { send in
+                    return .run { _ in
                         do {
                             try await apiClient.markEventAsSeen(eventId)
                         } catch {
@@ -89,7 +87,6 @@ public struct ManagerEvents {
                     )
                 )
                 return .none
-            
                 
             case .destination:
                 return .none

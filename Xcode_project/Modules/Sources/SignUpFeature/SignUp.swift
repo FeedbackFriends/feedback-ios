@@ -71,12 +71,10 @@ public struct SignUp {
                     do {
                         _ = try await authClient.appleLogin()
                         await send(.signUpSuccess)
-                    }
-                    catch let error as AuthenticationError where error == .loginCancelled {
+                    } catch let error as AuthenticationError where error == .loginCancelled {
                         await send(.loginCancelled)
                         return
-                    }
-                    catch {
+                    } catch {
                         await send(.presentError(error))
                     }
                 }
@@ -87,12 +85,10 @@ public struct SignUp {
                     do {
                         _ = try await authClient.googleLogin()
                         await send(.signUpSuccess)
-                    }
-                    catch let error as AuthenticationError where error == .loginCancelled {
+                    } catch let error as AuthenticationError where error == .loginCancelled {
                         await send(.loginCancelled)
                         return
-                    }
-                    catch {
+                    } catch {
                         await send(.presentError(error))
                     }
                 }
@@ -110,4 +106,3 @@ public struct SignUp {
         .ifLet(\.$destination, action: \.destination)
     }
 }
-

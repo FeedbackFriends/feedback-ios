@@ -94,7 +94,7 @@ struct TabbarLifecycleTests {
 //    }
 }
 
-//extension Event {
+// extension Event {
 //    static func mock(title: String = "Mock Event") -> Event {
 //        .init(
 //            id: UUID(),
@@ -106,10 +106,10 @@ struct TabbarLifecycleTests {
 //            feedbackDeadline: nil
 //        )
 //    }
-//}
+// }
 //
-//extension Session {
+// extension Session {
 //    static func mockWithAccount() -> Self {
 //        .init(account: .registered(.init(id: UUID(), email: "me@test.com", name: "Me")))
 //    }
-//}
+// }

@@ -1,9 +1,9 @@
 import Foundation
 
 public struct FeedbackInput: Equatable, Sendable {
-    public let type: FeedbackType2
+    public let type: FeedbackTypeWithData
     public let questionId: UUID
-    public init(type: FeedbackType2, questionId: UUID) {
+    public init(type: FeedbackTypeWithData, questionId: UUID) {
         self.type = type
         self.questionId = questionId
     }

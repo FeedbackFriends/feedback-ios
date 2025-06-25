@@ -51,4 +51,3 @@ public struct ChangeUserTypeView: View {
         )
     )
 }
-

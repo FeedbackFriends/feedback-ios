@@ -93,7 +93,6 @@ public struct EventInfoView: View {
     )
 }
 
-
 #Preview("Some owner data") {
     EventInfoView(
         eventTitle: "Title",

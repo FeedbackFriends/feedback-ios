@@ -52,9 +52,7 @@ public struct CreateEvent {
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
-        Reduce {
-            state,
-            action in
+        Reduce { state, action in
             switch action {
                 
             case .createEventButtonTap:
@@ -99,4 +97,3 @@ public struct CreateEvent {
         .ifLet(\.$alert, action: \.alert)
     }
 }
-

@@ -62,7 +62,7 @@ let package = Package(
         .library(
             name: "InfoPlist",
             targets: ["InfoPlist"]
-        ),
+        )
     ],
     dependencies: [
         .package(
@@ -96,7 +96,7 @@ let package = Package(
         .package(
             url: "https://github.com/apple/swift-openapi-urlsession",
             .upToNextMinor(from: "1.1.0")
-        ),
+        )
     ],
     targets: [
         .target(
@@ -120,7 +120,7 @@ let package = Package(
                 .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
                 .product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession"),
                 "Model",
-                "Utility",
+                "Utility"
             ],
             plugins: [.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")]
         ),
@@ -133,7 +133,7 @@ let package = Package(
                 "Utility",
                 "EventsFeature",
                 "Logger",
-                "SignUpFeature",
+                "SignUpFeature"
             ]
         ),
         .target(
@@ -141,7 +141,7 @@ let package = Package(
             dependencies: [
                 "Model",
                 "Utility",
-                .product(name: "Lottie", package: "lottie-ios"),
+                .product(name: "Lottie", package: "lottie-ios")
             ],
             resources: [
                 .process("Resources/Fonts/Montserrat"),
@@ -156,7 +156,7 @@ let package = Package(
                 "FeedbackFlowFeature",
                 "Model",
                 "Utility",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
@@ -165,7 +165,7 @@ let package = Package(
                 "DesignSystem",
                 "Model",
                 "Utility",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
@@ -174,7 +174,7 @@ let package = Package(
                 "DesignSystem",
                 "Model",
                 "Utility",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
@@ -184,7 +184,7 @@ let package = Package(
                 "Model",
                 "Utility",
                 "FeedbackFlowFeature",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
@@ -196,7 +196,7 @@ let package = Package(
                 "MoreFeature",
                 "Model",
                 "Utility",
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
+                .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
@@ -204,13 +204,13 @@ let package = Package(
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 "Logger",
-                "Utility",
+                "Utility"
             ]
         ),
         .target(
             name: "Utility",
             dependencies: [
-                "Logger",
+                "Logger"
             ]
         ),
         .target(
@@ -229,7 +229,7 @@ let package = Package(
                 "DesignSystem",
                 "Model",
                 "Utility",
-                "Logger",
+                "Logger"
             ]
         ),
         .testTarget(

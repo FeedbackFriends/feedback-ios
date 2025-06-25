@@ -17,7 +17,7 @@ public struct UserTypePickerView: View {
                 Image(systemName: selectedUserType == .participant ? "checkmark.circle.fill" : "circle")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundStyle(selectedUserType == .participant ? Color.themeGreen :Color.gray.opacity(0.5))
+                    .foregroundStyle(selectedUserType == .participant ? Color.themeGreen : Color.gray.opacity(0.5))
                 VStack(alignment: .leading) {
                     
                     Text("Participant")
@@ -38,7 +38,7 @@ public struct UserTypePickerView: View {
                 Image(systemName: selectedUserType == .manager ? "checkmark.circle.fill" : "circle")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundStyle(selectedUserType == .manager ? Color.themeGreen :Color.gray.opacity(0.5))
+                    .foregroundStyle(selectedUserType == .manager ? Color.themeGreen : Color.gray.opacity(0.5))
                 VStack(alignment: .leading) {
                     Text("Organizer")
                         .font(.montserratSemiBold, 16)
@@ -54,6 +54,6 @@ public struct UserTypePickerView: View {
 }
 
 #Preview {
-    @Previewable @State var role: Role? = nil
+    @Previewable @State var role: Role?
     UserTypePickerView(selectedUserType: $role)
 }

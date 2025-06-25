@@ -39,7 +39,7 @@ public struct MoreSection {
             switch action {
                 
             case .onAppear:
-                state.privacyPolicyUrl =  try? webURLClient.privacyPolicyUrl()
+                state.privacyPolicyUrl = try? webURLClient.privacyPolicyUrl()
                 state.appStoreReviewUrl = try? webURLClient.appStoreReviewUrl()
                 return .none
                 
@@ -57,7 +57,7 @@ public struct MoreSection {
                     Device info
                     \(DeviceInfo().summary())
                     """
-                return .run { send in
+                return .run { _ in
                     await openURL(systemClient.openEmail(subject: subject, body: body))
                 }
                 
@@ -69,12 +69,12 @@ public struct MoreSection {
                     Device info
                     \(DeviceInfo().summary())
                     """
-                return .run { send in
+                return .run { _ in
                     await openURL(systemClient.openEmail(subject: subject, body: body))
                 }
                 
             case .onSupportUsButtonTap:
-                return .run { send in
+                return .run { _ in
                     await openURL(try webURLClient.appStoreReviewUrl())
                 }
                 

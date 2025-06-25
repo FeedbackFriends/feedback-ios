@@ -6,9 +6,9 @@ struct InviteView: View {
     let code: String
     let inviteLink: String
     let shareText: String
-    @State private var shareSheet: String? = nil
+    @State private var shareSheet: String?
     @Environment(\.dismiss) private var dismiss
-        
+    
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -55,29 +55,29 @@ struct InviteView: View {
     }
     
     private var copyButton: some View {
-        Button(action: {
-            shareSheet = inviteLink
-        }) {
-            HStack {
-                Image(systemName: "document.on.document")
-                    .font(.system(size: 16, weight: .regular))
-            }
-            .padding(.trailing, 12)
-        }
+		Button {
+			shareSheet = inviteLink
+		} label: {
+			HStack {
+				Image(systemName: "document.on.document")
+					.font(.system(size: 16, weight: .regular))
+			}
+			.padding(.trailing, 12)
+		}
         .buttonStyle(SecondaryToolbarButtonStyle())
         .frame(maxHeight: .infinity)
     }
     
     private var shareButton: some View {
-        Button(action: {
-            shareSheet = shareText
-        }) {
-            HStack {
-                Image(systemName: "square.and.arrow.up")
-                    .font(.system(size: 14, weight: .semibold))
-                Text("Invite")
-            }
-        }
+		Button {
+			shareSheet = shareText
+		} label: {
+			HStack {
+				Image(systemName: "square.and.arrow.up")
+					.font(.system(size: 14, weight: .semibold))
+				Text("Invite")
+			}
+		}
         .buttonStyle(LargeButtonStyle())
         .padding(.vertical, 8)
     }
@@ -104,4 +104,3 @@ struct ShareSheet: UIViewControllerRepresentable {
         shareText: ""
     )
 }
-

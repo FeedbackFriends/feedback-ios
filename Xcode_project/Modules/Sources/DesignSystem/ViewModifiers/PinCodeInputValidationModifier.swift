@@ -13,11 +13,10 @@ struct PinCodeInputValidationModifier: ViewModifier {
     
     func body(content: Content) -> some View {
         content
-            .onChange(of: pinCodeInput) { oldValue, newValue in
-                if !newValue.isValidInput()  {
+            .onChange(of: pinCodeInput) { _, newValue in
+                if !newValue.isValidInput() {
                     self.pinCodeInput.value.removeLast()
                 }
             }
     }
 }
-

@@ -1,16 +1,16 @@
-//import ComposableArchitecture
-//import Foundation
+// import ComposableArchitecture
+// import Foundation
 //
-//public enum Priority {
+// public enum Priority {
 //    case high, medium, low
-//}
+// }
 //
-//public protocol BannerMessage: Equatable, Sendable {
+// public protocol BannerMessage: Equatable, Sendable {
 //    var message: String { get }
 //    func onTap()
-//}
+// }
 //
-//actor BannerQueue {
+// actor BannerQueue {
 //    
 //    private let stream: AsyncStream<any BannerMessage>
 //    private let continuation: AsyncStream<any BannerMessage>.Continuation
@@ -35,10 +35,10 @@
 //        try? await Task.sleep(for: .seconds(2))
 //        continuation.yield(message)
 //    }
-//}
+// }
 //
-//@DependencyClient
-//public struct BannerQueueClient: Sendable {
+// @DependencyClient
+// public struct BannerQueueClient: Sendable {
 //    public var addToQueue: @Sendable (_ message: any BannerMessage) -> Void
 //    public var showBanner: @Sendable () async -> AsyncStream<any BannerMessage> = { .never }
 //    
@@ -54,4 +54,4 @@
 //            }
 //        )
 //    }
-//}
+// }

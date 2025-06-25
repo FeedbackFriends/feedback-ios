@@ -14,9 +14,9 @@ struct SuccessOverlayView: View {
                 self.isFocused = false
                 self.isModal = false
             })
-            .onChange(of: showAlert, { oldValue, newValue in
+            .onChange(of: showAlert, { _, _ in
                 if showAlert {
-                    //A delay is needed here to get the accessibility focus working
+                    // A delay is needed here to get the accessibility focus working
                     Task { @MainActor in
                         try await Task.sleep(for: .seconds(0.2))
                         self.isFocused = true

@@ -75,7 +75,6 @@ public actor SessionCache {
     }
 }
 
-
 public extension Session {
     
     mutating func updateOrAppendManagerEvent(_ event: ManagerEvent) {
@@ -122,7 +121,7 @@ public extension Session {
         self.managerData?.managerEvents[id: eventId] = event
         
         var mutableActivity = self.managerData!.activity
-        mutableActivity.unseenTotal = mutableActivity.unseenTotal-1
+        mutableActivity.unseenTotal -= 1
         for index in mutableActivity.items.indices {
             mutableActivity.items[index].seenByManager = true
         }

@@ -1,10 +1,11 @@
 disabled_rules:
     - trailing_whitespace
+    - redundant_string_enum_value
+    - identifier_name
 opt_in_rules:
     - empty_count
     - empty_string
     - operator_usage_whitespace
-    - indentation_width
     - colon
     - comma
     - trailing_newline
@@ -34,4 +35,4 @@ nesting:
     type_level: 3
 force_try: warning
 force_cast: warning
-reporter: "xcode"
+reporter: "SwiftLint"

@@ -6,5 +6,5 @@ public protocol LoggingClient {
         file: String,
         function: String,
         line: Int
-    ) -> Void
+    )
 }

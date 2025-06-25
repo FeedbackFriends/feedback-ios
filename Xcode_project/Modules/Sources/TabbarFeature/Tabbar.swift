@@ -6,7 +6,6 @@ import MoreFeature
 import DesignSystem
 import Model
 import ComposableArchitecture
-import SwiftUI
 import Utility
 import Logger
 
@@ -129,9 +128,7 @@ public struct Tabbar {
         Scope(state: \.deleteAccount, action: \.deleteAccount) {
             DeleteAccount()
         }
-        Reduce {
-            state,
-            action in
+        Reduce { state, action in
             switch action {
                 
             case .tabbarLifecyle(.delegate(let delegateAction)):
@@ -151,7 +148,7 @@ public struct Tabbar {
                         session: state.$session
                     )
                 )
-                return .run { send in
+                return .run { _ in
                     do {
                         try await apiClient.markEventAsSeen(activityItem.id)
                     } catch {
@@ -184,7 +181,6 @@ public struct Tabbar {
                 
             case .accountSection:
                 return .none
-                
                 
             case .destination(.presented(.alert(let alertAction))):
                 switch alertAction {
@@ -254,7 +250,7 @@ public struct Tabbar {
                     state.destination = .joinEvent(.init())
                 case .activityButtonTap:
                     state.destination = .activity(state.session.activity.items)
-                    return .run { send in
+                    return .run { _ in
                         do {
                             try await apiClient.markActivityAsSeen()
                         } catch {
@@ -272,7 +268,7 @@ public struct Tabbar {
                 
             case .requestNotificationAuthorization:
                 state.destination = nil
-                return .run { send in
+                return .run { _ in
                     _ = try await notificationClient.requestAuthorization()
                 }
             

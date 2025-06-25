@@ -52,10 +52,8 @@ public extension View {
     }
 }
 
-
-
 #Preview {
-    @Previewable @State var bannerState: BannerState? = nil
+    @Previewable @State var bannerState: BannerState?
     
     VStack {
         Button("Trigger Banner") {

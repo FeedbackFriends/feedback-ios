@@ -63,7 +63,7 @@ public struct EditEvent {
                 state.editRequestInFlight = true
                 return .run { [state = state] send in
                     do {
-                        let _ = try await apiClient.updateEvent(
+                        _ = try await apiClient.updateEvent(
                             state.eventInput,
                             state.eventId
                         )
@@ -87,7 +87,7 @@ public struct EditEvent {
                 return .none
                 
             case .cancelButtonTap:
-                return .run { send in
+                return .run { _ in
                     await self.dismiss()
                 }
                 

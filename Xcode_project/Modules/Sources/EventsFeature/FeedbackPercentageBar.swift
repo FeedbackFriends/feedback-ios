@@ -4,7 +4,7 @@ import DesignSystem
 
 func feedbackPercentageBarView(feedback: FeedbackSegmentationStats) -> some View {
     GeometryReader { proxy in
-        let withPercent = proxy.size.width/100
+        let withPercent = proxy.size.width / 100
         HStack(spacing: 0) {
             Color.themeRed.frame(width: feedback.verySadPercentage * withPercent)
             Color.themeOrange.frame(width: feedback.sadPercentage * withPercent)

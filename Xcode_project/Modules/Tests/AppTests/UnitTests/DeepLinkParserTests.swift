@@ -80,12 +80,11 @@ class DeeplinkParserTests {
     }
 }
 
-
 @testable import Model
 @testable import Implementations
 //
-//@MainActor
-//class SystemClientUrlGenerationTests {
+// @MainActor
+// class SystemClientUrlGenerationTests {
 //    
 //    @Test
 //    func testInviteUrlGeneration() {
@@ -116,4 +115,4 @@ class DeeplinkParserTests {
 //        #expect(url.absoluteString == "https://apps.apple.com/app/id987654321?action=write-review")
 //    }
 //    
-//}
+// }

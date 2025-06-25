@@ -1,7 +1,7 @@
-//import AppCore
-//import SwiftUI
+// import AppCore
+// import SwiftUI
 //
-//class SceneDelegate: NSObject, UIWindowSceneDelegate {
+// class SceneDelegate: NSObject, UIWindowSceneDelegate {
 //    
 //    var window: UIWindow?
 //
@@ -41,4 +41,4 @@
 //    func sceneDidEnterBackground(_ scene: UIScene) {
 //      
 //    }
-//}
+// }

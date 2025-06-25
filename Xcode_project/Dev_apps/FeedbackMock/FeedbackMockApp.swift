@@ -95,7 +95,6 @@ extension APIClient {
     }
 }
 
-
 actor MockAuthEngine {
     
     private var continuation: AsyncStream<UserState>.Continuation?
@@ -230,7 +229,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     }
 }
 
-extension AppDelegate : UNUserNotificationCenterDelegate {
+extension AppDelegate: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
@@ -240,5 +239,3 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler([.banner, .sound, .list])
     }
 }
-
-

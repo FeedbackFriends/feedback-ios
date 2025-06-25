@@ -17,7 +17,7 @@ public enum DeeplinkParser {
         }
         switch (comps.host, comps.queryItems) {
         case ("invite", let items?):
-            if let pinCodeInput = items.first(where: { $0.name=="pin_code" })?.value {
+            if let pinCodeInput = items.first(where: { $0.name == "pin_code" })?.value {
                 return .joinEvent(pinCodeInput: .init(value: pinCodeInput))
             }
             return nil
@@ -34,7 +34,7 @@ public enum DeeplinkParser {
         switch type {
         case "FEEDBACK_RECEIVED":
             guard let eventIdString = userInfo["eventId"] as? String,
-                  let eventId = UUID(uuidString: eventIdString) else {
+									let eventId = UUID(uuidString: eventIdString) else {
                 Logger.log(.error, "Failed to parse eventId from notification payload")
                 return nil
             }

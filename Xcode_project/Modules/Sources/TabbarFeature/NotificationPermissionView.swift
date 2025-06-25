@@ -84,5 +84,3 @@ private extension NotificationPermissionView {
         .presentationDetents([.height(600)])
     }
 }
-
-

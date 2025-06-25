@@ -18,7 +18,6 @@ func withAuthorization<T>(
     }
 }
 
-
 enum Request {
     /// Indicates whether the request requires authorization
     @TaskLocal static var needsAuthorization: Bool = false
@@ -37,4 +36,3 @@ extension HTTPTypes.HTTPRequest {
         Request.forceRefreshAfter
     }
 }
-

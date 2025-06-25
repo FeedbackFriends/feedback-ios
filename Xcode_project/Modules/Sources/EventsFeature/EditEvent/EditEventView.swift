@@ -37,16 +37,16 @@ public struct EditEventView: View {
 }
 
 private extension EditEventView {
-
+    
     var toolbarItems: some ToolbarContent {
         Group {
             ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        store.send(.editEventButtonTap)
-                    }
-                    .buttonStyle(PrimaryToolbarButtonStyle())
-                    .isLoading(store.editRequestInFlight)
-                    .disabled(store.editEventButtonDisabled)
+                Button("Save") {
+                    store.send(.editEventButtonTap)
+                }
+                .buttonStyle(PrimaryToolbarButtonStyle())
+                .isLoading(store.editRequestInFlight)
+                .disabled(store.editEventButtonDisabled)
             }
             ToolbarItem(placement: .navigationBarLeading) {
                 SharedCloseButtonView {

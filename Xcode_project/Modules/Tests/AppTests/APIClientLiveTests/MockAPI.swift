@@ -3,7 +3,6 @@
 import ComposableArchitecture
 import OpenAPI
 
-
 struct MockAPI: APIProtocol {
     
     // MARK: - Handlers for endpoints

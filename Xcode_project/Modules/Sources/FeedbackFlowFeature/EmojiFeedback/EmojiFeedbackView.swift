@@ -24,7 +24,7 @@ public struct EmojiFeedbackView: View {
                     Image.verySad
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .grayscale(store.selectedEmoji == .verySad ? 0.0: 1.0)
+                        .grayscale(store.selectedEmoji == .verySad ? 0.0 : 1.0)
                         .padding(store.selectedEmoji == .verySad ? 10 : 13)
                 }
                 Button {
@@ -33,7 +33,7 @@ public struct EmojiFeedbackView: View {
                     Image.sad
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .grayscale(store.selectedEmoji == .sad ? 0.0: 1.0)
+                        .grayscale(store.selectedEmoji == .sad ? 0.0 : 1.0)
                         .padding(store.selectedEmoji == .sad ? 10 : 13)
                 }
                 
@@ -43,7 +43,7 @@ public struct EmojiFeedbackView: View {
                     Image.happy
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .grayscale(store.selectedEmoji == .happy ? 0.0: 1.0)
+                        .grayscale(store.selectedEmoji == .happy ? 0.0 : 1.0)
                         .padding(store.selectedEmoji == .happy ? 10 : 13)
                 }
                 Button {
@@ -52,7 +52,7 @@ public struct EmojiFeedbackView: View {
                     Image.veryHappy
                         .resizable()
                         .aspectRatio(contentMode: .fit)
-                        .grayscale(store.selectedEmoji == .veryHappy ? 0.0: 1.0)
+                        .grayscale(store.selectedEmoji == .veryHappy ? 0.0 : 1.0)
                         .padding(store.selectedEmoji == .veryHappy ? 10 : 13)
                 }
             }

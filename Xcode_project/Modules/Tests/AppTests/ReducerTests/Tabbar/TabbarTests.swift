@@ -224,7 +224,6 @@ struct TabbarTests {
         }
         #expect(notificationAuthorizationRequested.value == true)
     }
-    
 
     @Test("Start feedback from Enter Code screen")
     func startFeedbackEventCode() async {

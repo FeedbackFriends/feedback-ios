@@ -92,11 +92,12 @@ public struct ErrorView: View {
     }
     
     // MARK: – Private helpers
+	@MainActor
     private func reportIssue() {
         isCapturing = true
         // Capture must run on the next turn of the run‑loop, otherwise snapshot is blank
         DispatchQueue.main.async {
-            if let png = snapshot()?.pngData() {
+			if let png = snapshot(scale: UIScreen.main.scale)?.pngData() {
                 screenshotData = png
             }
             isCapturing = false
@@ -137,7 +138,7 @@ public struct ErrorView: View {
 @MainActor
 extension View {
     /// Returns a UIImage snapshot of the current View.
-    func snapshot(scale: CGFloat = UIScreen.main.scale) -> UIImage? {
+    func snapshot(scale: CGFloat) -> UIImage? {
         let renderer = ImageRenderer(content: self)
         renderer.scale = scale
         return renderer.uiImage
@@ -164,16 +165,18 @@ struct MailComposer: UIViewControllerRepresentable {
     func makeCoordinator() -> Coordinator { Coordinator(onDismiss: onDismiss) }
     
     func makeUIViewController(context: Context) -> MFMailComposeViewController {
-        let vc = MFMailComposeViewController()
-        vc.setSubject(subject)
-        vc.setMessageBody(body, isHTML: false)
+        let mailVC = MFMailComposeViewController()
+		mailVC.setSubject(subject)
+		mailVC.setMessageBody(body, isHTML: false)
         if let attachment {
-            vc.addAttachmentData(attachment,
-                                 mimeType: "image/png",
-                                 fileName: "error.png")
+			mailVC.addAttachmentData(
+				attachment,
+				mimeType: "image/png",
+				fileName: "error.png"
+			)
         }
-        vc.mailComposeDelegate = context.coordinator
-        return vc
+		mailVC.mailComposeDelegate = context.coordinator
+        return mailVC
     }
     
     func updateUIViewController(_: MFMailComposeViewController, context _: Context) {}
@@ -199,4 +202,3 @@ struct ShareSheet: UIViewControllerRepresentable {
     
     func updateUIViewController(_: UIActivityViewController, context _: Context) {}
 }
-

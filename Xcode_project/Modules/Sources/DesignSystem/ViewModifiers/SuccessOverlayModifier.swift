@@ -23,7 +23,6 @@ public extension View {
     }
 }
 
-
 struct SuccessOverlayViewModifier: ViewModifier {
     
     @Binding var show: Bool

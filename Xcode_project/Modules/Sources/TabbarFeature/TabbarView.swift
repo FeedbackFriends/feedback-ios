@@ -134,14 +134,14 @@ private extension TabbarView {
             
             NavigationStack {
                 List {
-                    switch(store.session.account) {
+                    switch store.session.account {
                     case .manager, .participant:
                         AccountSectionView(store: store.scope(state: \.accountSection, action: \.accountSection))
                     case .anonymous:
                         EmptyView()
                     }
                     MoreSectionView(store: store.scope(state: \.moreSection, action: \.moreSection))
-                    switch(store.session.account) {
+                    switch store.session.account {
                     case .manager, .participant:
                         logoutSection()
                         deleteAccountSection()
@@ -245,7 +245,7 @@ private extension TabbarView {
             }
             .buttonStyle(IconToolbarStyle())
             .overlay(alignment: .bottomTrailing) {
-                if count > 0 {
+                if !isEmpty {
                     Text(count.description)
                         .foregroundStyle(Color.white)
                         .font(.montserratSemiBold, 10)
@@ -256,7 +256,6 @@ private extension TabbarView {
             }
         }
     }
-    
     
     func logoutSection() -> some View {
         Section {

@@ -1,4 +1,3 @@
-
 import Foundation
 import UIKit
 
@@ -14,7 +13,7 @@ public struct DeviceInfo {
     let appName: String
     let appVersion: String
     let appBuild: String
-    let _bundleIdentifier: String
+    let internalBundleIdentifier: String
     
     public init() {
         let device = UIDevice.current
@@ -28,7 +27,7 @@ public struct DeviceInfo {
         self.appName = bundle.object(forInfoDictionaryKey: "CFBundleName") as? String ?? "Unknown"
         self.appVersion = bundle.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
         self.appBuild = bundle.object(forInfoDictionaryKey: "CFBundleVersion") as? String ?? "Unknown"
-        self._bundleIdentifier = bundle.bundleIdentifier ?? "Unknown"
+        self.internalBundleIdentifier = bundle.bundleIdentifier ?? "Unknown"
     }
     
     public func deviceID() -> String {
@@ -44,7 +43,7 @@ public struct DeviceInfo {
     }
     
     public func bundleIdentifier() -> String {
-        self._bundleIdentifier
+        self.internalBundleIdentifier
     }
     
     public func summary() -> String {
@@ -59,7 +58,7 @@ public struct DeviceInfo {
         App Name: \(appName)
         Version: \(appVersion)
         Build: \(appBuild)
-        Bundle Identifier: \(_bundleIdentifier)
+        Bundle Identifier: \(internalBundleIdentifier)
         """
     }
 }

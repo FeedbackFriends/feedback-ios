@@ -23,17 +23,17 @@ actor UserStateStream {
 
 public extension AuthClient {
     
-    static var live: Self  {
+    static var live: Self {
         let stateStream = UserStateStream()
         let firebaseService = FirebaseService()
         return Self.init(
             signInAnonymously: {
-                guard let _ = Auth.auth().currentUser else {
+                guard Auth.auth().currentUser != nil else {
                     Logger.debug("🔥 Firebase signInAnonymously: Signing in anonymously since no user was logged in before")
                     try await Auth.auth().signInAnonymously()
                     return
                 }
-                Logger.log(.error,"🔥 Firebase signInAnonymously: Sign in anonymously called but user was already logged in.")
+                Logger.log(.error, "🔥 Firebase signInAnonymously: Sign in anonymously called but user was already logged in.")
             },
             fetchCustomRole: {
                 guard let currentUser = Auth.auth().currentUser else {
@@ -71,7 +71,7 @@ public extension AuthClient {
                 
                 let stream = await stateStream.stream()
                 
-                _ = Auth.auth().addStateDidChangeListener { auth, optionalUser in
+                _ = Auth.auth().addStateDidChangeListener { _, optionalUser in
                     
                     let userState: UserState = {
                         guard let user = optionalUser.optional else { return .loggedOut }

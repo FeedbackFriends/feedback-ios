@@ -14,7 +14,7 @@ public struct AppCoreView: View {
     
     public var body: some View {
         VStack {
-            switch(store.destination) {
+            switch store.destination {
                 
             case .isLoading:
                 LoadingView()

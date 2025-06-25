@@ -84,4 +84,3 @@ private extension RatingAlertView {
         .padding(.horizontal, 40)
     }
 }
-

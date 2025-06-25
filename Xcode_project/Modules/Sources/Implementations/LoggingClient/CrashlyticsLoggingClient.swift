@@ -13,7 +13,7 @@ public struct CrashlyticsLoggingClient: LoggingClient {
         if let context = context {
             Crashlytics.crashlytics().setCustomValue(context, forKey: "context")
         }
-        if level >= minLevel  {
+        if level >= minLevel {
             let error = NSError(
                 domain: NSCocoaErrorDomain,
                 code: -1001,
@@ -31,10 +31,7 @@ public struct CrashlyticsLoggingClient: LoggingClient {
     }
     
     let minLevel: SeverityLevel
-    init(minLevel: SeverityLevel) {
-        self.minLevel = minLevel
-    }
-    func onStart(deviceId: String)  {
+    func onStart(deviceId: String) {
         Crashlytics.crashlytics().setUserID(deviceId)
     }
 }

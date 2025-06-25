@@ -34,7 +34,6 @@ public enum InfoPlistConfig {
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     
-    
     let intialStore = Store(
         initialState: AppCore.State()
     ) {
@@ -102,7 +101,7 @@ extension AppDelegate: MessagingDelegate {
     }
 }
 
-extension AppDelegate : UNUserNotificationCenterDelegate {
+extension AppDelegate: UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,

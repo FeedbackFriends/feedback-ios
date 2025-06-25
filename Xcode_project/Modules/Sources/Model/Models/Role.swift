@@ -10,4 +10,3 @@ public enum Role: String, Equatable, Sendable {
         }
     }
 }
-

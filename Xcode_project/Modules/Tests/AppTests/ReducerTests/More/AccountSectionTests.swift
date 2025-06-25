@@ -10,7 +10,7 @@ struct AccountSectionTests {
     @Test
     func updateProfileButtonTap() async {
         let session: Session = .mock()
-        let store =  TestStore(initialState: AccountSection.State(session: .init(value: session))) {
+        let store = TestStore(initialState: AccountSection.State(session: .init(value: session))) {
             AccountSection()
         }
         await store.send(.updateProfileButtonTap) {
@@ -24,7 +24,7 @@ struct AccountSectionTests {
     
     @Test
     func changeUserTypeButtonTap() async {
-        let store =  TestStore(initialState: AccountSection.State(session: .init(value: .mock()))) {
+        let store = TestStore(initialState: AccountSection.State(session: .init(value: .mock()))) {
             AccountSection()
         }
         await store.send(.changeUserTypeButtonTap) {

@@ -40,9 +40,7 @@ public struct SelectUserType {
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
-        Reduce {
-            state,
-            action in
+        Reduce { state, action in
             switch action {
                 
             case .binding:
@@ -62,7 +60,7 @@ public struct SelectUserType {
                 state.isLoading = true
                 return .run { [role = state.selectedUserType] send in
                     do {
-                        let _ = try await apiClient.createAccount(role)
+                        _ = try await apiClient.createAccount(role)
                         await send(.delegate(.getSession))
                     } catch {
                         await send(.presentError(error))

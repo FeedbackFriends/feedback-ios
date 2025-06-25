@@ -154,14 +154,14 @@ private extension EventForm {
             )
             if case .other = durationPicker {
                 HStack {
-                    Picker("", selection: $hourPicker){
-                        ForEach(0..<24, id: \.self) { i in
-                            Text("\(i) hours").tag(i)
+                    Picker("", selection: $hourPicker) {
+                        ForEach(0..<24, id: \.self) { number in
+                            Text("\(number) hours").tag(number)
                         }
                     }.pickerStyle(WheelPickerStyle())
-                    Picker("", selection: $minutePicker){
-                        ForEach(0..<60, id: \.self) { i in
-                            Text("\(i) min").tag(i)
+                    Picker("", selection: $minutePicker) {
+                        ForEach(0..<60, id: \.self) { number in
+                            Text("\(number) min").tag(number)
                         }
                     }.pickerStyle(WheelPickerStyle())
                 }.padding(.horizontal)

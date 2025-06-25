@@ -43,7 +43,6 @@ public struct JoinEvent {
         }
     }
     
-    
     public init() {}
     
     @Dependency(\.dismiss) var dismiss
@@ -99,4 +98,3 @@ public struct JoinEvent {
         .ifLet(\.$destination, action: \.destination)
     }
 }
-

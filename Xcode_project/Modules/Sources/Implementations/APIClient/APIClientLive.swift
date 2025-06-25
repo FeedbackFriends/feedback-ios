@@ -14,14 +14,11 @@ public extension APIClient {
         return APIClient(
             deleteAccount: {
                 try await withAuthorization {
-                    let _ = try await api.deleteAccount(.init())
+                    _ = try await api.deleteAccount(.init())
                     return ()
                 }
             },
-            updateAccount: {
-                name,
-                email,
-                phoneNumber in
+            updateAccount: { name, email, phoneNumber in
                 
                 try await withAuthorization {
                     _ = try await api.modifyAccount(
@@ -73,7 +70,7 @@ public extension APIClient {
                     case .internalServerError(let internalError):
                         let apiErrorDto = try internalError.body.json
                         throw ApiError(apiErrorDto: apiErrorDto)
-                    case .undocumented(statusCode: _, _):
+                    case .undocumented:
                         throw URLError(.unknown)
                     }
                 }
@@ -155,7 +152,7 @@ public extension APIClient {
                         case .internalServerError(let internalError):
                             let apiErrorDto = try internalError.body.json
                             throw ApiError(apiErrorDto: apiErrorDto)
-                        case .undocumented(statusCode: _, _):
+                        case .undocumented:
                             throw URLError(.unknown)
                         }
                     }
@@ -187,7 +184,7 @@ public extension APIClient {
                         )
                     ).ok.body.json.session
                 }
-                guard let sessionDto = optionalSessionDto else  {
+                guard let sessionDto = optionalSessionDto else {
                     return .none
                 }
                 let session = Session(sessionDto)
@@ -196,7 +193,7 @@ public extension APIClient {
             },
             markActivityAsSeen: {
                 try await withAuthorization {
-                    let _ = try await api.markActivityAsSeen().ok
+                    _ = try await api.markActivityAsSeen().ok
                     await sessionCache.markActivityAsSeen()
                     return ()
                 }

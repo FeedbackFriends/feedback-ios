@@ -2,7 +2,6 @@ import AuthenticationServices
 import FirebaseAuth
 import Firebase
 import FirebaseCore
-import FirebaseAuth
 import GoogleSignIn
 import Model
 
@@ -29,11 +28,9 @@ class FirebaseService {
             return try await withCheckedThrowingContinuation { continuation in
                 appleLogin.continuation = continuation
             }
-        }
-        catch let error as NSError where error.domain == ASAuthorizationErrorDomain && error.code == ASAuthorizationError.canceled.rawValue {
+        } catch let error as NSError where error.domain == ASAuthorizationErrorDomain && error.code == ASAuthorizationError.canceled.rawValue {
             throw AuthenticationError.loginCancelled
-        }
-         catch {
+        } catch {
             throw error
         }
     }
@@ -67,8 +64,7 @@ class FirebaseService {
             )
         } catch let error as NSError where error.domain == GIDSignInError.errorDomain && error.code == GIDSignInError.canceled.rawValue {
             throw AuthenticationError.loginCancelled
-        }
-        catch {
+        } catch {
             throw error
         }
     }

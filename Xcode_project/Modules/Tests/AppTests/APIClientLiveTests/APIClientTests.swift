@@ -25,7 +25,6 @@ import OpenAPI
 // updateEvent
 // Test that updating an event updates cache and onChange is triggered with updated session
 
-
 // deleteEvent ✅
 // Testing that event is removed from cache after deletion and onChange is triggered with updated session
 
@@ -132,13 +131,13 @@ struct APIClientLiveTests {
         let snapshot = await cache.getSession()
         #expect(snapshot?.managerData?.managerEvents.count == 1)
         #expect(snapshot?.managerData?.managerEvents.first?.id == event2.id)
-        let updatedSession =  await sessionChangedListener.next()
+        let updatedSession = await sessionChangedListener.next()
         #expect(updatedSession == snapshot)
         
         try await client.deleteEvent(id: event2.id)
         let snapshot2 = await cache.getSession()
         #expect(snapshot2?.managerData?.managerEvents.isEmpty == true)
-        let updatedSession2 =  await sessionChangedListener.next()
+        let updatedSession2 = await sessionChangedListener.next()
         #expect(updatedSession2 == snapshot2)
     }
     
@@ -172,7 +171,6 @@ struct APIClientLiveTests {
                 role: .manager
             )
         )
-        
         
         let client = APIClient.live(
             client: MockAPI(
@@ -281,7 +279,6 @@ struct APIClientLiveTests {
         let updatedSession = await cache.getSession()
         #expect(updatedSession?.managerData?.recentlyUsedQuestions == newQuestions)
     }
-    
     
     @Test
     func sessionCacheUpdateOrAppendParticipantEvent() async {

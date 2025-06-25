@@ -43,4 +43,3 @@ extension AuthClient: TestDependencyKey {
         )
     }
 }
-

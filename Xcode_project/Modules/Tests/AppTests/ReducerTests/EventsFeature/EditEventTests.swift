@@ -75,4 +75,3 @@ struct EditEventTests {
         #expect(didDismiss.value)
     }
 }
-
