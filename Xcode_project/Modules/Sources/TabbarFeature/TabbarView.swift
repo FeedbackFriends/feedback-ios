@@ -245,7 +245,7 @@ private extension TabbarView {
             }
             .buttonStyle(IconToolbarStyle())
             .overlay(alignment: .bottomTrailing) {
-                if !isEmpty {
+				if count > 0 {
                     Text(count.description)
                         .foregroundStyle(Color.white)
                         .font(.montserratSemiBold, 10)

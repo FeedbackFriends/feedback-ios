@@ -59,7 +59,7 @@
 		7A7E44E22DE85B0C00B3C4C4 /* FeedbackError.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedbackError.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lets Grow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAD2DC4ECEB005F4828 /* FeedbackFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedbackFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A9E6BAE2DC4ECEB005F4828 /* Lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A9E6BAE2DC4ECEB005F4828 /* Auto_Lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Auto_Lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAF2DC4ECEB005F4828 /* Fetch_OpenApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fetch_OpenApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BB02DC4ECEB005F4828 /* FeedbackMock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedbackMock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BB32DC51EB7005F4828 /* Entitlements.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Entitlements.entitlements; sourceTree = "<group>"; };
@@ -215,7 +215,7 @@
 				7A9E6BCF2DC52183005F4828 /* Dev_apps */,
 				7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */,
 				7A9E6BAD2DC4ECEB005F4828 /* FeedbackFlow.app */,
-				7A9E6BAE2DC4ECEB005F4828 /* Lint.framework */,
+				7A9E6BAE2DC4ECEB005F4828 /* Auto_Lint.framework */,
 				7A9E6BAF2DC4ECEB005F4828 /* Fetch_OpenApi.framework */,
 				7A9E6BB02DC4ECEB005F4828 /* FeedbackMock.app */,
 				7A924BD42DCAA63C005F9D84 /* Frameworks */,
@@ -329,9 +329,9 @@
 			productReference = 7A9E6BB02DC4ECEB005F4828 /* FeedbackMock.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7AE155DB2D26A31100440870 /* Lint */ = {
+		7AE155DB2D26A31100440870 /* Auto Lint */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7AE155E72D26A31200440870 /* Build configuration list for PBXNativeTarget "Lint" */;
+			buildConfigurationList = 7AE155E72D26A31200440870 /* Build configuration list for PBXNativeTarget "Auto Lint" */;
 			buildPhases = (
 				7AE155D72D26A31100440870 /* Headers */,
 				7AE155D82D26A31100440870 /* Sources */,
@@ -343,11 +343,11 @@
 			);
 			dependencies = (
 			);
-			name = Lint;
+			name = "Auto Lint";
 			packageProductDependencies = (
 			);
 			productName = Lint;
-			productReference = 7A9E6BAE2DC4ECEB005F4828 /* Lint.framework */;
+			productReference = 7A9E6BAE2DC4ECEB005F4828 /* Auto_Lint.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		7AE1561F2D26AD4900440870 /* Fetch OpenApi */ = {
@@ -380,6 +380,7 @@
 				B1057F322843FD8600B9EE2F /* Resources */,
 				7AE155B32D26A28100440870 /* Embed Frameworks */,
 				7A16D2E32D53F2BD00F26994 /* Firebase crashlytics */,
+				7A89CAF22E0C93D7006A9DF0 /* Add SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -445,7 +446,7 @@
 			targets = (
 				B1057F332843FD8600B9EE2F /* App */,
 				2892AA342C0F89C600F12E83 /* FeedbackFlow */,
-				7AE155DB2D26A31100440870 /* Lint */,
+				7AE155DB2D26A31100440870 /* Auto Lint */,
 				7AE1561F2D26AD4900440870 /* Fetch OpenApi */,
 				7AC3C86B2DC4E36800EF8389 /* FeedbackMock */,
 				7A7E44E12DE85B0C00B3C4C4 /* FeedbackError */,
@@ -535,6 +536,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+		};
+		7A89CAF22E0C93D7006A9DF0 /* Add SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Add SwiftLint";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n  swiftlint lint --reporter xcode\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		7AE156042D26A39300440870 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1564,7 +1584,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7AE155E72D26A31200440870 /* Build configuration list for PBXNativeTarget "Lint" */ = {
+		7AE155E72D26A31200440870 /* Build configuration list for PBXNativeTarget "Auto Lint" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7AE155E92D26A31200440870 /* Debug */,
