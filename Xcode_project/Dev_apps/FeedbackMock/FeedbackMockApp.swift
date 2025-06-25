@@ -5,10 +5,12 @@ import Foundation
 import ComposableArchitecture
 import DesignSystem
 import Logger
+import Utility
 
 @main
 struct FeedbackMockApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
+    
     var body: some Scene {
         WindowGroup {
             AppCoreView(
@@ -24,28 +26,71 @@ struct FeedbackMockApp: App {
     }
 }
 
-
 extension APIClient {
     static var mock: Self {
+        let delay = 1
         return .init(
-            deleteAccount: { () },
-            updateAccount: { _, _, _ in },
-            linkFCMTokenToAccount: { _ in },
-            logout: {},
-            getSession: { .mock() },
-            startFeedbackSession: { _ in .mock },
-            submitFeedback: { _, _ in true },
-            createEvent: { _ in .mock() },
-            updateEvent: { _, _ in .mock() },
+            deleteAccount: {
+                try await Task.sleep(for: .seconds(delay))
+                return ()
+            },
+            updateAccount: { _, _, _ in
+                try await Task.sleep(for: .seconds(delay))
+                return ()
+            },
+            linkFCMTokenToAccount: { _ in
+                try await Task.sleep(for: .seconds(delay))
+                return ()
+            },
+            logout: {
+                try await Task.sleep(for: .seconds(delay))
+                return ()
+            },
+            getSession: {
+                try await Task.sleep(for: .seconds(delay))
+                return .mock()
+                
+            },
+            startFeedbackSession: { _ in
+                try await Task.sleep(for: .seconds(delay))
+                return .mock
+            },
+            submitFeedback: { _, _ in
+                try await Task.sleep(for: .seconds(delay))
+                return true
+            },
+            createEvent: { _ in
+                try await Task.sleep(for: .seconds(delay))
+                return .mock()
+            },
+            updateEvent: { _, _ in
+                try await Task.sleep(for: .seconds(delay))
+                return .mock()
+            },
             deleteEvent: { _ in },
-            createAccount: { _ in .mock() },
+            createAccount: { _ in
+                try await Task.sleep(for: .seconds(delay))
+                return .mock()
+            },
             sessionChangedListener: { .never },
             joinEvent: { _ in },
-            markEventAsSeen: { _ in },
-            updateAccountRole: { _ in },
+            markEventAsSeen: { _ in
+                try await Task.sleep(for: .seconds(delay))
+                return ()
+            },
+            updateAccountRole: { _ in
+                try await Task.sleep(for: .seconds(delay))
+                return ()
+            },
             getMockToken: { "" },
-            getUpdatedSession: { .mock() },
-            markActivityAsSeen: {}
+            getUpdatedSession: {
+                try await Task.sleep(for: .seconds(delay))
+                return .mock()
+            },
+            markActivityAsSeen: {
+                try await Task.sleep(for: .seconds(delay))
+                return ()
+            }
         )
     }
 }
@@ -72,7 +117,7 @@ extension AuthClient {
             signInAnonymously: {
                 await mockAuthEngine.yield(.anonymous)
             },
-            fetchCustomRole: { nil },
+            fetchCustomRole: { .manager },
             googleLogin: {
                 await mockAuthEngine.yield(.authenticated)
             },
@@ -91,12 +136,18 @@ extension AuthClient {
 
 extension SystemClient {
     static let mock = Self.init(
-        setUserInterfaceStyle: { _ in },
-        openSettingsURLString: { "" },
-        inviteUrl: { URL(string: "https://letsgrow.dk/invite/\($0)")! },
-        privacyPolicyUrl: { URL(string: "https://letsgrow.dk/privacy-policy")! },
-        appleMailUrl: { _, _ in URL(string: "https://mail.url")! },
-        appStoreReviewUrl: { URL(string: "https://appstore.url")! }
+        openAppSettings: {
+            UIApplication.openSettingsURLString
+        },
+        openEmail: { subject, body in
+            var components = URLComponents(string: "mailto:nicolaidam96@gmail.com")!
+            components.queryItems = [
+                URLQueryItem(name: "subject", value: subject),
+                URLQueryItem(name: "body", value: body)
+            ]
+            return components.url!
+            
+        }
     )
 }
 
@@ -126,6 +177,20 @@ extension NotificationClient {
     )
 }
 
+extension WebURLClient {
+    static let mock = Self.init(
+        inviteUrl: { pinCode in
+            URL(string: "https://letsgrow.dk/invite/\(pinCode)")!
+        },
+        privacyPolicyUrl: {
+            URL(string: "https://letsgrow.dk/privacy-policy")!
+        },
+        appStoreReviewUrl: {
+            URL(string: "https://letsgrow.dk/")!
+        }
+    )
+}
+
 final class AppDelegate: NSObject, UIApplicationDelegate {
     let mockAuthEngine = MockAuthEngine()
     lazy var intialStore = Store(
@@ -138,30 +203,30 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             $0.authClient = .mock(mockAuthEngine: self.mockAuthEngine)
             $0.systemClient = .mock
             $0.notificationClient = .mock
+            $0.webURLClient = .mock
         }
     )
-    
     /// On app launch
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        AppTheme.setUp()
+//        AppTheme.setUp()
         UNUserNotificationCenter.current().delegate = self
         UIApplication.shared.registerForRemoteNotifications()
         Logger.setup(
             logClients: [
-                OSLogClient(subsystem: Bundle.main.bundleIdentifier!, category: "LoggingClient")
+                OSLogClient(subsystem: DeviceInfo().bundleIdentifier(), category: "LoggingClient")
             ]
         )
-        intialStore.send(.appDelegate(.didFinishLaunchingWithOptions))
+        intialStore.send(.onAppOpen)
         return true
     }
     
     /// When a notification is tapped
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        guard let deeplink = DeeplinkParser.fromNotification(response) else { return }
-        intialStore.send(.onNotificationTap(deeplink))
+        guard let deeplink = DeeplinkParser.fromNotificationPayload(response.notification.request.content.userInfo) else { return }
+//        intialStore.send(.onNotificationTap(deeplink))
     }
 }
 
@@ -175,3 +240,5 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         completionHandler([.banner, .sound, .list])
     }
 }
+
+

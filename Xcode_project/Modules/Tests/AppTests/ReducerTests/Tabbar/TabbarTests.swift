@@ -3,14 +3,21 @@
 import ComposableArchitecture
 import Foundation
 import Testing
-import Model
+@testable import Model
+@testable import MoreFeature
+@testable import EventsFeature
 
 @MainActor
 struct TabbarTests {
     
     @Test("Tap sign out button and confirm logout")
     func signOut() async {
-        let store = TestStore(initialState: .init(session: .init(value: .mock()))) {
+        
+        let store = TestStore(
+            initialState: .init(
+                session: .init(value: .mock())
+            )
+        ) {
             Tabbar()
         }
         await store.send(.signOutButtonTapped) {
@@ -83,13 +90,19 @@ struct TabbarTests {
         let session = sharedSession
         let store = TestStore(initialState: .init(session: session)) {
             Tabbar()
-        } 
+        }
         await store.send(.toolbar(.createEventButtonTap)) {
             $0.destination = .createEvent(.init(session: $0.$session))
         }
         await store.send(.destination(.presented(.createEvent(.delegate(.dismissAndNavigateToDetail(createdEvent)))))) {
             $0.destination = nil
-            $0.managerEvents.destination = .eventDetail(.init(event: createdEvent, session: $0.$session, destination: .invite(createdEvent)))
+            $0.managerEvents.destination = .eventDetail(
+                .init(
+                    event: createdEvent,
+                    destination: .invite(createdEvent),
+                    session: $0.$session
+                )
+            )
         }
     }
     
@@ -99,7 +112,11 @@ struct TabbarTests {
             value: .mockAnonymous()
         )
         let session = sharedSession
-        let store = TestStore(initialState: .init(session: session)) {
+        let store = TestStore(
+            initialState: .init(
+                session: session
+            )
+        ) {
             Tabbar()
         }
         await store.send(.toolbar(.createEventButtonTap)) {
@@ -189,7 +206,7 @@ struct TabbarTests {
         let notificationAuthorizationRequested = LockIsolated(false)
         let store = TestStore(
             initialState: .init(
-                session: .init(value: .mock()),
+                session: .init(value: .mock())
             )
         ) {
             Tabbar()
@@ -212,7 +229,11 @@ struct TabbarTests {
     @Test("Start feedback from Enter Code screen")
     func startFeedbackEventCode() async {
         let pin = PinCode(value: "123456")
-        let store = TestStore(initialState: .init(session: .init(value: .mock()))) {
+        let store = TestStore(
+            initialState: .init(
+                session: .init(value: .mock())
+            )
+        ) {
             Tabbar()
         }
         store.exhaustivity = .off
@@ -223,7 +244,11 @@ struct TabbarTests {
     @Test("Start feedback participant event as Manager")
     func startFeedbackManager() async {
         let pin = PinCode(value: "654321")
-        let store = TestStore(initialState: .init(session: .init(value: .mock()))) {
+        let store = TestStore(
+            initialState: .init(
+                session: .init(value: .mock())
+            )
+        ) {
             Tabbar()
         }
         store.exhaustivity = .off
@@ -234,7 +259,11 @@ struct TabbarTests {
     @Test("Start feedback participant event as Participant or Anonymous")
     func startFeedbackParticipant() async {
         let pin = PinCode(value: "111111")
-        let store = TestStore(initialState: .init(session: .init(value: .mockAnonymous()))) {
+        let store = TestStore(
+            initialState: .init(
+                session: .init(value: .mockAnonymous())
+            )
+        ) {
             Tabbar()
         }
         store.exhaustivity = .off

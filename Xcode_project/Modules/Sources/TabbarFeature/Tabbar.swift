@@ -55,12 +55,11 @@ public struct Tabbar {
             session: Shared<Session>,
             selectedTab: Tab = .events,
             destination: Destination.State? = nil,
-            moreSection: MoreSection.State = .init()
         ) {
             self._session = session
             self.enterCode = .init()
             self.selectedTab = selectedTab
-            self.moreSection = moreSection
+            self.moreSection = .init()
             self.accountSection = .init(session: session)
             self.initialiseFeedback = .init()
             self.participantEvents = .init(session: session)
@@ -130,7 +129,9 @@ public struct Tabbar {
         Scope(state: \.deleteAccount, action: \.deleteAccount) {
             DeleteAccount()
         }
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
                 
             case .tabbarLifecyle(.delegate(let delegateAction)):
@@ -163,8 +164,8 @@ public struct Tabbar {
                 state.managerEvents.destination = .eventDetail(
                     EventDetailFeature.State(
                         event: event,
-                        session: state.$session,
-                        destination: .invite(event)
+                        destination: .invite(event),
+                        session: state.$session
                     )
                 )
                 return .none

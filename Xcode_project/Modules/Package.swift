@@ -59,6 +59,10 @@ let package = Package(
             name: "Implementations",
             targets: ["Implementations"]
         ),
+        .library(
+            name: "InfoPlist",
+            targets: ["InfoPlist"]
+        ),
     ],
     dependencies: [
         .package(
@@ -67,7 +71,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
-            exact: "11.3.0"
+            exact: "11.14.0"
         ),
         .package(
             url: "https://github.com/airbnb/lottie-ios",
@@ -79,7 +83,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/pointfreeco/swift-composable-architecture.git",
-            revision: "1.17.1"
+            revision: "1.20.2"
         ),
         .package(
             url: "https://github.com/apple/swift-openapi-generator",
@@ -91,7 +95,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/apple/swift-openapi-urlsession",
-            .upToNextMinor(from: "1.0.2")
+            .upToNextMinor(from: "1.1.0")
         ),
     ],
     targets: [
@@ -107,8 +111,8 @@ let package = Package(
                 "Logger",
                 "Model",
                 "Utility",
-                "OpenAPI",
-            ],
+                "OpenAPI"
+            ]
         ),
         .target(
             name: "OpenAPI",
@@ -216,6 +220,9 @@ let package = Package(
             name: "Localization"
         ),
         .target(
+            name: "InfoPlist"
+        ),
+        .target(
             name: "SignUpFeature",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
@@ -231,8 +238,9 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 "AppCore",
-                "Implementations"
+                "Implementations",
+                "InfoPlist"
             ]
-        ),
+        )
     ]
 )

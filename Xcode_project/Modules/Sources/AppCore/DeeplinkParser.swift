@@ -1,21 +1,11 @@
 import NotificationCenter
 import Foundation
 import Model
-import UserNotifications
 import Logger
 
 public enum Deeplink: Equatable {
     case joinEvent(pinCodeInput: PinCodeInput)
     case managerEvent(id: UUID)
-    
-    public var sessionRefreshNeeded: Bool {
-        switch self {
-        case .joinEvent:
-            return false
-        case .managerEvent:
-            return true
-        }
-    }
 }
 
 public enum DeeplinkParser {
@@ -35,22 +25,21 @@ public enum DeeplinkParser {
             return nil
         }
     }
-    public static func fromNotification(_ notificationResponse: UNNotificationResponse) -> Deeplink? {
-        let userInfo = notificationResponse.notification.request.content.userInfo
-        guard
-            let type = userInfo["type"] as? String
-        else {
-            Logger.log(.error, "Failed to parse type from tapped notification")
+    public static func fromNotificationPayload(_ userInfo: [AnyHashable: Any]) -> Deeplink? {
+        guard let type = userInfo["type"] as? String else {
+            Logger.log(.error, "Failed to parse type from notification payload")
             return nil
         }
         
         switch type {
         case "FEEDBACK_RECEIVED":
-            guard let eventIdString = userInfo["eventId"] as? String, let eventId = UUID(uuidString: eventIdString) else {
-                Logger.log(.error, "Failed to parse eventId from notification with type FEEDBACK_RECEIVED")
+            guard let eventIdString = userInfo["eventId"] as? String,
+                  let eventId = UUID(uuidString: eventIdString) else {
+                Logger.log(.error, "Failed to parse eventId from notification payload")
                 return nil
             }
             return .managerEvent(id: eventId)
+            
         default:
             Logger.log(.error, "Unexpected notification type \(type)")
             return nil

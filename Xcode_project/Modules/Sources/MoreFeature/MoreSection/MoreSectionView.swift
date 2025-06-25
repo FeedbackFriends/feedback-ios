@@ -16,8 +16,11 @@ public struct MoreSectionView: View {
          Group {
             generalSection
             contactSection
-            shareSection
+             if let appStoreReviewUrl = store.appStoreReviewUrl {
+                 shareSection(appStoreReviewUrl: appStoreReviewUrl)
+             }
         }
+        .onAppear { store.send(.onAppear) }
     }
     
     var generalSection: some View {
@@ -28,12 +31,13 @@ public struct MoreSectionView: View {
                 } label: {
                     listElementView(image: "bell", label: "Notifications")
                 }
-                
-                NavigationLink {
-                    WebView(url: store.privacyPolicyUrl)
-                        .edgesIgnoringSafeArea(.all)
-                } label: {
-                    listElementView(image: "doc.plaintext", label: "Privacy policy")
+                if let privacyPolicyUrl = store.privacyPolicyUrl {
+                    NavigationLink {
+                        WebView(url: privacyPolicyUrl)
+                            .edgesIgnoringSafeArea(.all)
+                    } label: {
+                        listElementView(image: "doc.plaintext", label: "Privacy policy")
+                    }
                 }
                 Button {
                     store.send(.onSupportUsButtonTap)
@@ -75,9 +79,9 @@ public struct MoreSectionView: View {
         }
     }
     
-    var shareSection: some View {
+    func shareSection(appStoreReviewUrl: URL) -> some View {
         Section {
-            ShareLink(item: store.appStoreReviewUrl) {
+            ShareLink(item: appStoreReviewUrl) {
                 VStack(spacing: 10) {
                     Text("Invite your colleagues")
                         .font(.montserratExtraBold, 18)

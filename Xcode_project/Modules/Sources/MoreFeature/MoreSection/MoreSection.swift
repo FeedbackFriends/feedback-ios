@@ -11,14 +11,9 @@ public struct MoreSection {
     
     @ObservableState
     public struct State: Equatable {
-        let privacyPolicyUrl: URL
-        let appStoreReviewUrl: URL
-        
-        public init() {
-            @Dependency(\.systemClient) var systemClient
-            self.privacyPolicyUrl = systemClient.privacyPolicyUrl()
-            self.appStoreReviewUrl = systemClient.appStoreReviewUrl()
-        }
+        var privacyPolicyUrl: URL?
+        var appStoreReviewUrl: URL?
+        public init() {}
     }
     
     public enum Action: BindableAction {
@@ -27,12 +22,14 @@ public struct MoreSection {
         case onReportBugButtonTap
         case onSupportUsButtonTap
         case binding(BindingAction<State>)
+        case onAppear
     }
     
     public init() {}
     
     @Dependency(\.openURL) var openURL
     @Dependency(\.systemClient) var systemClient
+    @Dependency(\.webURLClient) var webURLClient
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.authClient) var authClient
     
@@ -40,9 +37,15 @@ public struct MoreSection {
         BindingReducer()
         Reduce { state, action in
             switch action {
+                
+            case .onAppear:
+                state.privacyPolicyUrl =  try? webURLClient.privacyPolicyUrl()
+                state.appStoreReviewUrl = try? webURLClient.appStoreReviewUrl()
+                return .none
+                
             case .onNotificationsButtonTap:
                 return .run { _ in
-                    guard let settingsURL = URL(string: await systemClient.openSettingsURLString()) else { return }
+                    guard let settingsURL = URL(string: await systemClient.openAppSettings()) else { return }
                     await openURL(settingsURL)
                 }
                 
@@ -55,7 +58,7 @@ public struct MoreSection {
                     \(DeviceInfo().summary())
                     """
                 return .run { send in
-                    await openURL(systemClient.appleMailUrl(subject: subject, body: body))
+                    await openURL(systemClient.openEmail(subject: subject, body: body))
                 }
                 
             case .onReportBugButtonTap:
@@ -67,12 +70,12 @@ public struct MoreSection {
                     \(DeviceInfo().summary())
                     """
                 return .run { send in
-                    await openURL(systemClient.appleMailUrl(subject: subject, body: body))
+                    await openURL(systemClient.openEmail(subject: subject, body: body))
                 }
                 
             case .onSupportUsButtonTap:
                 return .run { send in
-                    await openURL(systemClient.appStoreReviewUrl())
+                    await openURL(try webURLClient.appStoreReviewUrl())
                 }
                 
             case .binding:

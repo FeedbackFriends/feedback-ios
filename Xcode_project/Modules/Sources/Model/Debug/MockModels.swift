@@ -1,6 +1,14 @@
 #if !RELEASE
 import Foundation
 
+private var globalMockUUIDIndex = 0
+
+private func nextDeterministicUUID() -> UUID {
+    let uuid = UUID.mockUUID(forIndex: globalMockUUIDIndex)
+    globalMockUUIDIndex += 1
+    return uuid
+}
+
 public let mockAgenda =
     """
     1. Opening Remarks (5 minutes)
@@ -167,19 +175,19 @@ public extension Session {
             role: .participant
         )
     }
-        
+    
 }
 
 private func generateMockManagerEvents(count: Int) -> [ManagerEvent] {
     (0..<count).map { index in
-        ManagerEvent.mock(Int.random(in: 0...10), Int.random(in: 0...10))
+        ManagerEvent.mock(Int.random(in: 0...10), Int.random(in: 0...10), index: globalMockUUIDIndex)
     }
 }
 
 public extension ParticipantEvent {
     static func mock() -> Self {
         ParticipantEvent(
-            id: UUID(),
+            id: nextDeterministicUUID(),
             title: generateFeedbackEventTitle(),
             agenda: generateAgenda(),
             date: .init(timeIntervalSince1970: 0),
@@ -210,8 +218,17 @@ public extension OwnerInfo {
     }
 }
 
+extension UUID {
+    static func mockUUID(forIndex index: Int) -> UUID {
+        precondition(index >= 0 && index <= 999_999, "Only indices between 0 and 999999 are supported.")
+        let hex = String(format: "%012x", index)
+        let uuidString = "00000000-0000-0000-0000-\(hex)"
+        return UUID(uuidString: uuidString)!
+    }
+}
+
 public extension ManagerEvent {
-    static func mock(_ feedbackCount: Int = 30, _ questionsCount: Int = 5) -> Self {
+    static func mock(_ feedbackCount: Int = 30, _ questionsCount: Int = 5, index: Int = 0) -> Self {
         // Generate questions with feedback
         var questions: [ManagerQuestion] = [.init(
             id: UUID(),
@@ -221,20 +238,20 @@ public extension ManagerEvent {
             feedbackSummary: nil
         )]
         var totalFeedback = 0
-
+        
         for _ in 0..<questionsCount {
             let feedbackForQuestion = Int.random(in: 0...30)
             totalFeedback += feedbackForQuestion
             questions.append(generateQuestion(amount: feedbackForQuestion))
         }
-
+        
         var feedbackSummary: FeedbackSummary?
         if totalFeedback != 0 {
             feedbackSummary = generateFeedbackSummary(total: totalFeedback)
         }
-
+        
         return Self.init(
-            id: UUID(),
+            id: nextDeterministicUUID(),
             title: generateFeedbackEventTitle(),
             agenda: generateAgenda(),
             date: generateRandomDate(),
@@ -320,13 +337,13 @@ private func generateFeedbackSummary(total: Int) -> FeedbackSummary {
     let sadWeight = Int.random(in: 0...(100 - verySadWeight))
     let happyWeight = Int.random(in: 0...(100 - verySadWeight - sadWeight))
     let veryHappyWeight = 100 - (verySadWeight + sadWeight + happyWeight)
-
+    
     // Convert weights to percentages
     let verySadPercentage = Double(verySadWeight)
     let sadPercentage = Double(sadWeight)
     let happyPercentage = Double(happyWeight)
     let veryHappyPercentage = Double(veryHappyWeight)
-
+    
     let verySadCount = Int.random(in: 0...total / 2)
     let sadCount = Int.random(in: 0...(total - verySadCount) / 3)
     let happyCount = Int.random(in: 0...(total - verySadCount - sadCount) / 2)
@@ -353,7 +370,7 @@ private func generateFeedbackSummary(total: Int) -> FeedbackSummary {
 
 public extension ManagerEvent {
     static let mockEmpty = Self.init(
-        id: UUID(),
+        id: nextDeterministicUUID(),
         title: "Standup Meeting",
         agenda: mockAgenda,
         date: .init(timeIntervalSince1970: 0),
@@ -364,14 +381,14 @@ public extension ManagerEvent {
         feedbackSummary: nil,
         questions: [
             .init(
-                id: UUID(),
+                id: nextDeterministicUUID(),
                 questionText: "What do you think about this aspect of the experience?",
                 feedbackType: .emoji,
                 feedback: [],
                 feedbackSummary: nil
             ),
             .init(
-                id: UUID(),
+                id: nextDeterministicUUID(),
                 questionText: "What do you think about this aspect of the experience?",
                 feedbackType: .emoji,
                 feedback: [],
@@ -385,7 +402,7 @@ public func generateQuestion(amount: Int) -> ManagerQuestion {
     let feedback = generateFeedback(amount: amount)
     let feedbackSummary: FeedbackSummary? = generateFeedbackSummary(total: amount)
     return ManagerQuestion(
-        id: UUID(),
+        id: nextDeterministicUUID(),
         questionText: "How do you feel about this aspect of the experience?",
         feedbackType: .emoji,
         feedback: feedback,
@@ -411,7 +428,7 @@ public func generateFeedback(amount: Int) -> [Feedback] {
         let randomComment = possibleComments.randomElement()!
         let feedback = Feedback(
             type: .emoji(emoji: randomEmoji, comment: randomComment),
-            questionId: UUID(),
+            questionId: nextDeterministicUUID(),
             seenByManager: Bool.random(),
             createdAt: Date()
         )

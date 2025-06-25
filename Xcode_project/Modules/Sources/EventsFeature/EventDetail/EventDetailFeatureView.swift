@@ -95,7 +95,10 @@ private extension EventDetailFeatureView {
     NavigationStack {
         EventDetailFeatureView(
             store: .init(
-                initialState: .init(event: .mock(), session: .init(value: .mock())),
+                initialState: .init(
+                    event: .mock(),
+                    session: .init(value: .mock())
+                ),
                 reducer: {
                     EventDetailFeature()
                 }

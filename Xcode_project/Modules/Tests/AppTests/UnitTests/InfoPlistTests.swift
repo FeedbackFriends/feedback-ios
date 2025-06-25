@@ -1,4 +1,4 @@
-@testable import Utility
+@testable import InfoPlist
 
 import Foundation
 import Testing

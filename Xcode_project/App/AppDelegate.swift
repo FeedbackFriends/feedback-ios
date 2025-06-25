@@ -14,24 +14,42 @@ import Utility
 import OpenAPI
 import OpenAPIURLSession
 import OpenAPIRuntime
+import InfoPlist
+
+public enum InfoPlistConfig {
+    
+    public static var apiBaseUrl: URL {
+        InfoPlist().url(for: "API_BASE_URL", scheme: "API_SCHEME")!
+    }
+    public static var supportEmail: String {
+        InfoPlist().string(for: "SUPPORT_EMAIL")!
+    }
+    public static var webBaseUrl: URL {
+        InfoPlist().url(for: "WEB_BASE_URL", scheme: "WEB_SCHEME")!
+    }
+    public static var appStoreId: String {
+        InfoPlist().string(for: "APPSTORE_ID")!
+    }
+}
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
+    
     
     let intialStore = Store(
         initialState: AppCore.State()
     ) {
         AppCore()._printChanges()
     } withDependencies: {
-        $0.systemClient = .live(
-            webUrl: Config().webBaseUrl,
-            appstoreId: Config().appStoreId,
-            supportEmail: Config().supportEmail
+        $0.webURLClient = .live(
+            webBaseUrl: InfoPlistConfig.webBaseUrl,
+            appStoreId: InfoPlistConfig.appStoreId
         )
+        $0.systemClient = .live(supportEmail: InfoPlistConfig.supportEmail)
         $0.notificationClient = .live
         $0.authClient = .live
         $0.apiClient = .live(
             client: Client(
-                serverURL: Config().apiBaseUrl,
+                serverURL: InfoPlistConfig.apiBaseUrl,
                 configuration: Configuration(),
                 transport: URLSessionTransport(),
                 middlewares: [
@@ -41,11 +59,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
                 ]
             ),
             provideFcmToken: {
-                do {
-                    return try await Messaging.messaging().token()
-                } catch {
-                    return nil
-                }
+                try? await Messaging.messaging().token()
             }
         )
     }
@@ -63,16 +77,16 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         Logger.setup(
             logClients: [
                 CrashlyticsLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .error),
-                OSLogClient(subsystem: Bundle.main.bundleIdentifier!, category: "LoggingClient")
+                OSLogClient(subsystem: DeviceInfo().bundleIdentifier(), category: "LoggingClient")
             ]
         )
-        intialStore.send(.appDelegate(.didFinishLaunchingWithOptions))
+        intialStore.send(.onAppOpen)
         return true
     }
     
     /// When a notification is tapped
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        guard let deeplink = DeeplinkParser.fromNotification(response) else { return }
+        guard let deeplink = DeeplinkParser.fromNotificationPayload(response.notification.request.content.userInfo) else { return }
         intialStore.send(.onNotificationTap(deeplink))
     }
 }
@@ -80,7 +94,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 extension AppDelegate: MessagingDelegate {
     
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        intialStore.send(.appDelegate(.didReceiveRegistrationToken(fcmToken)))
+        intialStore.send(.didReceiveFCMToken(fcmToken))
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

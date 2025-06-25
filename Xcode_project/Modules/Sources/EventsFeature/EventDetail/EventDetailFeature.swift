@@ -4,6 +4,7 @@ import DesignSystem
 import Foundation
 import ComposableArchitecture
 import UIKit
+import Utility
 
 @Reducer
 public struct EventDetailFeature {
@@ -22,7 +23,6 @@ public struct EventDetailFeature {
             case invite
         }
     }
-    
     
     @ObservableState
     public struct State: Equatable {
@@ -43,16 +43,18 @@ public struct EventDetailFeature {
         """
         }
         
-        var inviteLink: String {
-            @Dependency(\.systemClient) var systemClient
-            return systemClient.inviteUrl(pinCode: event.pinCode).absoluteString
-        }
-
+        var inviteLink: String = ""
         
-        public init(event: ManagerEvent, session: Shared<Session>, destination: Destination.State? = nil) {
+        public init(
+            event: ManagerEvent,
+            destination: Destination.State? = nil,
+            fetchEventDetailInFlight: Bool = true,
+            session: Shared<Session>
+        ) {
             self.event = event
-            self._session = session
             self.destination = destination
+            self.fetchEventDetailInFlight = fetchEventDetailInFlight
+            self._session = session
         }
     }
     
@@ -72,6 +74,7 @@ public struct EventDetailFeature {
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.continuousClock) var clock
     @Dependency(\.apiClient) var apiClient
+    @Dependency(\.webURLClient) var webURLClient
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -137,6 +140,7 @@ public struct EventDetailFeature {
                 return .none
                 
             case .onTask:
+                state.inviteLink = try! self.webURLClient.inviteUrl(pinCode: state.event.pinCode).absoluteString
                 return .publisher {
                     state.$session.publisher
                         .map(Action.sessionUpdated)

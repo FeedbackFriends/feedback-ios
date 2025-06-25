@@ -57,7 +57,9 @@ public struct ManagerEvents {
         Scope(state: \.participantEvents, action: \.participantEvents) {
             ParticipantEvents()
         }
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
                 
             case .participantEvents:

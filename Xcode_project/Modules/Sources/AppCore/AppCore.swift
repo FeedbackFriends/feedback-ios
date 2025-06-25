@@ -26,7 +26,7 @@ public struct AppCore {
         case handleAuthenticatedAccountError(error: PresentableError)
         case anonymousSignUpError(error: PresentableError)
         case createAccountError(error: PresentableError, Role?)
-        case getSessionError(error: PresentableError, deeplink: Deeplink?)
+        case getSessionError(error: PresentableError)
         var error: PresentableError {
             switch self {
             case .handleAuthenticatedAccountError(let error):
@@ -35,7 +35,7 @@ public struct AppCore {
                 return error
             case .createAccountError(let error, _):
                 return error
-            case .getSessionError(let error, _):
+            case .getSessionError(let error):
                 return error
             }
         }
@@ -43,28 +43,25 @@ public struct AppCore {
     
     @ObservableState
     public struct State {
+        var notificationDeeplinkInFlight = false
         var destination: Destination.State
         var isLoading: Bool
-        var appDelegate: AppDelegateReducer.State
         var logout: Logout.State
         public init(
             destination: Destination.State = .isLoading,
             isLoading: Bool = false,
-            appDelegate: AppDelegateReducer.State = .init(),
-            logout: Logout.State = .init()
+            logout: Logout.State = .init(),
         ) {
             self.destination = destination
             self.isLoading = isLoading
-            self.appDelegate = appDelegate
             self.logout = logout
         }
     }
     
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
-        case appDelegate(AppDelegateReducer.Action)
         case destination(Destination.Action)
-        case getSessionResponse(session: Session, deeplink: Deeplink?)
+        case getSessionResponse(session: Session, deeplink: Deeplink? = nil)
         case presentError(ErrorType)
         case tryAgainButtonTap(ErrorType)
         case createAccountResponse(Session, Role?)
@@ -72,81 +69,9 @@ public struct AppCore {
         case logout(Logout.Action)
         case onNotificationTap(Deeplink)
         case onUrlOpen(Deeplink)
-    }
-    
-    private func createAccount(
-        withRole role: Role?,
-        state: inout State
-    ) -> EffectOf<Self> {
-        state.isLoading = true
-        return .run  { send in
-            do {
-                let session = try await apiClient.createAccount(role)
-                await send(.createAccountResponse(session, role))
-            } catch {
-                await send(.presentError(ErrorType.createAccountError(error: error.localized, role)))
-            }
-        }
-    }
-    
-    private func signUpAnonymously(
-        state: inout State
-    ) -> EffectOf<Self> {
-        state.isLoading = true
-        return .run  { send in
-            do {
-                try await authClient.signInAnonymously()
-            } catch {
-                await send(.presentError(ErrorType.anonymousSignUpError(error: error.localized)))
-            }
-        }
-    }
-    
-    private func getSession(state: inout State, deeplink: Deeplink?) -> EffectOf<Self> {
-        state.isLoading = true
-        return .run  { send in
-            do {
-                let session = try await apiClient.getSession()
-                await send(.getSessionResponse(session: session, deeplink: deeplink))
-            } catch {
-                await send(.presentError(ErrorType.getSessionError(error: error.localized, deeplink: deeplink)))
-            }
-        }
-    }
-    
-    private func handeAuthenticatedAccount(state: inout State) -> EffectOf<Self> {
-        state.isLoading = true
-        return .run { send in
-            do {
-                let existingRole = try await authClient.fetchCustomRole()
-                guard let existingRole else {
-                    await send(.navigateToSelectUserType)
-                    return
-                }
-                let session = try await apiClient.createAccount(existingRole)
-                await send(.createAccountResponse(session, existingRole))
-            } catch {
-                await send(.presentError(.handleAuthenticatedAccountError(error: error.localized)))
-            }
-        }
-    }
-    
-    private func handleDeeplink(state: inout State, deeplink: Deeplink) -> EffectOf<Self> {
-        guard case let .loggedIn(existingState) = state.destination else { return .none }
-        let session = Shared(value: existingState.session)
-        if deeplink.sessionRefreshNeeded {
-            state.isLoading = true
-            return .run  { send in
-                do {
-                    let session = try await apiClient.getSession()
-                    await send(.getSessionResponse(session: session, deeplink: deeplink))
-                } catch {
-                    await send(.presentError(ErrorType.getSessionError(error: error.localized, deeplink: deeplink)))
-                }
-            }
-        }
-        state = .fromDeeplink(deeplink: deeplink, sharedSession: session)
-        return .none
+        case onAppOpen
+        case didReceiveFCMToken(String?)
+        case authenticationStateChanged(UserState)
     }
     
     public init() {}
@@ -157,9 +82,6 @@ public struct AppCore {
     @Dependency(\.continuousClock) var clock
     
     public var body: some ReducerOf<Self> {
-        Scope(state: \.appDelegate, action: \.appDelegate) {
-            AppDelegateReducer()
-        }
         Scope(state: \.logout, action: \.logout) {
             Logout()
         }
@@ -192,16 +114,18 @@ public struct AppCore {
                 case .createAccountError(_, let role):
                     return createAccount(withRole: role, state: &state)
                     
-                case .getSessionError(_, let deeplink):
-                    return getSession(state: &state, deeplink: deeplink)
+                case .getSessionError(_):
+                    return getSession(state: &state, deeplink: nil)
                     
                 case .handleAuthenticatedAccountError(_):
                     return handeAuthenticatedAccount(state: &state)
-                
                 }
                 
-            case .appDelegate(.authenticationStateChanged(let authState)):
+            case .authenticationStateChanged(let authState):
                 Logger.debug("Auth state changed: \(authState)")
+                if state.notificationDeeplinkInFlight {
+                    return .none
+                }
                 switch authState {
                     
                 case .authenticated:
@@ -220,13 +144,6 @@ public struct AppCore {
                     }
                 }
                 
-//            case .appDelegate(.handleNotification(let notificationLink)):
-//                     state.destination = .isLoading
-//                return getSession(state: &state, notificationLink: notificationLink)
-                
-            case .appDelegate:
-                return .none
-                
             case .destination:
                 return .none
                 
@@ -234,7 +151,9 @@ public struct AppCore {
                 return .none
                 
             case .getSessionResponse(let session, let deeplink):
+                state.isLoading = false
                 let sharedSession = Shared(value: session)
+                state.notificationDeeplinkInFlight = false
                 guard let deeplink else {
                     state.destination = Destination.State.loggedIn(
                         Tabbar.State(
@@ -244,7 +163,10 @@ public struct AppCore {
                     )
                     return .none
                 }
-                state = .fromDeeplink(deeplink: deeplink, sharedSession: sharedSession)
+                state = .fromDeeplink(
+                    deeplink: deeplink,
+                    sharedSession: sharedSession
+                )
                 return .none
                 
             case .presentError(let errorType):
@@ -259,10 +181,9 @@ public struct AppCore {
                 return .none
                 
             case .createAccountResponse(let session, _):
-                let sharedSession = Shared(value: session)
                 state.destination = Destination.State.loggedIn(
                     Tabbar.State(
-                        session: sharedSession,
+                        session: Shared(value: session),
                         selectedTab: .feedback
                     )
                 )
@@ -270,11 +191,41 @@ public struct AppCore {
                 
             case .logout:
                 return .none
+                
             case .onNotificationTap(let deeplink):
-                return handleDeeplink(state: &state, deeplink: deeplink)
+                state.notificationDeeplinkInFlight = true
+                return .merge(
+                    getSession(state: &state, deeplink: deeplink)
+                )
                 
             case .onUrlOpen(let deeplink):
-                return handleDeeplink(state: &state, deeplink: deeplink)
+                guard case let .loggedIn(existingState) = state.destination else {
+                    return .none
+                }
+                state = .fromDeeplink(
+                    deeplink: deeplink,
+                    sharedSession: Shared(value: existingState.session)
+                )
+                return .none
+                
+            case .onAppOpen:
+                return .run { send in
+                    let userStateChangedStream = await authClient.userStateChanged()
+                    for await loggedInUser in userStateChangedStream {
+                        Logger.debug("🔐 Auth state changed to: \(loggedInUser)")
+                        await send(.authenticationStateChanged(loggedInUser), animation: .bouncy(duration: 1))
+                    }
+                }
+                
+            case .didReceiveFCMToken(let fcmToken):
+                guard let fcmToken else { return .none }
+                return .run { send in
+                    do {
+                        try await apiClient.linkFCMTokenToAccount(fcmToken)
+                    } catch {
+                        Logger.log(.error, "Update fcm token api call failed silently with error: \(error.localizedDescription)")
+                    }
+                }
             }
         }
     }
@@ -300,7 +251,7 @@ extension AppCore.State {
             )
             if let managerEvent = sharedSession.wrappedValue.managerData?.managerEvents[id: eventId] {
                 newTabbarState.managerEvents.destination = .eventDetail(
-                    .init(
+                    EventDetailFeature.State(
                         event: managerEvent,
                         session: sharedSession
                     )
@@ -311,6 +262,69 @@ extension AppCore.State {
                     newTabbarState
                 )
             )
+        }
+    }
+}
+
+/// Helpers
+private extension AppCore {
+    func createAccount(
+        withRole role: Role?,
+        state: inout State
+    ) -> EffectOf<Self> {
+        state.isLoading = true
+        return .run  { send in
+            do {
+                let session = try await apiClient.createAccount(role)
+                await send(.createAccountResponse(session, role))
+            } catch {
+                await send(.presentError(ErrorType.createAccountError(error: error.localized, role)))
+            }
+        }
+    }
+    
+    func signUpAnonymously(
+        state: inout State
+    ) -> EffectOf<Self> {
+        state.isLoading = true
+        state.destination = .isLoading
+        return .run  { send in
+            do {
+                try await authClient.signInAnonymously()
+            } catch {
+                await send(.presentError(ErrorType.anonymousSignUpError(error: error.localized)))
+            }
+        }
+    }
+    
+    func getSession(state: inout State, deeplink: Deeplink?) -> EffectOf<Self> {
+        state.isLoading = true
+        state.destination = .isLoading
+        return .run  { send in
+            do {
+                let session = try await apiClient.getSession()
+                await send(.getSessionResponse(session: session, deeplink: deeplink))
+            } catch {
+                await send(.presentError(ErrorType.getSessionError(error: error.localized)))
+            }
+        }
+    }
+    
+    func handeAuthenticatedAccount(state: inout State) -> EffectOf<Self> {
+        state.isLoading = true
+        state.destination = .isLoading
+        return .run { send in
+            do {
+                let existingRole = try await authClient.fetchCustomRole()
+                guard let existingRole else {
+                    await send(.navigateToSelectUserType)
+                    return
+                }
+                let session = try await apiClient.createAccount(existingRole)
+                await send(.createAccountResponse(session, existingRole))
+            } catch {
+                await send(.presentError(.handleAuthenticatedAccountError(error: error.localized)))
+            }
         }
     }
 }

@@ -9,20 +9,28 @@ struct ManagerEventsTests {
     
     @Test
     func managerEvent_eventDetail() async {
-        let session: Session = .mock(numberOfManagerEvents: 2)
-        let mockEvent = session.managerData!.managerEvents[0]
+        let session: Shared<Session> = .init(value: .mock(numberOfManagerEvents: 2))
+        let mockEvent = session.wrappedValue.managerData!.managerEvents[0]
         var eventMarkedAsSeen: UUID?
         
-        let store = TestStore(initialState: ManagerEvents.State(session: .init(value: session))) {
+        let store = TestStore(initialState: ManagerEvents.State(session: session)) {
             ManagerEvents()
         } withDependencies: {
             $0.apiClient.markEventAsSeen = { @MainActor in
                 eventMarkedAsSeen = $0
             }
+            $0.webURLClient.inviteUrl = { _ in
+                     URL(string: "https://example.com")!
+            }
         }
         
         await store.send(.managerEventTap(mockEvent)) {
-            $0.destination = .eventDetail(EventDetailFeature.State(event: mockEvent, session: .init(value: session)))
+            $0.destination = .eventDetail(
+                EventDetailFeature.State.init(
+                    event: mockEvent,
+                    session: session
+                )
+            )
         }
         #expect(eventMarkedAsSeen == nil, "Event not marked as seen when tapped")
         await store.send(.destination(.dismiss)) {

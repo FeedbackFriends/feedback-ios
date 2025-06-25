@@ -1,12 +1,12 @@
 {
-    "Simulator Target Bundle": "dk.nicolaidam.letsgrow",
+    "Simulator Target Bundle": "dk.nicolaidam.letsgrow.mock",
     "aps": {
         "alert": {
             "title-loc-key": "notification_feedback_received_title",
             "loc-key": "notification_feedback_received_body",
-            "loc-args": ["<count>", "<event_title>"]
+            "loc-args": ["99", "Dope title"]
         }
     },
-    "eventId": "id",
+    "eventId": "00000000-0000-0000-0000-000000000000",
     "type": "FEEDBACK_RECEIVED"
 }
