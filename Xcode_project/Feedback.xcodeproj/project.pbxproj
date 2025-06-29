@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7A034FE02D9AC9430059C6F3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
+		7A062A382E11E8B9000AA1A5 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A062A372E11E8B9000AA1A5 /* RootFeature */; };
 		7A36B0262E0BE9EF009308F2 /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5562DD9FE8500FF5B86 /* Implementations */; };
 		7A49F5232DD5F96000FF5B86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
 		7A49F5242DD5F96500FF5B86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
@@ -17,12 +18,10 @@
 		7A49F5282DD5F99200FF5B86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
 		7A49F5292DD5F99200FF5B86 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
 		7A49F52A2DD5F99200FF5B86 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
-		7A49F54C2DD75C3200FF5B86 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A49F54B2DD75C3200FF5B86 /* SceneDelegate.swift */; };
 		7A49F5592DDA0ED700FF5B86 /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5582DDA0ED700FF5B86 /* InfoPlist */; };
 		7A5D85812DBA91B400737F11 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		7A7E44EF2DE85B4800B3C4C4 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7E44EE2DE85B4800B3C4C4 /* AppCore */; };
 		7A8892262D2FAE6A00B0276B /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
-		7A89CAE52E0C4127006A9DF0 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A3B924D2DCFC4CD00CE50F5 /* AppCore */; };
 		7A89CAE62E0C4127006A9DF0 /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A3B924F2DCFC4D000CE50F5 /* Implementations */; };
 		7A89CAE72E0C4127006A9DF0 /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F55A2DDA0EE300FF5B86 /* InfoPlist */; };
 		7A9E6BB12DC4F512005F4828 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */; };
@@ -52,8 +51,8 @@
 
 /* Begin PBXFileReference section */
 		7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
+		7A062A392E11EA6E000AA1A5 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7A36B0312E0BEA6C009308F2 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		7A49F54B2DD75C3200FF5B86 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		7A67364E2D6F5EA300B392DD /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7A6736502D6F5EA300B392DD /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7A7E44E22DE85B0C00B3C4C4 /* FeedbackError.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedbackError.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -141,7 +140,7 @@
 			files = (
 				7A89CAE72E0C4127006A9DF0 /* InfoPlist in Frameworks */,
 				7A89CAE62E0C4127006A9DF0 /* Implementations in Frameworks */,
-				7A89CAE52E0C4127006A9DF0 /* AppCore in Frameworks */,
+				7A062A382E11E8B9000AA1A5 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -180,7 +179,6 @@
 		7A9E6BC92DC52183005F4828 /* FeedbackMock */ = {
 			isa = PBXGroup;
 			children = (
-				7A49F54B2DD75C3200FF5B86 /* SceneDelegate.swift */,
 				7A9E6BC82DC52183005F4828 /* FeedbackMockApp.swift */,
 			);
 			path = FeedbackMock;
@@ -207,6 +205,7 @@
 		B1057F2B2843FD8600B9EE2F = {
 			isa = PBXGroup;
 			children = (
+				7A062A392E11EA6E000AA1A5 /* README.md */,
 				7A36B0312E0BEA6C009308F2 /* .swiftlint.yml */,
 				7A49F5202DD5EDDB00FF5B86 /* Resources */,
 				7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */,
@@ -394,6 +393,7 @@
 				7A3B924D2DCFC4CD00CE50F5 /* AppCore */,
 				7A3B924F2DCFC4D000CE50F5 /* Implementations */,
 				7A49F55A2DDA0EE300FF5B86 /* InfoPlist */,
+				7A062A372E11E8B9000AA1A5 /* RootFeature */,
 			);
 			productName = Feedback;
 			productReference = 7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */;
@@ -616,7 +616,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A9E6BD42DC52183005F4828 /* FeedbackMockApp.swift in Sources */,
-				7A49F54C2DD75C3200FF5B86 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1630,6 +1629,10 @@
 		285F02882C12328F00AE8942 /* FeedbackFlow */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FeedbackFlow;
+		};
+		7A062A372E11E8B9000AA1A5 /* RootFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RootFeature;
 		};
 		7A3B924D2DCFC4CD00CE50F5 /* AppCore */ = {
 			isa = XCSwiftPackageProductDependency;

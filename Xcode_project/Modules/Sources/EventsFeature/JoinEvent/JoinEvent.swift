@@ -2,6 +2,7 @@ import ComposableArchitecture
 import DesignSystem
 import Model
 import Foundation
+import ServiceInterfaces
 
 @Reducer
 public struct JoinEvent {

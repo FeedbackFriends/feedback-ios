@@ -2,6 +2,7 @@ import Model
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI
+import ServiceInterfaces
 
 @Reducer
 public struct EditEvent {

@@ -128,6 +128,6 @@ struct DeleteAccountTests {
             $0.destination = nil
         }
         // No follow-up receive
-        // Navigation happens automatically from AppCore where stream is triggered by firebase
+        // Navigation happens automatically from RootFeature where stream is triggered by firebase
     }
 }

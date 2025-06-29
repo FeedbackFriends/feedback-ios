@@ -1,32 +1,32 @@
 import SwiftUI
 
-public struct LargeButtonStyle<Input: ShapeStyle>: ButtonStyle {
+public struct LargeButtonStyle<BackgroundInput: ShapeStyle>: ButtonStyle {
 
     @Environment(\.isLoading) private var isLoading
     @Environment(\.isEnabled) private var isEnabled: Bool
     
-    let color: Input
-    let progressViewColor: Color
+    let backgroundColor: BackgroundInput
+    let foregroundColor: Color
     
-    public init(color: Input = Color.themePrimaryAction.gradient, progressViewColor: Color = Color.white) {
-        self.color = color
-        self.progressViewColor = progressViewColor
+    public init(backgroundColor: BackgroundInput = Color.themePrimaryAction.gradient, foregroundColor: Color = Color.themeOnPrimaryAction) {
+        self.backgroundColor = backgroundColor
+        self.foregroundColor = foregroundColor
     }
     public func makeBody(configuration: Configuration) -> some View {
         HStack(spacing: 8) {
             if isLoading {
                 ProgressView()
                     .transition(.blurReplace)
-                    .progressViewStyle(CircularProgressViewStyle(tint: progressViewColor))
+                    .progressViewStyle(CircularProgressViewStyle(tint: foregroundColor))
             }
             configuration.label
         }
         .frame(maxWidth: .infinity, minHeight: 50, idealHeight: 50, maxHeight: 55, alignment: .center)
         .font(.montserratSemiBold, 16)
-        .background(color)
+        .background(backgroundColor)
         .multilineTextAlignment(.center)
         .opacity(isEnabled ? 1.0 : 0.5)
-        .foregroundColor(.themeWhite)
+        .foregroundColor(foregroundColor)
         .animation(.default, value: isEnabled)
         .animation(.default, value: isLoading)
         .clipShape(Capsule(style: .continuous))

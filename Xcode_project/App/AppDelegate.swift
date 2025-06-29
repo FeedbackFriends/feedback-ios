@@ -1,6 +1,6 @@
 import ComposableArchitecture
 import Model
-import AppCore
+import RootFeature
 import FirebaseAuth
 import FirebaseCore
 import FirebasePerformance
@@ -35,9 +35,9 @@ public enum InfoPlistConfig {
 final class AppDelegate: NSObject, UIApplicationDelegate {
     
     let intialStore = Store(
-        initialState: AppCore.State()
+        initialState: RootFeature.State()
     ) {
-        AppCore()._printChanges()
+        RootFeature()._printChanges()
     } withDependencies: {
         $0.webURLClient = .live(
             webBaseUrl: InfoPlistConfig.webBaseUrl,

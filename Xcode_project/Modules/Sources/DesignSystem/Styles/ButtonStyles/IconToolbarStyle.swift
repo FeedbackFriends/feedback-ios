@@ -4,7 +4,7 @@ public struct IconToolbarStyle: ButtonStyle {
     
     public init () {}
     
-    let background: Color = Color.white
+    let background: Color = Color.themeWhite
     @Environment(\.isEnabled) var isEnabled
     
     public func makeBody(configuration: Configuration) -> some View {

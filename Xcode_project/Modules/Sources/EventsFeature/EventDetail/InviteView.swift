@@ -47,7 +47,7 @@ struct InviteView: View {
             Text(inviteLink)
                 .padding(18)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.white)
+                .background(Color.themeWhite)
                 .cornerRadius(14)
                 .font(.montserratMedium, 14)
                 .overlay(copyButton, alignment: .trailing)

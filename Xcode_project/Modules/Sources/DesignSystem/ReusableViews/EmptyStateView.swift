@@ -19,13 +19,12 @@ public struct EmptyStateView: View {
             VStack(spacing: 6) {
                 Text(title)
                     .font(.montserratExtraBold, 18)
-                    .foregroundColor(.themeDarkGray)
                 Text(message)
                     .font(.montserratRegular, 14)
-                    .foregroundColor(.themeDarkGray)
                     .multilineTextAlignment(.center)
             }
         }
+		.foregroundColor(.themeText)
         .frame(maxWidth: .infinity)
         .background(Color.clear)
         .padding(.horizontal, 50)

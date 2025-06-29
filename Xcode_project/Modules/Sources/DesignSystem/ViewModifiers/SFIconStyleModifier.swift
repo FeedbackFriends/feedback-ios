@@ -33,7 +33,7 @@ struct SFIconModifier: ViewModifier {
             .frame(width: size, height: size, alignment: .center)
             .foregroundColor(.themeDarkGray.opacity(0.6))
             .padding(8)
-            .background(Color.white, in: Capsule())
+            .background(Color.themeWhite, in: Capsule())
             .lightShadow()
     }
 }

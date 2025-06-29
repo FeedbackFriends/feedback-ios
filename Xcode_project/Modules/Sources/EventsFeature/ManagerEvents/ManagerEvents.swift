@@ -4,6 +4,7 @@ import DesignSystem
 import SwiftUI
 import Model
 import Logger
+import ServiceInterfaces
 
 @Reducer
 public struct ManagerEvents {

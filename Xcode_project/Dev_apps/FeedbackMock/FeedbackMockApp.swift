@@ -1,4 +1,4 @@
-import AppCore
+import RootFeature
 import SwiftUI
 import Model
 import Foundation
@@ -13,7 +13,7 @@ struct FeedbackMockApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppCoreView(
+            RootFeatureView(
                 store: appDelegate.intialStore
             )
             .task {
@@ -193,9 +193,9 @@ extension WebURLClient {
 final class AppDelegate: NSObject, UIApplicationDelegate {
     let mockAuthEngine = MockAuthEngine()
     lazy var intialStore = Store(
-        initialState: AppCore.State(),
+        initialState: RootFeature.State(),
         reducer: {
-            AppCore()._printChanges()
+            RootFeature()._printChanges()
         },
         withDependencies: {
             $0.apiClient = .mock
@@ -210,7 +210,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-//        AppTheme.setUp()
+		AppTheme.setUp()
         UNUserNotificationCenter.current().delegate = self
         UIApplication.shared.registerForRemoteNotifications()
         Logger.setup(
@@ -225,11 +225,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     /// When a notification is tapped
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         guard let deeplink = DeeplinkParser.fromNotificationPayload(response.notification.request.content.userInfo) else { return }
-//        intialStore.send(.onNotificationTap(deeplink))
+        intialStore.send(.onNotificationTap(deeplink))
     }
 }
 
-extension AppDelegate: UNUserNotificationCenterDelegate {
+extension AppDelegate: @preconcurrency UNUserNotificationCenterDelegate {
     
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,

@@ -1,4 +1,3 @@
-import Combine
 import ComposableArchitecture
 import Model
 import DesignSystem
@@ -47,7 +46,7 @@ public struct ManagerEventsView: View {
             CustomSegmentedPicker(selectedSegmentedControl: $store.segmentedControl.animation())
         }
         .background(Color.themeBackground)
-        .foregroundStyle(Color.themeDarkGray.gradient)
+        .foregroundStyle(Color.themeText)
         .navigationDestination(
             item: eventDetailStore
         ) { store in
@@ -139,7 +138,7 @@ extension ManagerEventsView {
                                 .font(.montserratBold, 10)
                                 .padding(4)
                                 .padding(.horizontal, 4)
-                                .foregroundStyle(Color.themeWhite)
+                                .foregroundStyle(Color.themeOnPrimaryAction)
                                 .background(Color.blue.opacity(0.5).gradient)
                                 .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
                         }
@@ -161,7 +160,7 @@ extension ManagerEventsView {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.montserratRegular, 12)
-                .foregroundColor(Color.themeDarkGray)
+                .foregroundColor(Color.themeText)
                 .padding(.all, 10)
                 if let feedbackSummary = event.feedbackSummary {
                     feedbackPercentageBarView(feedback: feedbackSummary.segmentationStats)
@@ -170,7 +169,7 @@ extension ManagerEventsView {
                     emptyFeedbackSegmentationStatsView()
                 }
             }
-            .background(Color.themeWhite)
+            .background(Color.themeSurface)
             .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
         }
         .buttonStyle(OpacityButtonStyle())

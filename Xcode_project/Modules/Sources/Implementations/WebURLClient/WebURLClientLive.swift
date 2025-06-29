@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 import Model
+import ServiceInterfaces
 
 public extension WebURLClient {
     static func live(webBaseUrl: URL, appStoreId: String) -> WebURLClient {

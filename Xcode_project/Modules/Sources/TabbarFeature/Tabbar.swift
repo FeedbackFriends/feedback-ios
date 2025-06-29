@@ -8,6 +8,7 @@ import Model
 import ComposableArchitecture
 import Utility
 import Logger
+import ServiceInterfaces
 
 public enum Tab: Hashable {
     case feedback, events, more

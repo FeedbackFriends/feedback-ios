@@ -4,7 +4,6 @@ import OpenAPIURLSession
 import Network
 import HTTPTypes
 import Logger
-import ComposableArchitecture
 import FirebaseAuth
 
 public struct AuthorisationMiddleware: ClientMiddleware {

@@ -3,6 +3,7 @@ import ComposableArchitecture
 import Model
 import DesignSystem
 import Logger
+import ServiceInterfaces
 
 @Reducer
 public struct TabbarLifecycle {

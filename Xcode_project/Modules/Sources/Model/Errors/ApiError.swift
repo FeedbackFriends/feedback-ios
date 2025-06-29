@@ -24,3 +24,4 @@ public struct ApiError: Error, Sendable {
 public enum DomainCode: Sendable {
     case feedbackAlreadySubmitted, eventAlreadyJoined
 }
+

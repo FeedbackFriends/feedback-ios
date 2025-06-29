@@ -1,10 +1,10 @@
 import Model
-import Combine
 import DesignSystem
 import Foundation
 import ComposableArchitecture
 import UIKit
 import Utility
+import ServiceInterfaces
 
 @Reducer
 public struct EventDetailFeature {

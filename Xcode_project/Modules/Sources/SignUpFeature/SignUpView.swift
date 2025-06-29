@@ -58,7 +58,7 @@ private extension SignUpView {
                         ProgressView()
                             .transition(.blurReplace)
                             .progressViewStyle(
-                                CircularProgressViewStyle(tint: Color.white)
+                                CircularProgressViewStyle(tint: Color.themeWhite)
                             )
                     }
                     Image.iconApple
@@ -70,7 +70,7 @@ private extension SignUpView {
                 }
                 .padding(.leading, 24)
             }
-            .buttonStyle(LargeButtonStyle(color: Color.black.gradient))
+            .buttonStyle(LargeButtonStyle(backgroundColor: Color.themeWhite.gradient))
             .disabled(store.googleLoginInFlight || store.appleLoginInFlight)
             Button {
                 store.send(.signUpWithGoogleButtonTap)
@@ -95,7 +95,7 @@ private extension SignUpView {
             }
             .buttonStyle(
                 LargeButtonStyle(
-                    color: Color.white
+					backgroundColor: Color.themeWhite
                 )
             )
             .disabled(store.googleLoginInFlight || store.appleLoginInFlight)

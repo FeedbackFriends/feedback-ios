@@ -1,9 +1,9 @@
 import Foundation
 import OpenAPIURLSession
 import OpenAPIRuntime
-import ComposableArchitecture
 import Model
 import OpenAPI
+import ServiceInterfaces
 
 public extension APIClient {
     static func live(

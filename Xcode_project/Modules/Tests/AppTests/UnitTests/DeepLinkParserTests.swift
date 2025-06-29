@@ -1,7 +1,7 @@
 import Foundation
 
 import Testing
-@testable import AppCore
+@testable import RootFeature
 
 @MainActor
 class DeeplinkParserTests {

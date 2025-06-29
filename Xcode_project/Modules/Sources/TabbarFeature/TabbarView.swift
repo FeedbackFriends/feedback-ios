@@ -247,7 +247,7 @@ private extension TabbarView {
             .overlay(alignment: .bottomTrailing) {
 				if count > 0 {
                     Text(count.description)
-                        .foregroundStyle(Color.white)
+                        .foregroundStyle(Color.themeWhite)
                         .font(.montserratSemiBold, 10)
                         .padding(6)
                         .background(Circle().foregroundStyle(Color.themeRed))

@@ -1,4 +1,4 @@
-import AppCore
+import RootFeature
 import ComposableArchitecture
 import SwiftUI
 import DesignSystem
@@ -10,7 +10,7 @@ struct FeedbackApp: App {
     
     var body: some Scene {
         WindowGroup {
-            AppCoreView(store: appDelegate.intialStore)
+            RootFeatureView(store: appDelegate.intialStore)
                 .onOpenURL { url in
                     guard let deeplink = DeeplinkParser.fromUrl(url) else { return }
                     appDelegate.intialStore.send(.onUrlOpen(deeplink))

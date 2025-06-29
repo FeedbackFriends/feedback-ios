@@ -37,7 +37,7 @@ public extension View {
                 .font(.montserratRegular, 14)
                 .padding(.horizontal, 50)
                 .frame(minHeight: 54)
-                .background(Color.white)
+                .background(Color.themeWhite)
                 .foregroundColor(Color.themeDarkGray)
                 .cornerRadius(24)
                 .lightShadow()

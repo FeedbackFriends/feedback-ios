@@ -91,7 +91,7 @@ public struct MoreSectionView: View {
                 .padding(8)
                 .frame(maxWidth: .infinity)
                 .multilineTextAlignment(.center)
-                .foregroundColor(.themeWhite)
+                .foregroundColor(.themeOnPrimaryAction)
             }
         }
         .listRowBackground(

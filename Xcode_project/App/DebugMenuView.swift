@@ -6,6 +6,7 @@ import Model
 @preconcurrency import FirebaseMessaging
 import TabbarFeature
 import DesignSystem
+import ServiceInterfaces
 
 struct DebugMenuView: View {
     @State var debugMenuExpanded: Bool = false
@@ -87,7 +88,7 @@ struct DebugMenuView: View {
             }
             .background(Color.blue)
             .cornerRadius(8)
-            .foregroundStyle(Color.white)
+            .foregroundStyle(Color.themeWhite)
         }
     }
 }

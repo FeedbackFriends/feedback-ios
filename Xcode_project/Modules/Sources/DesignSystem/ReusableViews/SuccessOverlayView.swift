@@ -60,7 +60,7 @@ private extension SuccessOverlayView {
     }
     
     var backgroundView: some View {
-        Color.black
+        Color.themeSurface
             .opacity(0.15)
             .ignoresSafeArea()
     }

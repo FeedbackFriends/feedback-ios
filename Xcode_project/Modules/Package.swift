@@ -11,8 +11,8 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "AppCore",
-            targets: ["AppCore"]),
+            name: "RootFeature",
+            targets: ["RootFeature"]),
         .library(
             name: "DesignSystem",
             targets: ["DesignSystem"]),
@@ -62,7 +62,15 @@ let package = Package(
         .library(
             name: "InfoPlist",
             targets: ["InfoPlist"]
-        )
+        ),
+		.library(
+			name: "ServiceInterfaces",
+			targets: ["ServiceInterfaces"]
+		),
+		.library(
+			name: "Mocks",
+			targets: ["Mocks"]
+		)
     ],
     dependencies: [
         .package(
@@ -111,7 +119,8 @@ let package = Package(
                 "Logger",
                 "Model",
                 "Utility",
-                "OpenAPI"
+                "OpenAPI",
+				"ServiceInterfaces"
             ]
         ),
         .target(
@@ -125,7 +134,7 @@ let package = Package(
             plugins: [.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")]
         ),
         .target(
-            name: "AppCore",
+            name: "RootFeature",
             dependencies: [
                 "DesignSystem",
                 "TabbarFeature",
@@ -133,7 +142,8 @@ let package = Package(
                 "Utility",
                 "EventsFeature",
                 "Logger",
-                "SignUpFeature"
+                "SignUpFeature",
+				"ServiceInterfaces"
             ]
         ),
         .target(
@@ -156,6 +166,7 @@ let package = Package(
                 "FeedbackFlowFeature",
                 "Model",
                 "Utility",
+				"ServiceInterfaces",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -165,6 +176,7 @@ let package = Package(
                 "DesignSystem",
                 "Model",
                 "Utility",
+				"ServiceInterfaces",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -174,6 +186,7 @@ let package = Package(
                 "DesignSystem",
                 "Model",
                 "Utility",
+				"ServiceInterfaces",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -184,6 +197,7 @@ let package = Package(
                 "Model",
                 "Utility",
                 "FeedbackFlowFeature",
+				"ServiceInterfaces",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -196,21 +210,22 @@ let package = Package(
                 "MoreFeature",
                 "Model",
                 "Utility",
+				"ServiceInterfaces",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
             name: "Model",
             dependencies: [
-                .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
-                "Logger",
-                "Utility"
+                "Utility",
+				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
             name: "Utility",
             dependencies: [
-                "Logger"
+                "Logger",
+				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
@@ -229,15 +244,31 @@ let package = Package(
                 "DesignSystem",
                 "Model",
                 "Utility",
-                "Logger"
+                "Logger",
+				"ServiceInterfaces"
             ]
         ),
+		.target(
+			name: "ServiceInterfaces",
+			dependencies: [
+				"Model",
+				"Mocks",
+				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+			]
+		),
+		.target(
+			name: "Mocks",
+			dependencies: [
+				"Model",
+				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
+			]
+		),
         .testTarget(
             name: "AppTests",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
-                "AppCore",
+                "RootFeature",
                 "Implementations",
                 "InfoPlist"
             ]

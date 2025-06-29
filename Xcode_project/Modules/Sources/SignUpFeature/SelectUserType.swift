@@ -2,6 +2,7 @@ import SwiftUI
 import ComposableArchitecture
 import Model
 import DesignSystem
+import ServiceInterfaces
 
 @Reducer
 public struct SelectUserType {

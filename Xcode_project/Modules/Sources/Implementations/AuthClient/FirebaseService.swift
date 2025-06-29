@@ -4,6 +4,7 @@ import Firebase
 import FirebaseCore
 import GoogleSignIn
 import Model
+import ServiceInterfaces
 
 class FirebaseService {
     

@@ -28,7 +28,7 @@ struct NotificationPermissionView: View {
             .toolbar { toolbarContent }
             .navigationTitle("Messaging")
             .navigationBarTitleDisplayMode(.large)
-            .background(Color.themeBackground)
+            .background(Color.themeSurface)
         }
     }
 }

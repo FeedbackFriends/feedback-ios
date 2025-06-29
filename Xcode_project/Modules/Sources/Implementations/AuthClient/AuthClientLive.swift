@@ -1,8 +1,8 @@
 import Foundation
 import Logger
-import ComposableArchitecture
 import FirebaseAuth
 import Model
+import ServiceInterfaces
 
 actor UserStateStream {
     private var continuation: AsyncStream<UserState>.Continuation?

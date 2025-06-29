@@ -22,19 +22,19 @@ struct TagFilterView: View {
     @Binding var filter: FilterCollection
     
     var allBackground: Color {
-        filter.allEnabled ? Color.white : Color.themeDisabled
+        filter.allEnabled ? Color.themePrimaryAction : Color.themeDisabled
     }
     
     var todayBackground: Color {
-        filter.todayEnabled ? Color.white : Color.themeDisabled
+        filter.todayEnabled ? Color.themePrimaryAction : Color.themeDisabled
     }
     
     var comingUpBackground: Color {
-        filter.comingUpEnabled ? Color.white : Color.themeDisabled
+        filter.comingUpEnabled ? Color.themePrimaryAction : Color.themeDisabled
     }
     
     var previousBackground: Color {
-        filter.previousEnabled ? Color.white : Color.themeDisabled
+        filter.previousEnabled ? Color.themePrimaryAction : Color.themeDisabled
     }
     
     var body: some View {
@@ -47,7 +47,6 @@ struct TagFilterView: View {
             }
             .padding(8)
             .padding(.horizontal, 4)
-            .foregroundColor(Color.themeDarkGray)
             .background(allBackground)
             .cornerRadius(16)
             .lightShadow()
@@ -59,7 +58,6 @@ struct TagFilterView: View {
             }
             .padding(8)
             .padding(.horizontal, 4)
-            .foregroundColor(Color.themeDarkGray)
             .background(todayBackground)
             .cornerRadius(16)
             .lightShadow()
@@ -71,7 +69,6 @@ struct TagFilterView: View {
             }
             .padding(8)
             .padding(.horizontal, 4)
-            .foregroundColor(Color.themeDarkGray)
             .background(comingUpBackground)
             .cornerRadius(16)
             .lightShadow()
@@ -84,12 +81,12 @@ struct TagFilterView: View {
             }
             .padding(8)
             .padding(.horizontal, 4)
-            .foregroundColor(Color.themeDarkGray)
             .background(previousBackground)
             .cornerRadius(16)
             .lightShadow()
             Spacer()
         }
+		.foregroundColor(Color.themeText)
         .sensoryFeedback(.selection, trigger: filter)
         .font(.montserratMedium, 13)
         .padding(.horizontal, 16)
