@@ -12,7 +12,6 @@
 		7A062A3B2E12EE8F000AA1A5 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A062A3A2E12EE8F000AA1A5 /* RootFeature */; };
 		7A36B0262E0BE9EF009308F2 /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5562DD9FE8500FF5B86 /* Implementations */; };
 		7A39BB312E1561AE0082887F /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
-		7A3EC34E2E1D188000F7E06F /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7E44EE2DE85B4800B3C4C4 /* AppCore */; };
 		7A49F5232DD5F96000FF5B86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
 		7A49F5242DD5F96500FF5B86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
 		7A49F5252DD5F96C00FF5B86 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
@@ -106,7 +105,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A3EC34E2E1D188000F7E06F /* AppCore in Frameworks */,
 				7ABB22262E17F061006B6865 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
