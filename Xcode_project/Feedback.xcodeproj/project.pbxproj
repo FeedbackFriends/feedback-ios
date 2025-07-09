@@ -27,6 +27,7 @@
 		7A9E6BB12DC4F512005F4828 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */; };
 		7A9E6BD22DC52183005F4828 /* FeedbackFlowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9E6BCD2DC52183005F4828 /* FeedbackFlowApp.swift */; };
 		7A9E6BD42DC52183005F4828 /* FeedbackMockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9E6BC82DC52183005F4828 /* FeedbackMockApp.swift */; };
+		7AA9D8062E1EDD1600AAB7D8 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7E44EE2DE85B4800B3C4C4 /* AppCore */; };
 		7AB225412D7B2B89002BEF81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB225402D7B2B89002BEF81 /* AppDelegate.swift */; };
 		7ABB22262E17F061006B6865 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7ABB22252E17F061006B6865 /* RootFeature */; };
 		7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
@@ -105,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AA9D8062E1EDD1600AAB7D8 /* AppCore in Frameworks */,
 				7ABB22262E17F061006B6865 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -320,7 +322,6 @@
 			);
 			name = FeedbackMock;
 			packageProductDependencies = (
-				7AC3C8792DC4E9B200EF8389 /* AppCore */,
 				7A49F5562DD9FE8500FF5B86 /* Implementations */,
 				7A49F5582DDA0ED700FF5B86 /* InfoPlist */,
 				7A062A3A2E12EE8F000AA1A5 /* RootFeature */,
@@ -391,7 +392,6 @@
 			);
 			name = App;
 			packageProductDependencies = (
-				7A3B924D2DCFC4CD00CE50F5 /* AppCore */,
 				7A3B924F2DCFC4D000CE50F5 /* Implementations */,
 				7A49F55A2DDA0EE300FF5B86 /* InfoPlist */,
 				7A062A372E11E8B9000AA1A5 /* RootFeature */,
@@ -1642,10 +1642,6 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = RootFeature;
 		};
-		7A3B924D2DCFC4CD00CE50F5 /* AppCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = AppCore;
-		};
 		7A3B924F2DCFC4D000CE50F5 /* Implementations */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Implementations;
@@ -1673,10 +1669,6 @@
 		7ABB22252E17F061006B6865 /* RootFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RootFeature;
-		};
-		7AC3C8792DC4E9B200EF8389 /* AppCore */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = AppCore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
