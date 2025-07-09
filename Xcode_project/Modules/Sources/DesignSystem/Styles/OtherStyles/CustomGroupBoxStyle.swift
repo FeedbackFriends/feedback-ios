@@ -7,7 +7,7 @@ public struct CustomGroupBoxStyle: GroupBoxStyle {
             configuration.label
             configuration.content
         }
-        .background(Color.themeWhite)
+		.background(Color.themeSurface)
         .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
     }
 }

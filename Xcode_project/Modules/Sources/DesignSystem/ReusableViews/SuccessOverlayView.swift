@@ -60,7 +60,7 @@ private extension SuccessOverlayView {
     }
     
     var backgroundView: some View {
-        Color.themeSurface
+        Color.themeText
             .opacity(0.15)
             .ignoresSafeArea()
     }
@@ -69,12 +69,12 @@ private extension SuccessOverlayView {
         VStack(alignment: .center, spacing: 20) {
             Image(systemName: "checkmark.circle.fill")
                 .resizable()
-                .foregroundColor(Color.themeGreen)
+                .foregroundColor(Color.themeSuccess)
                 .frame(width: 40, height: 40)
                 .scaleEffect(alertDidAppear ? 1 : 0)
             Text(message)
                 .font(.montserratBold, 18)
-                .foregroundColor(Color.themeDarkGray)
+                .foregroundColor(Color.themeText)
                 .multilineTextAlignment(.center)
                 .accessibilityFocused($isFocused)
         }

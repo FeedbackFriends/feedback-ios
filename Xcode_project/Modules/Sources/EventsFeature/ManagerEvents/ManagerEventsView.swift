@@ -13,38 +13,40 @@ public struct ManagerEventsView: View {
     
     public var body: some View {
         let eventDetailStore = $store.scope(state: \.destination?.eventDetail, action: \.destination.eventDetail)
-        TabView(selection: $store.segmentedControl) {
-            ScrollView {
-                VStack {
-                    TagFilterView(filter: $store.filterCollection)
-                    if let managerEvents = store.session.managerData?.managerEvents {
-                        managerEventsListView(
-                            todayEvents: managerEvents.filter { $0.date.isToday },
-                            comingUpEvents: managerEvents.filter { $0.date.isAfterToday },
-                            previousEvents: managerEvents.filter { $0.date.isBeforeToday }
-                        )
-                    }
-                }
-            }
-            .tag(SegmentedControlMenu.yourEvents)
-            
-            ScrollView {
-                ParticipantEventsView(
-                    store: store.scope(
-                        state: \.participantEvents,
-                        action: \.participantEvents
-                    )
-                )
-            }
-            .tag(SegmentedControlMenu.participating)
-        }
-        .tabViewStyle(.page(indexDisplayMode: .never))
+		Group {
+			switch store.segmentedControl {
+				
+			case .yourEvents:
+				ScrollView {
+					VStack {
+						TagFilterView(filter: $store.filterCollection)
+						if let managerEvents = store.session.managerData?.managerEvents {
+							managerEventsListView(
+								todayEvents: managerEvents.filter { $0.date.isToday },
+								comingUpEvents: managerEvents.filter { $0.date.isAfterToday },
+								previousEvents: managerEvents.filter { $0.date.isBeforeToday }
+							)
+						}
+					}
+				}
+				.tag(SegmentedControlMenu.yourEvents)
+				
+			case .participating:
+				
+				ScrollView {
+					ParticipantEventsView(
+						store: store.scope(
+							state: \.participantEvents,
+							action: \.participantEvents
+						)
+					)
+				}
+				.tag(SegmentedControlMenu.participating)
+			}
+		}
+//		.tabViewStyle(.page(indexDisplayMode: .never))
         .lineSpacing(7)
         .scrollContentBackground(.hidden)
-        .background(Color.themeBackground)
-        .overlay(alignment: .bottom) {
-            CustomSegmentedPicker(selectedSegmentedControl: $store.segmentedControl.animation())
-        }
         .background(Color.themeBackground)
         .foregroundStyle(Color.themeText)
         .navigationDestination(
@@ -53,9 +55,14 @@ public struct ManagerEventsView: View {
             EventDetailFeatureView(store: store)
                 .navigationTitle(store.navigationTitle)
         }
+		.overlay(alignment: .bottom) {
+			CustomSegmentedPicker(selectedSegmentedControl: $store.segmentedControl.animation())
+				.padding(.bottom, 12)
+		}
     }
 }
 
+#warning("Wait for ios 26 for fix: .tabViewStyle(.page(indexDisplayMode: .never))")
 extension ManagerEventsView {
     
     func managerEventsListView(
@@ -139,7 +146,7 @@ extension ManagerEventsView {
                                 .padding(4)
                                 .padding(.horizontal, 4)
                                 .foregroundStyle(Color.themeOnPrimaryAction)
-                                .background(Color.blue.opacity(0.5).gradient)
+                                .background(Color.themeBlue)
                                 .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
                         }
                     }
@@ -155,7 +162,7 @@ extension ManagerEventsView {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 10, height: 10)
-                            .foregroundColor(.themeDarkGray.opacity(0.8))
+                            .foregroundColor(.themeText.opacity(0.8))
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -178,21 +185,21 @@ extension ManagerEventsView {
 }
 
 func section<Content: View>(title: String, content: () -> Content) -> some View {
-    Section {
-        content()
-    } header: {
-        HStack {
-            Text(title)
-                .font(.montserratBold, 16)
-            Spacer()
-        }
-        .frame(height: 30)
-        .background(Color.themeBackground)
-    }
+	Section {
+		content()
+	} header: {
+		Text(title)
+			.font(.montserratSemiBold, 14)
+			.padding(.horizontal, 10)
+			.padding(.vertical, 4)
+			.glassEffect()
+			.clipShape(Capsule())
+			.frame(maxWidth: .infinity, alignment: .leading)
+	}
 }
 
 #Preview("Events") {
-    NavigationStack {
+	NavigationStack {
         ManagerEventsView(
             store: .init(
                 initialState: ManagerEvents.State(

@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI
+import Model
 
 public struct CreateEventView: View {
     
@@ -17,14 +18,13 @@ public struct CreateEventView: View {
                 shouldOpenKeyboardOnAppear: true,
                 recentlyUsedQuestions: store.recentlyUsedQuestions
             )
-            .listRowBackground(Color.themeWhite)
+            .listRowBackground(Color.themeSurface)
         }
         .toolbar { toolbarItems }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarTitle("New event")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
-        .background(Color.themeBackground.ignoresSafeArea())
         .animation(.default, value: store.eventInput.durationInMinutes)
         .alert($store.scope(state: \.alert, action: \.alert))
         .successOverlay(
@@ -39,20 +39,31 @@ private extension CreateEventView {
     
     var toolbarItems: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Create") {
-                    store.send(.createEventButtonTap)
-                }
-                .buttonStyle(PrimaryToolbarButtonStyle())
+            ToolbarItem(placement: .primaryAction) {
+				Button("Create") {
+					store.send(.createEventButtonTap)
+				}
+				.buttonStyle(PrimaryTextButtonStyle())
                 .isLoading(store.createEventRequestInFlight)
                 .disabled(store.createEventButtonDisabled)
             }
-            ToolbarItem(placement: .navigationBarLeading) {
+			.sharedBackgroundVisibility(.hidden)
+            ToolbarItem(placement: .cancellationAction) {
                 SharedCloseButtonView {
                     store.send(.cancelButtonTap)
                 }
-                .buttonStyle(SecondaryToolbarButtonStyle())
+                .buttonStyle(SecondaryTextButtonStyle())
             }
         }
     }
+}
+
+#Preview {
+	NavigationStack {
+		CreateEventView(
+			store: StoreOf<CreateEvent>(initialState: .init(recentlyUsedQuestions: Set<RecentlyUsedQuestions>([]))) {
+				CreateEvent()
+			}
+		)
+	}
 }

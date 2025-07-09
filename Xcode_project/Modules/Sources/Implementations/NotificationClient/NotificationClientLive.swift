@@ -1,6 +1,5 @@
 import UserNotifications
 import Model
-import ServiceInterfaces
 
 extension NotificationClient {
     public static let live = Self(

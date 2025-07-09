@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct SecondaryToolbarButtonStyle: ButtonStyle {
+public struct SecondaryTextButtonStyle: ButtonStyle {
     @Environment(\.isEnabled) private var isEnabled: Bool
     @Environment(\.isLoading) private var isLoading: Bool
     
@@ -15,10 +15,11 @@ public struct SecondaryToolbarButtonStyle: ButtonStyle {
             }
         }
         .font(.montserratMedium, 15)
-        .foregroundStyle(Color.themeDarkGray)
+        .foregroundStyle(Color.themeText)
         .opacity(isEnabled ? 1.0 : 0.5)
         .animation(.default, value: isEnabled)
-        .progressViewStyle(CircularProgressViewStyle(tint: Color.gray.opacity(0.5)))
+        .progressViewStyle(CircularProgressViewStyle(tint: Color.themeText))
         .opacity(configuration.isPressed ? 0.5 : 1.0)
+		.fixedSize()
     }
 }

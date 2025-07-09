@@ -7,7 +7,10 @@ public struct ActivityView: View {
     let activityManagerEventButtonTap: (ActivityItems) -> Void
     @Environment(\.dismiss) var dismiss
     
-    public init(activityItems: [ActivityItems], activityManagerEventButtonTap: @escaping (ActivityItems) -> Void) {
+	public init(
+		activityItems: [ActivityItems],
+		activityManagerEventButtonTap: @escaping (ActivityItems) -> Void
+	) {
         self.activityItems = activityItems
         self.activityManagerEventButtonTap = activityManagerEventButtonTap
     }
@@ -23,7 +26,6 @@ public struct ActivityView: View {
                         )
                     }
                     .scrollContentBackground(.hidden)
-                    .background(Color.themeBackground)
                 } else {
                     List {
                         Section {
@@ -44,17 +46,17 @@ public struct ActivityView: View {
                                                     .font(.montserratBold, 8)
                                                     .padding(2)
                                                     .padding(.horizontal, 4)
-                                                    .foregroundStyle(Color.themeWhite)
-                                                    .background(Color.blue.opacity(0.5).gradient)
+													.foregroundStyle(Color.themeOnPrimaryAction)
+                                                    .background(Color.themeBlue)
                                                     .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
                                             }
                                             Text(item.date.timeAgo())
-                                                .foregroundStyle(Color.gray)
                                                 .font(.montserratRegular, 10)
                                             Spacer()
                                             
                                         }
                                     }
+									.foregroundStyle(Color.themeTextSecondary)
                                 }
                             }
                         }
@@ -62,11 +64,11 @@ public struct ActivityView: View {
                     
                 }
             }
-            .foregroundStyle(Color.themeDarkGray)
+            .foregroundStyle(Color.themeText)
             .navigationTitle("Activity")
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .cancellationAction) {
                     SharedCloseButtonView { dismiss() }
                 }
             }

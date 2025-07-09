@@ -29,6 +29,7 @@ public struct RootFeatureView: View {
                 loggedInView
             }
         }
+		.tint(Color.themePrimaryAction)
         .animation(.linear(duration: 0.8), value: store.destination)
         .alert($store.scope(state: \.logout.destination?.alert, action: \.logout.destination.alert))
     }
@@ -57,7 +58,7 @@ public struct RootFeatureView: View {
             Button("Log out") {
                 store.send(.logout(.logoutButtonTap))
             }
-            .buttonStyle(SecondaryToolbarButtonStyle())
+            .buttonStyle(SecondaryTextButtonStyle())
             .isLoading(store.logout.logoutInFlight)
             .padding(.bottom, 20)
         }
@@ -75,7 +76,7 @@ struct LoadingView: View {
                 Text("Loading data")
                     .padding(.top, 20)
                     .font(.montserratRegular, 16)
-                    .foregroundStyle(Color.themeDarkGray)
+                    .foregroundStyle(Color.themeText)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

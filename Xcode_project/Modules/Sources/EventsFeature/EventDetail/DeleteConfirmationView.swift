@@ -21,7 +21,7 @@ struct DeleteConfirmationView: View {
                         Button("Delete") {
                             store.send(.deleteButtonTap)
                         }
-                        .buttonStyle(LargeBoxButtonStyle(color: Color.themeRed))
+                        .buttonStyle(LargeBoxButtonStyle(color: Color.themeVerySad))
                         .isLoading(store.deleteEventInFlight)
                         
                         Button("Cancel") {
@@ -33,12 +33,9 @@ struct DeleteConfirmationView: View {
                 .padding(.horizontal, 18)
                 .navigationTitle("Delete")
                 .navigationBarTitleDisplayMode(.large)
-                .foregroundStyle(Color.themeDarkGray)
-                .background(Color.themeBackground.ignoresSafeArea())
             }
-            .background(Color.themeBackground.ignoresSafeArea())
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .cancellationAction) {
                     SharedCloseButtonView {
                         store.send(.cancelButtonTap)
                     }
@@ -56,7 +53,7 @@ struct DeleteConfirmationView: View {
 #Preview {
     DeleteConfirmationView(
         store: .init(
-            initialState: .init(session: .init(value: .mock()), eventId: UUID()),
+            initialState: .init(eventId: UUID()),
             reducer: { DeleteConfirmation()
             }
         )
@@ -71,7 +68,7 @@ struct DeleteConfirmationView: View {
     .sheet(isPresented: $showDeleteConfirmation) {
         DeleteConfirmationView(
             store: .init(
-                initialState: .init(session: .init(value: .mock()), eventId: UUID()),
+                initialState: .init(eventId: UUID()),
                 reducer: {
                     DeleteConfirmation()
                 }

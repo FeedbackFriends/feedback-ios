@@ -3,7 +3,7 @@ import SwiftUI
 public func listElementView(
     image: String,
     label: String,
-    foregroundColor: Color = Color.themeDarkGray,
+    foregroundColor: Color = Color.themeText,
     isLoading: Bool = false
 ) -> some View {
     HStack {
@@ -17,7 +17,7 @@ public func listElementView(
             .font(.system(size: 12, weight: .medium))
             .aspectRatio(contentMode: .fill)
             .padding(6)
-            .foregroundStyle(Color.themeDarkGray)
+            .foregroundStyle(Color.themeText)
         Text(label)
     }
     .font(.montserratRegular, 13)

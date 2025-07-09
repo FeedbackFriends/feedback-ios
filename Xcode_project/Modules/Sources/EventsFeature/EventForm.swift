@@ -58,7 +58,7 @@ public struct EventForm: View {
     
     public var body: some View {
         content
-            .foregroundColor(.themeDarkGray)
+            .foregroundColor(.themeText)
             .font(.montserratMedium, 14)
             .onAppear { onAppear() }
             .onChange(of: minutePicker) { _, _ in
@@ -148,7 +148,7 @@ private extension EventForm {
                     Text(DurationPicker.other.localization).tag(DurationPicker.other)
                 }, label: {
                     Text("Duration")
-                        .foregroundColor(.themeDarkGray)
+                        .foregroundColor(.themeText)
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
             )

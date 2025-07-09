@@ -8,10 +8,7 @@ struct DeleteConfirmationTests {
     func testDeleteSuccess() async {
         let eventId = UUID()
         let deletedEvent: LockIsolated<UUID?> = .init(nil)
-        let store = await TestStore(initialState: DeleteConfirmation.State(
-            session: .init(value: .mock()),
-            eventId: eventId
-        )) {
+		let store = await TestStore(initialState: DeleteConfirmation.State(eventId: UUID())) {
             DeleteConfirmation()
         } withDependencies: {
             $0.apiClient.deleteEvent = { @MainActor in
@@ -35,10 +32,7 @@ struct DeleteConfirmationTests {
     @Test
     func testDeleteFailure() async {
         struct Failure: Error, Equatable {}
-        let store = await TestStore(initialState: DeleteConfirmation.State(
-            session: .init(value: .mock()),
-            eventId: UUID()
-        )) {
+        let store = await TestStore(initialState: DeleteConfirmation.State(eventId: UUID())) {
             DeleteConfirmation()
         } withDependencies: {
             $0.apiClient.deleteEvent = { _ in throw Failure() }
@@ -57,10 +51,7 @@ struct DeleteConfirmationTests {
     @Test
     func cancelButtonTap() async {
         let didDismiss = LockIsolated(false)
-        let store = await TestStore(initialState: DeleteConfirmation.State(
-            session: .init(value: .mock()),
-            eventId: UUID()
-        )) {
+        let store = await TestStore(initialState: DeleteConfirmation.State(eventId: UUID())) {
             DeleteConfirmation()
         } withDependencies: {
             $0.dismiss = .init({

@@ -3,7 +3,6 @@ import ComposableArchitecture
 import Model
 import DesignSystem
 import Logger
-import ServiceInterfaces
 
 @Reducer
 public struct TabbarLifecycle {
@@ -17,6 +16,7 @@ public struct TabbarLifecycle {
     public struct State: Equatable {
         @Shared var session: Session
         var bannerState: BannerState?
+		var appLoaded = false
         public init(session: Shared<Session>) {
             self._session = session
         }
@@ -59,6 +59,10 @@ public struct TabbarLifecycle {
                 return .none
                 
             case .onTask:
+				if state.appLoaded {
+					return .none
+				}
+				state.appLoaded = true
                 return .merge(
                     .run { [role = state.session.role] send in
                         if await notificationClient

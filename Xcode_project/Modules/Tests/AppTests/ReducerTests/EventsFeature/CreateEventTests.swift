@@ -9,7 +9,7 @@ struct CreateEventTests {
     func createEventSuccess() async {
         let mockEvent = ManagerEvent.mock()
         
-        let store = await TestStore(initialState: CreateEvent.State(session: .init(value: .mock()))) {
+		let store = await TestStore(initialState: CreateEvent.State(recentlyUsedQuestions: .init([]))) {
             CreateEvent()
         } withDependencies: {
             $0.apiClient.createEvent = { _ in mockEvent }
@@ -30,7 +30,7 @@ struct CreateEventTests {
     @Test
     func createEventFailure() async {
         struct Failure: Error, Equatable {}
-        let store = await TestStore(initialState: CreateEvent.State(session: .init(value: .mock()))) {
+        let store = await TestStore(initialState: CreateEvent.State(recentlyUsedQuestions: .init([]))) {
             CreateEvent()
         } withDependencies: {
             $0.apiClient.createEvent = { _ in throw Failure() }
@@ -50,7 +50,7 @@ struct CreateEventTests {
     func createEventDismiss() async {
         let didDismiss = LockIsolated(false)
         
-        let store = await TestStore(initialState: CreateEvent.State(session: .init(value: .mock()))) {
+        let store = await TestStore(initialState: CreateEvent.State(recentlyUsedQuestions: .init([]))) {
             CreateEvent()
         } withDependencies: {
             $0.dismiss = .init({

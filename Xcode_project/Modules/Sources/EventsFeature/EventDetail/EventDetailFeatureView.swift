@@ -47,14 +47,21 @@ public struct EventDetailFeatureView: View {
                 ).presentationDetents([.height(350)])
             }
         }
-        .confirmationDialog(confirmationStore)
         .refreshable {
             await store.send(.refresh).finish()
         }
-        .foregroundColor(Color.themeDarkGray)
+        .foregroundColor(Color.themeText)
         .frame(maxWidth: .infinity)
         .task { await store.send(.onTask).finish() }
-        .toolbar { toolbarContent }
+		.toolbar {
+			ToolbarItem(placement: .topBarTrailing) {
+				Button("More", systemImage: "ellipsis") {
+					store.send(.moreButtonTapped)
+				}
+				.tint(Color.themeText)
+				.confirmationDialog(confirmationStore)
+			}
+		}
         .navigationTitle(store.navigationTitle)
         .sheet(
             item: editEventStore
@@ -70,39 +77,5 @@ public struct EventDetailFeatureView: View {
                 .presentationDetents([.height(300)])
         }
         .animation(.default, value: store.event)
-    }
-}
-
-private extension EventDetailFeatureView {
-    var toolbarContent: some ToolbarContent {
-        Group {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button {
-                    store.send(.moreButtonTapped)
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 16, height: 16)
-                }
-                .buttonStyle(IconToolbarStyle())
-            }
-        }
-    }
-}
-
-#Preview {
-    NavigationStack {
-        EventDetailFeatureView(
-            store: .init(
-                initialState: .init(
-                    event: .mock(),
-                    session: .init(value: .mock())
-                ),
-                reducer: {
-                    EventDetailFeature()
-                }
-            )
-        )
     }
 }

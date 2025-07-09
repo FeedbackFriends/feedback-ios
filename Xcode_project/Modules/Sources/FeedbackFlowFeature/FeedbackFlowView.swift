@@ -90,12 +90,14 @@ public struct FeedbackFlowView: View {
 				Button("Cancel") {
 					store.send(.cancelButtonTap)
 				}
-				.buttonStyle(SecondaryToolbarButtonStyle())
-				.foregroundStyle(Color.themeDarkGray)
+				.buttonStyle(SecondaryTextButtonStyle())
+				.foregroundStyle(Color.themeText)
 				Spacer()
+				
 				Button {
 					store.send(.infoButtonTap)
 				} label: {
+					
 					Image(systemName: "info")
 						.resizable()
 						.scaledToFit()
@@ -107,23 +109,24 @@ public struct FeedbackFlowView: View {
 			.overlay {
 				Text(store.title)
 					.font(.montserratBold, 16)
-					.foregroundColor(Color.themeDarkGray)
+					.foregroundColor(Color.themeTextSecondary)
 					.lineLimit(1)
 					.padding(.horizontal, 60)
 			}
 			.padding(12)
 			Rectangle()
 				.frame(height: 1.5)
-				.foregroundColor(Color.themeLightGray)
+				.foregroundColor(Color.themeSurface)
 			
 			Text("\(store.questionIndex + 1) of \(store.questions.count)")
 				.font(.montserratBold, 12)
-				.foregroundColor(.themeDarkGray)
+				.foregroundColor(Color.themeTextSecondary)
 				.padding(.top, 8)
 				.animation(.bouncy, value: store.questionIndex)
 			Text(store.questionText)
-				.font(.montserratRegular, 16)
-				.foregroundColor(.themeDarkGray)
+				.padding(.horizontal, 24)
+				.font(.montserratRegular, 15)
+				.foregroundColor(Color.themeText)
 				.multilineTextAlignment(.center)
 				.lineLimit(2, reservesSpace: true)
 				.fadeInOut(onChangeOf: store.questionIndex)
@@ -142,7 +145,7 @@ public struct FeedbackFlowView: View {
 						.resizable()
 						.frame(width: 25, height: 25)
 						.fontWeight(Font.Weight.semibold)
-						.foregroundColor(.themeDarkGray)
+						.foregroundColor(Color.themeText)
 				}
 				.transition(.blurReplace)
 				.padding(.trailing, 8)

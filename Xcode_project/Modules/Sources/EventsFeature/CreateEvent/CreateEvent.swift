@@ -2,7 +2,6 @@ import ComposableArchitecture
 import Model
 import DesignSystem
 import Foundation
-import ServiceInterfaces
 
 @Reducer
 public struct CreateEvent {
@@ -11,23 +10,15 @@ public struct CreateEvent {
         var createEventRequestInFlight = false
         var eventInput = EventInput()
         @Presents var alert: AlertState<Never>?
-        @Shared var session: Session
         var showSuccessOverlay: Bool = false
         
         var createEventButtonDisabled: Bool {
             eventInput.title.isEmpty || eventInput.questions.isEmpty || createEventRequestInFlight || showSuccessOverlay
         }
-        var recentlyUsedQuestions: Set<RecentlyUsedQuestions> {
-            if let managerData = session.managerData {
-                return managerData.recentlyUsedQuestions
-            }
-            return []
-        }
-        public init(
-            session: Shared<Session>
-        ) {
-            self._session = session
-        }
+        let recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+		public init(recentlyUsedQuestions: Set<RecentlyUsedQuestions>) {
+			self.recentlyUsedQuestions = recentlyUsedQuestions
+		}
     }
     
     public enum Action: BindableAction {

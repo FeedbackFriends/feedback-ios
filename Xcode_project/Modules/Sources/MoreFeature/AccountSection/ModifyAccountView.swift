@@ -39,13 +39,14 @@ public struct ModifyAccountView: View {
             .background(Color.themeBackground.ignoresSafeArea())
             .navigationTitle("Edit profile")
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Save") {
-                        store.send(.saveButtonTap)
-                    }
-                    .buttonStyle(PrimaryToolbarButtonStyle())
-                    .isLoading(store.isLoading)
-                }
+				ToolbarItem(placement: .primaryAction) {
+					Button("Save") {
+						store.send(.saveButtonTap)
+					}
+					.buttonStyle(PrimaryTextButtonStyle())
+					.isLoading(store.isLoading)
+				}
+				.sharedBackgroundVisibility(.hidden)
             }
         }
     }

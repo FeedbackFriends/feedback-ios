@@ -17,8 +17,7 @@ public struct SharedCloseButtonView: View {
                 .scaledToFit()
                 .frame(width: 12, height: 12)
                 .padding(2)
-            
+				.foregroundStyle(Color.themeText)
         }
-        .buttonStyle(IconToolbarStyle())
     }
 }

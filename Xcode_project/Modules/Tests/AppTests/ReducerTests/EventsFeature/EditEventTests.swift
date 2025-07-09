@@ -5,28 +5,30 @@ import Foundation
 
 @MainActor
 struct EditEventTests {
-    @Test
-    func editEventSuccess() async {
-        var updateEventCalled = false
-        let store = TestStore(initialState: EditEvent.State(
-            eventInput: .init(title: "Meeting", questions: [.init(questionText: "Q1", feedbackType: .emoji)]),
-            eventId: UUID(),
-            session: .init(value: .mock())
-        )) {
-            EditEvent()
-        } withDependencies: {
-            $0.apiClient.updateEvent = { @MainActor _, _ in
-                updateEventCalled = true
-                return .mock()
-            }
-        }
-        
-        await store.send(.editEventButtonTap) {
-            $0.editRequestInFlight = true
-        }
-        await store.receive(\.editEventResponse) {
-            $0.editRequestInFlight = false
-            $0.showSuccessOverlay = true
+	@Test
+	func editEventSuccess() async {
+		var updateEventCalled = false
+		let store = TestStore(
+			initialState: EditEvent.State(
+				eventInput: .init(title: "Meeting", questions: [.init(questionText: "Q1", feedbackType: .emoji)]),
+				eventId: UUID(),
+				recentlyUsedQuestions: .init([])
+			)
+		) {
+			EditEvent()
+		} withDependencies: {
+			$0.apiClient.updateEvent = { @MainActor _, _ in
+				updateEventCalled = true
+				return .mock()
+			}
+		}
+		
+		await store.send(.editEventButtonTap) {
+			$0.editRequestInFlight = true
+		}
+		await store.receive(\.editEventResponse) {
+			$0.editRequestInFlight = false
+			$0.showSuccessOverlay = true
         }
         #expect(updateEventCalled == true)
     }
@@ -38,7 +40,7 @@ struct EditEventTests {
         let store = TestStore(initialState: EditEvent.State(
             eventInput: .init(title: "Meeting", questions: [.init(questionText: "Q1", feedbackType: .emoji)]),
             eventId: UUID(),
-            session: .init(value: .mock())
+			recentlyUsedQuestions: .init([])
         )) {
             EditEvent()
         } withDependencies: {
@@ -62,7 +64,7 @@ struct EditEventTests {
         let store = TestStore(initialState: EditEvent.State(
             eventInput: .init(title: "Meeting", questions: [.init(questionText: "Q1", feedbackType: .emoji)]),
             eventId: UUID(),
-            session: .init(value: .mock())
+			recentlyUsedQuestions: .init([])
         )) {
             EditEvent()
         } withDependencies: {

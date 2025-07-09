@@ -17,7 +17,7 @@ struct NotificationPermissionView: View {
                         .font(.montserratRegular, 14)
                         .padding(.horizontal, 60)
                         .multilineTextAlignment(.center)
-                        .foregroundColor(.themeDarkGray)
+                        .foregroundColor(.themeText)
                 Spacer()
                 givePermissionButton("Give permission") {
                     requestAuthorizationButtonTap()
@@ -28,7 +28,6 @@ struct NotificationPermissionView: View {
             .toolbar { toolbarContent }
             .navigationTitle("Messaging")
             .navigationBarTitleDisplayMode(.large)
-            .background(Color.themeSurface)
         }
     }
 }
@@ -36,11 +35,11 @@ struct NotificationPermissionView: View {
 private extension NotificationPermissionView {
     var toolbarContent: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .cancellationAction) {
                 Button("Not now") {
                     dismissButtonTap()
                 }
-                .buttonStyle(SecondaryToolbarButtonStyle())
+                .buttonStyle(SecondaryTextButtonStyle())
             }
         }
     }
@@ -53,10 +52,10 @@ private extension NotificationPermissionView {
                 Image(systemName: "checkmark.circle.fill")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundStyle(Color.themeGreen)
+                    .foregroundStyle(Color.themeSuccess)
                 Text(buttonText)
                     .font(.montserratBold, 14)
-                    .foregroundColor(.themeDarkGray)
+                    .foregroundColor(.themeText)
                 Spacer()
             }
         }

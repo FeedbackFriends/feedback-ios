@@ -7,7 +7,6 @@ import Model
 import EventsFeature
 import Logger
 import Foundation
-import ServiceInterfaces
 
 @Reducer
 public struct RootFeature {

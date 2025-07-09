@@ -17,7 +17,7 @@ public struct UserTypePickerView: View {
                 Image(systemName: selectedUserType == .participant ? "checkmark.circle.fill" : "circle")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundStyle(selectedUserType == .participant ? Color.themeGreen : Color.gray.opacity(0.5))
+                    .foregroundStyle(selectedUserType == .participant ? Color.themeSuccess : Color.themeTextSecondary)
                 VStack(alignment: .leading) {
                     
                     Text("Participant")
@@ -31,6 +31,9 @@ public struct UserTypePickerView: View {
             }
         }
         .buttonStyle(LargeBoxButtonStyle())
+		.overlay(
+			Capsule().stroke(self.selectedUserType == .participant ? Color.themeTextSecondary : Color.clear, lineWidth: 2)
+		)
         Button {
             self.selectedUserType = .manager
         } label: {
@@ -38,7 +41,7 @@ public struct UserTypePickerView: View {
                 Image(systemName: selectedUserType == .manager ? "checkmark.circle.fill" : "circle")
                     .resizable()
                     .frame(width: 24, height: 24)
-                    .foregroundStyle(selectedUserType == .manager ? Color.themeGreen : Color.gray.opacity(0.5))
+                    .foregroundStyle(selectedUserType == .manager ? Color.themeSuccess : Color.themeTextSecondary)
                 VStack(alignment: .leading) {
                     Text("Organizer")
                         .font(.montserratSemiBold, 16)
@@ -49,6 +52,9 @@ public struct UserTypePickerView: View {
             }
         }
         .buttonStyle(LargeBoxButtonStyle())
+		.overlay(
+			Capsule().stroke(self.selectedUserType == .manager ? Color.themeTextSecondary : Color.clear, lineWidth: 2)
+		)
         .sensoryFeedback(.selection, trigger: selectedUserType)
     }
 }

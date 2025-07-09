@@ -51,7 +51,7 @@ public struct ParticipantEventsView: View {
             .padding(.bottom, 80)
             .padding(.horizontal, Theme.padding)
         }
-        .foregroundColor(Color.themeDarkGray)
+        .foregroundColor(Color.themeText)
         .scrollContentBackground(.hidden)
         .background(Color.themeBackground)
         .sheet(item: infoStore) { event in
@@ -93,7 +93,7 @@ extension ParticipantEventsView {
                                 .font(.montserratBold, 10)
                                 .padding(4)
                                 .padding(.horizontal, 4)
-                                .foregroundStyle(Color.themeWhite)
+                                .foregroundStyle(Color.themeOnPrimaryAction)
                                 .background(Color.blue.opacity(0.5).gradient)
                                 .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
                         }
@@ -101,7 +101,7 @@ extension ParticipantEventsView {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .font(.montserratRegular, 12)
-                .foregroundColor(Color.themeDarkGray)
+                .foregroundColor(Color.themeText)
                 Divider()
                 HStack(spacing: 12) {
                     HStack {
@@ -113,21 +113,21 @@ extension ParticipantEventsView {
                         }
                         Spacer()
                     }
-                    .foregroundStyle(Color.themeDarkGray)
+                    .foregroundStyle(Color.themeText)
                     .frame(maxWidth: .infinity, minHeight: 40)
                     Divider()
                     if event.feedbackSubmitted {
                         Text("Submitted")
                             .font(.montserratSemiBold, 14)
                             .frame(maxWidth: .infinity, minHeight: 40)
-                            .foregroundStyle(Color.themeDarkGray.gradient.opacity(0.5))
+                            .foregroundStyle(Color.themeText.gradient.opacity(0.5))
                     } else {
                         let startFeedbackPincodeInFlight = store.startFeedbackPincodeInFlight == event.pinCode
                         Button("Start") {
                             store.send(.startFeedbackButtonTap(pinCode: event.pinCode))
                         }
                         .disabled(startFeedbackPincodeInFlight)
-                        .buttonStyle(PrimaryToolbarButtonStyle())
+                        .buttonStyle(PrimaryTextButtonStyle())
                         .isLoading(startFeedbackPincodeInFlight)
                         .frame(maxWidth: .infinity, minHeight: 40)
                     }
@@ -136,10 +136,10 @@ extension ParticipantEventsView {
             }
             .frame(maxWidth: .infinity, alignment: .leading)
             .font(.montserratBold, 14)
-            .foregroundStyle(Color.themeWhite)
+            .foregroundStyle(Color.themeText)
             .padding(.all, 10)
         }
-        .background(Color.themeWhite)
+        .background(Color.themeSurface)
         .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
         .contentShape(Rectangle())
         .onTapGesture {

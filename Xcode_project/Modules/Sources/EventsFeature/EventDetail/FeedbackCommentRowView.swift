@@ -26,18 +26,18 @@ struct FeedbackCommentRowView: View {
                                     .font(.montserratBold, 8)
                                     .padding(2)
                                     .padding(.horizontal, 4)
-                                    .foregroundStyle(Color.themeWhite)
-                                    .background(Color.blue.opacity(0.5).gradient)
+                                    .foregroundStyle(Color.themeOnPrimaryAction)
+									.background(Color.themeBlue)
                                     .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
                             }
                             Text(feedback.createdAt.timeAgo())
-                                .foregroundStyle(Color.gray)
                                 .font(.montserratRegular, 10)
                             Spacer()
                             
                         }
                     }
                 }
+				.foregroundStyle(Color.themeTextSecondary)
                 .padding(.vertical, 8)
             }
         default:

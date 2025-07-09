@@ -26,7 +26,7 @@ public struct QuestionPicker: View {
         content
             .animation(.easeOut(duration: 0.5), value: questions)
             .animation(.easeOut(duration: 0.5), value: enteredString)
-            .foregroundColor(.themeDarkGray)
+            .foregroundColor(.themeText)
             .font(.montserratMedium, 14)
     }
 }
@@ -55,7 +55,7 @@ private extension QuestionPicker {
                         .frame(width: 30, height: 30, alignment: .center)
                         .scaledToFit()
                 }
-                .buttonStyle(PrimaryToolbarButtonStyle())
+                .buttonStyle(PrimaryTextButtonStyle())
                 .disabled(enteredString.isEmpty)
             }
             .padding(.vertical, 4)
@@ -68,7 +68,7 @@ private extension QuestionPicker {
                     textFieldFocused = false
                     navigateToTemplateQuestionSheet = true
                 }
-                .buttonStyle(PrimaryToolbarButtonStyle())
+                .buttonStyle(PrimaryTextButtonStyle())
                 
             }
             .sheet(isPresented: $navigateToTemplateQuestionSheet) {
@@ -92,7 +92,7 @@ private extension QuestionPicker {
                 Text("Remember that the order of the questions can be important. ")
                     .font(.montserratRegular, 12)
             }
-            .foregroundColor(Color.themeDarkGray)
+            .foregroundColor(Color.themeText)
         }
     }
 }
@@ -127,15 +127,16 @@ struct ChooseTemplateView: View {
         .navigationTitle("Recently used")
         .environment(\.editMode, $editMode)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Add") {
-                    withAnimation {
-                        addTemplateQuestions(selectedQuestions)
-                    }
-                }
-                .buttonStyle(PrimaryToolbarButtonStyle())
-                .disabled(selectedQuestions.isEmpty)
-            }
+			ToolbarItem(placement: .primaryAction) {
+				Button("Add") {
+					withAnimation {
+						addTemplateQuestions(selectedQuestions)
+					}
+				}
+				.buttonStyle(PrimaryTextButtonStyle())
+				.disabled(selectedQuestions.isEmpty)
+			}
+			.sharedBackgroundVisibility(.hidden)
         }
     }
 }

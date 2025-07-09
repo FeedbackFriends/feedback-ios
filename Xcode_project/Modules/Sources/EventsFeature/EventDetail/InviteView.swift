@@ -21,13 +21,12 @@ struct InviteView: View {
                 .navigationTitle("Invite")
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
+                    ToolbarItem(placement: .cancellationAction) {
                         SharedCloseButtonView { dismiss() }
                     }
                 }
-                .foregroundStyle(Color.themeDarkGray)
+                .foregroundStyle(Color.themeText)
             }
-            .background(Color.themeBackground.ignoresSafeArea())
             .sheet(item: $shareSheet, id: \.self) { shareContent in
                 ShareSheet(activityItems: [shareContent])
                     .presentationDetents([.medium, .large])
@@ -47,7 +46,7 @@ struct InviteView: View {
             Text(inviteLink)
                 .padding(18)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.themeWhite)
+                .background(Color.themeText)
                 .cornerRadius(14)
                 .font(.montserratMedium, 14)
                 .overlay(copyButton, alignment: .trailing)
@@ -64,7 +63,7 @@ struct InviteView: View {
 			}
 			.padding(.trailing, 12)
 		}
-        .buttonStyle(SecondaryToolbarButtonStyle())
+        .buttonStyle(SecondaryTextButtonStyle())
         .frame(maxHeight: .infinity)
     }
     

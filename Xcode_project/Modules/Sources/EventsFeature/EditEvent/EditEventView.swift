@@ -25,7 +25,6 @@ public struct EditEventView: View {
         .navigationBarTitle("Edit")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
-        .background(Color.themeBackground.ignoresSafeArea())
         .disabled(store.showSuccessOverlay)
         .animation(.default, value: store.eventInput)
         .alert($store.scope(state: \.alert, action: \.alert))
@@ -40,19 +39,20 @@ private extension EditEventView {
     
     var toolbarItems: some ToolbarContent {
         Group {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Save") {
-                    store.send(.editEventButtonTap)
-                }
-                .buttonStyle(PrimaryToolbarButtonStyle())
-                .isLoading(store.editRequestInFlight)
-                .disabled(store.editEventButtonDisabled)
-            }
-            ToolbarItem(placement: .navigationBarLeading) {
+			ToolbarItem(placement: .primaryAction) {
+				Button("Save") {
+					store.send(.editEventButtonTap)
+				}
+				.buttonStyle(PrimaryTextButtonStyle())
+				.isLoading(store.editRequestInFlight)
+				.disabled(store.editEventButtonDisabled)
+			}
+			.sharedBackgroundVisibility(.hidden)
+            ToolbarItem(placement: .cancellationAction) {
                 SharedCloseButtonView {
                     store.send(.cancelButtonTap)
                 }
-                .buttonStyle(SecondaryToolbarButtonStyle())
+                .buttonStyle(SecondaryTextButtonStyle())
             }
         }
     }

@@ -88,7 +88,7 @@ private extension QuestionDetailView {
                     .frame(maxWidth: .infinity, alignment: .leading)
                 if let summary = question.feedbackSummary {
                     smileyView(summary.countStats)
-                        .foregroundColor(.themeDarkGray)
+                        .foregroundColor(.themeText)
                         .offset(y: -6)
                     if summary.countStats.commentsCount > 0 {
                         VStack(alignment: .leading) {
@@ -102,10 +102,10 @@ private extension QuestionDetailView {
                 }
             }
             .frame(maxWidth: .infinity, alignment: .leading)
-            .foregroundColor(.themeDarkGray)
+            .foregroundColor(.themeText)
             .padding(.all, Theme.padding)
             .background(
-                Color.themeWhite
+                Color.themeSurface
                     .cornerRadius(Theme.cornerRadius)
             )
             .padding(.all, Theme.padding)

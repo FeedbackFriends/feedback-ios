@@ -26,12 +26,12 @@ public struct JoinEventView: View {
             Text("PIN Code")
                 .padding(.top, 20)
                 .font(.montserratBold, 18)
-                .foregroundStyle(Color.themeDarkGray)
+                .foregroundStyle(Color.themeText)
             TextField("", text: $store.pinCodeInput.value)
                 .font(.montserratBold, 16)
                 .padding()
-                .foregroundColor(Color.themeDarkGray)
-                .background(Color.themeDarkGray.opacity(0.15).gradient)
+                .foregroundColor(Color.themeText)
+                .background(Color.themeText.opacity(0.15).gradient)
                 .clipShape(Capsule())
                 .keyboardType(.numberPad)
                 .multilineTextAlignment(.center)
@@ -52,20 +52,19 @@ public struct JoinEventView: View {
         .padding(.all, Theme.padding)
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .foregroundStyle(Color.themeDarkGray.gradient)
+        .foregroundStyle(Color.themeText.gradient)
         .background {
             /// this makes the keyboard to appear with a single animation
             FirstResponderFieldView()
                 .frame(width: 0, height: 0)
                 .opacity(0)
-                .background(Color.themeBackground.ignoresSafeArea())
+                .background(Color.themeSurface.ignoresSafeArea())
         }
         .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
         .successOverlay(
             message: "Event joined",
             show: $store.showSuccessOverlay
         )
-        .background(Color.themeBackground.ignoresSafeArea())
     }
 }
 

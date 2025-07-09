@@ -1,7 +1,6 @@
 import Model
 import SwiftUI
 import ComposableArchitecture
-import ServiceInterfaces
 
 @Reducer
 public struct DeleteConfirmation {
@@ -14,19 +13,16 @@ public struct DeleteConfirmation {
     @ObservableState
     public struct State: Equatable {
         @Presents var destination: Destination.State?
-        @Shared var session: Session
         var eventId: UUID
         var deleteEventInFlight: Bool
         var showSuccessOverlay: Bool
         public init(
             destination: Destination.State? = nil,
-            session: Shared<Session>,
             eventId: UUID,
             deleteEventInFlight: Bool = false,
             showSuccessOverlay: Bool = false
         ) {
             self.destination = destination
-            self._session = session
             self.eventId = eventId
             self.deleteEventInFlight = deleteEventInFlight
             self.showSuccessOverlay = showSuccessOverlay

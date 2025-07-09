@@ -46,10 +46,10 @@ private extension SignUpView {
         VStack(alignment: .leading, spacing: 14) {
             Text("Sign up")
                 .font(.montserratBold, 28)
-                .foregroundStyle(Color.themeDarkGray.gradient)
+                .foregroundStyle(Color.themeText.gradient)
             Text("Signup to get started on your feedback jurney.")
                 .font(.montserratRegular, 14)
-                .foregroundColor(.themeDarkGray)
+                .foregroundColor(.themeText)
             Button {
                 store.send(.signUpWithAppleButtonTap)
             } label: {
@@ -58,7 +58,7 @@ private extension SignUpView {
                         ProgressView()
                             .transition(.blurReplace)
                             .progressViewStyle(
-                                CircularProgressViewStyle(tint: Color.themeWhite)
+                                CircularProgressViewStyle(tint: Color.themeText)
                             )
                     }
                     Image.iconApple
@@ -70,7 +70,7 @@ private extension SignUpView {
                 }
                 .padding(.leading, 24)
             }
-            .buttonStyle(LargeButtonStyle(backgroundColor: Color.themeWhite.gradient))
+            .buttonStyle(LargeButtonStyle(backgroundColor: Color.themeText.gradient))
             .disabled(store.googleLoginInFlight || store.appleLoginInFlight)
             Button {
                 store.send(.signUpWithGoogleButtonTap)
@@ -80,7 +80,7 @@ private extension SignUpView {
                         ProgressView()
                             .transition(.blurReplace)
                             .progressViewStyle(
-                                CircularProgressViewStyle(tint: Color.themeDarkGray)
+                                CircularProgressViewStyle(tint: Color.themeText)
                             )
                     }
                     Image.iconGoogle
@@ -88,14 +88,14 @@ private extension SignUpView {
                         .scaledToFill()
                         .frame(width: 24, height: 24)
                     Text("Continue with Google")
-                        .foregroundStyle(Color.themeDarkGray)
+                        .foregroundStyle(Color.themeText)
                     Spacer()
                 }
                 .padding(.leading, 24)
             }
             .buttonStyle(
                 LargeButtonStyle(
-					backgroundColor: Color.themeWhite
+					backgroundColor: Color.themeText
                 )
             )
             .disabled(store.googleLoginInFlight || store.appleLoginInFlight)

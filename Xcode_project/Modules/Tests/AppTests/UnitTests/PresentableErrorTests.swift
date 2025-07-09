@@ -25,7 +25,7 @@ struct PresentableErrorTests {
     }
     
     @Test func presentableErrorLoginFlowCancelled() async throws {
-        let loginFlowCancelledError = LoginFlowCancelled()
+		let loginFlowCancelledError = AuthenticationError.loginCancelled
         let presentableError = loginFlowCancelledError.localized
         #expect(presentableError.title == "Something Went Wrong")
         #expect(presentableError.message == "An unexpected issue occurred.")

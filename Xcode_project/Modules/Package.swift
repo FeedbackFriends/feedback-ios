@@ -7,7 +7,7 @@ let package = Package(
     name: "Modules",
     platforms: [
         .macOS(.v14),
-        .iOS("18")
+        .iOS("26")
     ],
     products: [
         .library(
@@ -62,15 +62,7 @@ let package = Package(
         .library(
             name: "InfoPlist",
             targets: ["InfoPlist"]
-        ),
-		.library(
-			name: "ServiceInterfaces",
-			targets: ["ServiceInterfaces"]
-		),
-		.library(
-			name: "Mocks",
-			targets: ["Mocks"]
-		)
+        )
     ],
     dependencies: [
         .package(
@@ -119,8 +111,7 @@ let package = Package(
                 "Logger",
                 "Model",
                 "Utility",
-                "OpenAPI",
-				"ServiceInterfaces"
+                "OpenAPI"
             ]
         ),
         .target(
@@ -142,8 +133,7 @@ let package = Package(
                 "Utility",
                 "EventsFeature",
                 "Logger",
-                "SignUpFeature",
-				"ServiceInterfaces"
+                "SignUpFeature"
             ]
         ),
         .target(
@@ -166,7 +156,6 @@ let package = Package(
                 "FeedbackFlowFeature",
                 "Model",
                 "Utility",
-				"ServiceInterfaces",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -176,7 +165,6 @@ let package = Package(
                 "DesignSystem",
                 "Model",
                 "Utility",
-				"ServiceInterfaces",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -186,7 +174,6 @@ let package = Package(
                 "DesignSystem",
                 "Model",
                 "Utility",
-				"ServiceInterfaces",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -197,7 +184,6 @@ let package = Package(
                 "Model",
                 "Utility",
                 "FeedbackFlowFeature",
-				"ServiceInterfaces",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -210,7 +196,6 @@ let package = Package(
                 "MoreFeature",
                 "Model",
                 "Utility",
-				"ServiceInterfaces",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -244,25 +229,9 @@ let package = Package(
                 "DesignSystem",
                 "Model",
                 "Utility",
-                "Logger",
-				"ServiceInterfaces"
+                "Logger"
             ]
         ),
-		.target(
-			name: "ServiceInterfaces",
-			dependencies: [
-				"Model",
-				"Mocks",
-				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-			]
-		),
-		.target(
-			name: "Mocks",
-			dependencies: [
-				"Model",
-				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
-			]
-		),
         .testTarget(
             name: "AppTests",
             dependencies: [

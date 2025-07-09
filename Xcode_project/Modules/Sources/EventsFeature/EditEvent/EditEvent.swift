@@ -2,7 +2,6 @@ import Model
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI
-import ServiceInterfaces
 
 @Reducer
 public struct EditEvent {
@@ -15,30 +14,24 @@ public struct EditEvent {
         var createEventRequestInFlight = false
         var editRequestInFlight = false
         var showSuccessOverlay: Bool = false
-        @Shared var session: Session
         
         @Presents var alert: AlertState<Never>?
-        
-        var editEventButtonDisabled: Bool {
-            eventInput.title.isEmpty || eventInput.questions.isEmpty || editRequestInFlight || showSuccessOverlay
-        }
-        var recentlyUsedQuestions: Set<RecentlyUsedQuestions> {
-            if let managerData = session.managerData {
-                return managerData.recentlyUsedQuestions
-            }
-            return []
-        }
-        public init(
-            eventInput: EventInput,
-            eventId: UUID,
-            session: Shared<Session>
-        ) {
-            self.eventInput = eventInput
-            self.eventId = eventId
-            self._session = session
-        }
-    }
-    
+		
+		var editEventButtonDisabled: Bool {
+			eventInput.title.isEmpty || eventInput.questions.isEmpty || editRequestInFlight || showSuccessOverlay
+		}
+		let recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+		public init(
+			eventInput: EventInput,
+			eventId: UUID,
+			recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+		) {
+			self.eventInput = eventInput
+			self.eventId = eventId
+			self.recentlyUsedQuestions = recentlyUsedQuestions
+		}
+	}
+	
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
         case editEventButtonTap

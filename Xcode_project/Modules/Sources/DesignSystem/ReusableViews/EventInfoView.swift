@@ -60,21 +60,20 @@ public struct EventInfoView: View {
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .foregroundColor(.themeDarkGray)
+				.foregroundColor(Color.themeText)
                 .padding(.all, Theme.padding)
                 .background(
-                    Color.themeWhite
+                    Color.themeSurface
                         .cornerRadius(Theme.cornerRadius)
                 )
                 .padding(.all, Theme.padding)
             }
             .lineSpacing(7)
             .scrollContentBackground(.hidden)
-            .background(Color.themeBackground)
             .navigationBarTitleDisplayMode(.large)
             .navigationTitle(eventTitle)
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .cancellationAction) {
                     SharedCloseButtonView { dismiss() }
                 }
             }

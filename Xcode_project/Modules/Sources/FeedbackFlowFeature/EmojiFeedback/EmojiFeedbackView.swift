@@ -26,6 +26,7 @@ public struct EmojiFeedbackView: View {
                         .aspectRatio(contentMode: .fit)
                         .grayscale(store.selectedEmoji == .verySad ? 0.0 : 1.0)
                         .padding(store.selectedEmoji == .verySad ? 10 : 13)
+						.opacity(store.selectedEmoji == .verySad ? 1.0 : 0.6)
                 }
                 Button {
                     store.send(.onSmileyTapped(.sad), animation: .bouncy)
@@ -35,6 +36,7 @@ public struct EmojiFeedbackView: View {
                         .aspectRatio(contentMode: .fit)
                         .grayscale(store.selectedEmoji == .sad ? 0.0 : 1.0)
                         .padding(store.selectedEmoji == .sad ? 10 : 13)
+						.opacity(store.selectedEmoji == .sad ? 1.0 : 0.6)
                 }
                 
                 Button {
@@ -45,6 +47,7 @@ public struct EmojiFeedbackView: View {
                         .aspectRatio(contentMode: .fit)
                         .grayscale(store.selectedEmoji == .happy ? 0.0 : 1.0)
                         .padding(store.selectedEmoji == .happy ? 10 : 13)
+						.opacity(store.selectedEmoji == .happy ? 1.0 : 0.6)
                 }
                 Button {
                     store.send(.onSmileyTapped(.veryHappy), animation: .bouncy)
@@ -54,19 +57,20 @@ public struct EmojiFeedbackView: View {
                         .aspectRatio(contentMode: .fit)
                         .grayscale(store.selectedEmoji == .veryHappy ? 0.0 : 1.0)
                         .padding(store.selectedEmoji == .veryHappy ? 10 : 13)
+						.opacity(store.selectedEmoji == .veryHappy ? 1.0 : 0.6)
                 }
             }
             if store.selectedEmoji != nil {
                 VStack(alignment: .leading) {
                     Text("Please elaborate why")
                         .font(.montserratSemiBold, 13)
-                        .foregroundColor(.themeDarkGray)
+                        .foregroundColor(.themeText)
                     TextEditor(text: $store.commentTextField)
                         .padding(.all, 12)
                         .font(.montserratRegular, 14)
-                        .foregroundColor(.themeDarkGray)
+                        .foregroundColor(.themeText)
                         .scrollContentBackground(.hidden)
-                        .background(Color.themeWhite)
+                        .background(Color.themeSurface)
                         .cornerRadius(Theme.cornerRadius)
                         .focused($commentTextfieldFocused)
                 }

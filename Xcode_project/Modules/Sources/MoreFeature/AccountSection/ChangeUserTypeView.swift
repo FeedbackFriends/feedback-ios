@@ -13,31 +13,37 @@ public struct ChangeUserTypeView: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            HStack {
-                Text("Choose prefered user type")
-                    .font(.montserratBold, 14)
-                    .foregroundColor(.themeDarkGray)
-                Spacer()
-                SharedCloseButtonView {
-                    store.send(.closeButtonTap)
-                }
-            }
-            .padding(.bottom, 10)
-            VStack(alignment: .leading, spacing: 10) {
-                UserTypePickerView(selectedUserType: $store.selectedUserType)
-                Button {
-                    store.send(.saveButtonTap)
-                } label: {
-                    Text("Save")
-                }
-                .buttonStyle(LargeButtonStyle())
-                .isLoading(store.isLoading)
-                .padding(.bottom, 16)
-            }
-        }
-        .padding(.all, Theme.padding)
-        .background(Color.themeBackground)
+		NavigationStack {
+			VStack(alignment: .leading, spacing: 12) {
+				HStack {
+					Text("Choose prefered user type")
+						.font(.montserratSemiBold, 16)
+						.foregroundColor(.themeText)
+					Spacer()
+				}
+				.padding(.bottom, 8)
+				VStack(alignment: .leading, spacing: 10) {
+					UserTypePickerView(selectedUserType: $store.selectedUserType)
+					Button {
+						store.send(.saveButtonTap)
+					} label: {
+						Text("Save")
+					}
+					.buttonStyle(LargeButtonStyle())
+					.isLoading(store.isLoading)
+					.padding(.bottom, 16)
+				}
+			}
+			.padding(.all, Theme.padding)
+			.toolbar {
+				ToolbarItem(placement: .primaryAction) {
+					SharedCloseButtonView {
+						store.send(.closeButtonTap)
+					}
+				}
+				.sharedBackgroundVisibility(.hidden)
+			}
+		}
     }
 }
 

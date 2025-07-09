@@ -39,21 +39,21 @@ public struct ErrorView: View {
             Image(systemName: "exclamationmark.circle.fill")
                 .resizable()
                 .frame(width: exclamationmark, height: exclamationmark)
-                .foregroundColor(.themeRed)
+                .foregroundColor(.themeVerySad)
             
             Text("\(error.title) 💩")
                 .font(.montserratBold, 16)
-                .foregroundColor(.themeDarkGray)
+                .foregroundColor(.themeText)
             
             Text(error.message)
                 .font(.montserratRegular, 13)
-                .foregroundColor(.themeDarkGray)
+                .foregroundColor(.themeText)
                 .multilineTextAlignment(.center)
             
             // Try again
             if let tryAgainButtonTapped {
                 Button("Try again", action: tryAgainButtonTapped)
-                    .buttonStyle(PrimaryToolbarButtonStyle())
+                    .buttonStyle(PrimaryTextButtonStyle())
                     .isLoading(isLoading)
                     .disabled(isLoading)
             }
@@ -65,7 +65,7 @@ public struct ErrorView: View {
                 } label: {
                     Label("Report issue", systemImage: "envelope.badge")
                 }
-                .buttonStyle(PrimaryToolbarButtonStyle())
+                .buttonStyle(PrimaryTextButtonStyle())
                 .disabled(isCapturing)
                 .opacity(isCapturing ? 0.6 : 1)
             }

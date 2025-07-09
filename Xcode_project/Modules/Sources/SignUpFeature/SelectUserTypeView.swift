@@ -16,7 +16,7 @@ public struct SelectUserTypeView: View {
             Text("What would you like to use the app for?")
                 .padding(.top, 30)
                 .font(.montserratBold, 14)
-                .foregroundColor(.themeDarkGray)
+                .foregroundColor(.themeText)
             UserTypePickerView(selectedUserType: $store.selectedUserType)
             Button {
                 store.send(.createAccountButtonTap)

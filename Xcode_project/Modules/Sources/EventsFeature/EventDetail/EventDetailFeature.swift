@@ -4,7 +4,6 @@ import Foundation
 import ComposableArchitecture
 import UIKit
 import Utility
-import ServiceInterfaces
 
 @Reducer
 public struct EventDetailFeature {
@@ -94,15 +93,20 @@ public struct EventDetailFeature {
 				switch confirmationDialogAction {
 					
 				case .edit:
+					let recentlyUsedQuestions = if let managerData = state.session.managerData {
+						Set<RecentlyUsedQuestions>(managerData.recentlyUsedQuestions)
+					} else {
+						Set<RecentlyUsedQuestions>()
+					}
 					state.destination = .editEvent(
 						EditEvent.State(
 							eventInput: EventInput(state.event),
 							eventId: state.event.id,
-							session: state.$session
+							recentlyUsedQuestions: recentlyUsedQuestions
 						)
 					)
 				case .delete:
-					state.destination = .deleteConfirmation(.init(session: state.$session, eventId: state.event.id))
+					state.destination = .deleteConfirmation(.init(eventId: state.event.id))
 				case .invite:
 					state.destination = .invite(state.event)
 				}

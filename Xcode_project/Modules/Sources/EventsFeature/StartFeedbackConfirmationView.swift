@@ -32,12 +32,10 @@ struct StartFeedbackConfirmationView: View {
                 .padding(.horizontal, 18)
                 .navigationTitle("Event joined")
                 .navigationBarTitleDisplayMode(.large)
-                .foregroundStyle(Color.themeDarkGray)
-                .background(Color.themeBackground.ignoresSafeArea())
+                .foregroundStyle(Color.themeText)
             }
-            .background(Color.themeBackground.ignoresSafeArea())
             .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
+                ToolbarItem(placement: .cancellationAction) {
                     SharedCloseButtonView {
                         dismiss()
                     }

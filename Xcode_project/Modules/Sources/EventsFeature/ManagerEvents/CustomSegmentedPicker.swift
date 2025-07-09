@@ -58,22 +58,12 @@ struct CustomSegmentedPicker: View {
 	
 	var body: some View {
 		ZStack {
-			LinearGradient(
-				colors: [
-					Color.themeSurface,
-					Color.themeSurface,
-					Color.clear
-				],
-				startPoint: .bottom, endPoint: .top
-			)
-			.frame(height: 90)
-			
 			Capsule(style: .continuous)
 				.frame(width: 180, height: 35, alignment: .center)
-				.foregroundStyle(Color.themeWhite)
+				.foregroundStyle(Color.themeBackground)
 				.overlay(
 					Capsule(style: .continuous)
-						.stroke(Color.themeWhite, lineWidth: 3)
+						.stroke(Color.themeSurface, lineWidth: 3)
 				)
 			
 			HStack {
@@ -108,7 +98,7 @@ struct CustomSegmentedPicker: View {
 				.clipShape(Capsule(style: .continuous))
 			}
 			.frame(height: 35)
-			.foregroundStyle(Color.themeDarkGray)
+			.foregroundStyle(Color.themeText)
 			.font(.montserratMedium, 13)
 			.background(Color.clear)
 		}

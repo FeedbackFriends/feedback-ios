@@ -11,33 +11,31 @@ public struct MoreSectionView: View {
     public init(store: StoreOf<MoreSection>) {
         self.store = store
     }
-    
-    public var body: some View {
-         Group {
-            generalSection
-            contactSection
-             if let appStoreReviewUrl = store.appStoreReviewUrl {
-                 shareSection(appStoreReviewUrl: appStoreReviewUrl)
-             }
-        }
-        .onAppear { store.send(.onAppear) }
-    }
-    
-    var generalSection: some View {
-        Group {
-            Section {
-                Button {
-                    store.send(.onNotificationsButtonTap)
+	
+	public var body: some View {
+		Group {
+			generalSection
+			contactSection
+			if let appStoreReviewUrl = store.appStoreReviewUrl {
+				shareSection(appStoreReviewUrl: appStoreReviewUrl)
+			}
+		}
+		.onAppear { store.send(.onAppear) }
+	}
+	
+	var generalSection: some View {
+		Group {
+			Section {
+				Button {
+					store.send(.onNotificationsButtonTap)
                 } label: {
                     listElementView(image: "bell", label: "Notifications")
                 }
                 if let privacyPolicyUrl = store.privacyPolicyUrl {
-                    NavigationLink {
-                        WebView(url: privacyPolicyUrl)
-                            .edgesIgnoringSafeArea(.all)
-                    } label: {
-                        listElementView(image: "doc.plaintext", label: "Privacy policy")
-                    }
+					Link(destination: privacyPolicyUrl) {
+						listElementView(image: "doc.plaintext", label: "Privacy policy")
+					}
+					.onOpenURL(prefersInApp: true)
                 }
                 Button {
                     store.send(.onSupportUsButtonTap)
@@ -49,7 +47,7 @@ public struct MoreSectionView: View {
                         Text("Support us")
                     }
                     .font(.montserratRegular, 14)
-                    .foregroundColor(.themeDarkGray)
+                    .foregroundColor(.themeText)
                 }
                 
             } header: {
@@ -57,7 +55,7 @@ public struct MoreSectionView: View {
                     .sectionHeaderStyle()
             }
         }
-        .foregroundColor(Color.themeDarkGray)
+        .foregroundColor(Color.themeText)
         .scrollContentBackground(.hidden)
     }
     
@@ -96,7 +94,7 @@ public struct MoreSectionView: View {
         }
         .listRowBackground(
             Rectangle()
-                .foregroundStyle(Color.themePrimaryAction.gradient)
+                .foregroundStyle(Color.themePrimaryAction)
         )
     }
 }

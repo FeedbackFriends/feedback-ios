@@ -23,42 +23,37 @@ public struct RatingAlertView: View {
         NavigationStack {
             content
                 .presentationDetents([.height(300)])
-                .frame(maxWidth: .infinity)
-                .background(Color.themeBackground.ignoresSafeArea())
-                .interactiveDismissDisabled()
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        SharedCloseButtonView {
-                            self.dismiss()
-                        }
-                    }
-                    ToolbarItem(placement: .bottomBar) {
-                        HStack {
-                            Button {
-                                self.dismiss()
-                            } label: {
-                                Text("Not now")
-                                    .frame(maxWidth: .infinity)
-                            }
-                            .buttonStyle(SecondaryToolbarButtonStyle())
-                            Spacer()
-                            Button {
-                                Task { @MainActor in
-                                    self.dismiss()
-                                    // Delay the task by 0.5 second
-                                    try await Task.sleep(for: .seconds(0.5))
-                                    requestReview()
-                                }
-                            } label: {
-                                Text("Rate app")
-                                    .frame(maxWidth: .infinity)
-                            }
-                            .buttonStyle(PrimaryToolbarButtonStyle())
-                        }
-                    }
-                }
-        }
-        .background(Color.themeBackground.ignoresSafeArea())
+				.frame(maxWidth: .infinity)
+				.background(Color.themeSurface.ignoresSafeArea())
+				.interactiveDismissDisabled()
+				.toolbar {
+					ToolbarItem(placement: .cancellationAction) {
+						SharedCloseButtonView {
+							self.dismiss()
+						}
+					}
+					ToolbarItem(placement: .bottomBar) {
+						Button("Not now") {
+							self.dismiss()
+						}
+						.buttonStyle(SecondaryTextButtonStyle())
+					}
+					.sharedBackgroundVisibility(.hidden)
+					ToolbarSpacer(.flexible, placement: .bottomBar)
+					ToolbarItem(placement: .bottomBar) {
+						Button("Rate app") {
+							Task { @MainActor in
+								self.dismiss()
+								// Delay the task by 0.5 second
+								try await Task.sleep(for: .seconds(0.5))
+								requestReview()
+							}
+						}
+						.buttonStyle(PrimaryTextButtonStyle())
+					}
+					.sharedBackgroundVisibility(.hidden)
+				}
+		}
     }
 }
 
@@ -68,14 +63,14 @@ private extension RatingAlertView {
         VStack(alignment: .center, spacing: 26) {
             Text(title)
                 .font(.montserratBold, 20)
-                .foregroundColor(Color.themeDarkGray)
+                .foregroundColor(Color.themeText)
                 .multilineTextAlignment(.center)
                 .accessibilityFocused($isFocused)
             LottieView(lottieFile: .fiveStars)
                 .frame(width: 300, height: 36)
             Text(message)
                 .font(.montserratRegular, 14)
-                .foregroundColor(Color.themeDarkGray.opacity(0.7))
+                .foregroundColor(Color.themeText.opacity(0.7))
                 .multilineTextAlignment(.center)
                 .accessibilityFocused($isFocused)
                 .lineSpacing(5)
@@ -83,4 +78,8 @@ private extension RatingAlertView {
         }
         .padding(.horizontal, 40)
     }
+}
+
+#Preview {
+	RatingAlertView(title: "Title", message: "Message")
 }

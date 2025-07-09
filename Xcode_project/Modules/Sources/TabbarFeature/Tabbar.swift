@@ -8,7 +8,6 @@ import Model
 import ComposableArchitecture
 import Utility
 import Logger
-import ServiceInterfaces
 
 public enum Tab: Hashable {
     case feedback, events, more
@@ -171,11 +170,12 @@ public struct Tabbar {
             case .signOutButtonTapped:
             state.destination = .confirmationDialog(
                 ConfirmationDialogState<Destination.ConfirmationDialog>(
-                    title: { TextState("Are you sure you want to logout?") },
-                    actions: {
-                        ButtonState(role: .cancel, label: { TextState("Cancel") })
-                        ButtonState(role: .destructive, action: .logoutConfirmed, label: { TextState("Logout") })
-                    }
+					title: { TextState("Logout") },
+					actions: {
+						ButtonState(role: .destructive, action: .logoutConfirmed, label: { TextState("Logout") })
+						ButtonState(label: { TextState("Cancel") })
+					},
+					message: { TextState("Are you sure you want to logout?") }
                 )
             )
             return .none
@@ -244,8 +244,13 @@ public struct Tabbar {
                         )
                         return .none
                     }
+					let recentlyUsedQuestions = if let managerData = state.session.managerData {
+						Set<RecentlyUsedQuestions>(managerData.recentlyUsedQuestions)
+					} else {
+						Set<RecentlyUsedQuestions>()
+					}
                     state.destination = .createEvent(
-                        CreateEvent.State(session: state.$session)
+						CreateEvent.State(recentlyUsedQuestions: recentlyUsedQuestions)
                 )
                 case .joinEventButtonTap:
                     state.destination = .joinEvent(.init())

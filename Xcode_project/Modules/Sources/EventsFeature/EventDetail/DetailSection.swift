@@ -21,7 +21,7 @@ struct DetailSectionView: View {
         .scrollIndicators(.hidden)
         .background(Color.themeBackground)
         .lineSpacing(5)
-        .foregroundStyle(Color.themeDarkGray)
+        .foregroundStyle(Color.themeText)
     }
 }
 
@@ -61,7 +61,7 @@ private extension DetailSectionView {
                 }
             }
             .font(.montserratRegular, 14)
-            .background(Color.themeWhite)
+            .background(Color.themeSurface)
             .cornerRadius(14)
         }
     }
@@ -75,7 +75,6 @@ private extension DetailSectionView {
                 Text("\(event.pinCode.value.description)")
                     .frame(maxWidth: .infinity)
                     .font(.montserratMedium, 30)
-                    .foregroundStyle(Color.themeDarkGray.gradient)
                     .kerning(10)
                     .padding(.vertical, 12)
                     .overlay(
@@ -88,11 +87,11 @@ private extension DetailSectionView {
                                 }
                                 .padding(.trailing, 12)
                             }
-                            .buttonStyle(SecondaryToolbarButtonStyle())
+                            .buttonStyle(PrimaryTextButtonStyle())
                             .frame(maxHeight: .infinity)
                         }
                     )
-                    .background(Color.themeWhite)
+					.background(Color.themeSurface)
                     .cornerRadius(14)
             }
             .frame(maxWidth: .infinity)
@@ -131,7 +130,6 @@ struct QuestionView: View {
                         if question.feedbackSummary == nil || question.feedbackSummary?.countStats.commentsCount == 0 {
                             Text("No comments yet")
                                 .font(.montserratRegular, 14)
-                                .foregroundStyle(Color.gray)
                                 .padding(.vertical, 8)
                         } else {
                             ForEach(question.feedback.sorted(by: {
@@ -140,7 +138,10 @@ struct QuestionView: View {
                                 FeedbackCommentRowView(feedback: feedback)
                             }
                         }
-                    }.padding(.top, 16)
+                    }
+					.padding(.top, 16)
+					.foregroundStyle(Color.themeTextSecondary)
+					
                 },
                 label: {
                     VStack(spacing: 10) {
@@ -209,29 +210,105 @@ struct QuestionView: View {
     }
 }
 
-#Preview("Detail section with empty event") {
+#Preview("Empty feedback") {
     NavigationStack {
-        DetailSectionView(event: .mockEmpty)
-            .navigationTitle("Event with empty feedback")
+		DetailSectionView(
+			event: .init(
+				id: UUID(),
+				title: "Title",
+				agenda: "Agenda",
+				date: Date(),
+				pinCode: PinCode(value: "1234"),
+				durationInMinutes: 60,
+				location: "Hellerup",
+				ownerInfo: .init(
+					name: "Nicolai",
+					email: "Email",
+					phoneNumber: "Phonenumber"
+				),
+				feedbackSummary: nil,
+				questions: [
+					.init(
+						id: UUID(),
+						questionText: "Why whyyyy whyyy",
+						feedbackType: .emoji,
+						feedback: [],
+						feedbackSummary: nil
+					)
+				]
+			)
+		)
+		.navigationTitle("Event with empty feedback")
     }
 }
 
-#Preview("Detail section with feedback n stuff") {
-    NavigationStack {
-        DetailSectionView(event: .mock())
-            .navigationTitle("Event with feedback n stuff")
-    }
-}
-
-#Preview("Questions") {
-    QuestionView(
-        question: .init(
-            id: UUID(),
-            questionText: "aksndkajndakjs sakj askjsa sakj sakjsa sakjas kjsa",
-            feedbackType: .emoji,
-            feedback: [],
-            feedbackSummary: nil
-        ),
-        index: 0
-    )
+#Preview("With feedback") {
+	NavigationStack {
+		DetailSectionView(
+			event: .init(
+				id: UUID(),
+				title: "Title",
+				agenda: "Agenda",
+				date: Date(),
+				pinCode: PinCode(value: "1234"),
+				durationInMinutes: 60,
+				location: "Hellerup",
+				ownerInfo: .init(
+					name: "Nicolai",
+					email: "Email",
+					phoneNumber: "Phonenumber"
+				),
+				feedbackSummary: .init(
+					segmentationStats: .init(
+						verySadPercentage: 30,
+						sadPercentage: 30,
+						happyPercentage: 20,
+						veryHappyPercentage: 20
+					),
+					countStats: .init(
+						verySadCount: 10,
+						sadCount: 10,
+						happyCount: 10,
+						veryHappyCount: 10,
+						commentsCount: 10,
+						uniqueParticipantFeedback: 10
+					),
+					unseenCount: 8
+				),
+				questions: [
+					.init(
+						id: UUID(),
+						questionText: "Why whyyyy whyyy",
+						feedbackType: .emoji,
+						feedback: [
+							.init(
+								type: .emoji(emoji: .happy, comment: "Hello world"),
+								questionId: UUID(),
+								seenByManager: false,
+								createdAt: Date()
+							)
+						],
+						feedbackSummary: .init(
+							segmentationStats: .init(
+								verySadPercentage: 30,
+								sadPercentage: 30,
+								happyPercentage: 20,
+								veryHappyPercentage: 20
+							),
+							countStats: .init(
+								verySadCount: 10,
+								sadCount: 10,
+								happyCount: 10,
+								veryHappyCount: 10,
+								commentsCount: 10,
+								uniqueParticipantFeedback: 10
+							),
+							unseenCount: 10
+						)
+					)
+				]
+			)
+		)
+		.navigationTitle("Event with empty feedback")
+	}
 }

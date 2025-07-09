@@ -92,7 +92,7 @@ struct TabbarTests {
             Tabbar()
         }
         await store.send(.toolbar(.createEventButtonTap)) {
-            $0.destination = .createEvent(.init(session: $0.$session))
+			$0.destination = .createEvent(.init(recentlyUsedQuestions: .init([])))
         }
         await store.send(.destination(.presented(.createEvent(.delegate(.dismissAndNavigateToDetail(createdEvent)))))) {
             $0.destination = nil

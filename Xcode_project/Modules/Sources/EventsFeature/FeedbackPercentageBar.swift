@@ -6,10 +6,10 @@ func feedbackPercentageBarView(feedback: FeedbackSegmentationStats) -> some View
     GeometryReader { proxy in
         let withPercent = proxy.size.width / 100
         HStack(spacing: 0) {
-            Color.themeRed.frame(width: feedback.verySadPercentage * withPercent)
-            Color.themeOrange.frame(width: feedback.sadPercentage * withPercent)
-            Color.themeYellow.frame(width: feedback.happyPercentage * withPercent)
-            Color.themeGreen.frame(width: feedback.veryHappyPercentage * withPercent)
+            Color.themeVerySad.frame(width: feedback.verySadPercentage * withPercent)
+            Color.themeSad.frame(width: feedback.sadPercentage * withPercent)
+            Color.themeHappy.frame(width: feedback.happyPercentage * withPercent)
+            Color.themeVeryHappy.frame(width: feedback.veryHappyPercentage * withPercent)
         }
         .unredacted()
     }
@@ -27,6 +27,6 @@ func emptyFeedbackSegmentationStatsView() -> some View {
     .overlay(alignment: .center) {
         Text("No feedback received")
             .font(.montserratMedium, 12)
-            .foregroundColor(Color.themeDarkGray.opacity(0.8))
+            .foregroundColor(Color.themeTextSecondary)
     }
 }
