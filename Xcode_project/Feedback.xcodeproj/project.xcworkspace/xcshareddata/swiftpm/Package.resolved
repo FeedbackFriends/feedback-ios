@@ -221,8 +221,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-composable-architecture.git",
       "state" : {
-        "branch" : "1.20.2",
-        "revision" : "6574de2396319a58e86e2178577268cb4aeccc30"
+        "branch" : "1.22.1",
+        "revision" : "d2c1bfb5859c81d1fd14437e9eb697137dd61bc9"
       }
     },
     {
@@ -293,8 +293,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/apple/swift-openapi-generator",
       "state" : {
-        "revision" : "02cab48b66b4b412013827c2938adaf0eb67dc8d",
-        "version" : "1.7.2"
+        "revision" : "bb9a13596af11db9bb83389295d91cd335810fe8",
+        "version" : "1.10.2"
       }
     },
     {

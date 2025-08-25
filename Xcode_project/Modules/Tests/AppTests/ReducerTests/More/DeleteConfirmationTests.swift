@@ -4,11 +4,12 @@ import ComposableArchitecture
 import Foundation
 
 struct DeleteConfirmationTests {
+    
     @Test
     func testDeleteSuccess() async {
         let eventId = UUID()
         let deletedEvent: LockIsolated<UUID?> = .init(nil)
-		let store = await TestStore(initialState: DeleteConfirmation.State(eventId: UUID())) {
+		let store = await TestStore(initialState: DeleteConfirmation.State(eventId: eventId)) {
             DeleteConfirmation()
         } withDependencies: {
             $0.apiClient.deleteEvent = { @MainActor in

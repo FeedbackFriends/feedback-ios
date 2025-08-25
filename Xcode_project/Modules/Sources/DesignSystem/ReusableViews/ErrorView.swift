@@ -19,6 +19,8 @@ public struct ErrorView: View {
     @State private var screenshotData: Data?
     @State private var isCapturing = false
     
+    @Environment(\.displayScale) private var displayScale
+    
     // MARK: – Appearance helpers
     private var exclamationmark: CGFloat { viewDidLoad ? 40 : 35 }
     
@@ -92,12 +94,11 @@ public struct ErrorView: View {
     }
     
     // MARK: – Private helpers
-	@MainActor
+    @MainActor
     private func reportIssue() {
         isCapturing = true
-        // Capture must run on the next turn of the run‑loop, otherwise snapshot is blank
         DispatchQueue.main.async {
-			if let png = snapshot(scale: UIScreen.main.scale)?.pngData() {
+            if let png = snapshot(scale: displayScale)?.pngData() {
                 screenshotData = png
             }
             isCapturing = false

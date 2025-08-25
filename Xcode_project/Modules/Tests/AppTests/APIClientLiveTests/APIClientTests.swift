@@ -5,44 +5,6 @@ import Foundation
 import Implementations
 import OpenAPI
 
-#warning("Maybe add sorting of feedback etc in cache so its testable")
-
-// deleteAccount
-
-// updateAccount
-
-// linkFCMTokenToAccount
-
-// getSession ✅
-// Testing that session is returned and saved in cache after being fetched
-
-// startFeedbackSession
-
-// submitFeedback
-
-// createEvent
-
-// updateEvent
-// Test that updating an event updates cache and onChange is triggered with updated session
-
-// deleteEvent ✅
-// Testing that event is removed from cache after deletion and onChange is triggered with updated session
-
-// createAccount
-
-// sessionChangedListener
-
-// joinEvent
-
-// markEventAsSeen
-
-// updateAccountRole
-
-// getMockToken
-
-// getUpdatedSession
-
-// markActivityAsSeen
 
 @MainActor
 struct APIClientLiveTests {

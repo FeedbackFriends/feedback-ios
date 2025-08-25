@@ -22,12 +22,13 @@ struct TabbarTests {
         }
         await store.send(.signOutButtonTapped) {
             $0.destination = .confirmationDialog(
-                ConfirmationDialogState(
-                    title: { TextState("Are you sure you want to logout?") },
+                .init(
+                    title: { TextState("Logout") },
                     actions: {
-                        ButtonState(role: .cancel, label: { TextState("Cancel") })
                         ButtonState(role: .destructive, action: .logoutConfirmed, label: { TextState("Logout") })
-                    }
+                        ButtonState(label: { TextState("Cancel") })
+                    },
+                    message: { TextState("Are you sure you want to logout?") }
                 )
             )
         }
