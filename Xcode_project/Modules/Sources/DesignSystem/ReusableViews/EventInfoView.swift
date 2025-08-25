@@ -68,6 +68,7 @@ public struct EventInfoView: View {
                 )
                 .padding(.all, Theme.padding)
             }
+            .background(Color.themeBackground)
             .lineSpacing(7)
             .scrollContentBackground(.hidden)
             .navigationBarTitleDisplayMode(.large)

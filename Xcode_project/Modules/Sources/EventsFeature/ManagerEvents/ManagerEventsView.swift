@@ -44,7 +44,7 @@ public struct ManagerEventsView: View {
 				.tag(SegmentedControlMenu.participating)
 			}
 		}
-//		.tabViewStyle(.page(indexDisplayMode: .never))
+		.tabViewStyle(.page(indexDisplayMode: .never))
         .lineSpacing(7)
         .scrollContentBackground(.hidden)
         .background(Color.themeBackground)
@@ -62,7 +62,6 @@ public struct ManagerEventsView: View {
     }
 }
 
-#warning("Wait for ios 26 for fix: .tabViewStyle(.page(indexDisplayMode: .never))")
 extension ManagerEventsView {
     
     func managerEventsListView(

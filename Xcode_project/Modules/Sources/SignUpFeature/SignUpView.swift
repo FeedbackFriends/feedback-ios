@@ -19,7 +19,7 @@ public struct SignUpView: View {
                 Image.letsGrowIcon
                     .resizable()
                     .scaledToFit()
-                    .frame(width: 200, height: 200)
+                    .frame(width: 160, height: 160)
                 Spacer()
                 signUpView
             }
@@ -70,7 +70,7 @@ private extension SignUpView {
                 }
                 .padding(.leading, 24)
             }
-            .buttonStyle(LargeButtonStyle(backgroundColor: Color.themeText.gradient))
+            .buttonStyle(LargeButtonStyle(backgroundColor: Color.black))
             .disabled(store.googleLoginInFlight || store.appleLoginInFlight)
             Button {
                 store.send(.signUpWithGoogleButtonTap)
@@ -95,7 +95,7 @@ private extension SignUpView {
             }
             .buttonStyle(
                 LargeButtonStyle(
-					backgroundColor: Color.themeText
+					backgroundColor: Color.themeSurface
                 )
             )
             .disabled(store.googleLoginInFlight || store.appleLoginInFlight)

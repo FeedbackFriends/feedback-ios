@@ -1,7 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "letsgrow_icon2.pdf",
+      "filename" : "icon_lightmode.pdf",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
+      "filename" : "icon_darkmode.pdf",
       "idiom" : "universal"
     }
   ],

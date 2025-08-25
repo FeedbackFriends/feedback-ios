@@ -8,11 +8,11 @@ struct FadeInOutOnChange<T: Equatable>: ViewModifier {
         content
             .opacity(opacity)
             .onChange(of: trigger) { _, _ in
-                withAnimation(.easeOut(duration: 0.2)) {
+//                withAnimation(.snappy) {
                     opacity = 0
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
-                    withAnimation(.easeIn(duration: 0.2)) {
+//                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    withAnimation(.smooth) {
                         opacity = 1
                     }
                 }

@@ -122,7 +122,7 @@ public struct FeedbackFlowView: View {
 				.font(.montserratBold, 12)
 				.foregroundColor(Color.themeTextSecondary)
 				.padding(.top, 8)
-				.animation(.bouncy, value: store.questionIndex)
+                .animation(.snappy, value: store.questionIndex)
 			Text(store.questionText)
 				.padding(.horizontal, 24)
 				.font(.montserratRegular, 15)
@@ -182,3 +182,4 @@ public struct FeedbackFlowView: View {
 		}
 	)
 }
+

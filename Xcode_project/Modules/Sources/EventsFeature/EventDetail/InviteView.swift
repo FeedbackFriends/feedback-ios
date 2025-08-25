@@ -46,7 +46,8 @@ struct InviteView: View {
             Text(inviteLink)
                 .padding(18)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.themeText)
+                .background(Color.themeBackground)
+                .foregroundStyle(Color.themeText)
                 .cornerRadius(14)
                 .font(.montserratMedium, 14)
                 .overlay(copyButton, alignment: .trailing)
@@ -99,7 +100,7 @@ struct ShareSheet: UIViewControllerRepresentable {
 #Preview {
     InviteView(
         code: "1234",
-        inviteLink: "",
-        shareText: ""
+        inviteLink: "https://example.com",
+        shareText: "ShareText"
     )
 }
