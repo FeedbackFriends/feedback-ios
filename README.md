@@ -1,74 +1,82 @@
-# Let's Grow iOS
+# Lets Grow iOS app
 
-Let's Grow iOS is a modular iOS application structured using the principles of onion architecture and designed with scalability, separation of concerns, and developer experience in mind.
+[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.0-green.svg)](https://github.com/FeedbackFriends/feedback-openapi/blob/main/openapi.yaml)
+[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-blue.svg)](https://kotlinlang.org)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
+## Anonymous feedback. Speak up. Lift others.
+
+This repo contains the codebase for the Lets Grow iOS app. An app that enables you whether you're leading meetings or improving personal skills to get the feedback you need.
+
+Available on the App Store soon!
 
 ---
 
 ## 🔧 Requirements
-
 - Swift 5.8
-- Xcode 16.4+
+- Xcode 18+
+- iOS 26
 - SwiftLint (`brew install swiftlint`)
 
 ---
 
 ## 🧱 Architecture
 
-The project embraces **Onion Architecture**, layered to enforce dependency direction and isolate concerns. This leads to a flexible, testable and decoupled codebase.
+The project embraces modularization of features and layered to enforce dependency direction and isolate concerns. This leads to a flexible, testable and decoupled codebase.
 
-```plantuml
-@startuml
+``` mermaid
+flowchart TD
 
-skinparam style strictuml
+%% --- Features (UI + State) ---
+subgraph Features_UI_State["Features (UI + State)"]
+    RootFeature[RootFeature]
+    EventsFeature[EventsFeature]
+    SignUpFeature[SignUpFeature]
+    TabbarFeature[TabbarFeature]
+    EnterCodeFeature[EnterCodeFeature]
+    MoreFeature[MoreFeature]
+    FeedbackFlowFeature[FeedbackFlowFeature]
+end
 
-package "Features (UI + State)" {
-  [RootFeature]
-  [EventsFeature]
-  [SignUpFeature]
-  [TabbarFeature]
-  [EnterCodeFeature]
-  [MoreFeature]
-  [FeedbackFlowFeature]
-}
+%% --- Domain ---
+subgraph Domain
+    Model[Model]
+    ServiceInterfaces[ServiceInterfaces]
+end
 
-package "Domain" {
-  [Model]
-  [ServiceInterfaces]
-}
+%% --- Infrastructure ---
+subgraph Infrastructure
+    Implementations[Implementations]
+    OpenAPI[OpenAPI]
+    Mocks[Mocks]
+end
 
-package "Infrastructure" {
-  [Implementations]
-  [OpenAPI]
-  [Mocks]
-}
+%% --- Shared ---
+subgraph Shared
+    DesignSystem[DesignSystem]
+    Utility[Utility]
+    Logger[Logger]
+    Localization[Localization]
+    InfoPlist[InfoPlist]
+end
 
-package "Shared" {
-  [DesignSystem]
-  [Utility]
-  [Logger]
-  [Localization]
-  [InfoPlist]
-}
+%% --- Dependencies ---
+Features_UI_State --> ServiceInterfaces
+Features_UI_State --> Model
+Features_UI_State --> DesignSystem
 
-[Features (UI + State)] --> [ServiceInterfaces]
-[Features (UI + State)] --> [Model]
-[Features (UI + State)] --> [DesignSystem]
+ServiceInterfaces --> Model
 
-[ServiceInterfaces] --> [Model]
+Implementations --> ServiceInterfaces
+Implementations --> Model
+OpenAPI --> Model
 
-[Implementations] --> [ServiceInterfaces]
-[Implementations] --> [Model]
-[OpenAPI] --> [Model]
+Mocks --> ServiceInterfaces
+Mocks --> Model
 
-[Mocks] --> [ServiceInterfaces]
-[Mocks] --> [Model]
-
-[Utility] --> [Logger]
-[Model] --> [Utility]
-[DesignSystem] --> [Utility]
-[DesignSystem] --> [Model]
-
-@enduml
+Utility --> Logger
+Model --> Utility
+DesignSystem --> Utility
+DesignSystem --> Model
 ```
 
 ---

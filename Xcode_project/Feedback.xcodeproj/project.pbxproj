@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		28DB6A3B2E5E054700F90EA0 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
 		7A034FE02D9AC9430059C6F3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
 		7A062A382E11E8B9000AA1A5 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A062A372E11E8B9000AA1A5 /* RootFeature */; };
 		7A062A3B2E12EE8F000AA1A5 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A062A3A2E12EE8F000AA1A5 /* RootFeature */; };
@@ -51,6 +52,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		7A36B0312E0BEA6C009308F2 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		7A67364E2D6F5EA300B392DD /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 		7A49F5202DD5EDDB00FF5B86 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */,
 				B1057F3B2843FD8700B9EE2F /* Assets.xcassets */,
 				B1057F3D2843FD8700B9EE2F /* Preview Content */,
 				7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */,
@@ -503,6 +506,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28DB6A3B2E5E054700F90EA0 /* AppIcon.icon in Resources */,
 				7A034FE02D9AC9430059C6F3 /* Launch Screen.storyboard in Resources */,
 				7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */,
 				7A9E6BB12DC4F512005F4828 /* GoogleService-Info.plist in Resources */,
