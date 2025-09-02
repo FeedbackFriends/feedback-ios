@@ -7,11 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		28DB6A3B2E5E054700F90EA0 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
-		7A034FE02D9AC9430059C6F3 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
-		7A062A382E11E8B9000AA1A5 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A062A372E11E8B9000AA1A5 /* RootFeature */; };
+		28D888402E6788FF00F0B6BE /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883A2E6788FF00F0B6BE /* Implementations */; };
+		28D888412E6788FF00F0B6BE /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883B2E6788FF00F0B6BE /* InfoPlist */; };
+		28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883C2E6788FF00F0B6BE /* RootFeature */; };
+		28D888442E6788FF00F0B6BE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
+		28D888452E6788FF00F0B6BE /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
+		28D888462E6788FF00F0B6BE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
+		28D888472E6788FF00F0B6BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
+		28D8884E2E67895D00F0B6BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB225402D7B2B89002BEF81 /* AppDelegate.swift */; };
+		28D8884F2E67895D00F0B6BE /* FeedbackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1057F372843FD8600B9EE2F /* FeedbackApp.swift */; };
+		28D888502E67895D00F0B6BE /* DebugMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */; };
+		28D888512E67897800F0B6BE /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
+		28D888542E6789CF00F0B6BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */; };
+		28D888602E678B9200F0B6BE /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
 		7A062A3B2E12EE8F000AA1A5 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A062A3A2E12EE8F000AA1A5 /* RootFeature */; };
-		7A36B0262E0BE9EF009308F2 /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5562DD9FE8500FF5B86 /* Implementations */; };
 		7A39BB312E1561AE0082887F /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
 		7A49F5232DD5F96000FF5B86 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
 		7A49F5242DD5F96500FF5B86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
@@ -21,44 +30,23 @@
 		7A49F5282DD5F99200FF5B86 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
 		7A49F5292DD5F99200FF5B86 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
 		7A49F52A2DD5F99200FF5B86 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
-		7A49F5592DDA0ED700FF5B86 /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5582DDA0ED700FF5B86 /* InfoPlist */; };
 		7A7D2D862E13D184008B31F0 /* FeedbackFlowFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7D2D852E13D184008B31F0 /* FeedbackFlowFeature */; };
-		7A89CAE62E0C4127006A9DF0 /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A3B924F2DCFC4D000CE50F5 /* Implementations */; };
-		7A89CAE72E0C4127006A9DF0 /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F55A2DDA0EE300FF5B86 /* InfoPlist */; };
-		7A9E6BB12DC4F512005F4828 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */; };
 		7A9E6BD22DC52183005F4828 /* FeedbackFlowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9E6BCD2DC52183005F4828 /* FeedbackFlowApp.swift */; };
 		7A9E6BD42DC52183005F4828 /* FeedbackMockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9E6BC82DC52183005F4828 /* FeedbackMockApp.swift */; };
 		7AA9D8062E1EDD1600AAB7D8 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7E44EE2DE85B4800B3C4C4 /* AppCore */; };
-		7AB225412D7B2B89002BEF81 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB225402D7B2B89002BEF81 /* AppDelegate.swift */; };
 		7ABB22262E17F061006B6865 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7ABB22252E17F061006B6865 /* RootFeature */; };
-		7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
-		7AC03C262D7A4CE6009A06C7 /* DebugMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */; };
-		B1057F382843FD8600B9EE2F /* FeedbackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1057F372843FD8600B9EE2F /* FeedbackApp.swift */; };
-		B1057F3C2843FD8700B9EE2F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
-		B1057F3F2843FD8700B9EE2F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		7AE155B32D26A28100440870 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
+		28D8884C2E6788FF00F0B6BE /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		28D8884D2E6788FF00F0B6BE /* FeedbackMock copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FeedbackMock copy-Info.plist"; path = "/Users/nicolaidam/Documents/Projects/Feedback/feedback-ios/Xcode_project/FeedbackMock copy-Info.plist"; sourceTree = "<absolute>"; };
+		28D8885F2E678B5200F0B6BE /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		7A36B0312E0BEA6C009308F2 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		7A67364E2D6F5EA300B392DD /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
 		7A6736502D6F5EA300B392DD /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		7A7E44E22DE85B0C00B3C4C4 /* FeedbackError.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedbackError.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lets Grow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAD2DC4ECEB005F4828 /* FeedbackFlow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeedbackFlow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAE2DC4ECEB005F4828 /* Auto_Lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Auto_Lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAF2DC4ECEB005F4828 /* Fetch_OpenApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fetch_OpenApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,18 +67,17 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		7A49F5222DD5F02B00FF5B86 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		28D888532E67897800F0B6BE /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				"Info-disable-ssl.plist",
-				Info.plist,
 			);
-			target = B1057F332843FD8600B9EE2F /* App */;
+			target = 28D888392E6788FF00F0B6BE /* App */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		7A49F5212DD5F01D00FF5B86 /* InfoPlist */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (7A49F5222DD5F02B00FF5B86 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = InfoPlist; sourceTree = "<group>"; };
+		7A49F5212DD5F01D00FF5B86 /* InfoPlist */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (28D888532E67897800F0B6BE /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = InfoPlist; sourceTree = "<group>"; };
 		7A7E44E32DE85B0C00B3C4C4 /* FeedbackError */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = FeedbackError; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
@@ -101,6 +88,16 @@
 			files = (
 				7A39BB312E1561AE0082887F /* FeedbackFlow in Frameworks */,
 				7A7D2D862E13D184008B31F0 /* FeedbackFlowFeature in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28D8883F2E6788FF00F0B6BE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28D888402E6788FF00F0B6BE /* Implementations in Frameworks */,
+				28D888412E6788FF00F0B6BE /* InfoPlist in Frameworks */,
+				28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,8 +114,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7A36B0262E0BE9EF009308F2 /* Implementations in Frameworks */,
-				7A49F5592DDA0ED700FF5B86 /* InfoPlist in Frameworks */,
 				7A062A3B2E12EE8F000AA1A5 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,16 +129,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B1057F312843FD8600B9EE2F /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				7A89CAE72E0C4127006A9DF0 /* InfoPlist in Frameworks */,
-				7A89CAE62E0C4127006A9DF0 /* Implementations in Frameworks */,
-				7A062A382E11E8B9000AA1A5 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,19 +200,21 @@
 				7AC4A9EA2D2FA71D004DF626 /* Modules */,
 				B1057F362843FD8600B9EE2F /* App */,
 				7A9E6BCF2DC52183005F4828 /* Preview_apps */,
-				7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */,
 				7A9E6BAD2DC4ECEB005F4828 /* FeedbackFlow.app */,
 				7A9E6BAE2DC4ECEB005F4828 /* Auto_Lint.framework */,
 				7A9E6BAF2DC4ECEB005F4828 /* Fetch_OpenApi.framework */,
 				7A9E6BB02DC4ECEB005F4828 /* FeedbackMock.app */,
 				7A924BD42DCAA63C005F9D84 /* Frameworks */,
 				7A7E44E22DE85B0C00B3C4C4 /* FeedbackError.app */,
+				28D8884C2E6788FF00F0B6BE /* App.app */,
+				28D8884D2E6788FF00F0B6BE /* FeedbackMock copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
 		B1057F362843FD8600B9EE2F /* App */ = {
 			isa = PBXGroup;
 			children = (
+				28D8885F2E678B5200F0B6BE /* App.entitlements */,
 				7A49F5212DD5F01D00FF5B86 /* InfoPlist */,
 				7AB225402D7B2B89002BEF81 /* AppDelegate.swift */,
 				B1057F372843FD8600B9EE2F /* FeedbackApp.swift */,
@@ -285,6 +272,28 @@
 			);
 			productName = FeedbackFlow;
 			productReference = 7A9E6BAD2DC4ECEB005F4828 /* FeedbackFlow.app */;
+			productType = "com.apple.product-type.application";
+		};
+		28D888392E6788FF00F0B6BE /* App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28D888482E6788FF00F0B6BE /* Build configuration list for PBXNativeTarget "App" */;
+			buildPhases = (
+				28D8883D2E6788FF00F0B6BE /* Sources */,
+				28D8883F2E6788FF00F0B6BE /* Frameworks */,
+				28D888432E6788FF00F0B6BE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = App;
+			packageProductDependencies = (
+				28D8883A2E6788FF00F0B6BE /* Implementations */,
+				28D8883B2E6788FF00F0B6BE /* InfoPlist */,
+				28D8883C2E6788FF00F0B6BE /* RootFeature */,
+			);
+			productName = FeedbackMock;
+			productReference = 28D8884C2E6788FF00F0B6BE /* App.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7A7E44E12DE85B0C00B3C4C4 /* FeedbackError */ = {
@@ -375,34 +384,6 @@
 			productReference = 7A9E6BAF2DC4ECEB005F4828 /* Fetch_OpenApi.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		B1057F332843FD8600B9EE2F /* App */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B1057F422843FD8700B9EE2F /* Build configuration list for PBXNativeTarget "App" */;
-			buildPhases = (
-				B1057F302843FD8600B9EE2F /* Sources */,
-				B1057F312843FD8600B9EE2F /* Frameworks */,
-				B1057F322843FD8600B9EE2F /* Resources */,
-				7AE155B32D26A28100440870 /* Embed Frameworks */,
-				7A16D2E32D53F2BD00F26994 /* Firebase crashlytics */,
-				7A89CAF22E0C93D7006A9DF0 /* Add SwiftLint */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				7A49F5212DD5F01D00FF5B86 /* InfoPlist */,
-			);
-			name = App;
-			packageProductDependencies = (
-				7A3B924F2DCFC4D000CE50F5 /* Implementations */,
-				7A49F55A2DDA0EE300FF5B86 /* InfoPlist */,
-				7A062A372E11E8B9000AA1A5 /* RootFeature */,
-			);
-			productName = Feedback;
-			productReference = 7A9E6BAC2DC4ECEB005F4828 /* Lets Grow.app */;
-			productType = "com.apple.product-type.application";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -428,9 +409,6 @@
 					7AE1561F2D26AD4900440870 = {
 						CreatedOnToolsVersion = 16.1;
 					};
-					B1057F332843FD8600B9EE2F = {
-						CreatedOnToolsVersion = 13.4;
-					};
 				};
 			};
 			buildConfigurationList = B1057F2F2843FD8600B9EE2F /* Build configuration list for PBXProject "Feedback" */;
@@ -448,7 +426,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B1057F332843FD8600B9EE2F /* App */,
+				28D888392E6788FF00F0B6BE /* App */,
 				2892AA342C0F89C600F12E83 /* FeedbackFlow */,
 				7AE155DB2D26A31100440870 /* Auto Lint */,
 				7AE1561F2D26AD4900440870 /* Fetch OpenApi */,
@@ -470,6 +448,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		28D888432E6788FF00F0B6BE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28D888542E6789CF00F0B6BE /* GoogleService-Info.plist in Resources */,
+				28D888512E67897800F0B6BE /* AppIcon.icon in Resources */,
+				28D888442E6788FF00F0B6BE /* Launch Screen.storyboard in Resources */,
+				28D888452E6788FF00F0B6BE /* Localizable.xcstrings in Resources */,
+				28D888462E6788FF00F0B6BE /* Preview Assets.xcassets in Resources */,
+				28D888472E6788FF00F0B6BE /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7A7E44E02DE85B0C00B3C4C4 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -481,6 +472,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28D888602E678B9200F0B6BE /* AppIcon.icon in Resources */,
 				7A49F5262DD5F96F00FF5B86 /* Launch Screen.storyboard in Resources */,
 				7A49F5252DD5F96C00FF5B86 /* Localizable.xcstrings in Resources */,
 				7A49F5242DD5F96500FF5B86 /* Preview Assets.xcassets in Resources */,
@@ -502,65 +494,9 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B1057F322843FD8600B9EE2F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				28DB6A3B2E5E054700F90EA0 /* AppIcon.icon in Resources */,
-				7A034FE02D9AC9430059C6F3 /* Launch Screen.storyboard in Resources */,
-				7ABEBB632D5F7317002E0FE5 /* Localizable.xcstrings in Resources */,
-				7A9E6BB12DC4F512005F4828 /* GoogleService-Info.plist in Resources */,
-				B1057F3F2843FD8700B9EE2F /* Preview Assets.xcassets in Resources */,
-				B1057F3C2843FD8700B9EE2F /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		7A16D2E32D53F2BD00F26994 /* Firebase crashlytics */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
-				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
-				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
-			);
-			name = "Firebase crashlytics";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
-		};
-		7A89CAF22E0C93D7006A9DF0 /* Add SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Add SwiftLint";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n  swiftlint lint --reporter xcode\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
 		7AE156042D26A39300440870 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -609,6 +545,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		28D8883D2E6788FF00F0B6BE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28D8884E2E67895D00F0B6BE /* AppDelegate.swift in Sources */,
+				28D8884F2E67895D00F0B6BE /* FeedbackApp.swift in Sources */,
+				28D888502E67895D00F0B6BE /* DebugMenuView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		7A7E44DE2DE85B0C00B3C4C4 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -635,16 +581,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B1057F302843FD8600B9EE2F /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				B1057F382843FD8600B9EE2F /* FeedbackApp.swift in Sources */,
-				7AB225412D7B2B89002BEF81 /* AppDelegate.swift in Sources */,
-				7AC03C262D7A4CE6009A06C7 /* DebugMenuView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,48 +656,6 @@
 			};
 			name = Debug;
 		};
-		2867BED8299AC324001A11DD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = App/Entitlements.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMPILER_FLAG = DEBUG;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "App/InfoPlist/Info-disable-ssl.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 0.9.13;
-				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
-				PRODUCT_NAME = "Lets Grow";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = targeted;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
 		2892AA412C0F89C700F12E83 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -831,6 +725,133 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		28D888492E6788FF00F0B6BE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = 8B9KRX6NBR;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "FeedbackMock copy-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.9;
+				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		28D8884A2E6788FF00F0B6BE /* Localhost */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = 8B9KRX6NBR;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "FeedbackMock copy-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.9;
+				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Localhost;
+		};
+		28D8884B2E6788FF00F0B6BE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = App/App.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
+				DEVELOPMENT_TEAM = 8B9KRX6NBR;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "FeedbackMock copy-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 0.9;
+				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -1004,48 +1025,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_STRICT_CONCURRENCY = complete;
-			};
-			name = Localhost;
-		};
-		7A9E6BD82DC52223005F4828 /* Localhost */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = App/Entitlements.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				COMPILER_FLAG = DEBUG;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = App/InfoPlist/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 0.9.13;
-				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
-				PRODUCT_NAME = "Lets Grow";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = targeted;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Localhost;
 		};
@@ -1517,47 +1496,6 @@
 			};
 			name = Release;
 		};
-		B1057F442843FD8700B9EE2F /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = App/Entitlements.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = App/InfoPlist/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "Lets Grow";
-				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 0.9.13;
-				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
-				PRODUCT_NAME = "Lets Grow";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_STRICT_CONCURRENCY = targeted;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1567,6 +1505,16 @@
 				2892AA412C0F89C700F12E83 /* Debug */,
 				7A9E6BD92DC52223005F4828 /* Localhost */,
 				2892AA422C0F89C700F12E83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28D888482E6788FF00F0B6BE /* Build configuration list for PBXNativeTarget "App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28D888492E6788FF00F0B6BE /* Debug */,
+				28D8884A2E6788FF00F0B6BE /* Localhost */,
+				28D8884B2E6788FF00F0B6BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1621,16 +1569,6 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B1057F422843FD8700B9EE2F /* Build configuration list for PBXNativeTarget "App" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2867BED8299AC324001A11DD /* Debug */,
-				7A9E6BD82DC52223005F4828 /* Localhost */,
-				B1057F442843FD8700B9EE2F /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1638,7 +1576,15 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = FeedbackFlow;
 		};
-		7A062A372E11E8B9000AA1A5 /* RootFeature */ = {
+		28D8883A2E6788FF00F0B6BE /* Implementations */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Implementations;
+		};
+		28D8883B2E6788FF00F0B6BE /* InfoPlist */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = InfoPlist;
+		};
+		28D8883C2E6788FF00F0B6BE /* RootFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RootFeature;
 		};
@@ -1646,19 +1592,11 @@
 			isa = XCSwiftPackageProductDependency;
 			productName = RootFeature;
 		};
-		7A3B924F2DCFC4D000CE50F5 /* Implementations */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Implementations;
-		};
 		7A49F5562DD9FE8500FF5B86 /* Implementations */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = Implementations;
 		};
 		7A49F5582DDA0ED700FF5B86 /* InfoPlist */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = InfoPlist;
-		};
-		7A49F55A2DDA0EE300FF5B86 /* InfoPlist */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = InfoPlist;
 		};
