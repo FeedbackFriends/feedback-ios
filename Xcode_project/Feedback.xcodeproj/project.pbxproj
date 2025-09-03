@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		287B6F7B2E68931D003A419C /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5562DD9FE8500FF5B86 /* Implementations */; };
+		287B6F7C2E68931D003A419C /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5582DDA0ED700FF5B86 /* InfoPlist */; };
 		28D888402E6788FF00F0B6BE /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883A2E6788FF00F0B6BE /* Implementations */; };
 		28D888412E6788FF00F0B6BE /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883B2E6788FF00F0B6BE /* InfoPlist */; };
 		28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883C2E6788FF00F0B6BE /* RootFeature */; };
@@ -114,6 +116,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				287B6F7C2E68931D003A419C /* InfoPlist in Frameworks */,
+				287B6F7B2E68931D003A419C /* Implementations in Frameworks */,
 				7A062A3B2E12EE8F000AA1A5 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -759,7 +763,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 0.98;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -802,7 +806,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 0.98;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -844,7 +848,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.9;
+				MARKETING_VERSION = 0.98;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

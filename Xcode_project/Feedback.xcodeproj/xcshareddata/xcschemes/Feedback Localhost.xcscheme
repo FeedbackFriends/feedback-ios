@@ -15,8 +15,8 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
-               BuildableName = "Lets Grow.app"
+               BlueprintIdentifier = "28D888392E6788FF00F0B6BE"
+               BuildableName = "App.app"
                BlueprintName = "App"
                ReferencedContainer = "container:Feedback.xcodeproj">
             </BuildableReference>
@@ -44,8 +44,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
-            BuildableName = "Lets Grow.app"
+            BlueprintIdentifier = "28D888392E6788FF00F0B6BE"
+            BuildableName = "App.app"
             BlueprintName = "App"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
@@ -61,8 +61,8 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "B1057F332843FD8600B9EE2F"
-            BuildableName = "Lets Grow.app"
+            BlueprintIdentifier = "28D888392E6788FF00F0B6BE"
+            BuildableName = "App.app"
             BlueprintName = "App"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
