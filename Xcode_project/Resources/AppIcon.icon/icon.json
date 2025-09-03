@@ -1,5 +1,4 @@
 {
-  "color-space-for-untagged-svg-colors" : "display-p3",
   "fill" : "automatic",
   "groups" : [
     {
@@ -24,7 +23,7 @@
           "name" : "icon_lightmode",
           "opacity" : 1,
           "position" : {
-            "scale" : 0.44,
+            "scale" : 0.35,
             "translation-in-points" : [
               0,
               0
