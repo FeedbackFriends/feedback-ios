@@ -1,21 +1,6 @@
 {
-  "fill-specializations" : [
-    {
-      "value" : "automatic"
-    },
-    {
-      "appearance" : "light",
-      "value" : {
-        "solid" : "display-p3:0.00000,0.00000,0.00000,1.00000"
-      }
-    },
-    {
-      "idiom" : "square",
-      "value" : {
-        "solid" : "display-p3:1.00000,1.00000,1.00000,1.00000"
-      }
-    }
-  ],
+  "color-space-for-untagged-svg-colors" : "display-p3",
+  "fill" : "automatic",
   "groups" : [
     {
       "blend-mode" : "normal",
@@ -47,6 +32,7 @@
           }
         }
       ],
+      "name" : "Icon",
       "shadow" : {
         "kind" : "neutral",
         "opacity" : 0.5
