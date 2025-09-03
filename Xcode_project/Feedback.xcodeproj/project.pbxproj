@@ -9,18 +9,13 @@
 /* Begin PBXBuildFile section */
 		287B6F7B2E68931D003A419C /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5562DD9FE8500FF5B86 /* Implementations */; };
 		287B6F7C2E68931D003A419C /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5582DDA0ED700FF5B86 /* InfoPlist */; };
-		28D888402E6788FF00F0B6BE /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883A2E6788FF00F0B6BE /* Implementations */; };
-		28D888412E6788FF00F0B6BE /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883B2E6788FF00F0B6BE /* InfoPlist */; };
+		287B6F872E68AE3A003A419C /* FeedbackMockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9E6BC82DC52183005F4828 /* FeedbackMockApp.swift */; };
 		28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883C2E6788FF00F0B6BE /* RootFeature */; };
 		28D888442E6788FF00F0B6BE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
 		28D888452E6788FF00F0B6BE /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
 		28D888462E6788FF00F0B6BE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
 		28D888472E6788FF00F0B6BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
-		28D8884E2E67895D00F0B6BE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB225402D7B2B89002BEF81 /* AppDelegate.swift */; };
-		28D8884F2E67895D00F0B6BE /* FeedbackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1057F372843FD8600B9EE2F /* FeedbackApp.swift */; };
-		28D888502E67895D00F0B6BE /* DebugMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */; };
 		28D888512E67897800F0B6BE /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
-		28D888542E6789CF00F0B6BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */; };
 		28D888602E678B9200F0B6BE /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
 		7A062A3B2E12EE8F000AA1A5 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A062A3A2E12EE8F000AA1A5 /* RootFeature */; };
 		7A39BB312E1561AE0082887F /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
@@ -40,6 +35,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		287B6F862E68ADC1003A419C /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		28D8884C2E6788FF00F0B6BE /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28D8884D2E6788FF00F0B6BE /* FeedbackMock copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "FeedbackMock copy-Info.plist"; path = "/Users/nicolaidam/Documents/Projects/Feedback/feedback-ios/Xcode_project/FeedbackMock copy-Info.plist"; sourceTree = "<absolute>"; };
 		28D8885F2E678B5200F0B6BE /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
@@ -97,8 +93,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28D888402E6788FF00F0B6BE /* Implementations in Frameworks */,
-				28D888412E6788FF00F0B6BE /* InfoPlist in Frameworks */,
 				28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,6 +192,7 @@
 		B1057F2B2843FD8600B9EE2F = {
 			isa = PBXGroup;
 			children = (
+				287B6F862E68ADC1003A419C /* UnitTests.xctestplan */,
 				7A36B0312E0BEA6C009308F2 /* .swiftlint.yml */,
 				7A49F5202DD5EDDB00FF5B86 /* Resources */,
 				7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */,
@@ -456,7 +451,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28D888542E6789CF00F0B6BE /* GoogleService-Info.plist in Resources */,
 				28D888512E67897800F0B6BE /* AppIcon.icon in Resources */,
 				28D888442E6788FF00F0B6BE /* Launch Screen.storyboard in Resources */,
 				28D888452E6788FF00F0B6BE /* Localizable.xcstrings in Resources */,
@@ -553,9 +547,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28D8884E2E67895D00F0B6BE /* AppDelegate.swift in Sources */,
-				28D8884F2E67895D00F0B6BE /* FeedbackApp.swift in Sources */,
-				28D888502E67895D00F0B6BE /* DebugMenuView.swift in Sources */,
+				287B6F872E68AE3A003A419C /* FeedbackMockApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,7 +755,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.98;
+				MARKETING_VERSION = 0.9.14;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -806,7 +798,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.98;
+				MARKETING_VERSION = 0.9.14;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -848,7 +840,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 0.98;
+				MARKETING_VERSION = 0.9.14;
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

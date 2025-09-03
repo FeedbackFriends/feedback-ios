@@ -1,18 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Crash" : {
-
-    },
-    "Hide" : {
-
-    },
-    "Local mock notification" : {
-
-    },
-    "Logout" : {
-
-    },
     "notification_feedback_received_body" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -78,15 +66,6 @@
           }
         }
       }
-    },
-    "Print fcm token" : {
-
-    },
-    "Print id token" : {
-
-    },
-    "Sign in with Mock" : {
-
     }
   },
   "version" : "1.0"
