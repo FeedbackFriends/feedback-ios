@@ -1,4 +1,4 @@
-public struct PinCodeInput: Equatable {
+public struct PinCodeInput: Equatable, Sendable {
     
     private let pinLength = 4
     

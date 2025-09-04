@@ -9,14 +9,14 @@ import ComposableArchitecture
 import Utility
 import Logger
 
-public enum Tab: Hashable {
+public enum Tab: Hashable, Sendable {
     case feedback, events, more
 }
 
 @Reducer
-public struct Tabbar {
+public struct Tabbar: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case alert(AlertState<AlertAction>)
         @ReducerCaseIgnored
@@ -27,16 +27,16 @@ public struct Tabbar {
         case joinEvent(JoinEvent)
         @ReducerCaseIgnored
         case activity([ActivityItems])
-        public enum ConfirmationDialog: Equatable {
+        public enum ConfirmationDialog: Equatable, Sendable {
             case logoutConfirmed
         }
-        public enum AlertAction: Equatable {
+        public enum AlertAction: Equatable, Sendable {
             case confirmedToCreateUser
         }
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         
         @Shared public var session: Session
         var tabbarLifecyle: TabbarLifecycle.State

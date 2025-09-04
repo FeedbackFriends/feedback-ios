@@ -2,11 +2,11 @@ import ComposableArchitecture
 import Model
 
 @Reducer
-public struct Logout {
+public struct Logout: Sendable {
     
     public init() {}
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case alert(AlertState<Never>)
     }

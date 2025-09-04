@@ -3,15 +3,15 @@ import ComposableArchitecture
 import Model
 
 @Reducer
-public struct ModifyAccount {
+public struct ModifyAccount: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case alert(AlertState<Never>)
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @Presents var destination: Destination.State?
         var nameInput: String
         var emailInput: String
@@ -52,7 +52,7 @@ public struct ModifyAccount {
                 state.isLoading = true
                 return .run { [state = state] send in
                     do {
-                        _ = try await apiClient.updateAccount(
+                        _ = try await self.apiClient.updateAccount(
                             name: state.nameInput,
                             email: state.emailInput,
                             phoneNumber: state.phoneNumberInput

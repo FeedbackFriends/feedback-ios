@@ -35,20 +35,30 @@ func fontsURLs() -> [URL] {
 		}.compactMap { $0 }
 }
 
-let fontRegistration = FontRegistration()
+nonisolated(unsafe) let fontRegistration = FontRegistration()
 
 public extension UIFont {
 	static func font(_ name: Font.FontName, _ size: CGFloat) -> UIFont {
-		fontRegistration.registerFontsIfNeeded()
+        _ = _FontRegistrar.once 
 		return UIFont(name: name.rawValue, size: size)!
 	}
 }
 
 public extension View {
 	func font(_ name: Font.FontName, _ size: CGFloat) -> some View {
-		fontRegistration.registerFontsIfNeeded()
+        _ = _FontRegistrar.once
 		return font(.custom(name.rawValue, size: size))
 	}
+}
+
+private enum _FontRegistrar {
+    static let once: Void = {
+        do {
+            try fontsURLs().forEach { try UIFont.register(from: $0) }
+        } catch {
+            assertionFailure("Failed to register fonts: \(error)")
+        }
+    }()
 }
 
 #Preview {

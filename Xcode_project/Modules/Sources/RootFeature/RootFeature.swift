@@ -9,9 +9,9 @@ import Logger
 import Foundation
 
 @Reducer
-public struct RootFeature {
+public struct RootFeature: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case signUp(SignUp)
         @ReducerCaseIgnored

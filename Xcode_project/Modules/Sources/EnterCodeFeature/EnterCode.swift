@@ -5,10 +5,10 @@ import Model
 import SwiftUI
 
 @Reducer
-public struct EnterCode {
+public struct EnterCode: Sendable {
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         public var pinCodeInput: PinCodeInput
         public var startFeedbackPincodeInFlight: Bool
         var enterCodeTextfieldFocused: Bool

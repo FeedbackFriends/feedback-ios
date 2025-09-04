@@ -6,16 +6,16 @@ import ComposableArchitecture
 import SwiftUI
 
 @Reducer
-public struct InitialiseFeedback {
+public struct InitialiseFeedback: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case feedbackFeature(FeedbackFlow)
         case alert(AlertState<Never>)
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @Presents public var destination: Destination.State?
         public init() {}
     }

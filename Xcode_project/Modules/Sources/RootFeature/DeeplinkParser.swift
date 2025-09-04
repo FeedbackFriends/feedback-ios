@@ -3,7 +3,7 @@ import Foundation
 import Model
 import Logger
 
-public enum Deeplink: Equatable {
+public enum Deeplink: Equatable, Sendable {
     case joinEvent(pinCodeInput: PinCodeInput)
     case managerEvent(id: UUID)
 }

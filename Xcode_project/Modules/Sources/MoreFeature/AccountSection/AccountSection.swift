@@ -4,16 +4,16 @@ import Logger
 import SwiftUI
 
 @Reducer
-public struct AccountSection {
+public struct AccountSection: Sendable {
 	
-	@Reducer(state: .equatable)
+	@Reducer(state: .equatable, .sendable)
 	public enum Destination {
 		case modifyAccount(ModifyAccount)
 		case changeUserType(ChangeUserType)
 	}
 	
 	@ObservableState
-	public struct State: Equatable {
+	public struct State: Equatable, Sendable {
 		@Presents public var destination: Destination.State?
 		@Shared var session: Session
 		var accountInfo: AccountInfo {

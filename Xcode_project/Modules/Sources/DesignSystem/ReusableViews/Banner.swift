@@ -1,6 +1,6 @@
 import SwiftUI
 
-public enum BannerState: Equatable {
+public enum BannerState: Equatable, Sendable {
     case offline(String)
     case serverError(String)
 }

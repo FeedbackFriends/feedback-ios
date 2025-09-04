@@ -1,7 +1,7 @@
 import SwiftUI
 import DesignSystem
 
-public struct FilterCollection: Equatable {
+public struct FilterCollection: Equatable, Sendable {
 	var allEnabled: Bool
 	var todayEnabled: Bool
 	var comingUpEnabled: Bool

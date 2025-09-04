@@ -6,9 +6,9 @@ import UIKit
 import Utility
 
 @Reducer
-public struct EventDetailFeature {
+public struct EventDetailFeature: Sendable {
 	
-	@Reducer(state: .equatable)
+	@Reducer(state: .equatable, .sendable)
 	public enum Destination {
 		case deleteConfirmation(DeleteConfirmation)
 		case editEvent(EditEvent)
@@ -24,7 +24,7 @@ public struct EventDetailFeature {
 	}
 	
 	@ObservableState
-	public struct State: Equatable {
+	public struct State: Equatable, Sendable {
 		public var event: ManagerEvent
 		@Presents var destination: Destination.State?
 		var fetchEventDetailInFlight = true
@@ -81,7 +81,7 @@ public struct EventDetailFeature {
 			switch action {
 				
 			case .destination(.presented(.deleteConfirmation(.delegate(.dismissEventDetail)))):
-				return .run { _ in
+                return .run { _ in
 					try await clock.sleep(for: .seconds(2.5))
 					await dismiss()
 				}

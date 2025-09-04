@@ -6,15 +6,15 @@ import Model
 import Logger
 
 @Reducer
-public struct ManagerEvents {
+public struct ManagerEvents: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case eventDetail(EventDetailFeature)
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         
         @Presents public var destination: Destination.State?
         @Shared var session: Session
@@ -66,7 +66,7 @@ public struct ManagerEvents {
             case .destination(.dismiss):
                 if case .eventDetail(let eventDetailState) = state.destination {
                     let eventId = eventDetailState.event.id
-                    return .run { _ in
+                    return .run { [apiClient = apiClient] _ in
                         do {
                             try await apiClient.markEventAsSeen(eventId)
                         } catch {

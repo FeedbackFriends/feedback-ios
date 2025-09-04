@@ -4,10 +4,10 @@ import DesignSystem
 import SwiftUI
 
 @Reducer
-public struct EditEvent {
+public struct EditEvent: Sendable {
    
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         
         var eventInput: EventInput
         var eventId: UUID

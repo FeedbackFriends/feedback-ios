@@ -157,6 +157,7 @@ private extension Bundle {
 }
 
 // MARK: – MailComposer wrapper
+@MainActor
 struct MailComposer: UIViewControllerRepresentable {
     var subject: String
     var body: String
@@ -182,12 +183,14 @@ struct MailComposer: UIViewControllerRepresentable {
     
     func updateUIViewController(_: MFMailComposeViewController, context _: Context) {}
     
-    final class Coordinator: NSObject, MFMailComposeViewControllerDelegate {
+    final class Coordinator: NSObject, @preconcurrency MFMailComposeViewControllerDelegate {
         let onDismiss: () -> Void
         init(onDismiss: @escaping () -> Void) { self.onDismiss = onDismiss }
-        func mailComposeController(_ controller: MFMailComposeViewController,
-                                   didFinishWith result: MFMailComposeResult,
-                                   error: Error?) {
+        @MainActor func mailComposeController(
+            _ controller: MFMailComposeViewController,
+            didFinishWith result: MFMailComposeResult,
+            error: Error?
+        ) {
             controller.dismiss(animated: true, completion: onDismiss)
         }
     }

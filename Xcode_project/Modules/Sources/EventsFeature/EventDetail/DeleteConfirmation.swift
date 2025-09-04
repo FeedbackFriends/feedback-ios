@@ -3,15 +3,15 @@ import SwiftUI
 import ComposableArchitecture
 
 @Reducer
-public struct DeleteConfirmation {
+public struct DeleteConfirmation: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case alert(AlertState<Never>)
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @Presents var destination: Destination.State?
         var eventId: UUID
         var deleteEventInFlight: Bool
@@ -67,9 +67,9 @@ public struct DeleteConfirmation {
                 
             case .deleteButtonTap:
                 state.deleteEventInFlight = true
-                return .run { [eventId = state.eventId] send in
+                return .run { [state] send in
                     do {
-                        try await apiClient.deleteEvent(eventId)
+                        try await apiClient.deleteEvent(state.eventId)
                         await send(.eventDeletedResponse)
                     } catch {
                         await send(.presentError(error))

@@ -4,7 +4,7 @@ import SwiftUI
 import ComposableArchitecture
 
 @Reducer
-public struct FeedbackFlow {
+public struct FeedbackFlow: Sendable {
     
     public init() {}
     
@@ -15,7 +15,7 @@ public struct FeedbackFlow {
         case screenC(ScreenC)
     }
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case alert(AlertState<Never>)
         @ReducerCaseIgnored
@@ -25,7 +25,7 @@ public struct FeedbackFlow {
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         
         @Presents var destination: Destination.State?
         var path: StackState<Path.State>
@@ -93,13 +93,15 @@ public struct FeedbackFlow {
     
     public var body: some Reducer<State, Action> {
         BindingReducer()
-        Reduce { state, action in
+        Reduce {
+            state,
+            action in
             switch action {
                 
             case .ratingPromptDismissed:
                 return .run { _ in
-                    try await self.clock.sleep(for: .seconds(1))
-                    await self.dismiss()
+                    try await clock.sleep(for: .seconds(1))
+                    await dismiss()
                 }
                 
             case .destination:
@@ -117,10 +119,10 @@ public struct FeedbackFlow {
             case .infoButtonTap:
                 state.destination = .showEventInfo
                 return .none
-
+                
             case .cancelButtonTap:
                 return .run { [dismiss] _ in await dismiss() }
-
+                
             case .presentError(let error):
                 state.submitFeedbackInFlight = false
                 state.destination = .alert(.init(error: error))
@@ -130,11 +132,11 @@ public struct FeedbackFlow {
                 state.presentSuccessOverlay = true
                 state.submitFeedbackInFlight = false
                 return .run { send in
-                    try await self.clock.sleep(for: .seconds(2))
+                    try await clock.sleep(for: .seconds(2))
                     if shouldPrompt {
                         await send(.presentRatingPrompt)
                     } else {
-                        await self.dismiss()
+                        await dismiss()
                     }
                 }
                 
@@ -143,7 +145,7 @@ public struct FeedbackFlow {
                 guard !state.commentTextfieldFocused else {
                     state.commentTextfieldFocused = false
                     return .run { send in
-                        try await self.clock.sleep(for: .seconds(0.5))
+                        try await clock.sleep(for: .seconds(0.5))
                         await send(.navigateToPreviousQuestion)
                     }
                 }
@@ -154,7 +156,7 @@ public struct FeedbackFlow {
                 guard !state.commentTextfieldFocused else {
                     state.commentTextfieldFocused = false
                     return .run { send in
-                        try await self.clock.sleep(for: .seconds(0.5))
+                        try await clock.sleep(for: .seconds(0.5))
                         await send(.navigateToNextQuestion)
                     }
                 }
@@ -163,11 +165,16 @@ public struct FeedbackFlow {
             case .submitButtonTap:
                 state.commentTextfieldFocused = false
                 state.submitFeedbackInFlight = true
-                return .run { [state = state] send in
+                return .run {
+                    [
+                        feedback = state.path.map { FeedbackInput($0) },
+                        pinCode = state.pinCode,
+                        apiClient = self.apiClient
+                    ] send in
                     do {
                         let shouldPresentRatingPrompt = try await apiClient.submitFeedback(
-                            feedback: state.path.map { .init($0) },
-                            pinCode: state.pinCode
+                            feedback: feedback,
+                            pinCode: pinCode
                         )
                         await send(.submitFeedbackResponse(shouldPresentRatingPrompt: shouldPresentRatingPrompt))
                     } catch {
@@ -228,7 +235,7 @@ extension FeedbackFlow.State {
     }
 }
 
-extension FeedbackFlow.Path.State: Equatable {}
+extension FeedbackFlow.Path.State: Equatable, Sendable {}
 
 extension FeedbackFlow.Path.State: Identifiable {
     

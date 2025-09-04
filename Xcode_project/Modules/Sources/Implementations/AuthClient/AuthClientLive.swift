@@ -24,7 +24,6 @@ public extension AuthClient {
     
     static var live: Self {
         let stateStream = UserStateStream()
-        let firebaseService = FirebaseService()
         return Self.init(
             signInAnonymously: {
                 guard Auth.auth().currentUser != nil else {
@@ -56,11 +55,11 @@ public extension AuthClient {
                 
             },
             googleLogin: {
-                let credential = try await firebaseService.startGoogleSignInFlow()
+                let credential = try await FirebaseService().startGoogleSignInFlow()
                 try await credential.linkOrSignInWithCredential()
             },
             appleLogin: {
-                let credential = try await firebaseService.startSignInWithAppleFlow()
+                let credential = try await FirebaseService().startSignInWithAppleFlow()
                 try await credential.linkOrSignInWithCredential()
             },
             logout: {

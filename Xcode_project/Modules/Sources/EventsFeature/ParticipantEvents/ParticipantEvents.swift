@@ -3,9 +3,9 @@ import Model
 import SwiftUI
 
 @Reducer
-public struct ParticipantEvents {
+public struct ParticipantEvents: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         @ReducerCaseIgnored
         case info(ParticipantEvent)
@@ -14,7 +14,7 @@ public struct ParticipantEvents {
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @Presents public var destination: Destination.State?
         @Shared var session: Session
         public var startFeedbackPincodeInFlight: PinCode?

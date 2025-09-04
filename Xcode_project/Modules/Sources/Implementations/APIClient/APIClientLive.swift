@@ -7,7 +7,7 @@ import OpenAPI
 public extension APIClient {
     static func live(
         client api: APIProtocol,
-        provideFcmToken: @escaping () async -> String?,
+        provideFcmToken: @escaping @Sendable () async -> String?,
         sessionCache: SessionCache = SessionCache()
     ) -> APIClient {
         return APIClient(

@@ -3,9 +3,9 @@ import Model
 import ComposableArchitecture
 
 @Reducer
-public struct DeleteAccount {
+public struct DeleteAccount: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case alert(AlertState<AlertAction>)
         public enum AlertAction: Equatable {
@@ -16,7 +16,7 @@ public struct DeleteAccount {
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @Presents var destination: Destination.State?
         var deleteAccountInFlight: Bool
         public init(

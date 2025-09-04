@@ -4,15 +4,15 @@ import Model
 import DesignSystem
 
 @Reducer
-public struct SelectUserType {
+public struct SelectUserType: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case alert(AlertState<Never>)
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @Presents var destination: Destination.State?
         var selectedUserType: Role?
         public init() {}
@@ -58,7 +58,7 @@ public struct SelectUserType {
                 
             case .createAccountButtonTap:
                 state.isLoading = true
-                return .run { [role = state.selectedUserType] send in
+                return .run { [role = state.selectedUserType, apiClient = self.apiClient] send in
                     do {
                         _ = try await apiClient.createAccount(role)
                         await send(.delegate(.getSession))

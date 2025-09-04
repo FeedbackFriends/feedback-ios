@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 public func listElementView(
     image: String,
     label: String,

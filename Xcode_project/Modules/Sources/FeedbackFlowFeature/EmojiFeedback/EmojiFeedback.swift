@@ -3,12 +3,12 @@ import Model
 import Foundation
 
 @Reducer
-public struct EmojiFeedback {
+public struct EmojiFeedback: Sendable {
     
     public init() {}
     
     @ObservableState
-    public struct State: Equatable, Identifiable {
+    public struct State: Equatable, Sendable, Identifiable {
         public var id: UUID { questionId }
         var questionId: UUID
         var questionText: String

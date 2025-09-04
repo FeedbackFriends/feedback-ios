@@ -5,15 +5,15 @@ import DesignSystem
 import Logger
 
 @Reducer
-public struct TabbarLifecycle {
+public struct TabbarLifecycle: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case alert(AlertState<Never>)
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @Shared var session: Session
         var bannerState: BannerState?
 		var appLoaded = false

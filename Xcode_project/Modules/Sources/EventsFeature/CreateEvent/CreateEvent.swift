@@ -4,9 +4,9 @@ import DesignSystem
 import Foundation
 
 @Reducer
-public struct CreateEvent {
+public struct CreateEvent: Sendable {
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         var createEventRequestInFlight = false
         var eventInput = EventInput()
         @Presents var alert: AlertState<Never>?
@@ -49,7 +49,7 @@ public struct CreateEvent {
                 
             case .createEventButtonTap:
                 state.createEventRequestInFlight = true
-                return .run {  [state = state] send in
+                return .run { [state = state] send in
                     do {
                         let event = try await apiClient.createEvent(state.eventInput)
                         await send(.createEventResponse(event))

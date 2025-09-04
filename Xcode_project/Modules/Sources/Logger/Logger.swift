@@ -1,10 +1,13 @@
 import Foundation
 
+
 public enum Logger {
-    private static var logClients: [LoggingClient] = []
+    nonisolated(unsafe) private static var logClients: [LoggingClient] = []
     
     public static func setup(logClients: [LoggingClient]) {
-        self.logClients = logClients
+        for client in logClients {
+            Logger.logClients.append(client)
+        }
     }
     
     public static func log(

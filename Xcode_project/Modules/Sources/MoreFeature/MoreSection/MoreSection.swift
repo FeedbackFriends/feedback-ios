@@ -6,10 +6,10 @@ import Logger
 import Utility
 
 @Reducer
-public struct MoreSection {
+public struct MoreSection: Sendable {
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         var privacyPolicyUrl: URL?
         var appStoreReviewUrl: URL?
         public init() {}
@@ -43,7 +43,7 @@ public struct MoreSection {
                 return .none
                 
             case .onNotificationsButtonTap:
-                return .run { _ in
+                return .run { [openURL = self.openURL, systemClient = self.systemClient] _ in
                     guard let settingsURL = URL(string: await systemClient.openAppSettings()) else { return }
                     await openURL(settingsURL)
                 }
@@ -56,7 +56,7 @@ public struct MoreSection {
                     Device info
                     \(DeviceInfo().summary())
                     """
-                return .run { _ in
+                return .run { [openURL = self.openURL, systemClient = self.systemClient] _ in
                     await openURL(systemClient.openEmail(subject: subject, body: body))
                 }
                 
@@ -68,12 +68,12 @@ public struct MoreSection {
                     Device info
                     \(DeviceInfo().summary())
                     """
-                return .run { _ in
+                return .run { [openURL = self.openURL, systemClient = self.systemClient] _ in
                     await openURL(systemClient.openEmail(subject: subject, body: body))
                 }
                 
             case .onSupportUsButtonTap:
-                return .run { _ in
+                return .run { [openURL = self.openURL, webURLClient = self.webURLClient] _ in
                     await openURL(try webURLClient.appStoreReviewUrl())
                 }
                 

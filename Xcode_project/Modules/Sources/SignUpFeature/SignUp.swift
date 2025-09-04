@@ -6,16 +6,16 @@ import Model
 import Logger
 
 @Reducer
-public struct SignUp {
+public struct SignUp: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case alert(AlertState<Never>)
         case selectUserType(SelectUserType)
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @Presents public var destination: Destination.State?
         var googleLoginInFlight: Bool
         var appleLoginInFlight: Bool
@@ -66,7 +66,7 @@ public struct SignUp {
                 
             case .signUpWithAppleButtonTap:
                 state.appleLoginInFlight = true
-                return .run { send in
+                return .run { [authClient = self.authClient] send in
                     do {
                         _ = try await authClient.appleLogin()
                         await send(.signUpSuccess)
@@ -80,7 +80,7 @@ public struct SignUp {
                 
             case .signUpWithGoogleButtonTap:
                 state.googleLoginInFlight = true
-                return .run { send in
+                return .run { [authClient = self.authClient] send in
                     do {
                         _ = try await authClient.googleLogin()
                         await send(.signUpSuccess)

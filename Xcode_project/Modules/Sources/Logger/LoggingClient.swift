@@ -1,4 +1,4 @@
-public protocol LoggingClient {
+public protocol LoggingClient: Sendable {
     func log(
         level: SeverityLevel,
         message: String,

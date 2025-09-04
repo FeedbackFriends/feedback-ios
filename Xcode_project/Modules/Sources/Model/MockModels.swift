@@ -1,7 +1,7 @@
 #if !RELEASE
 import Foundation
 
-private var globalMockUUIDIndex = 0
+nonisolated(unsafe) private var globalMockUUIDIndex = 0
 
 private func nextDeterministicUUID() -> UUID {
 	let uuid = UUID.mockUUID(forIndex: globalMockUUIDIndex)

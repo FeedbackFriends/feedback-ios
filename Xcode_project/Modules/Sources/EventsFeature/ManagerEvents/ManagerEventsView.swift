@@ -77,14 +77,14 @@ extension ManagerEventsView {
             } else {
                 if store.filterCollection.allEnabled {
                     if !todayEvents.isEmpty {
-                        section(title: "Today") {
+                        CustomSection(title: "Today") {
                             ForEach(todayEvents) { event in
                                 managerEventListItem(event)
                             }
                         }
                     }
                     if !comingUpEvents.isEmpty {
-                        section(title: "Coming up") {
+                        CustomSection(title: "Coming up") {
                             ForEach(comingUpEvents) { event in
                                 managerEventListItem(event)
                             }
@@ -92,7 +92,7 @@ extension ManagerEventsView {
                         
                     }
                     if !previousEvents.isEmpty {
-                        section(title: "Previous") {
+                        CustomSection(title: "Previous") {
                             ForEach(previousEvents) { event in
                                 managerEventListItem(event)
                             }
@@ -101,14 +101,14 @@ extension ManagerEventsView {
                     
                 } else {
                     if !todayEvents.isEmpty && store.filterCollection.todayEnabled {
-                        section(title: "Today") {
+                        CustomSection(title: "Today") {
                             ForEach(todayEvents) { event in
                                 managerEventListItem(event)
                             }
                         }
                     }
                     if !comingUpEvents.isEmpty && store.filterCollection.comingUpEnabled {
-                        section(title: "Coming up") {
+                        CustomSection(title: "Coming up") {
                             ForEach(comingUpEvents) { event in
                                 managerEventListItem(event)
                             }
@@ -116,7 +116,7 @@ extension ManagerEventsView {
                         
                     }
                     if !previousEvents.isEmpty && store.filterCollection.previousEnabled {
-                        section(title: "Previous") {
+                        CustomSection(title: "Previous") {
                             ForEach(previousEvents) { event in
                                 managerEventListItem(event)
                             }
@@ -169,10 +169,10 @@ extension ManagerEventsView {
                 .foregroundColor(Color.themeText)
                 .padding(.all, 10)
                 if let feedbackSummary = event.feedbackSummary {
-                    feedbackPercentageBarView(feedback: feedbackSummary.segmentationStats)
+                    FeedbackPercentageBarView(feedback: feedbackSummary.segmentationStats)
                         .frame(height: 10)
                 } else {
-                    emptyFeedbackSegmentationStatsView()
+                    EmptyFeedbackSegmentationStatsView()
                 }
             }
             .background(Color.themeSurface)
@@ -183,19 +183,6 @@ extension ManagerEventsView {
     }
 }
 
-func section<Content: View>(title: String, content: () -> Content) -> some View {
-	Section {
-		content()
-	} header: {
-		Text(title)
-			.font(.montserratSemiBold, 14)
-			.padding(.horizontal, 10)
-			.padding(.vertical, 4)
-			.glassEffect()
-			.clipShape(Capsule())
-			.frame(maxWidth: .infinity, alignment: .leading)
-	}
-}
 
 #Preview("Events") {
 	NavigationStack {

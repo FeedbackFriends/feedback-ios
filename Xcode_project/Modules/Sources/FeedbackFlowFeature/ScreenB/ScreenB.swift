@@ -1,11 +1,11 @@
 import ComposableArchitecture
 
 @Reducer
-public struct ScreenB {
+public struct ScreenB: Sendable {
     
     public init () {}
     @ObservableState
-    public struct State: Equatable {}
+    public struct State: Equatable, Sendable {}
     
     public enum Action {}
     

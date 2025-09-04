@@ -2,31 +2,36 @@ import Model
 import SwiftUI
 import DesignSystem
 
-func feedbackPercentageBarView(feedback: FeedbackSegmentationStats) -> some View {
-    GeometryReader { proxy in
-        let withPercent = proxy.size.width / 100
-        HStack(spacing: 0) {
-            Color.themeVerySad.frame(width: feedback.verySadPercentage * withPercent)
-            Color.themeSad.frame(width: feedback.sadPercentage * withPercent)
-            Color.themeHappy.frame(width: feedback.happyPercentage * withPercent)
-            Color.themeVeryHappy.frame(width: feedback.veryHappyPercentage * withPercent)
+struct FeedbackPercentageBarView: View {
+    let feedback: FeedbackSegmentationStats
+    var body: some View {
+        GeometryReader { proxy in
+            let withPercent = proxy.size.width / 100
+            HStack(spacing: 0) {
+                Color.themeVerySad.frame(width: feedback.verySadPercentage * withPercent)
+                Color.themeSad.frame(width: feedback.sadPercentage * withPercent)
+                Color.themeHappy.frame(width: feedback.happyPercentage * withPercent)
+                Color.themeVeryHappy.frame(width: feedback.veryHappyPercentage * withPercent)
+            }
+            .unredacted()
         }
-        .unredacted()
+        .frame(minHeight: 10)
     }
-    .frame(minHeight: 10)
 }
 
-func emptyFeedbackSegmentationStatsView() -> some View {
-    GeometryReader { proxy in
-        HStack(spacing: 0) {
-            Color.gray.opacity(0.2).frame(width: proxy.size.width)
+struct EmptyFeedbackSegmentationStatsView: View {
+    var body: some View {
+        GeometryReader { proxy in
+            HStack(spacing: 0) {
+                Color.gray.opacity(0.2).frame(width: proxy.size.width)
+            }
+            .unredacted()
         }
-        .unredacted()
-    }
-    .frame(minHeight: 24)
-    .overlay(alignment: .center) {
-        Text("No feedback received")
-            .font(.montserratMedium, 12)
-            .foregroundColor(Color.themeTextSecondary)
+        .frame(minHeight: 24)
+        .overlay(alignment: .center) {
+            Text("No feedback received")
+                .font(.montserratMedium, 12)
+                .foregroundColor(Color.themeTextSecondary)
+        }
     }
 }

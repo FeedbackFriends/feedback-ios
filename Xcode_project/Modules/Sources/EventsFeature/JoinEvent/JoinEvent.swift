@@ -4,15 +4,15 @@ import Model
 import Foundation
 
 @Reducer
-public struct JoinEvent {
+public struct JoinEvent: Sendable {
     
-    @Reducer(state: .equatable)
+    @Reducer(state: .equatable, .sendable)
     public enum Destination {
         case alert(AlertState<Never>)
     }
     
     @ObservableState
-    public struct State: Equatable {
+    public struct State: Equatable, Sendable {
         @Presents var destination: Destination.State?
         var pinCodeInput: PinCodeInput
         var enterCodeKeyboardIsFocused = false

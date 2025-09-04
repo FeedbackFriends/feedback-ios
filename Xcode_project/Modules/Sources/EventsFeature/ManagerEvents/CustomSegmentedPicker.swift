@@ -1,7 +1,7 @@
 import SwiftUI
 import DesignSystem
 
-public enum SegmentedControlMenu {
+public enum SegmentedControlMenu: Equatable, Sendable {
 	case yourEvents
 	case participating
 }
