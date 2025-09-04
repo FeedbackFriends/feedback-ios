@@ -8,14 +8,12 @@ struct FeedbackFlowApp: App {
         WindowGroup {
             FeedbackFlowView(
                 store: StoreOf<FeedbackFlow>(
-                    initialState: FeedbackFlow.State(
-                        feedbackSession: .mock
-                    ),
+                    initialState: FeedbackFlow.State.initialState(feedbackSession: .mock),
                     reducer: {
                         FeedbackFlow()._printChanges()
                     },
                     withDependencies: {
-                        $0.apiClient = .mock()
+                        $0.apiClient = .mock
                     }
                 )
             )

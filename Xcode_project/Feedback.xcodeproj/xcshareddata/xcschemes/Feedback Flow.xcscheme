@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "2892AA342C0F89C600F12E83"
-               BuildableName = "FeedbackFlow.app"
-               BlueprintName = "FeedbackFlow"
+               BuildableName = "Feedback Flow.app"
+               BlueprintName = "Feedback Flow"
                ReferencedContainer = "container:Feedback.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2892AA342C0F89C600F12E83"
-            BuildableName = "FeedbackFlow.app"
-            BlueprintName = "FeedbackFlow"
+            BuildableName = "Feedback Flow.app"
+            BlueprintName = "Feedback Flow"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "2892AA342C0F89C600F12E83"
-            BuildableName = "FeedbackFlow.app"
-            BlueprintName = "FeedbackFlow"
+            BuildableName = "Feedback Flow.app"
+            BlueprintName = "Feedback Flow"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

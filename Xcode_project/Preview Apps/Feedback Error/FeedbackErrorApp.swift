@@ -21,7 +21,11 @@ struct ErrorViewWrapper: View {
             ),
             isLoading: $isLoading,
             tryAgainButtonTapped: {
-                
+                Task { @MainActor in
+                    self.isLoading = true
+                    try await Task.sleep(for: .seconds(1))
+                    self.isLoading = false
+                }
             }
         )
     }
