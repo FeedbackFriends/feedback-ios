@@ -4,8 +4,8 @@ info:
   description: |-
     API documentation for Lets Grow application.
 
-    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/00e4d28)
-  version: 101-00e4d28
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/61b9d58)
+  version: 103-61b9d58
 servers:
 - url: http://api.letsgrow.dk
   description: Generated server url
@@ -662,6 +662,7 @@ components:
           format: date-time
     SendNotificationInput:
       required:
+      - eventId
       - fcmToken
       - newFeedback
       - title
@@ -674,6 +675,9 @@ components:
         newFeedback:
           type: integer
           format: int32
+        eventId:
+          type: string
+          format: uuid
     ModifyAccountInput:
       type: object
       properties:
