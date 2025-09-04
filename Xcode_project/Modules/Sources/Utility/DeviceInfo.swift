@@ -1,6 +1,7 @@
 import Foundation
 import UIKit
 
+@MainActor
 public struct DeviceInfo {
     /// Device properties
     let deviceName: String

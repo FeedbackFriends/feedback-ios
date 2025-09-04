@@ -183,7 +183,7 @@ struct MailComposer: UIViewControllerRepresentable {
     
     func updateUIViewController(_: MFMailComposeViewController, context _: Context) {}
     
-    final class Coordinator: NSObject, @preconcurrency MFMailComposeViewControllerDelegate {
+    final class Coordinator: NSObject, @MainActor MFMailComposeViewControllerDelegate {
         let onDismiss: () -> Void
         init(onDismiss: @escaping () -> Void) { self.onDismiss = onDismiss }
         @MainActor func mailComposeController(

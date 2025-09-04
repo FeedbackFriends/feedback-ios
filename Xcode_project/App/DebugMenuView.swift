@@ -2,8 +2,8 @@
 import ComposableArchitecture
 import SwiftUI
 import Model
-@preconcurrency import FirebaseAuth
-@preconcurrency import FirebaseMessaging
+import FirebaseAuth
+import FirebaseMessaging
 import TabbarFeature
 import DesignSystem
 

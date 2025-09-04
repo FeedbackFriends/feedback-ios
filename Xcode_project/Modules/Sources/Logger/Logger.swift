@@ -1,32 +1,24 @@
 import Foundation
 
-
 public enum Logger {
-    nonisolated(unsafe) private static var logClients: [LoggingClient] = []
+    
+    private static let core = _LoggerCore()
     
     public static func setup(logClients: [LoggingClient]) {
-        for client in logClients {
-            Logger.logClients.append(client)
-        }
+        Task { await core.setup(logClients) }
     }
     
     public static func log(
         _ level: SeverityLevel,
-        _ log: String,
+        _ message: String,
         _ context: CustomStringConvertible? = nil,
         _ file: String = #file,
         _ function: String = #function,
         _ line: Int = #line
     ) {
-        for client in logClients {
-            client.log(
-                level: level,
-                message: log,
-                context: context,
-                file: file,
-                function: function,
-                line: line
-            )
+        let contextString = context.flatMap { String(describing: $0) }
+        Task {
+            await core.log(level, message, contextString, file, function, line)
         }
     }
     
@@ -37,9 +29,26 @@ public enum Logger {
         _ function: String = #function,
         _ line: Int = #line
     ) {
-        for client in logClients {
+        log(.debug, message, context, file, function, line)
+    }
+}
+
+private actor _LoggerCore {
+    private var clients: [LoggingClient] = []
+    
+    func setup(_ clients: [LoggingClient]) { self.clients = clients }
+    
+    func log(
+        _ level: SeverityLevel,
+        _ message: String,
+        _ context: String?,
+        _ file: String,
+        _ function: String,
+        _ line: Int
+    ) {
+        for client in clients {
             client.log(
-                level: .debug,
+                level: level,
                 message: message,
                 context: context,
                 file: file,

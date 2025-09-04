@@ -12,20 +12,6 @@ extension UIFont {
 	}
 }
 
-class FontRegistration {
-	private var didRegisterFonts = false
-	
-	func registerFontsIfNeeded() {
-		guard !didRegisterFonts else { return }
-		didRegisterFonts = true
-		do {
-			try fontsURLs().forEach { try UIFont.register(from: $0) }
-		} catch {
-			fatalError("Failed to register fonts: \(error)")
-		}
-	}
-}
-
 func fontsURLs() -> [URL] {
 	Font.FontName
 		.allCases
@@ -35,11 +21,9 @@ func fontsURLs() -> [URL] {
 		}.compactMap { $0 }
 }
 
-nonisolated(unsafe) let fontRegistration = FontRegistration()
-
 public extension UIFont {
 	static func font(_ name: Font.FontName, _ size: CGFloat) -> UIFont {
-        _ = _FontRegistrar.once 
+        _ = _FontRegistrar.once
 		return UIFont(name: name.rawValue, size: size)!
 	}
 }

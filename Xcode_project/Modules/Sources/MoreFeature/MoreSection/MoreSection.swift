@@ -50,25 +50,27 @@ public struct MoreSection: Sendable {
                 
             case .onFeedbackButtonTap:
                 let subject = "Feedback"
-                let body = """
-                    <Add your message here>
-                    
-                    Device info
-                    \(DeviceInfo().summary())
-                    """
                 return .run { [openURL = self.openURL, systemClient = self.systemClient] _ in
+                    let deviceSummary = await MainActor.run { DeviceInfo().summary() }
+                    let body = """
+                        <Add your message here>
+                        
+                        Device info
+                        \(deviceSummary)
+                        """
                     await openURL(systemClient.openEmail(subject: subject, body: body))
                 }
                 
             case .onReportBugButtonTap:
                 let subject = "Bug"
-                let body = """
-                    <Add your message here>
-                    
-                    Device info
-                    \(DeviceInfo().summary())
-                    """
                 return .run { [openURL = self.openURL, systemClient = self.systemClient] _ in
+                    let deviceSummary = await MainActor.run { DeviceInfo().summary() }
+                    let body = """
+                        <Add your message here>
+                        
+                        Device info
+                        \(deviceSummary)
+                        """
                     await openURL(systemClient.openEmail(subject: subject, body: body))
                 }
                 
