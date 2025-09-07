@@ -108,8 +108,13 @@ extension ParticipantEventsView {
                         VStack(alignment: .leading, spacing: 6) {
                             Text("\(event.date.formatted(date: .abbreviated, time: .omitted))")
                                 .font(.montserratRegular, 10)
-                            Text("#\(event.pinCode.value)")
-                                .font(.montserratSemiBold, 10)
+                            if let pinCode = event.pinCode {
+                                Text("#\(pinCode)")
+                                    .font(.montserratSemiBold, 10)
+                            } else {
+                                Text("Udløbet")
+                                    .font(.montserratSemiBold, 10)
+                            }
                         }
                         Spacer()
                     }
@@ -122,14 +127,19 @@ extension ParticipantEventsView {
                             .frame(maxWidth: .infinity, minHeight: 40)
                             .foregroundStyle(Color.themeText.gradient.opacity(0.5))
                     } else {
-                        let startFeedbackPincodeInFlight = store.startFeedbackPincodeInFlight == event.pinCode
-                        Button("Start") {
-                            store.send(.startFeedbackButtonTap(pinCode: event.pinCode))
+                        if let pinCode = event.pinCode {
+                            let startFeedbackPincodeInFlight = store.startFeedbackPincodeInFlight == event.pinCode
+                            Button("Start") {
+                                store.send(.startFeedbackButtonTap(pinCode: pinCode))
+                            }
+                            .disabled(startFeedbackPincodeInFlight)
+                            .buttonStyle(PrimaryTextButtonStyle())
+                            .isLoading(startFeedbackPincodeInFlight)
+                            .frame(maxWidth: .infinity, minHeight: 40)
+                        } else {
+                            Text("Udløbet")
+                                .font(.montserratSemiBold, 14)
                         }
-                        .disabled(startFeedbackPincodeInFlight)
-                        .buttonStyle(PrimaryTextButtonStyle())
-                        .isLoading(startFeedbackPincodeInFlight)
-                        .frame(maxWidth: .infinity, minHeight: 40)
                     }
                 }
                 

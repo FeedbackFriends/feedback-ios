@@ -4,8 +4,8 @@ info:
   description: |-
     API documentation for Lets Grow application.
 
-    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/61b9d58)
-  version: 103-61b9d58
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/9222087)
+  version: 105-9222087
 servers:
 - url: http://api.letsgrow.dk
   description: Generated server url
@@ -763,7 +763,6 @@ components:
       - feedbackSubmited
       - id
       - ownerInfo
-      - pinCode
       - questions
       - recentlyJoined
       - title

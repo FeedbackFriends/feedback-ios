@@ -141,7 +141,7 @@ public struct ParticipantEvent: Equatable, Identifiable, Sendable {
     public let title: String
     public let agenda: String?
     public let date: Date
-    public let pinCode: PinCode
+    public let pinCode: PinCode?
     public let location: String?
     public let durationInMinutes: Int
     public let questions: [ParticipantQuestion]
@@ -154,7 +154,7 @@ public struct ParticipantEvent: Equatable, Identifiable, Sendable {
         title: String,
         agenda: String?,
         date: Date,
-        pinCode: PinCode,
+        pinCode: PinCode?,
         location: String?,
         durationInMinutes: Int,
         questions: [ParticipantQuestion],
