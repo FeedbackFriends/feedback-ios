@@ -33,8 +33,25 @@ public enum InfoPlistConfig {
 }
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
+    
+    let apiClient: APIClient = .live(
+        client: Client(
+            serverURL: InfoPlistConfig.apiBaseUrl,
+            configuration: Configuration(),
+            transport: URLSessionTransport(),
+            middlewares: [
+                AuthorisationMiddleware(),
+                DelayMiddleware(),
+                DeviceIdHeaderMiddleware(deviceId: DeviceInfo().deviceID())
+            ]
+        ),
+        provideFcmToken: {
+            try? await Messaging.messaging().token()
+        }
+    )
+    let notificationClient: NotificationClient = .live
 	
-	let intialStore = Store(
+	lazy var intialStore = Store(
 		initialState: RootFeature.State()
 	) {
 		RootFeature()._printChanges()
@@ -44,23 +61,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 			appStoreId: InfoPlistConfig.appStoreId
 		)
 		$0.systemClient = .live(supportEmail: InfoPlistConfig.supportEmail)
-		$0.notificationClient = .live
+        $0.notificationClient = self.notificationClient
 		$0.authClient = .live
-		$0.apiClient = .live(
-			client: Client(
-				serverURL: InfoPlistConfig.apiBaseUrl,
-				configuration: Configuration(),
-				transport: URLSessionTransport(),
-				middlewares: [
-					AuthorisationMiddleware(),
-					DelayMiddleware(),
-					DeviceIdHeaderMiddleware(deviceId: DeviceInfo().deviceID())
-				]
-			),
-			provideFcmToken: {
-				try? await Messaging.messaging().token()
-			}
-		)
+        $0.apiClient = self.apiClient
 	}
 	
 	/// On app launch

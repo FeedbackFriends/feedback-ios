@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		281A892A2E69AAA30002D56C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */; };
-		281A89302E69B6B80002D56C /* Entitlements.entitlements in Resources */ = {isa = PBXBuildFile; fileRef = 7A9E6BB32DC51EB7005F4828 /* Entitlements.entitlements */; };
 		281A893D2E69B7890002D56C /* FeedbackErrorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89392E69B7890002D56C /* FeedbackErrorApp.swift */; };
 		281A89402E69B7950002D56C /* FeedbackMockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A893E2E69B7950002D56C /* FeedbackMockApp.swift */; };
 		281A89432E69B7970002D56C /* FeedbackFlowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89412E69B7970002D56C /* FeedbackFlowApp.swift */; };
@@ -468,7 +467,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				281A89302E69B6B80002D56C /* Entitlements.entitlements in Resources */,
 				281A892A2E69AAA30002D56C /* GoogleService-Info.plist in Resources */,
 				28D888512E67897800F0B6BE /* AppIcon.icon in Resources */,
 				28D888442E6788FF00F0B6BE /* Launch Screen.storyboard in Resources */,

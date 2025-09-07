@@ -13,8 +13,8 @@ Available on the App Store soon!
 ---
 
 ## 🔧 Requirements
-- Swift 5.8
-- Xcode 18+
+- Swift 6.2
+- Xcode 26+
 - iOS 26
 - SwiftLint (`brew install swiftlint`)
 
