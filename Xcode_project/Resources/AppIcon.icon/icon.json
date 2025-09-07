@@ -13,17 +13,17 @@
           "hidden" : false,
           "image-name-specializations" : [
             {
-              "value" : "icon_darkmode.png"
+              "value" : "Group 116@2x 4.png"
             },
             {
               "appearance" : "light",
-              "value" : "icon_lightmode.png"
+              "value" : "Group 116@2x 3.png"
             }
           ],
           "name" : "icon_lightmode",
           "opacity" : 1,
           "position" : {
-            "scale" : 0.35,
+            "scale" : 0.84,
             "translation-in-points" : [
               0,
               0
