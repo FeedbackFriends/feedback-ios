@@ -20,6 +20,9 @@ public struct SignUpView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 160, height: 160)
+                    .onTapGesture(count: 10) {
+                        store.send(.iconTenTimesTap)
+                    }
                 Spacer()
                 signUpView
             }

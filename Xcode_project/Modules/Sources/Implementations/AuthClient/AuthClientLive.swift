@@ -81,6 +81,10 @@ public extension AuthClient {
                 }
                 
                 return stream
+            },
+            signInWithCustomToken: { customToken in
+                try await Auth.auth().signIn(withCustomToken: customToken)
+                _ = try await Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true)
             }
         )
     }

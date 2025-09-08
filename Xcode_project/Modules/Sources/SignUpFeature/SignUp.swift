@@ -38,6 +38,7 @@ public struct SignUp: Sendable {
         case presentError(Error)
         case loginCancelled
         case signUpSuccess
+        case iconTenTimesTap
     }
     
     public init() {}
@@ -51,6 +52,16 @@ public struct SignUp: Sendable {
         Reduce { state, action in
             
             switch action {
+                
+            case .iconTenTimesTap:
+                return .run { send in
+                    do {
+                        let mockToken = try await apiClient.getMockToken()
+                        try await authClient.signInWithCustomToken(mockToken)
+                    } catch {
+                        Logger.debug(error.localizedDescription)
+                    }
+                }
                 
             case .presentError(let error):
                 state.appleLoginInFlight = false

@@ -43,6 +43,10 @@ public struct DeviceInfo {
         self.appVersion
     }
     
+    public func build() -> String {
+        self.appBuild
+    }
+    
     public func bundleIdentifier() -> String {
         self.internalBundleIdentifier
     }

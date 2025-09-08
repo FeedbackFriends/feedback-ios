@@ -265,7 +265,7 @@ private extension TabbarView {
 				)
 			)
         } footer: {
-            Text("\(DeviceInfo().version())")
+            Text("\(DeviceInfo().version())(\(DeviceInfo().build()))")
                 .frame(maxWidth: .infinity)
                 .multilineTextAlignment(.center)
                 .font(.montserratThin, 12)

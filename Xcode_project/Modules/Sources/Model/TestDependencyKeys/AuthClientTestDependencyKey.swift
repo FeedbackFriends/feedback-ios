@@ -32,7 +32,8 @@ extension AuthClient: TestDependencyKey {
             },
             userStateChanged: {
                 await mockAuthEngine.stream()
-            }
+            },
+            signInWithCustomToken: { _ in }
         )
     }
 }
