@@ -109,7 +109,7 @@ extension ParticipantEventsView {
                             Text("\(event.date.formatted(date: .abbreviated, time: .omitted))")
                                 .font(.montserratRegular, 10)
                             if let pinCode = event.pinCode {
-                                Text("#\(pinCode)")
+                                Text("#\(pinCode.value)")
                                     .font(.montserratSemiBold, 10)
                             } else {
                                 Text("Udløbet")
