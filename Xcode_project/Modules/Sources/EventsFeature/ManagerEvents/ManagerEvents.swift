@@ -64,15 +64,16 @@ public struct ManagerEvents: Sendable {
                 return .none
                 
             case .destination(.dismiss):
-                if case .eventDetail(let eventDetailState) = state.destination {
-                    let eventId = eventDetailState.event.id
-                    return .run { [apiClient = apiClient] _ in
+                if case .eventDetail(let eventDetailState) = state.destination,
+                   let eventSummary = eventDetailState.event.feedbackSummary, eventSummary.unseenCount > 0 {
+                    return .run { _ in
                         do {
-                            try await apiClient.markEventAsSeen(eventId)
+                            try await self.apiClient.markEventAsSeen(eventDetailState.event.id)
                         } catch {
                             Logger.debug("Mark event as seen failed: \(error.localizedDescription)")
                         }
                     }
+                    
                 }
                 return .none
                 

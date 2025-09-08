@@ -110,7 +110,7 @@ extension NotificationClient {
 extension WebURLClient {
     static let mock = Self.init(
         inviteUrl: { pinCode in
-            URL(string: "https://letsgrow.dk/invite/\(pinCode)")!
+            URL(string: "https://letsgrow.dk/invite/\(pinCode.value)")!
         },
         privacyPolicyUrl: {
             URL(string: "https://letsgrow.dk/privacy-policy")!

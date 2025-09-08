@@ -1,20 +1,18 @@
-# 'Lets Grow: Feedback' iOS app 💥
+# Lets Grow: Feedback iOS app
 
-[![OpenAPI](https://img.shields.io/badge/OpenAPI-3.0.0-green.svg)](https://github.com/FeedbackFriends/feedback-openapi/blob/main/openapi.yaml)
-[![Kotlin](https://img.shields.io/badge/Kotlin-1.9.0-blue.svg)](https://kotlinlang.org)
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
+![Swift 6.2](https://img.shields.io/badge/Swift-6.2-FA7343?logo=swift&logoColor=white&style=for-the-badge)
+![iOS 26](https://img.shields.io/badge/iOS-26-000000?logo=apple&logoColor=white&style=for-the-badge)
 
-This repo contains the codebase for the 'Lets Grow: Feedback' iOS app, a A modern, beautiful iOS app built with SwiftUI, Composble Architecture and the latest iOS 26 SDK features.
+This repo contains the codebase for the Lets Grow: Feedback iOS app which is currently available on the App Store. A Open source project built with Composble Architecture (TCA) and iOS 26 liguid glass.
 
-. An app that enables you whether you're leading meetings or improving personal skills to get the feedback you need.
 
-Available on the App Store soon!
+Available on the App Store 
 
 ---
 
 ## 🔧 Requirements
 - Swift 6.2
-- Xcode 26+
+- Xcode 26
 - iOS 26
 - SwiftLint (`brew install swiftlint`)
 

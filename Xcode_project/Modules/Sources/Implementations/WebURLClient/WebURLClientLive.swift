@@ -1,12 +1,16 @@
 import Foundation
 import UIKit
 import Model
+import Logger
 
 public extension WebURLClient {
     static func live(webBaseUrl: URL, appStoreId: String) -> WebURLClient {
         return .init(
             inviteUrl: { pinCode in
-                webBaseUrl.appendingPathComponent("invite").appendingPathComponent(pinCode.value)
+                Logger.debug("Making invite URL for pinCode: \(pinCode.value)")
+                return webBaseUrl
+                    .appendingPathComponent("invite")
+                    .appendingPathComponent(pinCode.value)
             },
             privacyPolicyUrl: {
                 webBaseUrl.appendingPathComponent("privacy-policy/")
