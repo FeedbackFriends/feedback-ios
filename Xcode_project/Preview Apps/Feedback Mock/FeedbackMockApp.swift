@@ -59,7 +59,8 @@ extension AuthClient {
             },
             userStateChanged: {
                 await mockAuthEngine.stream()
-            }
+            },
+            signInWithCustomToken: { _ in }
         )
     }
 }
