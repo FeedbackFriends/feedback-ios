@@ -60,6 +60,7 @@ public struct EmojiFeedbackView: View {
 						.opacity(store.selectedEmoji == .veryHappy ? 1.0 : 0.6)
                 }
             }
+            .frame(maxWidth: 400, alignment: .center)
             if store.selectedEmoji != nil {
                 VStack(alignment: .leading) {
                     Text("Please elaborate why")

@@ -31,8 +31,8 @@ private extension EnterCodeView {
                             .padding(.top, 40)
 							.foregroundStyle(Color.themeTextSecondary)
                         Text("Feedback")
-                            .font(.montserratBlack, 50)
-							.foregroundStyle(Color.themeTextSecondary)
+                            .font(.montserratBlack, 47)
+							.foregroundStyle(Color.themeText)
                             .padding(.top, 4)
                         Text("Enter PIN Code")
                             .font(.montserratBold, 20)
@@ -44,9 +44,13 @@ private extension EnterCodeView {
                             .clipShape(Capsule(style: .continuous))
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.center)
-                            .submitLabel(.next)
+                            .submitLabel(.go)
                             .focused($enterCodeTextfieldFocused)
                             .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
+                            .frame(maxWidth: 400)
+                            .onSubmit {
+                                store.send(.onSubmit)
+                            }
                         Button("Start feedback") {
                             store.send(.startFeedbackButtonTap)
                         }
