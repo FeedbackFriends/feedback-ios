@@ -34,7 +34,6 @@ public struct EnterCode: Sendable {
         case startFeedbackButtonTap
         case delegate(Delegate)
         case backgroundTap
-        case onSubmit
         public enum Delegate: Equatable {
             case startFeedback(pinCode: PinCode)
         }
@@ -52,12 +51,6 @@ public struct EnterCode: Sendable {
              
             case .binding:
                 return .none
-                
-            case .onSubmit:
-                guard let pinCode = state.pinCodeInput.pinCode() else { return .none }
-                state.enterCodeTextfieldFocused = false
-                state.startFeedbackPincodeInFlight = true
-                return .send(.delegate(.startFeedback(pinCode: pinCode)))
                 
             case .startFeedbackButtonTap:
                 guard let pinCode = state.pinCodeInput.pinCode() else { return .none }
