@@ -36,8 +36,9 @@ public struct ActivityView: View {
                                     dismiss()
                                 } label: {
                                     VStack(alignment: .leading) {
-                                        Text("Feedback on \(item.eventTitle)")
+                                        Text("\(item.eventTitle)")
                                             .font(.montserratSemiBold, 14)
+                                            .foregroundStyle(Color.themeText)
                                         Text("You have received \(item.newFeedbackCount) new feedback on ‘\(item.eventTitle)’.")
                                             .font(.montserratRegular, 12)
                                         HStack {

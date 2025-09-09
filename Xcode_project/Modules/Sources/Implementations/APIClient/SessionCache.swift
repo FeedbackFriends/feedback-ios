@@ -1,5 +1,6 @@
 import Foundation
 import Model
+import Logger
 
 public actor SessionCache {
     private var session: Session? {
@@ -103,7 +104,7 @@ public extension Session {
         return self.managerData!.recentlyUsedQuestions
     }
     
-    mutating func markEventAsSeen(eventId: UUID) { 
+    mutating func markEventAsSeen(eventId: UUID) {
         guard var event = self.managerData?.managerEvents[id: eventId] else { return }
         event.feedbackSummary?.unseenCount = 0
         event.questions = event.questions.map { question in
@@ -118,9 +119,11 @@ public extension Session {
             
             return updatedQuestion
         }
-        self.managerData?.managerEvents[id: eventId] = event
         
-        var mutableActivity = self.managerData!.activity
+        self.managerData?.managerEvents[id: eventId] = event
+        guard let activity = self.managerData?.activity, activity.unseenTotal > 0 else { return }
+        Logger.debug("**** Unseen er over 0, så ør fjerne")
+        var mutableActivity = activity
         mutableActivity.unseenTotal -= 1
         for index in mutableActivity.items.indices {
             mutableActivity.items[index].seenByManager = true
