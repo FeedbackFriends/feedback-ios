@@ -22,5 +22,9 @@ public struct ApiError: Error, Sendable {
 }
 
 public enum DomainCode: Sendable {
-    case feedbackAlreadySubmitted, eventAlreadyJoined
+    case feedbackAlreadySubmitted
+    case eventAlreadyJoined
+    case cannotJoinOwnEvent
+    case cannotGiveFeedbackToSelf
+    case pincodeNotFound
 }

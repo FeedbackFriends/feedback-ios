@@ -4,17 +4,23 @@ import Logger
 public extension Error {
 	
 	var localized: PresentableError {
-		var title: String = "Something Went Wrong"
-		var message: String = "An unexpected issue occurred."
+		var title: String = "Error 💩"
+		var message: String = "An unexpected issue occurred. Try again."
 		if let apiError = self as? ApiError, let domainError = apiError.domainCode {
 			switch domainError {
 			case .feedbackAlreadySubmitted:
-				title = "Error"
 				message = "Feedback already submitted for this event."
 			case .eventAlreadyJoined:
-				title = "Error"
 				message = "You already joined this event."
-			}
+            case .pincodeNotFound:
+                message = "The provided pin code does not match any active event."
+            case .eventAlreadyJoined:
+                message = "You already joined this event."
+            case .cannotJoinOwnEvent:
+                message = "You cannot join your own event."
+            case .cannotGiveFeedbackToSelf:
+                message = "You cannot give feedback to yourself."
+            }
 		}
 		if let urlError = self as? URLError {
 			message = urlError.localizedDescription

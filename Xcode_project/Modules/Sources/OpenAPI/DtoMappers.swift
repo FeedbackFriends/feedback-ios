@@ -271,10 +271,13 @@ public extension DomainCode {
             self = .eventAlreadyJoined
             
         case .cannotJoinOwnEvent:
-            fatalError()
+            self = .cannotJoinOwnEvent
             
         case .cannotGiveFeedbackToSelf:
-            fatalError()
+            self = .cannotGiveFeedbackToSelf
+            
+        case .pincodeNotFound:
+            self = .pincodeNotFound
         }
     }
 }
