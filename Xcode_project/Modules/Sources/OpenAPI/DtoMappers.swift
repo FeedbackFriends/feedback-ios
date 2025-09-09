@@ -121,7 +121,7 @@ public extension ManagerEvent {
             title: event.title,
             agenda: event.agenda,
             date: event.date,
-            pinCode: PinCode(value: event.pinCode ?? "Expired"),
+            pinCode: event.pinCode.flatMap { PinCode(value: $0) },
             durationInMinutes: Int(event.durationInMinutes),
             location: event.location,
             ownerInfo: .init(

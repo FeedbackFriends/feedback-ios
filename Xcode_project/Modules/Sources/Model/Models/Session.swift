@@ -288,7 +288,7 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
     public var title: String
     public var agenda: String?
     public var date: Date
-    public let pinCode: PinCode
+    public let pinCode: PinCode?
     public var durationInMinutes: Int
     public var location: String?
     public let ownerInfo: OwnerInfo
@@ -312,7 +312,7 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
         title: String,
         agenda: String? = nil,
         date: Date,
-        pinCode: PinCode,
+        pinCode: PinCode?,
         durationInMinutes: Int,
         location: String? = nil,
         ownerInfo: OwnerInfo,

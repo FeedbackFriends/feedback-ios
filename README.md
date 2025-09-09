@@ -1,7 +1,7 @@
 # Lets Grow: Feedback iOS app
 
-![Swift 6.2](https://img.shields.io/badge/Swift-6.2-FA7343?logo=swift&logoColor=white&style=for-the-badge)
-![iOS 26](https://img.shields.io/badge/iOS-26-000000?logo=apple&logoColor=white&style=for-the-badge)
+![Swift 6.2](https://img.shields.io/badge/Swift-6.2-FA7343?logo=swift&logoColor=white&style=plastic)
+![iOS 26](https://img.shields.io/badge/iOS-26-000000?logo=apple&logoColor=white&style=plastic)
 
 This repo contains the codebase for the Lets Grow: Feedback iOS app which is currently available on the App Store. A Open source project built with Composble Architecture (TCA) and iOS 26 liguid glass.
 

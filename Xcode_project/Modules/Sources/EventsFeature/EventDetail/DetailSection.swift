@@ -66,37 +66,56 @@ private extension DetailSectionView {
         }
     }
     
+    @ViewBuilder
     var eventPinSectionView: some View {
-        VStack(alignment: .leading) {
-            Text("PIN CODE")
-                .sectionHeaderStyle()
-                .padding(.leading, 18)
-            VStack(alignment: .trailing, spacing: 12) {
-                Text("\(event.pinCode.value.description)")
-                    .frame(maxWidth: .infinity)
-                    .font(.montserratMedium, 30)
-                    .kerning(10)
-                    .padding(.vertical, 12)
-                    .overlay(
-                        alignment: .trailing,
-                        content: {
-                            ShareLink(item: event.pinCode.value) {
-                                HStack {
-                                    Image(systemName: "document.on.document")
-                                        .font(.system(size: 16, weight: .regular))
+            VStack(alignment: .leading) {
+                Text("PIN CODE")
+                    .sectionHeaderStyle()
+                    .padding(.leading, 18)
+                VStack(alignment: .trailing, spacing: 12) {
+                    if let pinCode = event.pinCode?.value {
+                    Text("\(pinCode)")
+                        .frame(maxWidth: .infinity)
+                        .font(.montserratMedium, 30)
+                        .kerning(10)
+                        .padding(.vertical, 12)
+                        .overlay(
+                            alignment: .trailing,
+                            content: {
+                                ShareLink(item: pinCode) {
+                                    HStack {
+                                        Image(systemName: "document.on.document")
+                                            .font(.system(size: 16, weight: .regular))
+                                    }
+                                    .padding(.trailing, 12)
                                 }
-                                .padding(.trailing, 12)
+                                .buttonStyle(PrimaryTextButtonStyle())
+                                .frame(maxHeight: .infinity)
                             }
-                            .buttonStyle(PrimaryTextButtonStyle())
-                            .frame(maxHeight: .infinity)
+                        )
+                        .background(Color.themeSurface)
+                        .cornerRadius(14)
+                    } else {
+                        HStack(spacing: 6) {
+                            Image(systemName: "clock.badge.xmark") // or "xmark.seal"
+                                .foregroundColor(.red) // makes the "expired" status obvious
+                                .font(.system(size: 14, weight: .semibold))
+
+                            Text("Expired")
+                                .font(.montserratRegular, 12)
+                                .foregroundColor(.red)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                         }
-                    )
-					.background(Color.themeSurface)
-                    .cornerRadius(14)
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 16)
+                        .background(Color.themeSurface)
+                        .cornerRadius(14)
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .font(.montserratRegular, 14)
             }
-            .frame(maxWidth: .infinity)
-            .font(.montserratRegular, 14)
-        }
     }
     
     @ViewBuilder
@@ -218,7 +237,7 @@ struct QuestionView: View {
 				title: "Title",
 				agenda: "Agenda",
 				date: Date(),
-				pinCode: PinCode(value: "1234"),
+				pinCode: nil,
 				durationInMinutes: 60,
 				location: "Hellerup",
 				ownerInfo: .init(

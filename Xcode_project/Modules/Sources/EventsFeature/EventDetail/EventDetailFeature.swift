@@ -35,7 +35,7 @@ public struct EventDetailFeature: Sendable {
 		var shareText: String {
 		"""
 		You’re invited to \(event.title)!   
-		Use pin code \(event.pinCode.value) to join.
+		Use pin code \(event.pinCode?.value ?? "") to join.
 		
 		👇🏼 Tap the link to join:  
 		\(inviteLink)
@@ -114,38 +114,42 @@ public struct EventDetailFeature: Sendable {
 				
 			case .destination:
 				return .none
-				
-			case .moreButtonTapped:
-				state.destination = .confirmationDialog(
-					ConfirmationDialogState<Destination.ConfirmationDialog>.init(
-						titleVisibility: .hidden,
-						title: { TextState("") },
-						actions: {
-							if state.event.feedbackSummary == nil {
-								ButtonState(action: .send(.edit)) {
-									TextState("Edit ✏️")
-								}
-							}
-							ButtonState(action: .send(.invite)) {
-								TextState("Invite 👥")
-							}
-							ButtonState(role: .destructive, action: .send(.delete)) {
-								TextState("Delete 🗑️")
-							}
-							ButtonState(role: .cancel) {
-								TextState("Cancel")
-							}
-						}
-					)
-				)
-				return .none
+                
+            case .moreButtonTapped:
+                state.destination = .confirmationDialog(
+                    ConfirmationDialogState<Destination.ConfirmationDialog>.init(
+                        titleVisibility: .hidden,
+                        title: { TextState("") },
+                        actions: {
+                            if state.event.feedbackSummary == nil && state.event.pinCode != nil {
+                                ButtonState(action: .send(.edit)) {
+                                    TextState("Edit ✏️")
+                                }
+                            }
+                            if state.event.pinCode != nil {
+                                ButtonState(action: .send(.invite)) {
+                                    TextState("Invite 👥")
+                                }
+                            }
+                            ButtonState(role: .destructive, action: .send(.delete)) {
+                                TextState("Delete 🗑️")
+                            }
+                            ButtonState(role: .cancel) {
+                                TextState("Cancel")
+                            }
+                        }
+                    )
+                )
+                return .none
 				
 			case .onTask:
-				do {
-					state.inviteLink = try self.webURLClient.inviteUrl(pinCode: state.event.pinCode).absoluteString
-				} catch {
-					fatalError("Failed to generate invite URL: \(error)")
-				}
+                if let pinCode = state.event.pinCode {
+                    do {
+                        state.inviteLink = try self.webURLClient.inviteUrl(pinCode: pinCode).absoluteString
+                    } catch {
+                        fatalError("Failed to generate invite URL: \(error)")
+                    }
+                }
 				return .publisher {
 					state.$session.publisher
 						.map(Action.sessionUpdated)

@@ -41,7 +41,7 @@ public struct EventDetailFeatureView: View {
         ) { state in
             state.withState { event in
                 InviteView(
-                    code: event.pinCode.value,
+                    code: event.pinCode?.value ?? "",
                     inviteLink: store.inviteLink,
                     shareText: store.shareText
                 ).presentationDetents([.height(350)])
