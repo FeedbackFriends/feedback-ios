@@ -147,7 +147,7 @@ struct APIClientLiveTests {
                                             title: input.path.eventId,
                                             agenda: body.agenda,
                                             date: body.date,
-                                            pinCode: originalEvent.pinCode.value,
+                                            pinCode: originalEvent.pinCode!.value,
                                             durationInMinutes: body.durationInMinutes,
                                             location: body.location,
                                             ownerInfo: .init(
