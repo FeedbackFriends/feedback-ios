@@ -32,7 +32,7 @@ private extension EnterCodeView {
 							.foregroundStyle(Color.themeTextSecondary)
                         Text("Feedback")
                             .font(.montserratBlack, 47)
-							.foregroundStyle(Color.themeTextSecondary)
+							.foregroundStyle(Color.themeText)
                             .padding(.top, 4)
                         Text("Enter PIN Code")
                             .font(.montserratBold, 20)

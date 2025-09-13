@@ -24,8 +24,9 @@ public struct FeedbackFlowView: View {
 	}
 	
 	public var body: some View {
-		VStack {
+        VStack(spacing: 0) {
 			topBar
+                .background(Color(#colorLiteral(red: 0.910368835, green: 0.9551844175, blue: 1, alpha: 1)))
 			NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
 				ProgressView()
 			} destination: { store in
@@ -40,10 +41,11 @@ public struct FeedbackFlowView: View {
 					}
 				}
 				.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-				.background(Color.themeBackground)
+                .background(GradientBackground())
 				.navigationBarHidden(true)
 			}
 			bottomBar
+                .background(Color(#colorLiteral(red: 0.9568627477, green: 0.8241092293, blue: 0.8263217879, alpha: 1)))
 		}
 		.synchronize($store.commentTextfieldFocused, self.$commentTextfieldFocused)
 		.sheet(
@@ -181,4 +183,19 @@ public struct FeedbackFlowView: View {
 			FeedbackFlow()
 		}
 	)
+}
+
+struct GradientBackground: View {
+    var body: some View {
+        LinearGradient(
+            gradient: Gradient(stops: [
+                .init(color: Color(#colorLiteral(red: 0.910368835, green: 0.9551844175, blue: 1, alpha: 1)), location: 0.0), // light blue
+                .init(color: Color.themeBackground, location: 0.5),
+                .init(color: Color(#colorLiteral(red: 0.9568627477, green: 0.8241092293, blue: 0.8263217879, alpha: 1)), location: 1.0)  // light pink
+            ]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+        .ignoresSafeArea()
+    }
 }

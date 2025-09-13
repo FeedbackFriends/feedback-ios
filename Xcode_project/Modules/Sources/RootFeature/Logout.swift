@@ -39,6 +39,7 @@ public struct Logout: Sendable {
                 
             case .logoutButtonTap:
                 state.logoutInFlight = true
+                state.destination = nil
                 return .run { send in
                     do {
                         try await apiClient.logout()

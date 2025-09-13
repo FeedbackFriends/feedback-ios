@@ -79,6 +79,7 @@ public struct EmojiFeedbackView: View {
                 .transition(.blurReplace)
             }
         }
+        .background(Color.clear)
         .padding(.horizontal, 20)
         .padding(.top, 20)
         .animation(.easeInOut(duration: 0.2), value: store.selectedEmoji)
