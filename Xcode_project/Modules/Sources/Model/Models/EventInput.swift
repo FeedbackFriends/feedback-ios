@@ -9,8 +9,8 @@ public struct EventInput: Equatable, Sendable {
     public var location: String?
     public var questions: [QuestionInput]
     
-    public struct QuestionInput: Equatable, Hashable, Sendable {
-        
+    public struct QuestionInput: Equatable, Hashable, Sendable, Identifiable {
+        public var id: UUID { UUID() }
         public var questionText: String
         public var feedbackType: FeedbackType
         

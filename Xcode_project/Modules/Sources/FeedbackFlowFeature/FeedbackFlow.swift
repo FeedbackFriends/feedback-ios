@@ -2,6 +2,7 @@ import Model
 import DesignSystem
 import SwiftUI
 import ComposableArchitecture
+import Utility
 
 @Reducer
 public struct FeedbackFlow: Sendable {
@@ -132,7 +133,7 @@ public struct FeedbackFlow: Sendable {
                 state.presentSuccessOverlay = true
                 state.submitFeedbackInFlight = false
                 return .run { send in
-                    try await clock.sleep(for: .seconds(2))
+                    try await clock.sleep(for: Constants.successOverlayDuration)
                     if shouldPrompt {
                         await send(.presentRatingPrompt)
                     } else {

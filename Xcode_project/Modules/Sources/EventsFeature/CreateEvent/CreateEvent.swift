@@ -2,6 +2,7 @@ import ComposableArchitecture
 import Model
 import DesignSystem
 import Foundation
+import Utility
 
 @Reducer
 public struct CreateEvent: Sendable {
@@ -24,7 +25,6 @@ public struct CreateEvent: Sendable {
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
         case createEventButtonTap
-        case cancelButtonTap
         case alert(PresentationAction<Never>)
         case createEventResponse(ManagerEvent)
         case presentError(Error)
@@ -58,11 +58,6 @@ public struct CreateEvent: Sendable {
                     }
                 }
                 
-            case .cancelButtonTap:
-                return .run { _ in
-                    await dismiss()
-                }
-                
             case .alert:
                 return .none
                 
@@ -73,7 +68,7 @@ public struct CreateEvent: Sendable {
                 state.createEventRequestInFlight = false
                 state.showSuccessOverlay = true
                 return .run { send in
-                    try await clock.sleep(for: .seconds(2))
+                    try await clock.sleep(for: Constants.successOverlayDuration)
                     await send(.delegate(.dismissAndNavigateToDetail(event)))
                 }
                 

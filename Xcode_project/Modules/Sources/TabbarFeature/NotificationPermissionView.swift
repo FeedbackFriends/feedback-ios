@@ -41,6 +41,7 @@ private extension NotificationPermissionView {
                 }
                 .buttonStyle(SecondaryTextButtonStyle())
             }
+            .sharedBackgroundVisibility(.hidden)
         }
     }
     

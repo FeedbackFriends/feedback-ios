@@ -2,8 +2,9 @@ import ComposableArchitecture
 import SwiftUI
 import Model
 import Utility
+import DesignSystem
 
-extension EventForm {
+extension EventFormView {
     
     enum FocusedField {
         case title
@@ -11,8 +12,9 @@ extension EventForm {
     }
 }
 
-public struct EventForm: View {
+public struct EventFormView<ActionView: View>: View {
     
+    @Environment(\.dismiss) var dismiss
     @Binding var eventInput: EventInput
     
     @State var startNowEnabled: Bool
@@ -25,11 +27,18 @@ public struct EventForm: View {
     
     let shouldOpenKeyboardOnAppear: Bool
     let recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+    let successOverlayMessage: String
+    @Binding var showSuccessOverlay: Bool
+    @ViewBuilder let action: () -> ActionView
     
     init(
         eventInput: Binding<EventInput>,
         shouldOpenKeyboardOnAppear: Bool,
-        recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+        recentlyUsedQuestions: Set<RecentlyUsedQuestions>,
+        successOverlayMessage: String,
+        showSuccessOverlay: Binding<Bool>,
+        action: @escaping () -> ActionView
+        
     ) {
         let totalMinutes: Int = eventInput.durationInMinutes.wrappedValue
         self._eventInput = eventInput
@@ -40,8 +49,11 @@ public struct EventForm: View {
         self.hourPicker = totalMinutes / 60
         self.shouldOpenKeyboardOnAppear = shouldOpenKeyboardOnAppear
         self.recentlyUsedQuestions = recentlyUsedQuestions
+        self.successOverlayMessage = successOverlayMessage
+        self._showSuccessOverlay = showSuccessOverlay
+        self.action = action
     }
-
+    
     @Dependency(\.calendar) var calendar
     @Dependency(\.date) var date
     
@@ -57,66 +69,104 @@ public struct EventForm: View {
     }
     
     public var body: some View {
-        content
-            .foregroundColor(.themeText)
-            .font(.montserratMedium, 14)
-            .onAppear { onAppear() }
-            .onChange(of: minutePicker) { _, _ in
-                eventInput.durationInMinutes = calculateMinutes(
-                    hours: self.hourPicker,
-                    minutes: self.minutePicker
-                )
+        Form {
+            content
+        }
+        .background(Color.themeBackground)
+        .toolbar {
+            toolbarItems
+        }
+        .foregroundColor(.themeText)
+        .font(.montserratMedium, 14)
+        .onAppear { onAppear() }
+        .onChange(of: minutePicker) { _, _ in
+            eventInput.durationInMinutes = calculateMinutes(
+                hours: self.hourPicker,
+                minutes: self.minutePicker
+            )
+        }
+        .onChange(of: hourPicker) { _, _ in
+            eventInput.durationInMinutes = calculateMinutes(
+                hours: self.hourPicker,
+                minutes: self.minutePicker
+            )
+        }
+        .onChange(of: allDay) { _, _ in
+            eventInput.durationInMinutes = .minutesOneDay
+        }
+        .onChange(of: durationPicker) { _, newValue in
+            eventInput.durationInMinutes = switch newValue {
+            case .minutes15: 15
+            case .minutes30: 30
+            case .minutes45: 45
+            case .minutes60: 60
+            case .minutes90: 90
+            case .minutes120: 120
+            case .other: calculateMinutes(
+                hours: self.hourPicker,
+                minutes: self.minutePicker
+            )
             }
-            .onChange(of: hourPicker) { _, _ in
-                eventInput.durationInMinutes = calculateMinutes(
-                    hours: self.hourPicker,
-                    minutes: self.minutePicker
-                )
-            }
-            .onChange(of: allDay) { _, _ in
-                eventInput.durationInMinutes = .minutesOneDay
-            }
-            .onChange(of: durationPicker) { _, newValue in
-                eventInput.durationInMinutes = switch newValue {
-                case .minutes15: 15
-                case .minutes30: 30
-                case .minutes45: 45
-                case .minutes60: 60
-                case .minutes90: 90
-                case .minutes120: 120
-                case .other: calculateMinutes(
-                    hours: self.hourPicker,
-                    minutes: self.minutePicker
-                )
+        }
+    }
+    
+    var toolbarItems: some ToolbarContent {
+        Group {
+            ToolbarItem(placement: .cancellationAction) {
+                SharedCloseButtonView {
+                    self.dismiss()
                 }
+                .buttonStyle(SecondaryTextButtonStyle())
             }
+            ToolbarItem(placement: .topBarTrailing) {
+                NavigationLink {
+                    QuestionsListView(
+                        recentlyUsedQuestions: self.recentlyUsedQuestions,
+                        questionsInputs: self.$eventInput.questions
+                    )
+                    .successOverlay(
+                        message: successOverlayMessage,
+                        show: $showSuccessOverlay,
+                        enableAutomaticDismissal: false
+                    )
+                    .toolbar {
+                        ToolbarItem(placement: .primaryAction) {
+                            action()
+                        }
+                        .sharedBackgroundVisibility(.hidden)
+                    }
+                } label: {
+                    Text("Next")
+                }
+                .buttonStyle(PrimaryTextButtonStyle())
+                .disabled(eventInput.title.isEmpty)
+            }
+            .sharedBackgroundVisibility(.hidden)
+        }
     }
 }
 
-private extension EventForm {
+private extension EventFormView {
     var content: some View {
-        Group {
-            Section {
-                TextField("Title", text: $eventInput.title)
-                    .focused($focus, equals: .title)
-                    .submitLabel(.next)
-                    .onSubmit {
-                        focus = .description
-                    }
-                TextField("Agenda (optional)", text: $eventInput.agenda.asNonOptional(), axis: .vertical)
-                    .lineLimit(2, reservesSpace: true)
-                    .submitLabel(.return)
-                    .focused($focus, equals: .description)
-                Toggle(isOn: $allDay) {
-                    Text("All day")
+        Section {
+            TextField("Title", text: $eventInput.title)
+                .focused($focus, equals: .title)
+                .submitLabel(.next)
+                .onSubmit {
+                    focus = .description
                 }
-                durationPickerView
-            } header: {
-                Text("Details")
-                    .sectionHeaderStyle()
-                    .padding(.leading, 12)
+            TextField("Agenda (optional)", text: $eventInput.agenda.asNonOptional(), axis: .vertical)
+                .lineLimit(2, reservesSpace: true)
+                .submitLabel(.return)
+                .focused($focus, equals: .description)
+            Toggle(isOn: $allDay) {
+                Text("All day")
             }
-            QuestionPicker(questions: $eventInput.questions, recentlyUsedQuestions: recentlyUsedQuestions)
+            durationPickerView
+        } header: {
+            Text("Details")
+                .sectionHeaderStyle()
+                .padding(.leading, 12)
         }
         .animation(.default, value: startNowEnabled)
         .scrollContentBackground(.hidden)
@@ -213,5 +263,22 @@ public enum DurationPicker: Equatable, Hashable {
         case .other:
             "Andet"
         }
+    }
+}
+
+#Preview {
+    @Previewable @State var eventInput = EventInput(.mock())
+    NavigationStack {
+        
+        EventFormView(
+            eventInput: $eventInput,
+            shouldOpenKeyboardOnAppear: true,
+            recentlyUsedQuestions: .init(),
+            successOverlayMessage: "yo success",
+            showSuccessOverlay: .constant(false)
+        ) {
+                Button(action: { }) { Text("Test") }
+            }
+        
     }
 }

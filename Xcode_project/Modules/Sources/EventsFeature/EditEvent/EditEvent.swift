@@ -2,6 +2,7 @@ import Model
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI
+import Utility
 
 @Reducer
 public struct EditEvent: Sendable {
@@ -37,7 +38,6 @@ public struct EditEvent: Sendable {
         case editEventButtonTap
         case presentError(Error)
         case editEventResponse
-        case cancelButtonTap
         case alert(PresentationAction<Never>)
     }
     
@@ -47,6 +47,7 @@ public struct EditEvent: Sendable {
     @Dependency(\.calendar) var calendar
     @Dependency(\.date) var date
     @Dependency(\.dismiss) var dismiss
+    @Dependency(\.continuousClock) var clock
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -71,22 +72,22 @@ public struct EditEvent: Sendable {
                 state.editRequestInFlight = false
                 state.alert = .init(error: error)
                 return .none
+            
                 
             case .editEventResponse:
                 state.editRequestInFlight = false
                 state.showSuccessOverlay = true
-                return .none
+                return .run { send in
+                    try await clock.sleep(for: Constants.successOverlayDuration)
+                    await self.dismiss()
+                }
                 
             case .binding:
                 return .none
                 
-            case .cancelButtonTap:
-                return .run { _ in
-                    await self.dismiss()
-                }
-                
             case .alert:
                 return .none
+                
             }
         }
     }

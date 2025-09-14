@@ -19,7 +19,7 @@ public struct SecondaryTextButtonStyle: ButtonStyle {
         .opacity(isEnabled ? 1.0 : 0.5)
         .animation(.default, value: isEnabled)
         .progressViewStyle(CircularProgressViewStyle(tint: Color.themeText))
-        .opacity(configuration.isPressed ? 0.5 : 1.0)
-		.fixedSize()
+        .opacity(configuration.isPressed ? 0.4 : 1.0)
+        .fixedSize()
     }
 }

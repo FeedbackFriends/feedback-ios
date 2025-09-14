@@ -13,14 +13,21 @@ public struct EditEventView: View {
     }
     
     public var body: some View {
-        Form {
-            EventForm(
-                eventInput: $store.eventInput,
-                shouldOpenKeyboardOnAppear: false,
-                recentlyUsedQuestions: store.recentlyUsedQuestions
-            )
-        }
-        .toolbar { toolbarItems }
+        EventFormView(
+            eventInput: $store.eventInput,
+            shouldOpenKeyboardOnAppear: false,
+            recentlyUsedQuestions: store.recentlyUsedQuestions,
+            successOverlayMessage: "Event edited",
+            showSuccessOverlay: $store.showSuccessOverlay,
+            action: {
+                Button("Save") {
+                    store.send(.editEventButtonTap)
+                }
+                .buttonStyle(PrimaryTextButtonStyle())
+                .isLoading(store.editRequestInFlight)
+                .disabled(store.editEventButtonDisabled)
+            }
+        )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarTitle("Edit")
         .navigationBarTitleDisplayMode(.inline)
@@ -28,32 +35,5 @@ public struct EditEventView: View {
         .disabled(store.showSuccessOverlay)
         .animation(.default, value: store.eventInput)
         .alert($store.scope(state: \.alert, action: \.alert))
-        .successOverlay(
-            message: "Event edited",
-            show: $store.showSuccessOverlay
-        )
-    }
-}
-
-private extension EditEventView {
-    
-    var toolbarItems: some ToolbarContent {
-        Group {
-			ToolbarItem(placement: .primaryAction) {
-				Button("Save") {
-					store.send(.editEventButtonTap)
-				}
-				.buttonStyle(PrimaryTextButtonStyle())
-				.isLoading(store.editRequestInFlight)
-				.disabled(store.editEventButtonDisabled)
-			}
-			.sharedBackgroundVisibility(.hidden)
-            ToolbarItem(placement: .cancellationAction) {
-                SharedCloseButtonView {
-                    store.send(.cancelButtonTap)
-                }
-                .buttonStyle(SecondaryTextButtonStyle())
-            }
-        }
     }
 }

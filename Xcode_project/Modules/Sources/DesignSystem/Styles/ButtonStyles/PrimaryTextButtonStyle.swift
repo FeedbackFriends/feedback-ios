@@ -15,21 +15,45 @@ public struct PrimaryTextButtonStyle: ButtonStyle {
     }
     
     public func makeBody(configuration: Configuration) -> some View {
-		Group {
-			if isLoading {
-				ProgressView()
-			} else {
-				configuration.label
-			}
-			
-		}
-		.padding(.vertical, 8)
-		.fixedSize()
-        .animation(.linear(duration: 0.1), value: isLoading)
-        .font(.montserratBold, 15)
-        .foregroundStyle(foregroundColor)
-        .opacity(isEnabled ? 1.0 : 0.5)
-        .progressViewStyle(CircularProgressViewStyle(tint: foregroundColor))
-        .opacity(configuration.isPressed ? 0.5 : 1)
+           Group {
+               if isLoading {
+                   ProgressView()
+               } else {
+                   configuration.label
+                       .font(.montserratBold, 15)
+                       .foregroundStyle(Color.themePrimaryAction)
+                       .lineLimit(1)
+                       .padding(.horizontal, 14)
+                       .padding(.vertical, 8)
+               }
+           }
+           .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+           .opacity(isEnabled ? 1 : 0.4)
+           .progressViewStyle(.circular)
+           .fixedSize()
+           .progressViewStyle(CircularProgressViewStyle(tint: Color.themeText))
+       }
+}
+
+#Preview {
+    NavigationStack {
+        Text("")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Enabled") {
+                        
+                    }
+                    .buttonStyle(PrimaryTextButtonStyle())
+                }
+                .sharedBackgroundVisibility(.hidden)
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Disabled") {
+                        
+                    }
+                    .buttonStyle(PrimaryTextButtonStyle())
+                    .disabled(true)
+                }
+                .sharedBackgroundVisibility(.hidden)
+            }
     }
 }

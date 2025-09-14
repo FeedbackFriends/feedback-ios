@@ -13,58 +13,63 @@ public struct JoinEventView: View {
     }
     
     public var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text("Join event")
-                    .font(.montserratBold, 28)
-                Spacer()
-                SharedCloseButtonView {
-                    store.send(.closeButtonTap)
+        NavigationStack {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack {
+                    Text("Join event")
+                        .font(.montserratBold, 28)
+                }
+                .padding(.top, 20)
+                Text("PIN Code")
+                    .padding(.top, 20)
+                    .font(.montserratBold, 18)
+                    .foregroundStyle(Color.themeText)
+                TextField("", text: $store.pinCodeInput.value)
+                    .font(.montserratBold, 16)
+                    .padding()
+                    .foregroundColor(Color.themeText)
+                    .background(Color.themeText.opacity(0.15).gradient)
+                    .clipShape(Capsule())
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.center)
+                    .submitLabel(.next)
+                    .focused($isFocused)
+                    .padding(.top, 5)
+                    .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
+                Button("Join") {
+                    store.send(.joinButtonTap)
+                }
+                .buttonStyle(LargeButtonStyle())
+                .isLoading(store.joinRequestInFlight)
+                .padding(.bottom, 20)
+                .disabled(store.disableJoinButton)
+            }
+            .synchronize($store.pinCodeTextfieldFocused, $pinCodeTextfieldFocused)
+            .onAppear { isFocused = true }
+            .padding(.all, Theme.padding)
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .foregroundStyle(Color.themeText.gradient)
+            .background {
+                /// this makes the keyboard to appear with a single animation
+                FirstResponderFieldView()
+                    .frame(width: 0, height: 0)
+                    .opacity(0)
+                    .background(Color.themeSurface.ignoresSafeArea())
+            }
+            .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
+            .successOverlay(
+                message: "Event joined",
+                show: $store.showSuccessOverlay
+            )
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    SharedCloseButtonView {
+                        store.send(.closeButtonTap)
+                    }
                 }
             }
-            .padding(.top, 20)
-            Text("PIN Code")
-                .padding(.top, 20)
-                .font(.montserratBold, 18)
-                .foregroundStyle(Color.themeText)
-            TextField("", text: $store.pinCodeInput.value)
-                .font(.montserratBold, 16)
-                .padding()
-                .foregroundColor(Color.themeText)
-                .background(Color.themeText.opacity(0.15).gradient)
-                .clipShape(Capsule())
-                .keyboardType(.numberPad)
-                .multilineTextAlignment(.center)
-                .submitLabel(.next)
-                .focused($isFocused)
-                .padding(.top, 5)
-                .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
-            Button("Join") {
-                store.send(.joinButtonTap)
-            }
-            .buttonStyle(LargeButtonStyle())
-            .isLoading(store.joinRequestInFlight)
-            .padding(.bottom, 20)
-            .disabled(store.disableJoinButton)
         }
-        .synchronize($store.pinCodeTextfieldFocused, $pinCodeTextfieldFocused)
-        .onAppear { isFocused = true }
-        .padding(.all, Theme.padding)
-        .multilineTextAlignment(.center)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
-        .foregroundStyle(Color.themeText.gradient)
-        .background {
-            /// this makes the keyboard to appear with a single animation
-            FirstResponderFieldView()
-                .frame(width: 0, height: 0)
-                .opacity(0)
-                .background(Color.themeSurface.ignoresSafeArea())
-        }
-        .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-        .successOverlay(
-            message: "Event joined",
-            show: $store.showSuccessOverlay
-        )
     }
 }
 
