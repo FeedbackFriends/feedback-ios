@@ -145,6 +145,7 @@ struct QuestionPickerView: View {
                     Section {
                         ZStack(alignment: .trailing) {
                             TextEditor(text: $questionTextField)
+                                .focused($isQuestionFocused)
                                 .font(.montserratMedium, 14)
                                 .foregroundColor(Color.themeText)
                                 .textInputAutocapitalization(.sentences)
