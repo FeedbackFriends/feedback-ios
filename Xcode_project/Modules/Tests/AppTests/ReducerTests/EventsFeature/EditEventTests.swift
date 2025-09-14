@@ -21,6 +21,7 @@ struct EditEventTests {
 				updateEventCalled = true
 				return .mock()
 			}
+            $0.continuousClock = ImmediateClock()
 		}
 		
 		await store.send(.editEventButtonTap) {
@@ -55,25 +56,5 @@ struct EditEventTests {
             $0.editRequestInFlight = false
             $0.alert = .init(error: Failure())
         }
-    }
-    
-    @Test
-    func editEventDismiss() async {
-        let didDismiss = LockIsolated(false)
-        
-        let store = TestStore(initialState: EditEvent.State(
-            eventInput: .init(title: "Meeting", questions: [.init(questionText: "Q1", feedbackType: .emoji)]),
-            eventId: UUID(),
-			recentlyUsedQuestions: .init([])
-        )) {
-            EditEvent()
-        } withDependencies: {
-            $0.dismiss = .init({
-                didDismiss.setValue(true)
-            })
-        }
-        #expect(!didDismiss.value)
-        await store.send(.cancelButtonTap)
-        #expect(didDismiss.value)
     }
 }

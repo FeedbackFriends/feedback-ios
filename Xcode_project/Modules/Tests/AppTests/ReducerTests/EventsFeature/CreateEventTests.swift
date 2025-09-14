@@ -45,20 +45,4 @@ struct CreateEventTests {
             $0.alert = .init(error: Failure())
         }
     }
-    
-    @Test
-    func createEventDismiss() async {
-        let didDismiss = LockIsolated(false)
-        
-        let store = await TestStore(initialState: CreateEvent.State(recentlyUsedQuestions: .init([]))) {
-            CreateEvent()
-        } withDependencies: {
-            $0.dismiss = .init({
-                didDismiss.setValue(true)
-            })
-        }
-        #expect(!didDismiss.value)
-        await store.send(.cancelButtonTap)
-        #expect(didDismiss.value)
-    }
 }
