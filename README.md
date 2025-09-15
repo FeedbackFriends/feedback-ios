@@ -11,15 +11,13 @@ It is an open-source project built with [The Composable Architecture (TCA)](http
 ## 📸 Screenshots
 
 <p float="left">
-  <img src="Docs/screenshots/screenshot_1.jpg" width="30%" />
-  <img src="Docs/screenshots/screenshot_2.jpg" width="30%" />
-  <img src="Docs/screenshots/screenshot_3.jpg" width="30%" />
+  <img src="Docs/screenshots/screenshot_1.jpg" width="19%" />
+  <img src="Docs/screenshots/screenshot_2.jpg" width="19%" />
+  <img src="Docs/screenshots/screenshot_3.jpg" width="19%" />
+  <img src="Docs/screenshots/screenshot_4.jpg" width="19%" />
+  <img src="Docs/screenshots/screenshot_5.jpg" width="19%" />
 </p>
 
-<p float="left">
-  <img src="Docs/screenshots/screenshot_4.jpg" width="30%" />
-  <img src="Docs/screenshots/screenshot_5.jpg" width="30%" />
-</p>
 
 ---
 
