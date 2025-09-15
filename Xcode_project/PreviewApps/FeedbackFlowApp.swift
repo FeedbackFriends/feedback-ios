@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import SwiftUI
 import FeedbackFlowFeature
+import EventsFeature
 
 @main
 struct FeedbackFlowApp: App {
@@ -20,3 +21,5 @@ struct FeedbackFlowApp: App {
         }
     }
 }
+
+

@@ -10,12 +10,14 @@ struct QuestionsListView: View {
     @State private var existingQuestionIndex: Int? = nil
     
     var body: some View {
-        List {
-            Section {
-                if questionsInputs.isEmpty {
-                    Text("Tap '+' to add a question")
-                        .foregroundColor(Color.themeTextSecondary)
-                } else {
+        Group {
+            if questionsInputs.isEmpty {
+                EmptyStateView(
+                    title: "No questions",
+                    message: "Tap '+' to add a question"
+                ).frame(maxHeight: .infinity)
+            } else {
+                Form {
                     ForEach(Array(questionsInputs.enumerated()), id: \.offset) { index, questionsInput in
                         Button {
                             self.existingQuestionIndex = index
@@ -44,13 +46,12 @@ struct QuestionsListView: View {
                         questionsInputs.move(fromOffsets: indices, toOffset: newOffset)
                     }
                 }
-            } header: {
-                Text("Questions")
-                    .sectionHeaderStyle()
-                    .padding(.leading, 12)
             }
-            
         }
+        .navigationTitle(Text("Questions"))
+        .navigationBarTitleDisplayMode(.inline)
+        .background(Color.themeBackground.ignoresSafeArea())
+        .scrollContentBackground(.hidden)
         .font(.montserratRegular, 13)
         .foregroundColor(Color.themeTextSecondary)
         .sheet(

@@ -72,7 +72,7 @@ public struct EventFormView<ActionView: View>: View {
         Form {
             content
         }
-        .background(Color.themeBackground)
+        .background(Color.themeBackground.ignoresSafeArea())
         .toolbar {
             toolbarItems
         }

@@ -21,11 +21,20 @@
 		285E15C72E69CA4800C1B766 /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5562DD9FE8500FF5B86 /* Implementations */; };
 		285E15C82E69CA4800C1B766 /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5582DDA0ED700FF5B86 /* InfoPlist */; };
 		285E15C92E69CA4800C1B766 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7E44EE2DE85B4800B3C4C4 /* AppCore */; };
-		285E15CA2E69CA4800C1B766 /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
 		285E15CB2E69CA4800C1B766 /* FeedbackFlowFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7D2D852E13D184008B31F0 /* FeedbackFlowFeature */; };
 		287B6F8A2E698B55003A419C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB225402D7B2B89002BEF81 /* AppDelegate.swift */; };
 		287B6F8B2E698B55003A419C /* FeedbackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1057F372843FD8600B9EE2F /* FeedbackApp.swift */; };
 		287B6F8C2E698B55003A419C /* DebugMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */; };
+		28A04FFC2E786F4200CC7316 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28A04FFB2E786F4200CC7316 /* RootFeature */; };
+		28A050022E786F9E00CC7316 /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285E15C02E69BE5600C1B766 /* APIClientMock.swift */; };
+		28A050052E786F9E00CC7316 /* FeedbackFlowFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28A04FFF2E786F9E00CC7316 /* FeedbackFlowFeature */; };
+		28A050072E786F9E00CC7316 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28A050002E786F9E00CC7316 /* RootFeature */; };
+		28A050092E786F9E00CC7316 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
+		28A0500A2E786F9E00CC7316 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
+		28A0500B2E786F9E00CC7316 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
+		28A0500C2E786F9E00CC7316 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
+		28A0500D2E786F9E00CC7316 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
+		28A050162E786FEB00CC7316 /* QuestionPickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A050142E786FCA00CC7316 /* QuestionPickerApp.swift */; };
 		28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883C2E6788FF00F0B6BE /* RootFeature */; };
 		28D888442E6788FF00F0B6BE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
 		28D888452E6788FF00F0B6BE /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
@@ -57,14 +66,17 @@
 		282268002E6F68F400C03174 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = SOURCE_ROOT; };
 		285E15C02E69BE5600C1B766 /* APIClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientMock.swift; sourceTree = "<group>"; };
 		287B6F862E68ADC1003A419C /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
+		28A04FE62E786E2000CC7316 /* Preview App QuestionPicker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Preview App QuestionPicker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28A050122E786F9E00CC7316 /* Preview App Feedback Flow copy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Preview App Feedback Flow copy.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		28A050142E786FCA00CC7316 /* QuestionPickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionPickerApp.swift; sourceTree = "<group>"; };
 		28D8884C2E6788FF00F0B6BE /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
-		7A7E44E22DE85B0C00B3C4C4 /* Feedback Error.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Feedback Error.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A9E6BAD2DC4ECEB005F4828 /* Feedback Flow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Feedback Flow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A7E44E22DE85B0C00B3C4C4 /* Preview App Error.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Preview App Error.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A9E6BAD2DC4ECEB005F4828 /* Preview App Feedback Flow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Preview App Feedback Flow.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAE2DC4ECEB005F4828 /* Auto_Lint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Auto_Lint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BAF2DC4ECEB005F4828 /* Fetch_OpenApi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fetch_OpenApi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7A9E6BB02DC4ECEB005F4828 /* Feedback Mock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Feedback Mock.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		7A9E6BB02DC4ECEB005F4828 /* Mock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Mock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7A9E6BB32DC51EB7005F4828 /* Entitlements.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Entitlements.entitlements; sourceTree = "<group>"; };
 		7AB225402D7B2B89002BEF81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
@@ -82,8 +94,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				285E15CB2E69CA4800C1B766 /* FeedbackFlowFeature in Frameworks */,
-				285E15CA2E69CA4800C1B766 /* FeedbackFlow in Frameworks */,
 				285E15C52E69C28800C1B766 /* RootFeature in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28A04FE32E786E2000CC7316 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28A04FFC2E786F4200CC7316 /* RootFeature in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28A050042E786F9E00CC7316 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28A050052E786F9E00CC7316 /* FeedbackFlowFeature in Frameworks */,
+				28A050072E786F9E00CC7316 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,29 +161,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		281A893A2E69B7890002D56C /* Feedback Error */ = {
-			isa = PBXGroup;
-			children = (
-				281A89392E69B7890002D56C /* FeedbackErrorApp.swift */,
-			);
-			path = "Feedback Error";
-			sourceTree = "<group>";
-		};
-		281A893F2E69B7950002D56C /* Feedback Mock */ = {
+		281A893F2E69B7950002D56C /* Mock */ = {
 			isa = PBXGroup;
 			children = (
 				281A893E2E69B7950002D56C /* FeedbackMockApp.swift */,
 				285E15C02E69BE5600C1B766 /* APIClientMock.swift */,
 			);
-			path = "Feedback Mock";
-			sourceTree = "<group>";
-		};
-		281A89422E69B7970002D56C /* Feedback Flow */ = {
-			isa = PBXGroup;
-			children = (
-				281A89412E69B7970002D56C /* FeedbackFlowApp.swift */,
-			);
-			path = "Feedback Flow";
+			path = Mock;
 			sourceTree = "<group>";
 		};
 		281A89452E69B7A90002D56C /* InfoPlist */ = {
@@ -196,14 +208,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7A9E6BCF2DC52183005F4828 /* Preview Apps */ = {
+		7A9E6BCF2DC52183005F4828 /* PreviewApps */ = {
 			isa = PBXGroup;
 			children = (
-				281A893A2E69B7890002D56C /* Feedback Error */,
-				281A893F2E69B7950002D56C /* Feedback Mock */,
-				281A89422E69B7970002D56C /* Feedback Flow */,
+				28A050142E786FCA00CC7316 /* QuestionPickerApp.swift */,
+				281A89412E69B7970002D56C /* FeedbackFlowApp.swift */,
+				281A89392E69B7890002D56C /* FeedbackErrorApp.swift */,
 			);
-			path = "Preview Apps";
+			path = PreviewApps;
 			sourceTree = "<group>";
 		};
 		B1057F2B2843FD8600B9EE2F = {
@@ -213,16 +225,19 @@
 				7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */,
 				287B6F862E68ADC1003A419C /* UnitTests.xctestplan */,
 				7A49F5202DD5EDDB00FF5B86 /* Resources */,
+				281A893F2E69B7950002D56C /* Mock */,
 				B1057F362843FD8600B9EE2F /* App */,
 				7AC4A9EA2D2FA71D004DF626 /* Modules */,
-				7A9E6BCF2DC52183005F4828 /* Preview Apps */,
+				7A9E6BCF2DC52183005F4828 /* PreviewApps */,
 				7A924BD42DCAA63C005F9D84 /* Frameworks */,
-				7A9E6BAD2DC4ECEB005F4828 /* Feedback Flow.app */,
+				7A9E6BAD2DC4ECEB005F4828 /* Preview App Feedback Flow.app */,
 				7A9E6BAE2DC4ECEB005F4828 /* Auto_Lint.framework */,
 				7A9E6BAF2DC4ECEB005F4828 /* Fetch_OpenApi.framework */,
-				7A9E6BB02DC4ECEB005F4828 /* Feedback Mock.app */,
-				7A7E44E22DE85B0C00B3C4C4 /* Feedback Error.app */,
+				7A9E6BB02DC4ECEB005F4828 /* Mock.app */,
+				7A7E44E22DE85B0C00B3C4C4 /* Preview App Error.app */,
 				28D8884C2E6788FF00F0B6BE /* App.app */,
+				28A04FE62E786E2000CC7316 /* Preview App QuestionPicker.app */,
+				28A050122E786F9E00CC7316 /* Preview App Feedback Flow copy.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -267,9 +282,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		2892AA342C0F89C600F12E83 /* Feedback Flow */ = {
+		2892AA342C0F89C600F12E83 /* Preview App Feedback Flow */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2892AA442C0F89C700F12E83 /* Build configuration list for PBXNativeTarget "Feedback Flow" */;
+			buildConfigurationList = 2892AA442C0F89C700F12E83 /* Build configuration list for PBXNativeTarget "Preview App Feedback Flow" */;
 			buildPhases = (
 				2892AA312C0F89C600F12E83 /* Sources */,
 				2892AA322C0F89C600F12E83 /* Frameworks */,
@@ -279,14 +294,56 @@
 			);
 			dependencies = (
 			);
-			name = "Feedback Flow";
+			name = "Preview App Feedback Flow";
 			packageProductDependencies = (
 				285F02882C12328F00AE8942 /* FeedbackFlow */,
 				7A7D2D852E13D184008B31F0 /* FeedbackFlowFeature */,
 				285E15C42E69C28800C1B766 /* RootFeature */,
 			);
 			productName = FeedbackFlow;
-			productReference = 7A9E6BAD2DC4ECEB005F4828 /* Feedback Flow.app */;
+			productReference = 7A9E6BAD2DC4ECEB005F4828 /* Preview App Feedback Flow.app */;
+			productType = "com.apple.product-type.application";
+		};
+		28A04FE52E786E2000CC7316 /* Preview App QuestionPicker */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28A04FEE2E786E2100CC7316 /* Build configuration list for PBXNativeTarget "Preview App QuestionPicker" */;
+			buildPhases = (
+				28A04FE22E786E2000CC7316 /* Sources */,
+				28A04FE32E786E2000CC7316 /* Frameworks */,
+				28A04FE42E786E2000CC7316 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Preview App QuestionPicker";
+			packageProductDependencies = (
+				28A04FFB2E786F4200CC7316 /* RootFeature */,
+			);
+			productName = QuestionPicker;
+			productReference = 28A04FE62E786E2000CC7316 /* Preview App QuestionPicker.app */;
+			productType = "com.apple.product-type.application";
+		};
+		28A04FFD2E786F9E00CC7316 /* Preview App Feedback Flow copy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 28A0500E2E786F9E00CC7316 /* Build configuration list for PBXNativeTarget "Preview App Feedback Flow copy" */;
+			buildPhases = (
+				28A050012E786F9E00CC7316 /* Sources */,
+				28A050042E786F9E00CC7316 /* Frameworks */,
+				28A050082E786F9E00CC7316 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Preview App Feedback Flow copy";
+			packageProductDependencies = (
+				28A04FFE2E786F9E00CC7316 /* FeedbackFlow */,
+				28A04FFF2E786F9E00CC7316 /* FeedbackFlowFeature */,
+				28A050002E786F9E00CC7316 /* RootFeature */,
+			);
+			productName = FeedbackFlow;
+			productReference = 28A050122E786F9E00CC7316 /* Preview App Feedback Flow copy.app */;
 			productType = "com.apple.product-type.application";
 		};
 		28D888392E6788FF00F0B6BE /* App */ = {
@@ -313,9 +370,9 @@
 			productReference = 28D8884C2E6788FF00F0B6BE /* App.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7A7E44E12DE85B0C00B3C4C4 /* Feedback Error */ = {
+		7A7E44E12DE85B0C00B3C4C4 /* Preview App Error */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7A7E44EA2DE85B1400B3C4C4 /* Build configuration list for PBXNativeTarget "Feedback Error" */;
+			buildConfigurationList = 7A7E44EA2DE85B1400B3C4C4 /* Build configuration list for PBXNativeTarget "Preview App Error" */;
 			buildPhases = (
 				7A7E44DE2DE85B0C00B3C4C4 /* Sources */,
 				7A7E44DF2DE85B0C00B3C4C4 /* Frameworks */,
@@ -325,18 +382,18 @@
 			);
 			dependencies = (
 			);
-			name = "Feedback Error";
+			name = "Preview App Error";
 			packageProductDependencies = (
 				7A7E44EE2DE85B4800B3C4C4 /* AppCore */,
 				7ABB22252E17F061006B6865 /* RootFeature */,
 			);
 			productName = FeedbackError;
-			productReference = 7A7E44E22DE85B0C00B3C4C4 /* Feedback Error.app */;
+			productReference = 7A7E44E22DE85B0C00B3C4C4 /* Preview App Error.app */;
 			productType = "com.apple.product-type.application";
 		};
-		7AC3C86B2DC4E36800EF8389 /* Feedback Mock */ = {
+		7AC3C86B2DC4E36800EF8389 /* Mock */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7AC3C8782DC4E36B00EF8389 /* Build configuration list for PBXNativeTarget "Feedback Mock" */;
+			buildConfigurationList = 7AC3C8782DC4E36B00EF8389 /* Build configuration list for PBXNativeTarget "Mock" */;
 			buildPhases = (
 				7AC3C8682DC4E36800EF8389 /* Sources */,
 				7AC3C8692DC4E36800EF8389 /* Frameworks */,
@@ -346,14 +403,14 @@
 			);
 			dependencies = (
 			);
-			name = "Feedback Mock";
+			name = Mock;
 			packageProductDependencies = (
 				7A49F5562DD9FE8500FF5B86 /* Implementations */,
 				7A49F5582DDA0ED700FF5B86 /* InfoPlist */,
 				7A062A3A2E12EE8F000AA1A5 /* RootFeature */,
 			);
 			productName = FeedbackMock;
-			productReference = 7A9E6BB02DC4ECEB005F4828 /* Feedback Mock.app */;
+			productReference = 7A9E6BB02DC4ECEB005F4828 /* Mock.app */;
 			productType = "com.apple.product-type.application";
 		};
 		7AE155DB2D26A31100440870 /* Auto Lint */ = {
@@ -405,11 +462,14 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1630;
+				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
 					2892AA342C0F89C600F12E83 = {
 						CreatedOnToolsVersion = 15.4;
+					};
+					28A04FE52E786E2000CC7316 = {
+						CreatedOnToolsVersion = 26.0;
 					};
 					7A7E44E12DE85B0C00B3C4C4 = {
 						CreatedOnToolsVersion = 16.3;
@@ -441,9 +501,11 @@
 			projectRoot = "";
 			targets = (
 				28D888392E6788FF00F0B6BE /* App */,
-				7AC3C86B2DC4E36800EF8389 /* Feedback Mock */,
-				7A7E44E12DE85B0C00B3C4C4 /* Feedback Error */,
-				2892AA342C0F89C600F12E83 /* Feedback Flow */,
+				7AC3C86B2DC4E36800EF8389 /* Mock */,
+				7A7E44E12DE85B0C00B3C4C4 /* Preview App Error */,
+				2892AA342C0F89C600F12E83 /* Preview App Feedback Flow */,
+				28A04FFD2E786F9E00CC7316 /* Preview App Feedback Flow copy */,
+				28A04FE52E786E2000CC7316 /* Preview App QuestionPicker */,
 				7AE155DB2D26A31100440870 /* Auto Lint */,
 				7AE1561F2D26AD4900440870 /* Fetch OpenApi */,
 			);
@@ -460,6 +522,25 @@
 				7A49F5292DD5F99200FF5B86 /* Localizable.xcstrings in Resources */,
 				7A49F5282DD5F99200FF5B86 /* Preview Assets.xcassets in Resources */,
 				7A49F5272DD5F97D00FF5B86 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28A04FE42E786E2000CC7316 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28A050082E786F9E00CC7316 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28A050092E786F9E00CC7316 /* AppIcon.icon in Resources */,
+				28A0500A2E786F9E00CC7316 /* Launch Screen.storyboard in Resources */,
+				28A0500B2E786F9E00CC7316 /* Localizable.xcstrings in Resources */,
+				28A0500C2E786F9E00CC7316 /* Preview Assets.xcassets in Resources */,
+				28A0500D2E786F9E00CC7316 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -602,6 +683,22 @@
 			files = (
 				285E15C22E69BEC100C1B766 /* APIClientMock.swift in Sources */,
 				281A89432E69B7970002D56C /* FeedbackFlowApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28A04FE22E786E2000CC7316 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		28A050012E786F9E00CC7316 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				28A050162E786FEB00CC7316 /* QuestionPickerApp.swift in Sources */,
+				28A050022E786F9E00CC7316 /* APIClientMock.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -760,6 +857,231 @@
 			name = Debug;
 		};
 		2892AA422C0F89C700F12E83 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = App/InfoPlist/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolai.FeedbackFlow;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		28A04FEF2E786E2100CC7316 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 8B9KRX6NBR;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.QuestionPicker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		28A04FF02E786E2100CC7316 /* Localhost */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8B9KRX6NBR;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.QuestionPicker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Localhost;
+		};
+		28A04FF12E786E2100CC7316 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 8B9KRX6NBR;
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.QuestionPicker;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		28A0500F2E786F9E00CC7316 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = App/InfoPlist/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolai.FeedbackFlow;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		28A050102E786F9E00CC7316 /* Localhost */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = App/InfoPlist/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolai.FeedbackFlow;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Localhost;
+		};
+		28A050112E786F9E00CC7316 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1609,12 +1931,32 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2892AA442C0F89C700F12E83 /* Build configuration list for PBXNativeTarget "Feedback Flow" */ = {
+		2892AA442C0F89C700F12E83 /* Build configuration list for PBXNativeTarget "Preview App Feedback Flow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2892AA412C0F89C700F12E83 /* Debug */,
 				7A9E6BD92DC52223005F4828 /* Localhost */,
 				2892AA422C0F89C700F12E83 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28A04FEE2E786E2100CC7316 /* Build configuration list for PBXNativeTarget "Preview App QuestionPicker" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28A04FEF2E786E2100CC7316 /* Debug */,
+				28A04FF02E786E2100CC7316 /* Localhost */,
+				28A04FF12E786E2100CC7316 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		28A0500E2E786F9E00CC7316 /* Build configuration list for PBXNativeTarget "Preview App Feedback Flow copy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				28A0500F2E786F9E00CC7316 /* Debug */,
+				28A050102E786F9E00CC7316 /* Localhost */,
+				28A050112E786F9E00CC7316 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1629,7 +1971,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7A7E44EA2DE85B1400B3C4C4 /* Build configuration list for PBXNativeTarget "Feedback Error" */ = {
+		7A7E44EA2DE85B1400B3C4C4 /* Build configuration list for PBXNativeTarget "Preview App Error" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7A7E44EB2DE85B1400B3C4C4 /* Debug */,
@@ -1639,7 +1981,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7AC3C8782DC4E36B00EF8389 /* Build configuration list for PBXNativeTarget "Feedback Mock" */ = {
+		7AC3C8782DC4E36B00EF8389 /* Build configuration list for PBXNativeTarget "Mock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7AC3C8752DC4E36B00EF8389 /* Debug */,
@@ -1689,6 +2031,22 @@
 		285F02882C12328F00AE8942 /* FeedbackFlow */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FeedbackFlow;
+		};
+		28A04FFB2E786F4200CC7316 /* RootFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RootFeature;
+		};
+		28A04FFE2E786F9E00CC7316 /* FeedbackFlow */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeedbackFlow;
+		};
+		28A04FFF2E786F9E00CC7316 /* FeedbackFlowFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeedbackFlowFeature;
+		};
+		28A050002E786F9E00CC7316 /* RootFeature */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = RootFeature;
 		};
 		28D8883A2E6788FF00F0B6BE /* Implementations */ = {
 			isa = XCSwiftPackageProductDependency;

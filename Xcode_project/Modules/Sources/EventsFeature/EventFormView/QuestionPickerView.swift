@@ -19,7 +19,7 @@ extension FeedbackType {
     }
 }
 
-struct QuestionPickerView: View {
+public struct QuestionPickerView: View {
     
     let existingQuestionIndex: Int?
     let questionSelected: (_ input: EventInput.QuestionInput, _ optionalIndex: Int?) -> ()
@@ -31,7 +31,7 @@ struct QuestionPickerView: View {
     @Environment(\.dismiss) private var dismiss
     @FocusState private var isQuestionFocused: Bool
     
-    init(
+    public init(
         existingQuestionIndex: Int?,
         feedbackTypeSelected: FeedbackType,
         questionTextField: String,
@@ -60,7 +60,7 @@ struct QuestionPickerView: View {
         showComingSoon = true
     }
     
-    var body: some View {
+    public var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
                 Section {
@@ -69,7 +69,7 @@ struct QuestionPickerView: View {
                             let isSelected = type == feedbackTypeSelected
                             Button {
                                 if type.isEnabled {
-                                    withAnimation(.easeInOut(duration: 0.15)) {
+                                    withAnimation(.easeInOut(duration: 0.4)) {
                                         feedbackTypeSelected = type
                                     }
                                 } else {
@@ -133,30 +133,26 @@ struct QuestionPickerView: View {
                     .padding(.trailing, 14)
                     .padding(.bottom, 14)
                 }
-                .sheet(isPresented: $showFeedbackInfo) {
-                    FeedbackTypeInfoSheetView()
-                }
-                .alert("Coming Soon", isPresented: $showComingSoon) {
-                    Button("OK", role: .cancel) {}
-                } message: {
-                    Text(comingSoonMessage)
-                }
+                .padding(.top, 18)
+
                 Form {
                     Section {
                         ZStack(alignment: .trailing) {
-                            TextEditor(text: $questionTextField)
+                            TextField("Enter question.", text: $questionTextField, axis: .vertical)
                                 .focused($isQuestionFocused)
-                                .font(.montserratMedium, 14)
+                                .font(.montserratMedium, 13)
                                 .foregroundColor(Color.themeText)
                                 .textInputAutocapitalization(.sentences)
-                                .autocorrectionDisabled(false)
+                                .submitLabel(.go)
+                                .padding(.trailing, 24)
+                                
                             if !questionTextField.isEmpty {
                                 Button {
                                     questionTextField = ""
                                 } label: {
                                     Image(systemName: "xmark.circle.fill")
                                 }
-                                .buttonStyle(.plain)
+                                .foregroundStyle(Color.themeText)
                                 .padding(.trailing, 4)
                                 .padding(.top, 8)
                             }
@@ -169,15 +165,26 @@ struct QuestionPickerView: View {
                 }
                 
             }
+            .overlay(alignment: .bottom) {
+                Button("Add Question", action: commitQuestion)
+                    .buttonStyle(LargeButtonStyle())
+                    .disabled(!isQuestionValid)
+                    .padding(14)
+            }
+            .sheet(isPresented: $showFeedbackInfo) {
+                FeedbackTypeInfoSheetView()
+            }
+            .alert("Coming Soon", isPresented: $showComingSoon) {
+                Button("OK", role: .cancel) {}
+            } message: {
+                Text(comingSoonMessage)
+            }
             .background(Color.themeBackground)
             .scrollContentBackground(.hidden)
             .scrollDismissesKeyboard(.interactively)
-            .navigationTitle("Feedback question")
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationTitle("Add question")
             .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Account", systemImage: "checkmark", action: commitQuestion)
-                    .disabled(!isQuestionValid)
-                }
                 ToolbarItem(placement: .cancellationAction) {
                     SharedCloseButtonView {
                         self.dismiss()
@@ -189,4 +196,23 @@ struct QuestionPickerView: View {
             }
         }
     }
+}
+
+#Preview("Empty") {
+    QuestionPickerView.init(
+        existingQuestionIndex: nil,
+        feedbackTypeSelected: .emoji,
+        questionTextField: "",
+        questionSelected: { _, _ in }
+    )
+}
+
+
+#Preview("Long input") {
+    QuestionPickerView.init(
+        existingQuestionIndex: nil,
+        feedbackTypeSelected: .emoji,
+        questionTextField: "Aslkdjska lsak slksak sakaksl kaskask sa kask sak sak as k kask as kask  kas kask ask ask k as kas k sdjdsjds sd js djs sjd",
+        questionSelected: { _, _ in }
+    )
 }

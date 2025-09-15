@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7AC3C86B2DC4E36800EF8389"
-               BuildableName = "Feedback Mock.app"
-               BlueprintName = "Feedback Mock"
+               BuildableName = "Mock.app"
+               BlueprintName = "Mock"
                ReferencedContainer = "container:Feedback.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -50,8 +50,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AC3C86B2DC4E36800EF8389"
-            BuildableName = "Feedback Mock.app"
-            BlueprintName = "Feedback Mock"
+            BuildableName = "Mock.app"
+            BlueprintName = "Mock"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -67,8 +67,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7AC3C86B2DC4E36800EF8389"
-            BuildableName = "Feedback Mock.app"
-            BlueprintName = "Feedback Mock"
+            BuildableName = "Mock.app"
+            BlueprintName = "Mock"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

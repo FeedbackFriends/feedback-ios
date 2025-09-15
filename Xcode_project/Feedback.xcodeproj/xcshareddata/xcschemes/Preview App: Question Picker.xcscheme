@@ -15,10 +15,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EventsFeature"
-               BuildableName = "EventsFeature"
-               BlueprintName = "EventsFeature"
-               ReferencedContainer = "container:">
+               BlueprintIdentifier = "28A04FFD2E786F9E00CC7316"
+               BuildableName = "Preview App Feedback Flow copy.app"
+               BlueprintName = "Preview App Feedback Flow copy"
+               ReferencedContainer = "container:Feedback.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -40,6 +40,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "28A04FFD2E786F9E00CC7316"
+            BuildableName = "Preview App Feedback Flow copy.app"
+            BlueprintName = "Preview App Feedback Flow copy"
+            ReferencedContainer = "container:Feedback.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -47,15 +57,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "EventsFeature"
-            BuildableName = "EventsFeature"
-            BlueprintName = "EventsFeature"
-            ReferencedContainer = "container:">
+            BlueprintIdentifier = "28A04FFD2E786F9E00CC7316"
+            BuildableName = "Preview App Feedback Flow copy.app"
+            BlueprintName = "Preview App Feedback Flow copy"
+            ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

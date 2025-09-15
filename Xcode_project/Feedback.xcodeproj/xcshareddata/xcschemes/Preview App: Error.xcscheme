@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "7A7E44E12DE85B0C00B3C4C4"
-               BuildableName = "Feedback Error.app"
-               BlueprintName = "Feedback Error"
+               BuildableName = "Preview App Error.app"
+               BlueprintName = "Preview App Error"
                ReferencedContainer = "container:Feedback.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7A7E44E12DE85B0C00B3C4C4"
-            BuildableName = "Feedback Error.app"
-            BlueprintName = "Feedback Error"
+            BuildableName = "Preview App Error.app"
+            BlueprintName = "Preview App Error"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "7A7E44E12DE85B0C00B3C4C4"
-            BuildableName = "Feedback Error.app"
-            BlueprintName = "Feedback Error"
+            BuildableName = "Preview App Error.app"
+            BlueprintName = "Preview App Error"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
