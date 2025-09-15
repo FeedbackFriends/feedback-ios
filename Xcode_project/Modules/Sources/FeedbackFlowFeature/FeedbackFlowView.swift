@@ -25,19 +25,21 @@ public struct FeedbackFlowView: View {
 	
 	public var body: some View {
         VStack(spacing: 0) {
-			topBar
+            topBar
                 .background(
                     LinearGradient(
-                        gradient: Gradient(stops: [
-                            .init(color: Color.themeGradientBlue, location: 0),
-                            .init(color: Color.themeBackground, location: 1),
-                        ]),
+                        gradient: Gradient(
+                            stops: [
+                                .init(color: Color.themeGradientBlue, location: 0),
+                                .init(color: Color.themeBackground, location: 1)
+                            ]
+                        ),
                         startPoint: .top,
                         endPoint: .bottom
                     )
                     .ignoresSafeArea()
                 )
-			NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+            NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
 				ProgressView()
 			} destination: { store in
 				VStack {

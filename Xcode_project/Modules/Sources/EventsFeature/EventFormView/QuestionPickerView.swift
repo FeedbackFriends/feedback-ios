@@ -22,7 +22,7 @@ extension FeedbackType {
 public struct QuestionPickerView: View {
     
     let existingQuestionIndex: Int?
-    let questionSelected: (_ input: EventInput.QuestionInput, _ optionalIndex: Int?) -> ()
+    let questionSelected: (_ input: EventInput.QuestionInput, _ optionalIndex: Int?) -> Void
     var text: String {
         if existingQuestionIndex != nil {
             "Edit question"
@@ -42,7 +42,7 @@ public struct QuestionPickerView: View {
         existingQuestionIndex: Int?,
         feedbackTypeSelected: FeedbackType,
         questionTextField: String,
-        questionSelected: @escaping (_ input: EventInput.QuestionInput, _ optionalIndex: Int?) -> ()
+        questionSelected: @escaping (_ input: EventInput.QuestionInput, _ optionalIndex: Int?) -> Void
     ) {
         self.existingQuestionIndex = existingQuestionIndex
         self._feedbackTypeSelected = State(initialValue: feedbackTypeSelected)
@@ -214,7 +214,6 @@ public struct QuestionPickerView: View {
     )
 }
 
-
 #Preview("Empty - Edit") {
     QuestionPickerView.init(
         existingQuestionIndex: 3,
@@ -223,7 +222,6 @@ public struct QuestionPickerView: View {
         questionSelected: { _, _ in }
     )
 }
-
 
 #Preview("Long input") {
     QuestionPickerView.init(

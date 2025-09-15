@@ -42,7 +42,6 @@ private extension EnterCodeView {
                     }
                     .padding(.horizontal, 60)
                     
-        
                     Spacer()
                     Text("Enter PIN Code")
                         .foregroundStyle(Color.themeTextSecondary)
@@ -56,7 +55,7 @@ private extension EnterCodeView {
                         .multilineTextAlignment(.center)
                         .submitLabel(.go)
                         .focused($enterCodeTextfieldFocused)
-                        .sensoryFeedback(.selection, trigger: enterCodeTextfieldFocused) { old, new in
+                        .sensoryFeedback(.selection, trigger: enterCodeTextfieldFocused) { _, new in
                             new == true
                         }
                         .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)

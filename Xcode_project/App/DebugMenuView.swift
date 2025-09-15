@@ -14,7 +14,7 @@ extension Session: @retroactive Identifiable {
     }
 }
 
-fileprivate struct _DynamicCodingKey: CodingKey {
+private struct _DynamicCodingKey: CodingKey {
     var stringValue: String
     var intValue: Int?
     init?(stringValue: String) { self.stringValue = stringValue; self.intValue = nil }
@@ -38,7 +38,7 @@ struct DebugMenuView: View {
     @State var debugMenuExpanded: Bool = false
     @State var hideDebugMenu: Bool = false
     @State var alert: String?
-    @State var sessionSheet: Session? = nil
+    @State var sessionSheet: Session?
     @State private var localSession: Session?
     let apiClient: APIClient
     let notificationClient: NotificationClient

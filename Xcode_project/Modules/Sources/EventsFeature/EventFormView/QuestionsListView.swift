@@ -7,7 +7,7 @@ struct QuestionsListView: View {
     let recentlyUsedQuestions: Set<RecentlyUsedQuestions>
     @Binding var questionsInputs: [EventInput.QuestionInput]
     @State var presentSelectQuestionSheet: EventInput.QuestionInput?
-    @State private var existingQuestionIndex: Int? = nil
+    @State private var existingQuestionIndex: Int?
     
     var body: some View {
         Group {
@@ -101,7 +101,6 @@ struct QuestionsListView: View {
         )
     }
 }
-
 
 #Preview("Empty") {
     NavigationStack {

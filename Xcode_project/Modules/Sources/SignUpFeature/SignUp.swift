@@ -54,7 +54,7 @@ public struct SignUp: Sendable {
             switch action {
                 
             case .iconTenTimesTap:
-                return .run { send in
+                return .run { _ in
                     do {
                         let mockToken = try await apiClient.getMockToken()
                         try await authClient.signInWithCustomToken(mockToken)

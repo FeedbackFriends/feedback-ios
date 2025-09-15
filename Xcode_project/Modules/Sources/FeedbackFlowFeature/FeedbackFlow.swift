@@ -94,9 +94,7 @@ public struct FeedbackFlow: Sendable {
     
     public var body: some Reducer<State, Action> {
         BindingReducer()
-        Reduce {
-            state,
-            action in
+        Reduce { state, action in
             switch action {
                 
             case .ratingPromptDismissed:
@@ -166,12 +164,7 @@ public struct FeedbackFlow: Sendable {
             case .submitButtonTap:
                 state.commentTextfieldFocused = false
                 state.submitFeedbackInFlight = true
-                return .run {
-                    [
-                        feedback = state.path.map { FeedbackInput($0) },
-                        pinCode = state.pinCode,
-                        apiClient = self.apiClient
-                    ] send in
+                return .run { [feedback = state.path.map { FeedbackInput($0) }, pinCode = state.pinCode, apiClient = self.apiClient] send in
                     do {
                         let shouldPresentRatingPrompt = try await apiClient.submitFeedback(
                             feedback: feedback,

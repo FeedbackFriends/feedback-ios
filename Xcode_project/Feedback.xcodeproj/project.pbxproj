@@ -31,6 +31,11 @@
 		28A0500C2E786F9E00CC7316 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3E2843FD8700B9EE2F /* Preview Assets.xcassets */; };
 		28A0500D2E786F9E00CC7316 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
 		28A050162E786FEB00CC7316 /* QuestionPickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A050142E786FCA00CC7316 /* QuestionPickerApp.swift */; };
+		28A050192E788FDB00CC7316 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7E44EE2DE85B4800B3C4C4 /* AppCore */; };
+		28A0501A2E788FDB00CC7316 /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
+		28A0501B2E788FDB00CC7316 /* FeedbackFlowFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7D2D852E13D184008B31F0 /* FeedbackFlowFeature */; };
+		28A0501C2E788FDB00CC7316 /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 28A04FFE2E786F9E00CC7316 /* FeedbackFlow */; };
+		28A0501D2E788FDB00CC7316 /* FeedbackFlowFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28A04FFF2E786F9E00CC7316 /* FeedbackFlowFeature */; };
 		28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883C2E6788FF00F0B6BE /* RootFeature */; };
 		28D888442E6788FF00F0B6BE /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
 		28D888452E6788FF00F0B6BE /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
@@ -64,6 +69,7 @@
 		287B6F862E68ADC1003A419C /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		28A050122E786F9E00CC7316 /* Preview App Question Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Preview App Question Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		28A050142E786FCA00CC7316 /* QuestionPickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionPickerApp.swift; sourceTree = "<group>"; };
+		28A0501E2E78910A00CC7316 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		28D8884C2E6788FF00F0B6BE /* App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = App.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
@@ -88,6 +94,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28A0501B2E788FDB00CC7316 /* FeedbackFlowFeature in Frameworks */,
+				28A0501A2E788FDB00CC7316 /* FeedbackFlow in Frameworks */,
 				285E15C52E69C28800C1B766 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +104,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28A0501D2E788FDB00CC7316 /* FeedbackFlowFeature in Frameworks */,
+				28A0501C2E788FDB00CC7316 /* FeedbackFlow in Frameworks */,
 				28A050072E786F9E00CC7316 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -114,6 +124,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				28A050192E788FDB00CC7316 /* AppCore in Frameworks */,
 				7ABB22262E17F061006B6865 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -205,6 +216,7 @@
 		B1057F2B2843FD8600B9EE2F = {
 			isa = PBXGroup;
 			children = (
+				28A0501E2E78910A00CC7316 /* .swiftlint.yml */,
 				282268002E6F68F400C03174 /* README.md */,
 				7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */,
 				287B6F862E68ADC1003A419C /* UnitTests.xctestplan */,

@@ -185,7 +185,6 @@ extension ManagerEventsView {
     }
 }
 
-
 #Preview("Events") {
 	NavigationStack {
         ManagerEventsView(

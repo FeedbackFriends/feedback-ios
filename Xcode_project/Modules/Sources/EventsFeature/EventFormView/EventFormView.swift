@@ -277,8 +277,9 @@ public enum DurationPicker: Equatable, Hashable {
             successOverlayMessage: "yo success",
             showSuccessOverlay: .constant(false)
         ) {
-                Button(action: { }) { Text("Test") }
+            Button {} label: {
+                Text("Test")
             }
-        
+        }
     }
 }

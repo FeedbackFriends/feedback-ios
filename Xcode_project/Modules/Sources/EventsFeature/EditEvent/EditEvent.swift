@@ -73,11 +73,10 @@ public struct EditEvent: Sendable {
                 state.alert = .init(error: error)
                 return .none
             
-                
             case .editEventResponse:
                 state.editRequestInFlight = false
                 state.showSuccessOverlay = true
-                return .run { send in
+                return .run { _ in
                     try await clock.sleep(for: Constants.successOverlayDuration)
                     await self.dismiss()
                 }
