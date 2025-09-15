@@ -164,11 +164,11 @@ public struct FeedbackFlow: Sendable {
             case .submitButtonTap:
                 state.commentTextfieldFocused = false
                 state.submitFeedbackInFlight = true
-                return .run { [feedback = state.path.map { FeedbackInput($0) }, pinCode = state.pinCode, apiClient = self.apiClient] send in
+                return .run { [state = state] send in
                     do {
-                        let shouldPresentRatingPrompt = try await apiClient.submitFeedback(
-                            feedback: feedback,
-                            pinCode: pinCode
+                        let shouldPresentRatingPrompt = try await self.apiClient.submitFeedback(
+                            feedback: state.path.map { FeedbackInput($0) },
+                            pinCode: state.pinCode
                         )
                         await send(.submitFeedbackResponse(shouldPresentRatingPrompt: shouldPresentRatingPrompt))
                     } catch {
