@@ -373,6 +373,7 @@
 				7AC3C8682DC4E36800EF8389 /* Sources */,
 				7AC3C8692DC4E36800EF8389 /* Frameworks */,
 				7AC3C86A2DC4E36800EF8389 /* Resources */,
+				28A0501F2E78958600CC7316 /* Swiftlint warnings */,
 			);
 			buildRules = (
 			);
@@ -601,6 +602,25 @@
 			shellPath = /bin/sh;
 			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\n# Skip linting on Xcode Cloud\nif [ \"$CI_XCODE_CLOUD\" = \"true\" ]; then\n  echo \"Skipping SwiftLint on Xcode Cloud\"\n  exit 0\nfi\n\nif which swiftlint >/dev/null; then\n  swiftlint lint --reporter xcode\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
+		28A0501F2E78958600CC7316 /* Swiftlint warnings */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swiftlint warnings";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\" \n\n# Skip linting on Xcode Cloud\nif [ \"$CI_XCODE_CLOUD\" = \"true\" ]; then\n  echo \"Skipping SwiftLint on Xcode Cloud\"\n  exit 0\nfi\n\nif which swiftlint >/dev/null; then\n  swiftlint lint --reporter xcode\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n\n";
+		};
 		7AE156042D26A39300440870 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -787,7 +807,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -824,7 +844,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -861,7 +881,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -899,7 +919,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -936,7 +956,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -976,7 +996,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -1023,7 +1043,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -1069,7 +1089,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -1112,7 +1132,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -1150,7 +1170,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -1187,7 +1207,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -1297,7 +1317,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -1424,7 +1444,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -1466,7 +1486,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
@@ -1507,7 +1527,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = App/InfoPlist/Info.plist;
