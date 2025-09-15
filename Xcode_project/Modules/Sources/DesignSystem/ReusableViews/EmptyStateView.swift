@@ -5,7 +5,7 @@ public struct EmptyStateView: View {
     let title: String
     let message: String
     
-    public init(title: String = "Empty", message: String) {
+    public init(title: String = "Nothing here yet.", message: String) {
         self.title = title
         self.message = message
     }
