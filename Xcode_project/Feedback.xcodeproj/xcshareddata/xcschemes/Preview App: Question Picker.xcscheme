@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "28A04FFD2E786F9E00CC7316"
-               BuildableName = "Preview App Feedback Flow copy.app"
-               BlueprintName = "Preview App Feedback Flow copy"
+               BuildableName = "Preview App Question Picker.app"
+               BlueprintName = "Preview App Question Picker"
                ReferencedContainer = "container:Feedback.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -45,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28A04FFD2E786F9E00CC7316"
-            BuildableName = "Preview App Feedback Flow copy.app"
-            BlueprintName = "Preview App Feedback Flow copy"
+            BuildableName = "Preview App Question Picker.app"
+            BlueprintName = "Preview App Question Picker"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -62,8 +62,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "28A04FFD2E786F9E00CC7316"
-            BuildableName = "Preview App Feedback Flow copy.app"
-            BlueprintName = "Preview App Feedback Flow copy"
+            BuildableName = "Preview App Question Picker.app"
+            BlueprintName = "Preview App Question Picker"
             ReferencedContainer = "container:Feedback.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
