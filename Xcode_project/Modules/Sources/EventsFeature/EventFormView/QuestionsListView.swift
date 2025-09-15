@@ -62,13 +62,14 @@ struct QuestionsListView: View {
                     feedbackTypeSelected: questionInput.feedbackType,
                     questionTextField: questionInput.questionText
                 ) { selectedQuestionInput, index in
-                if let index {
-                    self.questionsInputs[index] = selectedQuestionInput
-                } else {
-                    self.questionsInputs.append(selectedQuestionInput)
+                    if let index {
+                        self.questionsInputs[index] = selectedQuestionInput
+                    } else {
+                        self.questionsInputs.append(selectedQuestionInput)
+                    }
                 }
             }
-        })
+        )
         .overlay(alignment: .bottomTrailing, content: {
             Button {
                 self.existingQuestionIndex = nil

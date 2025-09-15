@@ -100,7 +100,7 @@ public struct FeedbackFlowView: View {
 					ownerphoneNumber: store.ownerInfo.phoneNumber,
 					date: store.date
 				)
-				.presentationDetents([.medium, .large])
+				.presentationDetents([.medium])
 			}
 		)
 		.alert($store.scope(state: \.destination?.alert, action: \.destination.alert))

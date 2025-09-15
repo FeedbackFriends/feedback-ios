@@ -76,7 +76,7 @@ struct LoadingView: View {
                 Text("Loading data")
                     .padding(.top, 20)
                     .font(.montserratRegular, 16)
-                    .foregroundStyle(Color.themeText)
+                    .foregroundStyle(Color.themeTextSecondary)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)

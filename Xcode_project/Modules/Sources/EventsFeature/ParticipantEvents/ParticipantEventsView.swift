@@ -64,7 +64,7 @@ public struct ParticipantEventsView: View {
                     ownerphoneNumber: event.ownerInfo.phoneNumber,
                     date: event.date
                 )
-                .presentationDetents([.medium, .large])
+                .presentationDetents([.medium])
             }
         }
         .sheet(item: startFeedbackConfirmationStore) { pinCode in
