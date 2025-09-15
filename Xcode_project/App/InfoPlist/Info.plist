@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>API_BASE_URL</key>
+	<string>$(API_BASE_URL)</string>
+	<key>API_SCHEME</key>
+	<string>$(API_SCHEME)</string>
+	<key>APPSTORE_ID</key>
+	<string>$(APPSTORE_ID)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -26,8 +32,8 @@
 			</array>
 		</dict>
 	</array>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<key>COMPILER_FLAG</key>
+	<string>$(COMPILER_FLAG)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>msauthv2</string>
@@ -38,24 +44,12 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 	</dict>
+	<key>SUPPORT_EMAIL</key>
+	<string>$(SUPPORT_EMAIL)</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
 	</array>
-	<key>UISupportedInterfaceOrientations</key>
-	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-	</array>
-	<key>API_BASE_URL</key>
-	<string>$(API_BASE_URL)</string>
-	<key>API_SCHEME</key>
-	<string>$(API_SCHEME)</string>
-	<key>APPSTORE_ID</key>
-	<string>$(APPSTORE_ID)</string>
-	<key>COMPILER_FLAG</key>
-	<string>$(COMPILER_FLAG)</string>
-	<key>SUPPORT_EMAIL</key>
-	<string>$(SUPPORT_EMAIL)</string>
 	<key>WEB_BASE_URL</key>
 	<string>$(WEB_BASE_URL)</string>
 	<key>WEB_SCHEME</key>

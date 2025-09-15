@@ -46,7 +46,7 @@ struct InviteView: View {
             Text(inviteLink)
                 .padding(18)
                 .frame(maxWidth: .infinity, alignment: .leading)
-                .background(Color.themeBackground)
+                .background(Color.themeSurface)
                 .foregroundStyle(Color.themeText)
                 .cornerRadius(14)
                 .font(.montserratMedium, 14)

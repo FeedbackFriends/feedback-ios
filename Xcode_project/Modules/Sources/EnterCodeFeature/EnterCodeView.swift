@@ -16,58 +16,72 @@ public struct EnterCodeView: View {
         content
             .onTapGesture { store.send(.backgroundTap) }
             .background(Color.themeBackground.ignoresSafeArea())
+            .ignoresSafeArea(.keyboard, edges: .bottom)
     }
 }
 
 private extension EnterCodeView {
-    
     var content: some View {
-        ScrollView(.vertical, showsIndicators: false) {
-            VStack(alignment: .leading) {
-                ZStack {
-                    VStack(alignment: .center) {
-                        Text("Let's give some")
-                            .font(.montserratBold, 18)
-                            .padding(.top, 40)
-							.foregroundStyle(Color.themeTextSecondary)
-                        Text("Feedback")
-                            .font(.montserratBlack, 47)
-							.foregroundStyle(Color.themeText)
-                            .padding(.top, 4)
-                        Text("Enter PIN Code")
-                            .font(.montserratBold, 20)
-                            .padding(.top, 70)
-                        TextField("", text: $store.pinCodeInput.value)
-                            .font(.montserratBold, 16)
-                            .padding()
-                            .background(Color.themeSurface)
-                            .clipShape(Capsule(style: .continuous))
-                            .keyboardType(.numberPad)
-                            .multilineTextAlignment(.center)
-                            .submitLabel(.go)
-                            .focused($enterCodeTextfieldFocused)
-                            .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
-                            .frame(maxWidth: 400)
-                        Button("Start feedback") {
-                            store.send(.startFeedbackButtonTap)
+        GeometryReader { proxy in
+            ScrollView {
+                VStack(alignment: .center) {
+                    Spacer()
+                    VStack(spacing: 4) {
+                        HStack {
+                            Text("Lets Grow")
+                                .font(.montserratMedium, 32)
+                                .foregroundStyle(Color.themeTextSecondary)
+                            Spacer()
                         }
-                        .disabled(store.disableStartFeedbackButton)
-                        .isLoading(store.startFeedbackPincodeInFlight)
-                        .buttonStyle(LargeButtonStyle())
-                        .padding(.top, 12)
-                        Spacer()
+                        HStack {
+                            Spacer()
+                            Text("Feedback")
+                                .font(.montserratBold, 40)
+                                .foregroundStyle(Color.themeText)
+                        }
                     }
-                    .synchronize($store.enterCodeTextfieldFocused, $enterCodeTextfieldFocused)
-                    .padding(.all, Theme.padding)
-                    .padding(.top, 30)
-                    .multilineTextAlignment(.center)
-                    .frame(maxWidth: .infinity, alignment: .center)
-                    .foregroundStyle(Color.themeText)
+                    .padding(.horizontal, 60)
+                    
+        
+                    Spacer()
+                    Text("Enter PIN Code")
+                        .foregroundStyle(Color.themeTextSecondary)
+                        .font(.montserratSemiBold, 20)
+                    TextField("", text: $store.pinCodeInput.value)
+                        .font(.montserratBold, 16)
+                        .padding()
+                        .background(Color.themeSurface)
+                        .clipShape(Capsule(style: .continuous))
+                        .keyboardType(.numberPad)
+                        .multilineTextAlignment(.center)
+                        .submitLabel(.go)
+                        .focused($enterCodeTextfieldFocused)
+                        .sensoryFeedback(.selection, trigger: enterCodeTextfieldFocused) { old, new in
+                            new == true
+                        }
+                        .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
+                        .frame(maxWidth: 400)
+                    Button("Start feedback") {
+                        store.send(.startFeedbackButtonTap)
+                    }
+                    .disabled(store.disableStartFeedbackButton)
+                    .isLoading(store.startFeedbackPincodeInFlight)
+                    .buttonStyle(LargeButtonStyle())
+                    .padding(.top, 12)
+                    Spacer()
+                    Image.letsGrowIcon
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                    Spacer()
                 }
+                .synchronize($store.enterCodeTextfieldFocused, $enterCodeTextfieldFocused)
+                .padding(.all, Theme.padding)
+                .foregroundStyle(Color.themeText)
+                .frame(minHeight: proxy.size.height)
             }
         }
     }
-    
 }
 
 #Preview {
