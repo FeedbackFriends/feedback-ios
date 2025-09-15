@@ -635,7 +635,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n  swiftlint lint --reporter xcode\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "# Adds support for Apple Silicon brew directory\nexport PATH=\"$PATH:/opt/homebrew/bin\"\n\n# Skip linting on Xcode Cloud\nif [ \"$CI_XCODE_CLOUD\" = \"true\" ]; then\n  echo \"Skipping SwiftLint on Xcode Cloud\"\n  exit 0\nfi\n\nif which swiftlint >/dev/null; then\n  swiftlint lint --reporter xcode\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		7AE156042D26A39300440870 /* Lint */ = {
 			isa = PBXShellScriptBuildPhase;
