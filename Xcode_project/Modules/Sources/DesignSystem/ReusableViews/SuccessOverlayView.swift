@@ -61,7 +61,7 @@ private extension SuccessOverlayView {
     
     var backgroundView: some View {
         Color.themeText
-            .opacity(0.15)
+            .opacity(0.1)
             .ignoresSafeArea()
     }
     
