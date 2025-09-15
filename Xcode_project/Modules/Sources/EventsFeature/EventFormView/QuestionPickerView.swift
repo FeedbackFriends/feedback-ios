@@ -23,6 +23,13 @@ public struct QuestionPickerView: View {
     
     let existingQuestionIndex: Int?
     let questionSelected: (_ input: EventInput.QuestionInput, _ optionalIndex: Int?) -> ()
+    var text: String {
+        if existingQuestionIndex != nil {
+            "Edit question"
+        } else {
+            "Create question"
+        }
+    }
     @State var feedbackTypeSelected: FeedbackType
     @State var questionTextField: String
     @State private var showFeedbackInfo = false
@@ -166,7 +173,7 @@ public struct QuestionPickerView: View {
                 
             }
             .overlay(alignment: .bottom) {
-                Button("Add Question", action: commitQuestion)
+                Button(text, action: commitQuestion)
                     .buttonStyle(LargeButtonStyle())
                     .disabled(!isQuestionValid)
                     .padding(14)
@@ -183,7 +190,7 @@ public struct QuestionPickerView: View {
             .scrollContentBackground(.hidden)
             .scrollDismissesKeyboard(.interactively)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle("Add question")
+            .navigationTitle(text)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     SharedCloseButtonView {
@@ -198,9 +205,19 @@ public struct QuestionPickerView: View {
     }
 }
 
-#Preview("Empty") {
+#Preview("Empty - Create") {
     QuestionPickerView.init(
         existingQuestionIndex: nil,
+        feedbackTypeSelected: .emoji,
+        questionTextField: "",
+        questionSelected: { _, _ in }
+    )
+}
+
+
+#Preview("Empty - Edit") {
+    QuestionPickerView.init(
+        existingQuestionIndex: 3,
         feedbackTypeSelected: .emoji,
         questionTextField: "",
         questionSelected: { _, _ in }
