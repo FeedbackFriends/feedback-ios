@@ -29,26 +29,44 @@ config:
 flowchart LR
     %% Layers
     subgraph Features[Features]
+    RootFeature
+    EnterCodeFeature
+    EventsFeature
+    FeedbackFlowFeature
+    MoreFeature
+    SignUpFeature
+    TabbarFeature
     end
 
-    subgraph Domain[Domain: Models, Interfaces, Business Logic]
+    subgraph Model
+    end
+
+    subgraph Utility
+    end
+
+    subgraph DesignSystem
     end
 
     subgraph Configurations
         FeedbackProd["Feedback Prod"]
-        FeedbackMock["Feedback Mock / Tests"]
+        FeedbackMock["Feedback Mock"]
+        Tests["Tests"]
+
     end
 
-    subgraph Integrations
-        Implementations["Implementations (Adapters)"]
+    subgraph Integrations[Integrations, SDK's]
+        Implementations["Implementations"]
         OpenAPI[OpenAPI]
         Firebase[Firebase]
         GoogleSignIn["Google Sign-In"]
     end
 
     %% Dependency flow
-    Features --> Domain
+    Features --> Model
+    Features --> Utility
+    Features --> DesignSystem
 
+    Tests --> Features
     FeedbackMock --> Features
     FeedbackProd --> Features
     FeedbackProd --> Implementations
@@ -56,3 +74,27 @@ flowchart LR
     Implementations --> OpenAPI
     Implementations --> Firebase
     Implementations --> GoogleSignIn
+
+## 📦 Modularization
+
+All code lives inside a single Swift package (`Modules`).  
+Each target is a focused library with a clear responsibility:
+
+- **Features**: `RootFeature`, `EnterCodeFeature`, `FeedbackFlowFeature`, `EventsFeature`, `MoreFeature`, `TabbarFeature`, `SignUpFeature`  
+  Contain UI and feature-specific logic, built on TCA.  
+
+- **Core**: `Domain` is represented by `Model` (data types, business logic contracts) and `Utility` / `Logger` (shared helpers).  
+  Keeps the business logic independent of UI and third-party SDKs.  
+
+- **Design**: `DesignSystem` and `Localization` centralize styling, fonts, assets, and strings for consistency across features.  
+
+- **Integrations**: `Implementations`, `OpenAPI`, and `InfoPlist` wrap external SDKs (Firebase, Google Sign-In, OpenAPI).  
+  These conform to `Domain` interfaces so features don’t import SDKs directly.  
+
+- **Configurations**: `FeedbackProd` and `FeedbackMock` wire everything together for production or testing.  
+
+### Benefits
+- **Isolation** – each feature can evolve independently.  
+- **Reusability** – modules like `DesignSystem` and `Utility` are shared across the app.  
+- **Testability** – `FeedbackMock` and modular boundaries make it easy to swap real implementations for fakes.  
+- **Maintainability** – changing or replacing an integration (e.g. Firebase) only affects the `Implementations` module.
