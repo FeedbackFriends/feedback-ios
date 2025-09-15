@@ -1,128 +1,58 @@
-# Lets Grow: Feedback iOS app
+# Lets Grow: Feedback iOS App
 
 ![Swift 6.2](https://img.shields.io/badge/Swift-6.2-FA7343?logo=swift&logoColor=white&style=plastic)
 ![iOS 26](https://img.shields.io/badge/iOS-26-000000?logo=apple&logoColor=white&style=plastic)
 
-This repo contains the codebase for the Lets Grow: Feedback iOS app which is currently available on the App Store. A Open source project built with (Composble Architecture (TCA))https://github.com/pointfreeco/swift-composable-architecture and iOS 26 liguid glass.
-
-
-Available on the App Store 
+This repository contains the source code for the **Lets Grow: Feedback** iOS app, available on the App Store.  
+It is an open-source project built with [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and leverages iOS 26’s new **Liquid Glass** design system.
 
 ---
 
 ## 🔧 Requirements
-- Swift 6.2
-- Xcode 26
-- iOS 26
+- Swift 6.2  
+- Xcode 26  
+- iOS 26  
 - SwiftLint (`brew install swiftlint`)
 
 ---
 
-## 🧱 Architecture
+## 🏗️ Architecture
 
-The project embraces modularization of features and layered to enforce dependency direction and isolate concerns. This leads to a flexible, testable and decoupled codebase.
+The app uses a **layered architecture** that keeps business logic independent from UI and third-party SDKs.  
+This approach makes the codebase **flexible, testable, and easy to maintain**.
 
-``` mermaid
-flowchart TD
-
-%% --- Features (UI + State) ---
-subgraph Features_UI_State["Features (UI + State)"]
-    RootFeature[RootFeature]
-    EventsFeature[EventsFeature]
-    SignUpFeature[SignUpFeature]
-    TabbarFeature[TabbarFeature]
-    EnterCodeFeature[EnterCodeFeature]
-    MoreFeature[MoreFeature]
-    FeedbackFlowFeature[FeedbackFlowFeature]
-end
-
-%% --- Domain ---
-subgraph Domain
-    Model[Model]
-    ServiceInterfaces[ServiceInterfaces]
-end
-
-%% --- Infrastructure ---
-subgraph Infrastructure
-    Implementations[Implementations]
-    OpenAPI[OpenAPI]
-    Mocks[Mocks]
-end
-
-%% --- Shared ---
-subgraph Shared
-    DesignSystem[DesignSystem]
-    Utility[Utility]
-    Logger[Logger]
-    Localization[Localization]
-    InfoPlist[InfoPlist]
-end
-
-%% --- Dependencies ---
-Features_UI_State --> ServiceInterfaces
-Features_UI_State --> Model
-Features_UI_State --> DesignSystem
-
-ServiceInterfaces --> Model
-
-Implementations --> ServiceInterfaces
-Implementations --> Model
-OpenAPI --> Model
-
-Mocks --> ServiceInterfaces
-Mocks --> Model
-
-Utility --> Logger
-Model --> Utility
-DesignSystem --> Utility
-DesignSystem --> Model
-```
-
+```mermaid
 ---
-
-## 🗂️ Module Overview
-
-### Features
-- `RootFeature`, `EventsFeature`, etc: Use `@Reducer` and TCA to manage state and effects per screen.
-
-### Domain
-- `Model`: Pure types, data structures, and business logic.
-- `ServiceInterfaces`: Protocol-like interfaces (e.g. `APIClient`) annotated with `@DependencyClient`.
-
-### Infrastructure
-- `Implementations`: Concrete Firebase, Google, and OpenAPI implementations.
-- `Mocks`: Test and preview versions of `ServiceInterfaces` via `TestDependencyKey`.
-
-### Shared
-- `DesignSystem`: Fonts, colors, images, animations.
-- `Utility`: Small helpers (e.g. date, UUID).
-- `Logger`, `Localization`, `InfoPlist`: Core configuration.
-
+config:
+  layout: dagre
 ---
+flowchart LR
+    %% Layers
+    subgraph Features[Features]
+    end
 
-## 🧪 Testing Strategy
+    subgraph Domain[Domain: Models, Interfaces, Business Logic]
+    end
 
-- Uses `TestDependencyKey` and `ComposableArchitecture` test helpers.
-- `Mocks` module defines `previewValue` and `testValue` for all services.
-- Snapshots via `swift-snapshot-testing`.
+    subgraph Configurations
+        FeedbackProd["Feedback Prod"]
+        FeedbackMock["Feedback Mock / Tests"]
+    end
 
----
+    subgraph Integrations
+        Implementations["Implementations (Adapters)"]
+        OpenAPI[OpenAPI]
+        Firebase[Firebase]
+        GoogleSignIn["Google Sign-In"]
+    end
 
-## ✅ Why It Works
+    %% Dependency flow
+    Features --> Domain
 
-- No feature depends on infrastructure.
-- Interface-driven design: features use protocols, not implementations.
-- Mocks + previews live outside production code.
-- PlantUML diagrams document structure.
-- SPM enables full modular build and caching.
+    FeedbackMock --> Features
+    FeedbackProd --> Features
+    FeedbackProd --> Implementations
 
----
-
-## 📦 Getting Started
-
-```bash
-brew install swiftlint
-open Feedback.xcodeproj
-```
-
-> Don't forget to run `swiftlint` as part of your pre-commit hook or CI pipeline.
+    Implementations --> OpenAPI
+    Implementations --> Firebase
+    Implementations --> GoogleSignIn
