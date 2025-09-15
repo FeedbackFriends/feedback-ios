@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import Model
+import Domain
 
 @Reducer
 public struct Logout: Sendable {

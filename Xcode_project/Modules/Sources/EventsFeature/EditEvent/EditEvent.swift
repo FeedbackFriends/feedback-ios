@@ -1,4 +1,4 @@
-import Model
+import Domain
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI

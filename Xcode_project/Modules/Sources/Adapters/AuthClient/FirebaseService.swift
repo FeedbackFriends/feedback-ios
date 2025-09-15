@@ -3,7 +3,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseCore
 import GoogleSignIn
-import Model
+import Domain
 
 class FirebaseService {
     

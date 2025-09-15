@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import ComposableArchitecture
 import DesignSystem
-import Model
+import Domain
 
 public struct ChangeUserTypeView: View {
     

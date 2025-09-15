@@ -1,4 +1,4 @@
-import Model
+import Domain
 import Foundation
 import DesignSystem
 import ComposableArchitecture

@@ -3,7 +3,7 @@ import TabbarFeature
 import Network
 import SignUpFeature
 import DesignSystem
-import Model
+import Domain
 import EventsFeature
 import Logger
 import Foundation

@@ -3,7 +3,7 @@
 import ComposableArchitecture
 import Foundation
 import Testing
-@testable import Model
+@testable import Domain
 @testable import MoreFeature
 @testable import EventsFeature
 

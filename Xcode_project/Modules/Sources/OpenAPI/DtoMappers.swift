@@ -1,6 +1,6 @@
 import Foundation
 import OpenAPIRuntime
-import Model
+import Domain
 import OpenAPIURLSession
 import ComposableArchitecture
 

@@ -1,6 +1,6 @@
 import SwiftUI
 import DesignSystem
-import Model
+import Domain
 
 @main
 struct FeedbackErrorApp: App {

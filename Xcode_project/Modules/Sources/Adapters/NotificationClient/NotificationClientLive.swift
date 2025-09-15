@@ -1,5 +1,5 @@
 import UserNotifications
-import Model
+import Domain
 
 extension NotificationClient {
     public static let live = Self(

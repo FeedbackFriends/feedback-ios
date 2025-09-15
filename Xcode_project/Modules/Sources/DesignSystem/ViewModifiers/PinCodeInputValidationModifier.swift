@@ -1,5 +1,5 @@
 import SwiftUI
-import Model
+import Domain
 
 public extension View {
     func pinCodeInputValidation(pinCodeInput: Binding<PinCodeInput>) -> some View {

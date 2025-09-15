@@ -4,7 +4,7 @@ import SwiftUI
 import Foundation
 import MoreFeature
 import DesignSystem
-import Model
+import Domain
 import ComposableArchitecture
 import Utility
 import Logger

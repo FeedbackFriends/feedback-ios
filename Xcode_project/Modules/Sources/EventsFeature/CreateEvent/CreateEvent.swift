@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import Model
+import Domain
 import DesignSystem
 import Foundation
 import Utility

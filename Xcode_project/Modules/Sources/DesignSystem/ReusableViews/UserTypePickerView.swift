@@ -1,5 +1,5 @@
 import SwiftUI
-import Model
+import Domain
 
 public struct UserTypePickerView: View {
     

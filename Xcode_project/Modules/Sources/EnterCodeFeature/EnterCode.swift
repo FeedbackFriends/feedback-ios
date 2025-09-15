@@ -1,7 +1,7 @@
 import DesignSystem
 import ComposableArchitecture
 import Foundation
-import Model
+import Domain
 import SwiftUI
 
 @Reducer

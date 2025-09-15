@@ -1,7 +1,7 @@
 import ComposableArchitecture
 import DesignSystem
 import SwiftUI
-import Model
+import Domain
 
 public struct CreateEventView: View {
     

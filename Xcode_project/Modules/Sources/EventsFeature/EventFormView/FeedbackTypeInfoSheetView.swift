@@ -1,5 +1,5 @@
 import SwiftUI
-import Model
+import Domain
 import DesignSystem
 
 struct FeedbackTypeInfoSheetView: View {

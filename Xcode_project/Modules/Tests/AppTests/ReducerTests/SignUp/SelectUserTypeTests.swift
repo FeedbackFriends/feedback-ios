@@ -1,7 +1,7 @@
 @testable import SignUpFeature
 import Testing
 import ComposableArchitecture
-import Model
+import Domain
 
 struct SelectUserTypeTests {
     enum TestError: Error, Equatable { case mock }

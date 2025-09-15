@@ -1,6 +1,6 @@
 import ComposableArchitecture
 import DesignSystem
-import Model
+import Domain
 import Foundation
 
 @Reducer

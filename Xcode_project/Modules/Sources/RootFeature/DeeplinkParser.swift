@@ -1,6 +1,6 @@
 import NotificationCenter
 import Foundation
-import Model
+import Domain
 import Logger
 
 public enum Deeplink: Equatable, Sendable {

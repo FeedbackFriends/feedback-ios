@@ -1,6 +1,6 @@
 import ComposableArchitecture
 import SwiftUI
-import Model
+import Domain
 import DesignSystem
 
 public struct ModifyAccountView: View {

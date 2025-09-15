@@ -2,7 +2,7 @@ import Foundation
 import SwiftUI
 import DesignSystem
 import ComposableArchitecture
-import Model
+import Domain
 
 public struct MoreSectionView: View {
     

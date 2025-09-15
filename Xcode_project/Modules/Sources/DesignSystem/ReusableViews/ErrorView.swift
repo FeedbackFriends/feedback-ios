@@ -1,6 +1,6 @@
 import SwiftUI
 import Foundation
-import Model
+import Domain
 import MessageUI
 import UIKit
 

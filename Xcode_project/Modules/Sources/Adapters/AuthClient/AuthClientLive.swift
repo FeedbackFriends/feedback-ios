@@ -1,7 +1,7 @@
 import Foundation
 import Logger
 import FirebaseAuth
-import Model
+import Domain
 
 actor UserStateStream {
     private var continuation: AsyncStream<UserState>.Continuation?

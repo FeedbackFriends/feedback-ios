@@ -1,6 +1,6 @@
 import SwiftUI
 import StoreKit
-import Model
+import Domain
 import DesignSystem
 
 public struct RatingAlertView: View {

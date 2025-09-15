@@ -1,6 +1,6 @@
 import RootFeature
 import SwiftUI
-import Model
+import Domain
 import Foundation
 import ComposableArchitecture
 import DesignSystem

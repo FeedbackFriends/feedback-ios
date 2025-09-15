@@ -1,5 +1,5 @@
 import Foundation
-import Model
+import Domain
 import DesignSystem
 import FeedbackFlowFeature
 import ComposableArchitecture

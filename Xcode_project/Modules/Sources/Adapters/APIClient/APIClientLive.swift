@@ -1,7 +1,7 @@
 import Foundation
 import OpenAPIURLSession
 import OpenAPIRuntime
-import Model
+import Domain
 import OpenAPI
 
 public extension APIClient {

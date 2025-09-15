@@ -1,5 +1,5 @@
-@testable import Implementations
-@testable import Model
+@testable import Adapters
+@testable import Domain
 import ComposableArchitecture
 import OpenAPI
 

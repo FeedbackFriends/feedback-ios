@@ -8,43 +8,59 @@ It is an open-source project built with [The Composable Architecture (TCA)](http
 
 ---
 
+## 📸 Screenshots
+
+<p float="left">
+  <img src="docs/screenshots/screenshot_1.jpeg" width="30%" />
+  <img src="docs/screenshots/screenshot_2.jpeg" width="30%" />
+  <img src="docs/screenshots/screenshot_3.jpeg" width="30%" />
+</p>
+
+<p float="left">
+  <img src="docs/screenshots/screenshot_4.jpeg" width="30%" />
+  <img src="docs/screenshots/screenshot_5.jpeg" width="30%" />
+</p>
+
+---
+
 ## 🔧 Requirements
 - Swift 6.2  
 - Xcode 26  
 - iOS 26  
 - SwiftLint (`brew install swiftlint`)
 
+
 ---
 
-## 📦 Modularization
+## 🔌 API Layer
 
-All code lives inside a single Swift package (`Modules`).  
-Each target is a focused library with a clear responsibility:
+The API layer is fully generated from our [OpenAPI specification](https://github.com/FeedbackFriends/feedback-openapi).  
+This ensures the client stays in sync with the backend contract.
 
-- **Features**: `RootFeature`, `EnterCodeFeature`, `FeedbackFlowFeature`, `EventsFeature`, `MoreFeature`, `TabbarFeature`, `SignUpFeature`  
-  Contain UI and feature-specific logic, built on TCA.  
 
-- **Core**: `Domain` is represented by `Model` (data types, business logic contracts) and `Utility` / `Logger` (shared helpers).  
-  Keeps the business logic independent of UI and third-party SDKs.  
-
-- **Design**: `DesignSystem` and `Localization` centralize styling, fonts, assets, and strings for consistency across features.  
-
-- **Integrations**: `Implementations`, `OpenAPI`, and `InfoPlist` wrap external SDKs (Firebase, Google Sign-In, OpenAPI).  
-  These conform to `Domain` interfaces so features don’t import SDKs directly.  
-
-- **Configurations**: `FeedbackProd` and `FeedbackMock` wire everything together for production or testing.  
-
-### Benefits
-- **Isolation** – each feature can evolve independently.  
-- **Reusability** – modules like `DesignSystem` and `Utility` are shared across the app.  
-- **Testability** – `FeedbackMock` and modular boundaries make it easy to swap real implementations for fakes.  
-- **Maintainability** – changing or replacing an integration (e.g. Firebase) only affects the `Implementations` module.
+---
 
 
 ## 🏗️ Architecture
 
-The app uses a **layered architecture** that keeps business logic independent from UI and third-party SDKs.  
-This approach makes the codebase **flexible, testable, and easy to maintain**.
+The app follows a layered, **Clean Architecture–inspired** design.  
+Each layer has a clear responsibility, with dependencies always pointing **inward** toward the Core.  
+This separation makes the codebase easier to test, maintain, and evolve as new features or integrations are added.
+
+### Layers
+
+- **UI layer**: `RootFeature`, `EnterCodeFeature`, `FeedbackFlowFeature`, `EventsFeature`, `MoreFeature`, `TabbarFeature`, `SignUpFeature`  
+  Feature modules that contain screens, state management, and user-facing logic, all built on TCA.  
+
+- **Domain**: Models, data types, interfaces, and business logic contracts  
+  Defines core rules and behaviors, completely independent of UI and third-party SDKs.  
+
+- **Adapters**: `Implementations`, `OpenAPI`, `Firebase`, `Google Sign-In`  
+  Bridge the Domain to external SDKs. These conform to Domain protocols so the UI and Core never depend directly on external code.  
+
+- **Composition root**: `FeedbackProd` and `FeedbackMock`  
+  Assemble the app by wiring Features to real or mock Adapters. This layer decides what runs in production versus testing.  
+
 
 ```mermaid
 ---
@@ -53,33 +69,29 @@ config:
 ---
 flowchart LR
     %% Layers
-    subgraph Features[Features]
-    RootFeature
-    EnterCodeFeature
-    EventsFeature
-    FeedbackFlowFeature
-    MoreFeature
-    SignUpFeature
-    TabbarFeature
+    subgraph UI[UI Layer]
+        RootFeature
+        EnterCodeFeature
+        EventsFeature
+        FeedbackFlowFeature
+        MoreFeature
+        SignUpFeature
+        TabbarFeature
     end
 
-    subgraph Model
+    subgraph Domain[Domain]
+        Models[Models]
+        Interfaces[Interfaces]
+        BusinessLogic["Business Logic"]
     end
 
-    subgraph Utility
-    end
-
-    subgraph DesignSystem
-    end
-
-    subgraph Configurations
+    subgraph CompositionRoot[Composition Root]
         FeedbackProd["Feedback Prod"]
         FeedbackMock["Feedback Mock"]
         Tests["Tests"]
-
     end
 
-    subgraph Integrations[Integrations, SDK's]
+    subgraph Adapters[Adapters]
         Implementations["Implementations"]
         OpenAPI[OpenAPI]
         Firebase[Firebase]
@@ -87,15 +99,27 @@ flowchart LR
     end
 
     %% Dependency flow
-    Features --> Model
-    Features --> Utility
-    Features --> DesignSystem
+    UI --> Domain
 
-    Tests --> Features
-    FeedbackMock --> Features
-    FeedbackProd --> Features
-    FeedbackProd --> Implementations
+    Models --> BusinessLogic
+    BusinessLogic --> Interfaces
 
-    Implementations --> OpenAPI
-    Implementations --> Firebase
-    Implementations --> GoogleSignIn
+    Tests --> UI
+    FeedbackMock --> UI
+    FeedbackProd --> UI
+    FeedbackProd --> Adapters
+
+    Adapters --> Domain
+    Adapters --> OpenAPI
+    Adapters --> Firebase
+    Adapters --> GoogleSignIn
+```
+
+---
+
+## 🐞 Issues & Feedback
+
+If you run into problems, have questions, or notice something that isn’t working as expected,  
+please [open an issue](../../issues) on this repository.  
+
+We welcome bug reports, feature requests, and ideas that can help improve the app.  

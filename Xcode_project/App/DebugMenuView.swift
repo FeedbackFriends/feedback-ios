@@ -1,7 +1,7 @@
 #if DEBUG
 import ComposableArchitecture
 import SwiftUI
-import Model
+import Domain
 import FirebaseAuth
 import FirebaseMessaging
 import TabbarFeature

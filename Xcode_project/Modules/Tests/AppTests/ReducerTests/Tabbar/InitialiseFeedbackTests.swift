@@ -3,7 +3,7 @@
 import ComposableArchitecture
 import Testing
 import Foundation
-import Model
+import Domain
 
 @MainActor
 struct InitialiseFeedbackTests {

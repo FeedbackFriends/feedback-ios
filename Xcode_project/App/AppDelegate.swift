@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import Model
+import Domain
 import RootFeature
 import FirebaseAuth
 import FirebaseCore
@@ -9,7 +9,7 @@ import FirebaseCrashlytics
 import DesignSystem
 import UIKit
 import Logger
-import Implementations
+import Adapters
 import Utility
 import OpenAPI
 import OpenAPIURLSession

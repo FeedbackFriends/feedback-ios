@@ -80,8 +80,8 @@ class DeeplinkParserTests {
     }
 }
 
-@testable import Model
-@testable import Implementations
+@testable import Domain
+@testable import Adapters
 //
 // @MainActor
 // class SystemClientUrlGenerationTests {

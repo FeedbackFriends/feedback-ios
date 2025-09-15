@@ -2,7 +2,7 @@ import ComposableArchitecture
 import Foundation
 import DesignSystem
 import SwiftUI
-import Model
+import Domain
 import Logger
 
 @Reducer

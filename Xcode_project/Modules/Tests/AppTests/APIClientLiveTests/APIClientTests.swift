@@ -1,8 +1,8 @@
-@testable import Model
+@testable import Domain
 import Testing
 import ComposableArchitecture
 import Foundation
-import Implementations
+import Adapters
 import OpenAPI
 
 @MainActor

@@ -40,8 +40,8 @@ let package = Package(
             targets: ["Localization"]
         ),
         .library(
-            name: "Model",
-            targets: ["Model"]
+            name: "Domain",
+            targets: ["Domain"]
         ),
         .library(
             name: "Utility",
@@ -56,8 +56,8 @@ let package = Package(
             targets: ["OpenAPI"]
         ),
         .library(
-            name: "Implementations",
-            targets: ["Implementations"]
+            name: "Adapters",
+            targets: ["Adapters"]
         ),
         .library(
             name: "InfoPlist",
@@ -100,7 +100,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "Implementations",
+            name: "Adapters",
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "GoogleSignIn", package: "GoogleSignIn-iOS"),
@@ -109,7 +109,7 @@ let package = Package(
                 .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
                 .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
                 "Logger",
-                "Model",
+                "Domain",
                 "Utility",
                 "OpenAPI"
             ]
@@ -119,7 +119,7 @@ let package = Package(
             dependencies: [
                 .product(name: "OpenAPIRuntime", package: "swift-openapi-runtime"),
                 .product(name: "OpenAPIURLSession", package: "swift-openapi-urlsession"),
-                "Model",
+                "Domain",
                 "Utility"
             ],
             plugins: [.plugin(name: "OpenAPIGenerator", package: "swift-openapi-generator")]
@@ -129,7 +129,7 @@ let package = Package(
             dependencies: [
                 "DesignSystem",
                 "TabbarFeature",
-                "Model",
+                "Domain",
                 "Utility",
                 "EventsFeature",
                 "Logger",
@@ -139,7 +139,7 @@ let package = Package(
         .target(
             name: "DesignSystem",
             dependencies: [
-                "Model",
+                "Domain",
                 "Utility",
                 .product(name: "Lottie", package: "lottie-ios")
             ],
@@ -154,7 +154,7 @@ let package = Package(
             dependencies: [
                 "DesignSystem",
                 "FeedbackFlowFeature",
-                "Model",
+                "Domain",
                 "Utility",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
@@ -163,7 +163,7 @@ let package = Package(
             name: "FeedbackFlowFeature",
             dependencies: [
                 "DesignSystem",
-                "Model",
+                "Domain",
                 "Utility",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
@@ -172,7 +172,7 @@ let package = Package(
             name: "MoreFeature",
             dependencies: [
                 "DesignSystem",
-                "Model",
+                "Domain",
                 "Utility",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
@@ -181,7 +181,7 @@ let package = Package(
             name: "EventsFeature",
             dependencies: [
                 "DesignSystem",
-                "Model",
+                "Domain",
                 "Utility",
                 "FeedbackFlowFeature",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
@@ -194,13 +194,13 @@ let package = Package(
                 "EnterCodeFeature",
                 "EventsFeature",
                 "MoreFeature",
-                "Model",
+                "Domain",
                 "Utility",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
         .target(
-            name: "Model",
+            name: "Domain",
             dependencies: [
                 "Utility",
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
@@ -227,7 +227,7 @@ let package = Package(
             dependencies: [
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 "DesignSystem",
-                "Model",
+                "Domain",
                 "Utility",
                 "Logger"
             ]
@@ -238,7 +238,7 @@ let package = Package(
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture"),
                 .product(name: "SnapshotTesting", package: "swift-snapshot-testing"),
                 "RootFeature",
-                "Implementations",
+                "Adapters",
                 "InfoPlist"
             ]
         )
