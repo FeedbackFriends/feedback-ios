@@ -29,18 +29,18 @@ private extension EnterCodeView {
                     VStack(spacing: 0) {
                         HStack {
                             Text("Lets Grow")
-                                .font(.montserratMedium, 28)
+                                .font(.montserratMedium, 30)
                                 .foregroundStyle(Color.themeTextSecondary)
                             Spacer()
                         }
                         HStack {
                             Spacer()
                             Text("Feedback")
-                                .font(.montserratExtraBold, 40)
+                                .font(.montserratExtraBold, 42)
                                 .foregroundStyle(Color.themeText.gradient)
                         }
                     }
-                    .padding(.horizontal, 58)
+                    .padding(.horizontal, 53)
                     
                     Spacer()
                     Text("Enter PIN Code")
