@@ -71,7 +71,7 @@ private extension EnterCodeView {
                     Image.letsGrowIcon
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 46, height: 46)
                     Spacer()
                 }
                 .synchronize($store.enterCodeTextfieldFocused, $enterCodeTextfieldFocused)
