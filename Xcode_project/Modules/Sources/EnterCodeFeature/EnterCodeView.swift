@@ -26,21 +26,21 @@ private extension EnterCodeView {
             ScrollView {
                 VStack(alignment: .center) {
                     Spacer()
-                    VStack(spacing: 4) {
+                    VStack(spacing: 0) {
                         HStack {
                             Text("Lets Grow")
-                                .font(.montserratMedium, 32)
+                                .font(.montserratMedium, 28)
                                 .foregroundStyle(Color.themeTextSecondary)
                             Spacer()
                         }
                         HStack {
                             Spacer()
                             Text("Feedback")
-                                .font(.montserratBold, 40)
-                                .foregroundStyle(Color.themeText)
+                                .font(.montserratExtraBold, 40)
+                                .foregroundStyle(Color.themeText.gradient)
                         }
                     }
-                    .padding(.horizontal, 60)
+                    .padding(.horizontal, 58)
                     
                     Spacer()
                     Text("Enter PIN Code")

@@ -11,18 +11,17 @@
 		281A893D2E69B7890002D56C /* FeedbackErrorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89392E69B7890002D56C /* FeedbackErrorApp.swift */; };
 		281A89402E69B7950002D56C /* FeedbackMockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A893E2E69B7950002D56C /* FeedbackMockApp.swift */; };
 		281A89432E69B7970002D56C /* FeedbackFlowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89412E69B7970002D56C /* FeedbackFlowApp.swift */; };
-		2843B5222E69A39800274A6F /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883A2E6788FF00F0B6BE /* Implementations */; };
 		2843B5232E69A39800274A6F /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883B2E6788FF00F0B6BE /* InfoPlist */; };
 		285E15C12E69BE5600C1B766 /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285E15C02E69BE5600C1B766 /* APIClientMock.swift */; };
 		285E15C22E69BEC100C1B766 /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285E15C02E69BE5600C1B766 /* APIClientMock.swift */; };
 		285E15C32E69BEF500C1B766 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
 		285E15C52E69C28800C1B766 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 285E15C42E69C28800C1B766 /* RootFeature */; };
 		285E15C62E69C93000C1B766 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
-		285E15C72E69CA4800C1B766 /* Implementations in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5562DD9FE8500FF5B86 /* Implementations */; };
 		285E15C82E69CA4800C1B766 /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 7A49F5582DDA0ED700FF5B86 /* InfoPlist */; };
 		287B6F8A2E698B55003A419C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AB225402D7B2B89002BEF81 /* AppDelegate.swift */; };
 		287B6F8B2E698B55003A419C /* FeedbackApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1057F372843FD8600B9EE2F /* FeedbackApp.swift */; };
 		287B6F8C2E698B55003A419C /* DebugMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */; };
+		288EC12A2E7B40E200544CCE /* Adapters in Frameworks */ = {isa = PBXBuildFile; productRef = 288EC1292E7B40E200544CCE /* Adapters */; };
 		28A050022E786F9E00CC7316 /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285E15C02E69BE5600C1B766 /* APIClientMock.swift */; };
 		28A050072E786F9E00CC7316 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28A050002E786F9E00CC7316 /* RootFeature */; };
 		28A050092E786F9E00CC7316 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
@@ -115,7 +114,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2843B5232E69A39800274A6F /* InfoPlist in Frameworks */,
-				2843B5222E69A39800274A6F /* Implementations in Frameworks */,
+				288EC12A2E7B40E200544CCE /* Adapters in Frameworks */,
 				28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -134,7 +133,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				285E15C82E69CA4800C1B766 /* InfoPlist in Frameworks */,
-				285E15C72E69CA4800C1B766 /* Implementations in Frameworks */,
 				7A062A3B2E12EE8F000AA1A5 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -340,6 +338,7 @@
 				28D8883A2E6788FF00F0B6BE /* Implementations */,
 				28D8883B2E6788FF00F0B6BE /* InfoPlist */,
 				28D8883C2E6788FF00F0B6BE /* RootFeature */,
+				288EC1292E7B40E200544CCE /* Adapters */,
 			);
 			productName = FeedbackMock;
 			productReference = 28D8884C2E6788FF00F0B6BE /* App.app */;
@@ -1885,6 +1884,10 @@
 		285F02882C12328F00AE8942 /* FeedbackFlow */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = FeedbackFlow;
+		};
+		288EC1292E7B40E200544CCE /* Adapters */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Adapters;
 		};
 		28A04FFE2E786F9E00CC7316 /* FeedbackFlow */ = {
 			isa = XCSwiftPackageProductDependency;
