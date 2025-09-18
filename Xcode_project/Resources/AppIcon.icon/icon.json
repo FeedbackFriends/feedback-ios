@@ -1,5 +1,17 @@
 {
-  "fill" : "automatic",
+  "fill-specializations" : [
+    {
+      "value" : {
+        "solid" : "srgb:0.93725,0.94510,0.99608,1.00000"
+      }
+    },
+    {
+      "appearance" : "dark",
+      "value" : {
+        "solid" : "display-p3:0.06502,0.08832,0.13846,1.00000"
+      }
+    }
+  ],
   "groups" : [
     {
       "blend-mode" : "normal",
@@ -9,21 +21,21 @@
         {
           "blend-mode" : "normal",
           "fill" : "none",
-          "glass" : false,
+          "glass" : true,
           "hidden" : false,
           "image-name-specializations" : [
             {
-              "value" : "Group 116@2x 4.png"
+              "value" : "Group 123 1.png"
             },
             {
               "appearance" : "light",
-              "value" : "Group 116@2x 3.png"
+              "value" : "Group 122 1.png"
             }
           ],
           "name" : "icon_lightmode",
           "opacity" : 1,
           "position" : {
-            "scale" : 0.84,
+            "scale" : 1.1,
             "translation-in-points" : [
               0,
               0
