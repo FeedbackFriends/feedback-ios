@@ -116,16 +116,16 @@ private extension TabbarView {
 							activityToolbarItem(store.session.activityBadgeCount)
 						}
 				}
-			}
-			.tabItem {
-				Image(systemName: "calendar")
-				Text("Events")
-			}
-			.tag(Tab.events)
+            }
+            .tabItem {
+                Image(systemName: "calendar")
+                Text("Events")
+            }
+            .tag(Tab.events)
             
             NavigationStack {
                 List {
-					Group {
+                    Group {
 						switch store.session.account {
 						case .manager, .participant:
 							AccountSectionView(store: store.scope(state: \.accountSection, action: \.accountSection))

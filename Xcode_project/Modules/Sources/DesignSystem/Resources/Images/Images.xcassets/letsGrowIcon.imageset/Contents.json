@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "icon_lightmode.pdf",
+      "filename" : "icon_transparent_light.png",
       "idiom" : "universal"
     },
     {
@@ -11,7 +11,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "icon_darkmode.pdf",
+      "filename" : "icon_transparent_dark.png",
       "idiom" : "universal"
     }
   ],

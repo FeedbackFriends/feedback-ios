@@ -1,21 +1,11 @@
 {
-  "fill-specializations" : [
-    {
-      "value" : {
-        "solid" : "srgb:0.93725,0.94510,0.99608,1.00000"
-      }
-    },
-    {
-      "appearance" : "dark",
-      "value" : {
-        "solid" : "display-p3:0.06502,0.08832,0.13846,1.00000"
-      }
-    }
-  ],
+  "fill" : {
+    "solid" : "srgb:0.93725,0.94510,0.99608,1.00000"
+  },
   "groups" : [
     {
       "blend-mode" : "normal",
-      "blur-material" : null,
+      "blur-material" : 0.5,
       "hidden" : false,
       "layers" : [
         {
@@ -25,17 +15,17 @@
           "hidden" : false,
           "image-name-specializations" : [
             {
-              "value" : "Group 123 1.png"
+              "value" : "appicon_flat_dark.png"
             },
             {
               "appearance" : "light",
-              "value" : "Group 122 1.png"
+              "value" : "appicon_flat_light.png"
             }
           ],
           "name" : "icon_lightmode",
           "opacity" : 1,
           "position" : {
-            "scale" : 1.1,
+            "scale" : 0.75,
             "translation-in-points" : [
               0,
               0
@@ -43,14 +33,22 @@
           }
         }
       ],
+      "lighting" : "individual",
       "name" : "Icon",
+      "position" : {
+        "scale" : 0.95,
+        "translation-in-points" : [
+          0,
+          0
+        ]
+      },
       "shadow" : {
         "kind" : "neutral",
         "opacity" : 0.5
       },
       "specular" : true,
       "translucency" : {
-        "enabled" : true,
+        "enabled" : false,
         "value" : 0.5
       }
     }
