@@ -80,7 +80,7 @@ public struct FeedbackFlowCoordinatorView: View {
         .overlay(alignment: .bottom) {
             bottomBar
         }
-        .overlay(alignment: .top){
+        .overlay(alignment: .top) {
             topBar
         }
         .animation(.smooth, value: commentTextfieldFocused)

@@ -10,7 +10,7 @@ struct FeedbackFlowTests {
     @Test
     func testInitialState() async throws {
         let store = TestStore(initialState: .initialState(feedbackSession: session)) {
-            FeedbackFlow()
+            FeedbackFlowCoordinator()
         }
         #expect(store.state.path.count == 1)
         #expect(store.state.questions.count == session.questions.count)
@@ -24,7 +24,7 @@ struct FeedbackFlowTests {
     @Test
     func showsInfoScreenAndDismisses() async {
         let store = TestStore(initialState: .initialState(feedbackSession: session)) {
-            FeedbackFlow()
+            FeedbackFlowCoordinator()
         }
         
         await store.send(.infoButtonTap) {
@@ -40,7 +40,7 @@ struct FeedbackFlowTests {
         let didDismiss = LockIsolated(false)
         
         let store = TestStore(initialState: .initialState(feedbackSession: session)) {
-            FeedbackFlow()
+            FeedbackFlowCoordinator()
         } withDependencies: {
             $0.dismiss = .init { didDismiss.setValue(true) }
         }
@@ -55,7 +55,7 @@ struct FeedbackFlowTests {
         let clock = TestClock()
         
         let store = TestStore(initialState: .initialState(feedbackSession: session)) {
-            FeedbackFlow()
+            FeedbackFlowCoordinator()
         } withDependencies: {
             $0.apiClient.submitFeedback = { _, _ in true }
             $0.continuousClock = clock
@@ -144,7 +144,7 @@ struct FeedbackFlowTests {
         let didDismiss = LockIsolated(false)
         
         let store = TestStore(initialState: readyForSubmissionState) {
-            FeedbackFlow()
+            FeedbackFlowCoordinator()
         } withDependencies: {
             $0.apiClient.submitFeedback = { _, _ in false }
             $0.continuousClock = ImmediateClock()
@@ -165,7 +165,7 @@ struct FeedbackFlowTests {
         let error = URLError(.badURL)
         
         let store = TestStore(initialState: readyForSubmissionState) {
-            FeedbackFlow()
+            FeedbackFlowCoordinator()
         } withDependencies: {
             $0.apiClient.submitFeedback = { _, _ in throw error }
             $0.continuousClock = ImmediateClock()

@@ -95,8 +95,6 @@ public struct OpinionFeedbackView: View {
     }
 }
 
-
-
 extension Opinion {
     var title: String {
         switch self {
@@ -113,7 +111,6 @@ extension Opinion {
         }
     }
 }
-
 
 #Preview {
     @Previewable @FocusState var isFocused: Bool
