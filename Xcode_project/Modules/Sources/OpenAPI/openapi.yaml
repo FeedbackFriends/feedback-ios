@@ -4,8 +4,8 @@ info:
   description: |-
     API documentation for Lets Grow application.
 
-    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/58f860f)
-  version: 113-58f860f
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/5806169)
+  version: 114-5806169
 servers:
 - url: http://api.letsgrow.dk
   description: Generated server url
@@ -521,7 +521,6 @@ components:
           - Neutral
           - Agree
           - StronglyAgree
-          - NoOpinion
         oneToTen:
           type: integer
           format: int32
@@ -729,7 +728,6 @@ components:
           - Neutral
           - Agree
           - StronglyAgree
-          - NoOpinion
         oneToTen:
           type: integer
           format: int32

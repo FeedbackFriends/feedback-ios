@@ -1,0 +1,305 @@
+# Feedback iOS App - Cursor Rules
+
+This iOS app uses a **TCA-based modular architecture** with Swift Package Manager modules. These rules preserve and enforce the existing architecture patterns.
+
+## Architecture Overview
+
+This is a **feature-based modular architecture** built on The Composable Architecture (TCA):
+
+- **TCA Feature Modules**: Self-contained features with reducers, state, actions, and SwiftUI views
+- **Domain Services**: Service interfaces and models shared across features  
+- **Adapters**: Live implementations of domain services (API, Firebase, system integrations)
+- **Shared Infrastructure**: Design system, utilities, and logging that all features use
+- **App Composition**: Dependency injection and feature wiring via TCA's dependency system
+
+**Key Characteristic**: Features can depend on other features (e.g., TabbarFeature uses EnterCodeFeature, EventsFeature, etc.) and share state via `@Shared` TCA mechanism.
+
+## TCA Patterns (Version 1.22.1)
+
+### Reducer Structure
+```swift
+@Reducer
+public struct FeatureName: Sendable {
+    
+    @Reducer(state: .equatable, .sendable)
+    public enum Destination {
+        case alert(AlertState<AlertAction>)
+        case sheet(ChildFeature)
+        @ReducerCaseIgnored
+        case customCase
+        @ReducerCaseEphemeral
+        case ephemeralCase
+    }
+    
+    @ObservableState
+    public struct State: Equatable, Sendable {
+        @Presents var destination: Destination.State?
+        @Shared public var session: Session // Use @Shared for global state
+        // other state properties
+    }
+    
+    public enum Action: BindableAction {
+        case binding(BindingAction<State>)
+        case destination(PresentationAction<Destination.Action>)
+        case delegate(Delegate)
+        // feature-specific actions
+        
+        public enum Delegate: Equatable {
+            case someEvent
+        }
+    }
+    
+    @Dependency(\.apiClient) var apiClient
+    @Dependency(\.mainQueue) var mainQueue
+    
+    public var body: some ReducerOf<Self> {
+        BindingReducer()
+        Scope(state: \.childFeature, action: \.childFeature) {
+            ChildFeature()
+        }
+        Reduce { state, action in
+            // reducer logic
+        }
+        .ifLet(\.$destination, action: \.destination)
+    }
+}
+```
+
+### SwiftUI View Patterns
+```swift
+public struct FeatureView: View {
+    @Bindable var store: StoreOf<Feature>
+    
+    public init(store: StoreOf<Feature>) {
+        self.store = store
+    }
+    
+    public var body: some View {
+        // Use scoped stores for child features
+        let childStore = store.scope(state: \.child, action: \.child)
+        
+        // View content with theme colors and styles
+    }
+}
+```
+
+### Testing Patterns
+```swift
+@MainActor
+struct FeatureTests {
+    
+    @Test
+    func descriptiveTestName() async {
+        let store = TestStore(
+            initialState: Feature.State()
+        ) {
+            Feature()
+        } withDependencies: {
+            $0.apiClient = .mock
+            $0.mainQueue = .immediate
+        }
+        
+        await store.send(.action) {
+            $0.property = expectedValue
+        }
+        await store.receive(\.delegate, .expectedDelegate)
+    }
+}
+```
+
+## Swift Package Manager Structure
+
+### Module Organization
+- Each feature is a separate library target in `Modules/Package.swift`
+- Dependencies flow: Features → DesignSystem → Domain → Utility → Logger
+- Adapters depend on Domain and utility modules
+- Use `.product(name: "ComposableArchitecture")` for TCA dependency
+
+### Access Control
+- Always use `public` for APIs exposed between modules
+- `internal` for implementation details within a module
+- Provide `public init()` methods for public types
+
+## Design System Patterns
+
+### Theme Colors
+```swift
+// Always use theme colors, not system colors
+Color.themeBackground
+Color.themeSurface
+Color.themeText
+Color.themePrimaryAction
+Color.themeOnPrimaryAction
+```
+
+### Typography
+```swift
+// Use Montserrat font family
+.font(.montserratSemiBold, 16)
+.font(.montserratRegular, 12)
+.font(.montserratBold, 20)
+```
+
+### Button Styles
+```swift
+// Use custom button styles, not default
+.buttonStyle(LargeButtonStyle())
+.buttonStyle(PrimaryTextButtonStyle())
+.buttonStyle(LargeBoxButtonStyle())
+```
+
+### Layout Constants
+```swift
+// Use Theme constants
+.clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius))
+.padding(Theme.padding)
+```
+
+### Loading States
+```swift
+// Use environment values for loading states
+@Environment(\.isLoading) private var isLoading
+```
+
+## Dependency Injection
+
+### Registering Dependencies
+```swift
+extension SomeClient: DependencyKey {
+    static let liveValue = Self(
+        // live implementation
+    )
+}
+
+extension DependencyValues {
+    var someClient: SomeClient {
+        get { self[SomeClient.self] }
+        set { self[SomeClient.self] = newValue }
+    }
+}
+```
+
+### Live Client Implementations
+```swift
+public extension APIClient {
+    static func live(
+        client api: APIProtocol,
+        sessionCache: SessionCache = SessionCache()
+    ) -> APIClient {
+        return APIClient(
+            someMethod: { param in
+                try await withAuthorization {
+                    // API call implementation
+                }
+            }
+        )
+    }
+}
+```
+
+## Code Organization
+
+### File Structure
+- One reducer per file: `FeatureName.swift`
+- One view per file: `FeatureNameView.swift`
+- Group related types in folders (e.g., `CreateEvent/`)
+- Extensions in separate files: `Type+Extension.swift`
+
+### Naming Conventions
+- Features: `FeatureName` (PascalCase)
+- Views: `FeatureNameView`
+- Actions: Descriptive names (e.g., `.createButtonTapped`)
+- State properties: Descriptive (e.g., `isLoading`, `selectedTab`)
+
+## Testing Guidelines
+
+### Test Structure
+- Use Swift Testing framework (`@Test`, `#expect`)
+- Tests in `Modules/Tests/AppTests/`
+- Separate unit tests and reducer tests
+- Use `@MainActor` for test classes
+- Mock dependencies in `withDependencies` closure
+
+### Test Naming
+- Use descriptive test method names
+- Group related tests in the same struct
+- Use `@Test("Description")` for complex scenarios
+
+## Configuration Management
+
+### Environment Configuration
+- Use `.xcconfig` files for environment-specific settings
+- Access via `InfoPlistConfig` enum
+- Keep sensitive data in xcconfig, not in code
+
+### Feature Flags
+- Use `#if DEBUG` for debug-only features
+- Conditional compilation for different build configurations
+
+## API Integration
+
+### OpenAPI
+- Generated client code in `OpenAPI` module
+- Use middleware for cross-cutting concerns (auth, logging, device ID)
+- Implement authorization with `withAuthorization` helper
+
+### Error Handling
+- Use `PresentableError` for user-facing errors
+- Domain-specific error types in Domain layer
+- Proper error mapping in adapters
+
+## Common Patterns to Follow
+
+### Async Operations
+```swift
+// Use modern async/await
+.task {
+    await store.send(.onTask).finish()
+}
+
+// For effects in reducers
+return .run { send in
+    try await someAsyncOperation()
+    await send(.operationComplete)
+}
+```
+
+### State Updates
+```swift
+// Prefer immutable updates
+return .run { [state] send in
+    let result = try await apiCall(state.parameter)
+    await send(.resultReceived(result))
+}
+```
+
+### Navigation
+```swift
+// Use destination enum for navigation
+.sheet(item: store.scope(state: \.destination?.sheet, action: \.destination.sheet)) { store in
+    SheetView(store: store)
+}
+```
+
+## What NOT to Do
+
+- ❌ Don't use `WithViewStore` (use `@Bindable` instead)
+- ❌ Don't bypass the theme system with hardcoded colors
+- ❌ Don't create features without tests
+- ❌ Don't put business logic in views
+- ❌ Don't use `@StateObject` or `@ObservedObject` (use TCA store)
+- ❌ Don't create global singletons (use TCA dependencies)
+- ❌ Don't mix UI framework dependencies in Domain layer
+- ❌ Don't forget to make public APIs `public`
+
+## Code Style
+
+- Use trailing closures for single closure parameters
+- Prefer explicit types for complex generics
+- Use meaningful variable names
+- Keep methods focused and small
+- Use guards for early returns
+- Prefer struct over class when possible
+- Use actors for shared mutable state (like caches)
+
+When implementing new features, always follow these patterns to maintain consistency with the existing codebase architecture.

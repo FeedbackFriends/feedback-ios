@@ -10,7 +10,7 @@ public struct InitialiseFeedback: Sendable {
     
     @Reducer(state: .equatable, .sendable)
     public enum Destination {
-        case feedbackFeature(FeedbackFlow)
+        case feedbackFlowCoordinator(FeedbackFlowCoordinator)
         case alert(AlertState<Never>)
     }
     
@@ -59,8 +59,8 @@ public struct InitialiseFeedback: Sendable {
                 return .none
                 
             case .startFeedbackSessionResponse(let feedbackSession):
-                state.destination = .feedbackFeature(
-                    FeedbackFlow.State.initialState(feedbackSession: feedbackSession)
+                state.destination = .feedbackFlowCoordinator(
+                    FeedbackFlowCoordinator.State.initialState(feedbackSession: feedbackSession)
                 )
                 return .send(.delegate(.stopLoading))
                 

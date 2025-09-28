@@ -68,11 +68,11 @@ public struct TabbarView: View {
             }
             .fullScreenCover(
                 item: $store.scope(
-                    state: \.initialiseFeedback.destination?.feedbackFeature,
-                    action: \.initialiseFeedback.destination.feedbackFeature
+                    state: \.initialiseFeedback.destination?.feedbackFlowCoordinator,
+                    action: \.initialiseFeedback.destination.feedbackFlowCoordinator
                 )
             ) { store in
-                FeedbackFlowView(store: store)
+                FeedbackFlowCoordinatorView(store: store)
             }
     }
 }

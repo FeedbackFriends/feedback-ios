@@ -250,7 +250,7 @@ private extension FeedbackFlowTests {
         )
     }
     
-    var readyForSubmissionState: FeedbackFlow.State {
+    var readyForSubmissionState: FeedbackFlowCoordinator.State {
         return .init(
             path: .init(
                 [
@@ -261,7 +261,7 @@ private extension FeedbackFlowTests {
             ),
             submitFeedbackInFlight: false,
             presentSuccessOverlay: false,
-            questions: IdentifiedArrayOf<FeedbackFlow.Path.State>.init(
+            questions: IdentifiedArrayOf<FeedbackFlowCoordinator.Path.State>.init(
                 arrayLiteral: .emoji(question1), .emoji(question2)
             ),
             feedbackSession: session,

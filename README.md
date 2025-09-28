@@ -3,12 +3,8 @@
 ![Swift 6.2](https://img.shields.io/badge/Swift-6.2-FA7343?logo=swift&logoColor=white&style=plastic)
 ![iOS 26](https://img.shields.io/badge/iOS-26-000000?logo=apple&logoColor=white&style=plastic)
 
-This repository contains the source code for the **Lets Grow: Feedback** iOS app, available on the App Store.  
+This repository contains the source code for the **Lets Grow: Feedback** iOS app, available on the [App Store](https://apps.apple.com/us/app/lets-grow-feedback/id6742420307).  
 It is an open-source project built with [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and leverages iOS 26’s new **Liquid Glass** design system.
-
----
-
-## 📸 Screenshots
 
 <p float="left">
   <img src="Docs/screenshots/screenshot_1.jpg" width="19%" />
@@ -30,10 +26,148 @@ It is an open-source project built with [The Composable Architecture (TCA)](http
 
 ---
 
+## 🚀 Quick start
+
+1. Clone: `git clone https://github.com/FeedbackFriends/feedback-ios.git`
+2. Open project: `open Xcode_project/Feedback.xcodeproj`
+3. Select a scheme:
+   - Feedback Debug (default dev)
+   - Feedback Localhost (points to local API)
+   - Feedback Mock (mock adapters)
+   - Feedback Prod (production)
+4. Run on simulator or device.
+
+Run tests from Xcode or:
+
+```bash
+xcodebuild \
+  -project Xcode_project/Feedback.xcodeproj \
+  -scheme "Feedback Debug" \
+  -destination 'platform=iOS Simulator,name=iPhone 16' \
+  test
+```
+
+
+---
+
+## 🗂 Project structure
+
+```
+Xcode_project/
+  App/                         # App entry, AppDelegate, debug menu
+  Modules/
+    Sources/
+      RootFeature/             # App root reducer & navigation
+      EnterCodeFeature/        # Join flow
+      FeedbackFlowFeature/     # Feedback screens and flow
+      EventsFeature/           # Event list/detail/create
+      MoreFeature/             # Settings/account
+      SignUpFeature/           # Auth, role selection
+      TabbarFeature/           # Shell/tab coordination
+      Domain/                  # Models, errors, service interfaces & DI keys
+      Adapters/                # Live implementations (API, Firebase, etc.)
+      OpenAPI/                 # Spec + generated client (plugin)
+      DesignSystem/            # Theme, styles, reusable views
+      Logger/, Utility/, InfoPlist/  # Cross‑cutting utilities
+    Tests/                     # Reducer & snapshot tests
+  Resources/                   # Assets, launch screen, localization
+  Docs/                        # Documentation, screenshots, push samples
+```
+
+See also: `Xcode_project/Modules/Package.swift` for module targets and dependencies.
+
+
+---
+
 ## 🔌 API Layer
 
 The API layer is fully generated from our [OpenAPI specification](https://github.com/FeedbackFriends/feedback-openapi).  
 This ensures the client stays in sync with the backend contract.
+
+- Spec and generated client live under `Xcode_project/Modules/Sources/OpenAPI/`.
+- Generation is handled by the Swift OpenAPI Generator plugin during builds; no manual step needed.
+- The live `APIClient` is injected via TCA dependencies.
+
+More details: see [Docs/ARCHITECTURE.md](Docs/ARCHITECTURE.md) and [Docs/SETUP.md](Docs/SETUP.md).
+
+
+---
+
+## 🧪 Testing
+
+- Unit and reducer tests: `Xcode_project/Modules/Tests/`
+- Snapshot tests via `swift-snapshot-testing`
+- Run from Xcode or use the `xcodebuild test` command above.
+
+
+---
+
+## ⚙️ Configuration
+
+Runtime configuration is provided via `Info.plist` keys and read by a small wrapper in `InfoPlist`.
+
+Required keys:
+
+| Key | Example | Purpose |
+| --- | --- | --- |
+| `API_BASE_URL` | `api.myhost.com` | Backend host |
+| `API_SCHEME` | `https` | Backend scheme |
+| `WEB_BASE_URL` | `app.myhost.com` | Web deep link host |
+| `WEB_SCHEME` | `https` | Web scheme |
+| `SUPPORT_EMAIL` | `support@myhost.com` | Support link |
+| `APPSTORE_ID` | `1234567890` | App Store links |
+
+Schemes select different environments (Prod/Debug/Localhost/Mock) using `.xcconfig` under `Xcode_project/App/Config/`.
+
+Full guide: [Docs/CONFIGURATION.md](Docs/CONFIGURATION.md)
+
+
+---
+
+## 🐞 Debugging & Preview
+
+- In `DEBUG` builds a debug overlay (`DebugMenuView`) is available.
+- Dedicated preview apps exist under `Xcode_project/PreviewApps/` for focused UI flows.
+
+
+---
+
+## 🔔 Notifications
+
+- Push is enabled via `Xcode_project/App/Entitlements.entitlements`.
+- Sample payloads are in `Docs/push_notifications/`.
+- Local testing on a booted simulator or device:
+
+```bash
+xcrun simctl push booted <your.bundle.id> Docs/push_notifications/new_feedback_received.apns
+```
+
+Details: [Docs/NOTIFICATIONS.md](Docs/NOTIFICATIONS.md)
+
+
+---
+
+## 🧰 CI
+
+- `Xcode_project/CI_scripts/ci_post_clone.sh` relaxes SwiftPM plugin fingerprint checks (needed for the OpenAPI generator) in CI environments.
+
+
+---
+
+## 🤝 Contributing
+
+Issues and PRs are welcome. Please:
+
+- Keep PRs focused and well‑described
+- Add tests for reducer/business logic
+- Follow TCA conventions and existing module boundaries
+
+
+---
+
+## 📄 License
+
+MIT (or update to your chosen license)
 
 
 ---
@@ -41,23 +175,30 @@ This ensures the client stays in sync with the backend contract.
 
 ## 🏗️ Architecture
 
-The app follows a layered, **Clean Architecture–inspired** design.  
-Each layer has a clear responsibility, with dependencies always pointing **inward** toward the Core.  
-This separation makes the codebase easier to test, maintain, and evolve as new features or integrations are added.
+The app uses a **TCA-based modular architecture** built with Swift Package Manager.  
+Features are self-contained modules that compose together to create the full app experience.
 
-### Layers
+### How It Works
 
-- **UI layer**: `RootFeature`, `EnterCodeFeature`, `FeedbackFlowFeature`, `EventsFeature`, `MoreFeature`, `TabbarFeature`, `SignUpFeature`  
-  Feature modules that contain screens, state management, and user-facing logic, all built on TCA.  
+**TCA Features** (`RootFeature`, `EnterCodeFeature`, `FeedbackFlowFeature`, etc.) are the main building blocks:
+- Each feature manages its own state, business logic, and UI using TCA patterns
+- Features can embed child features and share state via `@Shared`
+- All user interactions and system events flow through TCA actions
 
-- **Domain**: Models, data types, interfaces, and business logic contracts  
-  Defines core rules and behaviors, completely independent of UI and third-party SDKs.  
+**Domain Services** provide clean interfaces for external interactions:
+- `APIClient`, `AuthClient`, `NotificationClient` defined as protocols
+- Features call these services via TCA's dependency injection (`@Dependency`)
+- Never directly depend on external SDKs or frameworks
 
-- **Adapters**: `Implementations`, `OpenAPI`, `Firebase`, `Google Sign-In`  
-  Bridge the Domain to external SDKs. These conform to Domain protocols so the UI and Core never depend directly on external code.  
+**Adapters** implement the domain services using real integrations:
+- Live implementations use Firebase, OpenAPI-generated clients, system APIs
+- Easy to swap for mocks during testing
+- All external complexity is contained here
 
-- **Composition root**: `FeedbackProd` and `FeedbackMock`  
-  Assemble the app by wiring Features to real or mock Adapters. This layer decides what runs in production versus testing.  
+**Shared Infrastructure** supports all features:
+- `DesignSystem`: UI components, theme colors, typography
+- `Utility`: Extensions and cross-cutting helpers  
+- `Logger`: Structured logging with multiple outputs  
 
 
 ```mermaid
@@ -65,52 +206,61 @@ This separation makes the codebase easier to test, maintain, and evolve as new f
 config:
   layout: dagre
 ---
-flowchart LR
-    %% Layers
-    subgraph UI[UI Layer]
+flowchart TD
+    %% TCA Features (main architectural units)
+    subgraph Features[TCA Features]
         RootFeature
-        EnterCodeFeature
+        TabbarFeature
         EventsFeature
         FeedbackFlowFeature
+        EnterCodeFeature
         MoreFeature
         SignUpFeature
-        TabbarFeature
     end
 
-    subgraph Domain[Domain]
-        Models[Models]
-        Interfaces[Interfaces]
-        BusinessLogic["Business Logic"]
+    %% Shared Infrastructure
+    subgraph Infrastructure[Shared Infrastructure]
+        DesignSystem
+        Utility
+        Logger
     end
 
-    subgraph CompositionRoot[Composition Root]
-        FeedbackProd["Feedback Prod"]
-        FeedbackMock["Feedback Mock"]
-        Tests["Tests"]
+    %% Domain Services (interfaces)
+    subgraph Domain[Domain Services]
+        APIClient["APIClient (interface)"]
+        AuthClient["AuthClient (interface)"]
+        NotificationClient["NotificationClient (interface)"]
+        Models[Models & Types]
     end
 
+    %% Adapters (implementations)
     subgraph Adapters[Adapters]
-        Implementations["Implementations"]
-        OpenAPI[OpenAPI]
-        Firebase[Firebase]
-        GoogleSignIn["Google Sign-In"]
+        APILive["APIClient.live"]
+        AuthLive["AuthClient.live"]
+        NotificationLive["NotificationClient.live"]
     end
 
-    %% Dependency flow
-    UI --> Domain
+    %% External Systems
+    subgraph External[External Systems]
+        OpenAPI
+        Firebase
+        GoogleSignIn
+        SystemAPIs["System APIs"]
+    end
 
-    Models --> BusinessLogic
-    BusinessLogic --> Interfaces
+    %% App Composition
+    subgraph App[App Composition]
+        AppDelegate["AppDelegate\n(Dependency Injection)"]
+    end
 
-    Tests --> UI
-    FeedbackMock --> UI
-    FeedbackProd --> UI
-    FeedbackProd --> Adapters
-
+    %% Dependencies
+    Features --> Infrastructure
+    Features --> Domain
+    AppDelegate --> Features
+    AppDelegate --> Adapters
     Adapters --> Domain
-    Adapters --> OpenAPI
-    Adapters --> Firebase
-    Adapters --> GoogleSignIn
+    Adapters --> External
+    Infrastructure --> Domain
 ```
 
 ---

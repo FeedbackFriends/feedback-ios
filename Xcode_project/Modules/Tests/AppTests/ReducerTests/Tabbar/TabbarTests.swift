@@ -175,8 +175,8 @@ struct TabbarTests {
         await store.withExhaustivity(.off) {
             await store.receive(\.initialiseFeedback.startFeedbackSessionResponse, feedbackSession)
         }
-        #expect(store.state.initialiseFeedback.destination!.feedbackFeature!.path.first!.id == feedbackSession.questions.first!.id)
-        #expect(store.state.initialiseFeedback.destination!.feedbackFeature!.path.first!.questionText == feedbackSession.questions.first!.questionText)
+        #expect(store.state.initialiseFeedback.destination!.feedbackFlowCoordinator!.path.first!.id == feedbackSession.questions.first!.id)
+        #expect(store.state.initialiseFeedback.destination!.feedbackFlowCoordinator!.path.first!.questionText == feedbackSession.questions.first!.questionText)
         await store.receive(\.initialiseFeedback.delegate, .stopLoading) {
             $0.enterCode.startFeedbackPincodeInFlight = false
             $0.enterCode.pinCodeInput.value = ""

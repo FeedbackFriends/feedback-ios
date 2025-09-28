@@ -57,5 +57,4 @@ public enum Opinion: String, Equatable, Sendable, Codable {
     case neutral = "neutral"
     case agree = "agree"
     case stronglyAgree = "stronglyAgree"
-    case noOpinion = "noOpinion"
 }

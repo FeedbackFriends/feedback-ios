@@ -4,79 +4,39 @@ import Domain
 import SwiftUI
 
 public struct EmojiFeedbackView: View {
-    
     @FocusState.Binding var commentTextfieldFocused: Bool
-    @State var didAppear = false
-    
     @Bindable var store: StoreOf<EmojiFeedback>
-    
+
     public init(store: StoreOf<EmojiFeedback>, commentTextfieldFocused: FocusState<Bool>.Binding) {
         self.store = store
         self._commentTextfieldFocused = commentTextfieldFocused
     }
-    
+
     public var body: some View {
         VStack {
             HStack {
-                Button {
+                EmojiFaceButtonView(image: .verySad, isSelected: store.selectedEmoji == .verySad) {
                     store.send(.onSmileyTapped(.verySad), animation: .bouncy)
-                } label: {
-                    Image.verySad
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .grayscale(store.selectedEmoji == .verySad ? 0.0 : 1.0)
-                        .padding(store.selectedEmoji == .verySad ? 10 : 13)
-						.opacity(store.selectedEmoji == .verySad ? 1.0 : 0.6)
                 }
-                Button {
+                EmojiFaceButtonView(image: .sad, isSelected: store.selectedEmoji == .sad) {
                     store.send(.onSmileyTapped(.sad), animation: .bouncy)
-                } label: {
-                    Image.sad
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .grayscale(store.selectedEmoji == .sad ? 0.0 : 1.0)
-                        .padding(store.selectedEmoji == .sad ? 10 : 13)
-						.opacity(store.selectedEmoji == .sad ? 1.0 : 0.6)
                 }
-                
-                Button {
+                EmojiFaceButtonView(image: .happy, isSelected: store.selectedEmoji == .happy) {
                     store.send(.onSmileyTapped(.happy), animation: .bouncy)
-                } label: {
-                    Image.happy
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .grayscale(store.selectedEmoji == .happy ? 0.0 : 1.0)
-                        .padding(store.selectedEmoji == .happy ? 10 : 13)
-						.opacity(store.selectedEmoji == .happy ? 1.0 : 0.6)
                 }
-                Button {
+                EmojiFaceButtonView(image: .veryHappy, isSelected: store.selectedEmoji == .veryHappy) {
                     store.send(.onSmileyTapped(.veryHappy), animation: .bouncy)
-                } label: {
-                    Image.veryHappy
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .grayscale(store.selectedEmoji == .veryHappy ? 0.0 : 1.0)
-                        .padding(store.selectedEmoji == .veryHappy ? 10 : 13)
-						.opacity(store.selectedEmoji == .veryHappy ? 1.0 : 0.6)
                 }
             }
+            .padding(.horizontal, 2)
             .frame(maxWidth: 400, alignment: .center)
+
             if store.selectedEmoji != nil {
-                VStack(alignment: .leading) {
-                    Text("Please elaborate why")
-                        .font(.montserratSemiBold, 13)
-                        .foregroundColor(.themeText)
-                    TextEditor(text: $store.commentTextField)
-                        .padding(.all, 12)
-                        .font(.montserratRegular, 14)
-                        .foregroundColor(.themeText)
-                        .scrollContentBackground(.hidden)
-                        .background(Color.themeSurface)
-                        .cornerRadius(Theme.cornerRadius)
-                        .focused($commentTextfieldFocused)
-                }
+                FeedbackElaborationTextField(
+                    commentTextField: $store.commentTextField,
+                    commentTextfieldFocused: $commentTextfieldFocused
+                )
                 .animation(.bouncy, value: store.selectedEmoji)
-                .transition(.blurReplace)
             }
         }
         .background(Color.clear)
@@ -86,4 +46,35 @@ public struct EmojiFeedbackView: View {
         .onTapGesture { store.send(.onTapOutsideTextfield) }
         .sensoryFeedback(.selection, trigger: store.selectedEmoji)
     }
+}
+
+private struct EmojiFaceButtonView: View {
+    let image: Image
+    let isSelected: Bool
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            image
+                .resizable()
+                .aspectRatio(contentMode: .fit)
+                .grayscale(isSelected ? 0.0 : 1.0)
+                .padding(isSelected ? 10 : 13)
+                .opacity(isSelected ? 1.0 : 0.6)
+        }
+    }
+}
+
+#Preview {
+    @Previewable @FocusState var isFocused: Bool
+    return EmojiFeedbackView(
+        store: StoreOf<EmojiFeedback>(
+            initialState: EmojiFeedback.State(
+                questionId: UUID(),
+                questionText: "Hello world"
+            ),
+            reducer: { EmojiFeedback() }
+        ),
+        commentTextfieldFocused: $isFocused
+    )
 }

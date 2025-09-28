@@ -37,8 +37,8 @@ struct InitialiseFeedbackTests {
         await store.send(.startFeedback(pinCode: session.pinCode))
         await store.withExhaustivity(.off) {
             await store.receive(\.startFeedbackSessionResponse) {
-                guard case let .feedbackFeature(flowState) = $0.destination else {
-                    XCTFail("Expected .feedbackFeature")
+                guard case let .feedbackFlowCoordinator(flowState) = $0.destination else {
+                    XCTFail("Expected .feedbackFlowCoordinator")
                     return
                 }
                 

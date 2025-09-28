@@ -11,6 +11,7 @@
 		281A893D2E69B7890002D56C /* FeedbackErrorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89392E69B7890002D56C /* FeedbackErrorApp.swift */; };
 		281A89402E69B7950002D56C /* FeedbackMockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A893E2E69B7950002D56C /* FeedbackMockApp.swift */; };
 		281A89432E69B7970002D56C /* FeedbackFlowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89412E69B7970002D56C /* FeedbackFlowApp.swift */; };
+		281F2AA82E81F01A00D4665A /* Adapters in Frameworks */ = {isa = PBXBuildFile; productRef = 288EC1292E7B40E200544CCE /* Adapters */; };
 		2843B5232E69A39800274A6F /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883B2E6788FF00F0B6BE /* InfoPlist */; };
 		285E15C12E69BE5600C1B766 /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285E15C02E69BE5600C1B766 /* APIClientMock.swift */; };
 		285E15C22E69BEC100C1B766 /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285E15C02E69BE5600C1B766 /* APIClientMock.swift */; };
@@ -30,7 +31,6 @@
 		28A0500D2E786F9E00CC7316 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B1057F3B2843FD8700B9EE2F /* Assets.xcassets */; };
 		28A050162E786FEB00CC7316 /* QuestionPickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28A050142E786FCA00CC7316 /* QuestionPickerApp.swift */; };
 		28A050192E788FDB00CC7316 /* AppCore in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7E44EE2DE85B4800B3C4C4 /* AppCore */; };
-		28A0501A2E788FDB00CC7316 /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 285F02882C12328F00AE8942 /* FeedbackFlow */; };
 		28A0501B2E788FDB00CC7316 /* FeedbackFlowFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7A7D2D852E13D184008B31F0 /* FeedbackFlowFeature */; };
 		28A0501C2E788FDB00CC7316 /* FeedbackFlow in Frameworks */ = {isa = PBXBuildFile; productRef = 28A04FFE2E786F9E00CC7316 /* FeedbackFlow */; };
 		28A0501D2E788FDB00CC7316 /* FeedbackFlowFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 28A04FFF2E786F9E00CC7316 /* FeedbackFlowFeature */; };
@@ -93,7 +93,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				28A0501B2E788FDB00CC7316 /* FeedbackFlowFeature in Frameworks */,
-				28A0501A2E788FDB00CC7316 /* FeedbackFlow in Frameworks */,
 				285E15C52E69C28800C1B766 /* RootFeature in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -112,6 +111,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				281F2AA82E81F01A00D4665A /* Adapters in Frameworks */,
 				2843B5232E69A39800274A6F /* InfoPlist in Frameworks */,
 				28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */,
 			);

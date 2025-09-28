@@ -7,11 +7,11 @@ import EventsFeature
 struct FeedbackFlowApp: App {
     var body: some Scene {
         WindowGroup {
-            FeedbackFlowView(
-                store: StoreOf<FeedbackFlow>(
-                    initialState: FeedbackFlow.State.initialState(feedbackSession: .mock),
+            FeedbackFlowCoordinatorView(
+                store: StoreOf<FeedbackFlowCoordinator>(
+                    initialState: FeedbackFlowCoordinator.State.initialState(feedbackSession: .mock),
                     reducer: {
-                        FeedbackFlow()._printChanges()
+                        FeedbackFlowCoordinator()._printChanges()
                     },
                     withDependencies: {
                         $0.apiClient = .mock
