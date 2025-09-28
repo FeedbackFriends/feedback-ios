@@ -55,11 +55,18 @@ public struct QuestionPickerView: View {
     }
     
     private func commitQuestion() {
-        let trimmed = questionTextField.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !trimmed.isEmpty else { return }
-        let input = EventInput.QuestionInput(questionText: trimmed, feedbackType: feedbackTypeSelected)
-        questionSelected(input, existingQuestionIndex)
-        dismiss()
+        Task {
+            withAnimation {
+                dismiss()
+            }
+            try await Task.sleep(for: .seconds(0.3))
+            let trimmed = questionTextField.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else { return }
+            let input = EventInput.QuestionInput(questionText: trimmed, feedbackType: feedbackTypeSelected)
+            withAnimation {
+                questionSelected(input, existingQuestionIndex)
+            }
+        }
     }
     
     private func showComingSoonAlert(_ feedbackType: FeedbackType) {
