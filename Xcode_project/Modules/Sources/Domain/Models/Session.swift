@@ -385,6 +385,7 @@ public enum QuestionFeedbackSummary: Equatable, Sendable {
             zeroToTenQuestionFeedbackSummary.zeroToTenFeedbackCountStats.commentsCount
         case .commentQuestionFeedbackSummary(unseenCount: _):
             #warning("Fix me")
+            #warning("kan vi egentlig ikke bare slette unseenCount her??")
             999999999
         }
     }
