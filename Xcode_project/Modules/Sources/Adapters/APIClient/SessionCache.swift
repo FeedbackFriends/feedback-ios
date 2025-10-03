@@ -122,7 +122,7 @@ public extension Session {
         
         self.managerData?.managerEvents[id: eventId] = event
         guard let activity = self.managerData?.activity, activity.unseenTotal > 0 else { return }
-        Logger.debug("**** Unseen er over 0, så ør fjerne")
+        Logger.debug("Unseen er over 0, så ør fjerne")
         var mutableActivity = activity
         mutableActivity.unseenTotal -= 1
         for index in mutableActivity.items.indices {

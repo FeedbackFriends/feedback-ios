@@ -119,33 +119,34 @@ public extension Components.Schemas.FeedbackInput.OpinionPayload {
 
 public extension ManagerEvent {
     init(_ event: Components.Schemas.ManagerEventDto) {
-//        let feedbackSummary: FeedbackSummary? = if let eventSummary = event.feedbackSummary {
-//            FeedbackSummary(
-//                segmentationStats: .init(
-//                    verySadPercentage: eventSummary.segmentationStats.verySadPercentage,
-//                    sadPercentage: eventSummary.segmentationStats.sadPercentage,
-//                    happyPercentage: eventSummary.segmentationStats.happyPercentage,
-//                    veryHappyPercentage: eventSummary.segmentationStats.veryHappyPercentage
-//                ),
-//                countStats: .init(
-//                    verySadCount: Int(eventSummary.countStats.verySadCount),
-//                    sadCount: Int(eventSummary.countStats.sadCount),
-//                    happyCount: Int(eventSummary.countStats.happyCount),
-//                    veryHappyCount: Int(eventSummary.countStats.veryHappyCount),
-//                    commentsCount: Int(eventSummary.countStats.commentsCount),
-//                    uniqueParticipantFeedback: Int(eventSummary.countStats.uniqueParticipantFeedback)
-//                ),
-//                unseenCount: Int(eventSummary.unseenCount)
-//            )
-//        } else {
-//            nil
-//        }
+        let feedbackSummary: FeedbackSummary? = if let eventSummary = event.overallFeedbackSummary {
+            FeedbackSummary(
+                segmentationStats: .init(
+                    verySadPercentage: eventSummary.segmentationStats.verySadPercentage,
+                    sadPercentage: eventSummary.segmentationStats.sadPercentage,
+                    happyPercentage: eventSummary.segmentationStats.happyPercentage,
+                    veryHappyPercentage: eventSummary.segmentationStats.veryHappyPercentage
+                ),
+                countStats: .init(
+                    verySadCount: Int(eventSummary.countStats.verySadCount),
+                    sadCount: Int(eventSummary.countStats.sadCount),
+                    happyCount: Int(eventSummary.countStats.happyCount),
+                    veryHappyCount: Int(eventSummary.countStats.veryHappyCount),
+                    commentsCount: Int(eventSummary.countStats.commentsCount),
+                    uniqueParticipantFeedback: 1
+                ),
+                unseenCount: Int(eventSummary.unseenCount)
+            )
+        } else {
+            nil
+        }
         self.init(
             id: UUID(uuidString: event.id)!,
             title: event.title,
             agenda: event.agenda,
             date: event.date,
-            pinCode: event.pinCode.flatMap { PinCode(value: $0) },
+            pinCode: event.pinCode.flatMap { PinCode(value: $0)
+            },
             durationInMinutes: Int(event.durationInMinutes),
             location: event.location,
             ownerInfo: .init(
@@ -153,38 +154,43 @@ public extension ManagerEvent {
                 email: event.ownerInfo.email,
                 phoneNumber: event.ownerInfo.phoneNumber
             ),
-            feedbackSummary: nil,
-            questions: []
-//                event.questions.map {
-//                let feedbackSummary: FeedbackSummary? = if let questionSummary = $0.feedbackSummary {
-//                    FeedbackSummary(
-//                        segmentationStats: .init(
-//                            verySadPercentage: questionSummary.segmentationStats.verySadPercentage,
-//                            sadPercentage: questionSummary.segmentationStats.sadPercentage,
-//                            happyPercentage: questionSummary.segmentationStats.happyPercentage,
-//                            veryHappyPercentage: questionSummary.segmentationStats.veryHappyPercentage
-//                        ),
-//                        countStats: .init(
-//                            verySadCount: Int(questionSummary.countStats.verySadCount),
-//                            sadCount: Int(questionSummary.countStats.sadCount),
-//                            happyCount: Int(questionSummary.countStats.happyCount),
-//                            veryHappyCount: Int(questionSummary.countStats.veryHappyCount),
-//                            commentsCount: Int(questionSummary.countStats.commentsCount),
-//                            uniqueParticipantFeedback: Int(questionSummary.countStats.uniqueParticipantFeedback)
-//                        ),
-//                        unseenCount: Int(questionSummary.unseenCount)
-//                    )
-//                } else {
-//                    nil
-//                }
-//                return ManagerQuestion(
-//                    id: UUID(uuidString: $0.id)!,
-//                    questionText: $0.questionText,
-//                    feedbackType: .init($0.feedbackType.rawValue),
-//                    feedback: $0.feedback.map { Feedback($0) },
-//                    feedbackSummary: feedbackSummary
-//                )
-//            }
+            feedbackSummary: feedbackSummary,
+            questions: event.questions.map {
+                let questionFeedbackSummary: QuestionFeedbackSummary? = if let questionSummary = $0.questionFeedbackSummary {
+                    if let emojiSummary = questionSummary.emojiQuestionFeedbackSummary {
+                        .emojiQuestionFeedbackSummary(
+                            unseenCount: Int(questionSummary.unseenCount),
+                            emojiQuestionFeedbackSummary: .init(
+                                emojiFeedbackCountStats: .init(
+                                    verySadCount: Int(emojiSummary.emojiFeedbackCountStats.verySadCount),
+                                    sadCount: Int(emojiSummary.emojiFeedbackCountStats.sadCount),
+                                    happyCount: Int(emojiSummary.emojiFeedbackCountStats.happyCount),
+                                    veryHappyCount: Int(emojiSummary.emojiFeedbackCountStats.veryHappyCount),
+                                    commentsCount: Int(emojiSummary.emojiFeedbackCountStats.commentsCount)
+                                ),
+                                emojiFeedbackSegmentationStats: .init(
+                                    verySadPercentage: emojiSummary.emojiFeedbackSegmentationStats.verySadPercentage,
+                                    sadPercentage: emojiSummary.emojiFeedbackSegmentationStats.sadPercentage,
+                                    happyPercentage: emojiSummary.emojiFeedbackSegmentationStats.happyPercentage,
+                                    veryHappyPercentage: emojiSummary.emojiFeedbackSegmentationStats.veryHappyPercentage
+                                )
+                            )
+                        )
+                    } else {
+                        #warning("Lets also implement the other types here")
+                        nil
+                    }
+                } else {
+                    nil
+                }
+                return ManagerQuestion(
+                    id: UUID(uuidString: $0.id)!,
+                    questionText: $0.questionText,
+                    feedbackType: .init($0.feedbackType.rawValue),
+                    feedback: $0.feedback.map { Feedback($0) },
+                    feedbackSummary: questionFeedbackSummary
+                )
+            }
         )
     }
 }

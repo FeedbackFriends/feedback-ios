@@ -260,74 +260,75 @@ struct QuestionView: View {
 		.navigationTitle("Event with empty feedback")
     }
 }
-#warning("Fix me")
-//#Preview("With feedback") {
-//	NavigationStack {
-//		DetailSectionView(
-//			event: .init(
-//				id: UUID(),
-//				title: "Title",
-//				agenda: "Agenda",
-//				date: Date(),
-//				pinCode: PinCode(value: "1234"),
-//				durationInMinutes: 60,
-//				location: "Hellerup",
-//				ownerInfo: .init(
-//					name: "Nicolai",
-//					email: "Email",
-//					phoneNumber: "Phonenumber"
-//				),
-//				feedbackSummary: .init(
-//					segmentationStats: .init(
-//						verySadPercentage: 30,
-//						sadPercentage: 30,
-//						happyPercentage: 20,
-//						veryHappyPercentage: 20
-//					),
-//					countStats: .init(
-//						verySadCount: 10,
-//						sadCount: 10,
-//						happyCount: 10,
-//						veryHappyCount: 10,
-//						commentsCount: 10,
-//						uniqueParticipantFeedback: 10
-//					),
-//					unseenCount: 8
-//				),
-//				questions: [
-//					.init(
-//						id: UUID(),
-//						questionText: "Why whyyyy whyyy",
-//						feedbackType: .emoji,
-//						feedback: [
-//							.init(
-//								type: .emoji(emoji: .happy, comment: "Hello world"),
-//								questionId: UUID(),
-//								seenByManager: false,
-//								createdAt: Date()
-//							)
-//						],
-//						feedbackSummary: .init(
-//							segmentationStats: .init(
-//								verySadPercentage: 30,
-//								sadPercentage: 30,
-//								happyPercentage: 20,
-//								veryHappyPercentage: 20
-//							),
-//							countStats: .init(
-//								verySadCount: 10,
-//								sadCount: 10,
-//								happyCount: 10,
-//								veryHappyCount: 10,
-//								commentsCount: 10,
-//								uniqueParticipantFeedback: 10
-//							),
-//							unseenCount: 10
-//						)
-//					)
-//				]
-//			)
-//		)
-//		.navigationTitle("Event with empty feedback")
-//	}
-//}
+
+#Preview("With feedback") {
+	NavigationStack {
+		DetailSectionView(
+			event: .init(
+				id: UUID(),
+				title: "Title",
+				agenda: "Agenda",
+				date: Date(),
+				pinCode: PinCode(value: "1234"),
+				durationInMinutes: 60,
+				location: "Hellerup",
+				ownerInfo: .init(
+					name: "Nicolai",
+					email: "Email",
+					phoneNumber: "Phonenumber"
+				),
+				feedbackSummary: .init(
+					segmentationStats: .init(
+						verySadPercentage: 30,
+						sadPercentage: 30,
+						happyPercentage: 20,
+						veryHappyPercentage: 20
+					),
+					countStats: .init(
+						verySadCount: 10,
+						sadCount: 10,
+						happyCount: 10,
+						veryHappyCount: 10,
+						commentsCount: 10,
+						uniqueParticipantFeedback: 10
+					),
+					unseenCount: 8
+				),
+				questions: [
+					.init(
+						id: UUID(),
+						questionText: "Why whyyyy whyyy",
+						feedbackType: .emoji,
+						feedback: [
+							.init(
+								type: .emoji(emoji: .happy, comment: "Hello world"),
+								questionId: UUID(),
+								seenByManager: false,
+								createdAt: Date()
+							)
+						],
+                        feedbackSummary: .emojiQuestionFeedbackSummary(
+                            unseenCount: 10,
+                            emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary(
+                                emojiFeedbackCountStats: EmojiFeedbackCountStats(
+                                    verySadCount: 90,
+                                    sadCount: 89,
+                                    happyCount: 89,
+                                    veryHappyCount: 78,
+                                    commentsCount: 78
+                                ),
+                                emojiFeedbackSegmentationStats: EmojiFeedbackSegmentationStats(
+                                    verySadPercentage: 67,
+                                    sadPercentage: 67,
+                                    happyPercentage: 89,
+                                    veryHappyPercentage: 45
+                                )
+                            )
+                        )
+					)
+				]
+			)
+		)
+		.navigationTitle("Event with feedback")
+	}
+}

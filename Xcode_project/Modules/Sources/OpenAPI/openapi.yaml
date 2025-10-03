@@ -724,6 +724,7 @@ components:
       required:
       - countStats
       - segmentationStats
+      - totalUniqueParticipants
       - unseenCount
       type: object
       properties:
@@ -732,6 +733,9 @@ components:
         countStats:
           $ref: '#/components/schemas/OverallFeedbackCountStatsDto'
         unseenCount:
+          type: integer
+          format: int32
+        totalUniqueParticipants:
           type: integer
           format: int32
     OwnerInfoDto:

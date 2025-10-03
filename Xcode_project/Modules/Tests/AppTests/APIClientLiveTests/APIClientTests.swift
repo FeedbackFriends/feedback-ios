@@ -199,6 +199,8 @@ struct APIClientLiveTests {
         #expect(snapshot?.managerData?.managerEvents.count == 1)
         let onChangeSession = await sessionChangedListener.next()
         #expect(onChangeSession?.managerData?.managerEvents.first == snapshot?.managerData?.managerEvents.first)
+        #expect(onChangeSession?.managerData?.recentlyUsedQuestions.count == 1)
+        #expect(onChangeSession?.managerData?.recentlyUsedQuestions.first?.questionText == "")
     }
     
     @Test

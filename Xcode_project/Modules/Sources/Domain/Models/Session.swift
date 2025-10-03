@@ -424,6 +424,10 @@ public enum QuestionFeedbackSummary: Equatable, Sendable {
 public struct ZeroToTenQuestionFeedbackSummary: Equatable, Sendable {
     let zeroToTenFeedbackCountStats: ZeroToTenFeedbackCountStats
     let zeroToTenFeedbackSegmentationStats: ZeroToTenFeedbackCountSegmentationStats
+    public init(zeroToTenFeedbackCountStats: ZeroToTenFeedbackCountStats, zeroToTenFeedbackSegmentationStats: ZeroToTenFeedbackCountSegmentationStats) {
+        self.zeroToTenFeedbackCountStats = zeroToTenFeedbackCountStats
+        self.zeroToTenFeedbackSegmentationStats = zeroToTenFeedbackSegmentationStats
+    }
 }
 
 public struct ZeroToTenFeedbackCountStats: Equatable, Sendable {
@@ -439,6 +443,20 @@ public struct ZeroToTenFeedbackCountStats: Equatable, Sendable {
     let value9: Int
     let value10: Int
     let commentsCount: Int
+    public init(value0: Int, value1: Int, value2: Int, value3: Int, value4: Int, value5: Int, value6: Int, value7: Int, value8: Int, value9: Int, value10: Int, commentsCount: Int) {
+        self.value0 = value0
+        self.value1 = value1
+        self.value2 = value2
+        self.value3 = value3
+        self.value4 = value4
+        self.value5 = value5
+        self.value6 = value6
+        self.value7 = value7
+        self.value8 = value8
+        self.value9 = value9
+        self.value10 = value10
+        self.commentsCount = commentsCount
+    }
 }
 
 public struct ZeroToTenFeedbackCountSegmentationStats: Equatable, Sendable {
@@ -453,11 +471,40 @@ public struct ZeroToTenFeedbackCountSegmentationStats: Equatable, Sendable {
     let value8Percentage: Double
     let value9Percentage: Double
     let value10Percentage: Double
+    public init(
+        value0Percentage: Double,
+        value1Percentage: Double,
+        value2Percentage: Double,
+        value3Percentage: Double,
+        value4Percentage: Double,
+        value5Percentage: Double,
+        value6Percentage: Double,
+        value7Percentage: Double,
+        value8Percentage: Double,
+        value9Percentage: Double,
+        value10Percentage: Double
+    ) {
+        self.value0Percentage = value0Percentage
+        self.value1Percentage = value1Percentage
+        self.value2Percentage = value2Percentage
+        self.value3Percentage = value3Percentage
+        self.value4Percentage = value4Percentage
+        self.value5Percentage = value5Percentage
+        self.value6Percentage = value6Percentage
+        self.value7Percentage = value7Percentage
+        self.value8Percentage = value8Percentage
+        self.value9Percentage = value9Percentage
+        self.value10Percentage = value10Percentage
+    }
 }
 
 public struct OpinionQuestionFeedbackSummary: Equatable, Sendable {
     let opinionFeedbackCountStats: OpinionFeedbackCountStats
     let opinionFeedbackSegmentationStats: OpinionFeedbackCountSegmentationStats
+    public init(opinionFeedbackCountStats: OpinionFeedbackCountStats, opinionFeedbackSegmentationStats: OpinionFeedbackCountSegmentationStats) {
+        self.opinionFeedbackCountStats = opinionFeedbackCountStats
+        self.opinionFeedbackSegmentationStats = opinionFeedbackSegmentationStats
+    }
 }
 
 public struct OpinionFeedbackCountStats: Equatable, Sendable {
@@ -466,6 +513,13 @@ public struct OpinionFeedbackCountStats: Equatable, Sendable {
     let stronglyDisagree: Int
     let disagree: Int
     let commentsCount: Int
+    public init(stronglyAgree: Int, agree: Int, stronglyDisagree: Int, disagree: Int, commentsCount: Int) {
+        self.stronglyAgree = stronglyAgree
+        self.agree = agree
+        self.stronglyDisagree = stronglyDisagree
+        self.disagree = disagree
+        self.commentsCount = commentsCount
+    }
 }
 
 public struct OpinionFeedbackCountSegmentationStats: Equatable, Sendable {
@@ -473,27 +527,50 @@ public struct OpinionFeedbackCountSegmentationStats: Equatable, Sendable {
     let agreePercentage: Double
     let stronglyDisagreePercentage: Double
     let disagreePercentage: Double
+    public init(stronglyAgreePercentage: Double, agreePercentage: Double, stronglyDisagreePercentage: Double, disagreePercentage: Double) {
+        self.stronglyAgreePercentage = stronglyAgreePercentage
+        self.agreePercentage = agreePercentage
+        self.stronglyDisagreePercentage = stronglyDisagreePercentage
+        self.disagreePercentage = disagreePercentage
+    }
 }
 
 public struct ThumpsQuestionFeedbackSummary: Equatable, Sendable {
     let thumpsFeedbackCountStats: ThumpsFeedbackCountStats
     let thumpsFeedbackSegmentationStats: ThumpsFeedbackCountSegmentationStats
+    public init(thumpsFeedbackCountStats: ThumpsFeedbackCountStats, thumpsFeedbackSegmentationStats: ThumpsFeedbackCountSegmentationStats) {
+        self.thumpsFeedbackCountStats = thumpsFeedbackCountStats
+        self.thumpsFeedbackSegmentationStats = thumpsFeedbackSegmentationStats
+    }
 }
 
 public struct ThumpsFeedbackCountStats: Equatable, Sendable {
     let upCount: Int
     let downCount: Int
     let commentsCount: Int
+    public init(upCount: Int, downCount: Int, commentsCount: Int) {
+        self.upCount = upCount
+        self.downCount = downCount
+        self.commentsCount = commentsCount
+    }
 }
 
 public struct ThumpsFeedbackCountSegmentationStats: Equatable, Sendable {
     let upPercentage: Double
     let downPercentage: Double
+    public init(upPercentage: Double, downPercentage: Double) {
+        self.upPercentage = upPercentage
+        self.downPercentage = downPercentage
+    }
 }
 
 public struct EmojiQuestionFeedbackSummary: Equatable, Sendable {
     let emojiFeedbackCountStats: EmojiFeedbackCountStats
     let emojiFeedbackSegmentationStats: EmojiFeedbackSegmentationStats
+    public init(emojiFeedbackCountStats: EmojiFeedbackCountStats, emojiFeedbackSegmentationStats: EmojiFeedbackSegmentationStats) {
+        self.emojiFeedbackCountStats = emojiFeedbackCountStats
+        self.emojiFeedbackSegmentationStats = emojiFeedbackSegmentationStats
+    }
 }
 
 public struct EmojiFeedbackCountStats: Equatable, Sendable {
@@ -502,6 +579,13 @@ public struct EmojiFeedbackCountStats: Equatable, Sendable {
     let happyCount: Int
     let veryHappyCount: Int
     let commentsCount: Int
+    public init(verySadCount: Int, sadCount: Int, happyCount: Int, veryHappyCount: Int, commentsCount: Int) {
+        self.verySadCount = verySadCount
+        self.sadCount = sadCount
+        self.happyCount = happyCount
+        self.veryHappyCount = veryHappyCount
+        self.commentsCount = commentsCount
+    }
 }
 
 public struct EmojiFeedbackSegmentationStats: Equatable, Sendable {
@@ -509,4 +593,10 @@ public struct EmojiFeedbackSegmentationStats: Equatable, Sendable {
     let sadPercentage: Double
     let happyPercentage: Double
     let veryHappyPercentage: Double
+    public init(verySadPercentage: Double, sadPercentage: Double, happyPercentage: Double, veryHappyPercentage: Double) {
+        self.verySadPercentage = verySadPercentage
+        self.sadPercentage = sadPercentage
+        self.happyPercentage = happyPercentage
+        self.veryHappyPercentage = veryHappyPercentage
+    }
 }

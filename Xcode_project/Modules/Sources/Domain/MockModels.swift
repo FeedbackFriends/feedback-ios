@@ -192,12 +192,6 @@ public extension Session {
     
 }
 
-//private func generateMockManagerEvents(count: Int) -> [ManagerEvent] {
-//    (0..<count).map { _ in
-//        ManagerEvent.mock(Int.random(in: 0...10), Int.random(in: 0...10), index: globalMockUUIDIndex)
-//    }
-//}
-
 public extension ParticipantEvent {
     static func mock() -> Self {
         ParticipantEvent(
