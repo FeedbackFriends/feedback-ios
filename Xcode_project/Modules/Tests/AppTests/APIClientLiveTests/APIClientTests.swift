@@ -155,17 +155,7 @@ struct APIClientLiveTests {
                                                 email: originalEvent.ownerInfo.email,
                                                 phoneNumber: originalEvent.ownerInfo.phoneNumber
                                             ),
-                                            feedbackSummary: nil,
                                             questions: []
-//                                                body.questions.map {
-//                                                    .init(
-//                                                        id: $0.,
-//                                                        questionText: <#T##String#>,
-//                                                        feedbackType: <#T##Components.Schemas.ManagerQuestion.FeedbackTypePayload#>,
-//                                                        feedback: <#T##[Components.Schemas.FeedbackEntity]#>,
-//                                                        feedbackSummary: <#T##Components.Schemas.FeedbackSummaryDto?#>
-//                                                    )
-//                                                }
                                             
                                         ),
                                         recentlyUsedQuestions: [
@@ -209,8 +199,6 @@ struct APIClientLiveTests {
         #expect(snapshot?.managerData?.managerEvents.count == 1)
         let onChangeSession = await sessionChangedListener.next()
         #expect(onChangeSession?.managerData?.managerEvents.first == snapshot?.managerData?.managerEvents.first)
-//        #expect(onChangeSession?.managerData?.recentlyUsedQuestions.count == 1)
-//        #expect(onChangeSession?.managerData?.recentlyUsedQuestions.first?.questionText == "")
     }
     
     @Test
@@ -287,12 +275,43 @@ struct APIClientLiveTests {
     @Test
     func sessionCacheMarkEventAsSeen() async {
         let eventId = UUID()
-        let summary = FeedbackSummary(
-            segmentationStats: .init(verySadPercentage: 0, sadPercentage: 0, happyPercentage: 0, veryHappyPercentage: 0),
-            countStats: .init(verySadCount: 0, sadCount: 0, happyCount: 0, veryHappyCount: 0, commentsCount: 0, uniqueParticipantFeedback: 0),
+        let questionFeedbackSummary = QuestionFeedbackSummary.emojiQuestionFeedbackSummary(
+            unseenCount: 5,
+            emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary.init(
+                emojiFeedbackCountStats: EmojiFeedbackCountStats(verySadCount: 0, sadCount: 0, happyCount: 0, veryHappyCount: 0, commentsCount: 0),
+                emojiFeedbackSegmentationStats: EmojiFeedbackSegmentationStats(
+                    verySadPercentage: 0,
+                    sadPercentage: 0,
+                    happyPercentage: 0,
+                    veryHappyPercentage: 0
+                )
+            )
+        )
+        let eventFeedbackSummary = FeedbackSummary(
+            segmentationStats: .init(
+                verySadPercentage: 0,
+                sadPercentage: 0,
+                happyPercentage: 0,
+                veryHappyPercentage: 0
+            ),
+            countStats: .init(
+                verySadCount: 0,
+                sadCount: 0,
+                happyCount: 0,
+                veryHappyCount: 0,
+                commentsCount: 0,
+                uniqueParticipantFeedback: 0
+            ),
             unseenCount: 5
         )
-        let question = ManagerQuestion(id: UUID(), questionText: "Q", feedbackType: .emoji, feedback: [], feedbackSummary: summary)
+        
+        let question = ManagerQuestion(
+            id: UUID(),
+            questionText: "Q",
+            feedbackType: .emoji,
+            feedback: [],
+            feedbackSummary: questionFeedbackSummary
+        )
         let event = ManagerEvent(
             id: eventId,
             title: "Event",
@@ -302,7 +321,7 @@ struct APIClientLiveTests {
             durationInMinutes: 60,
             location: nil,
             ownerInfo: .init(name: nil, email: nil, phoneNumber: nil),
-            feedbackSummary: summary,
+            feedbackSummary: eventFeedbackSummary,
             questions: [question]
         )
         let activityItem = ActivityItems(
