@@ -12,7 +12,7 @@ public struct FeedbackFlowCoordinator: Sendable {
     @Reducer
     public enum Path {
         case emoji(EmojiFeedback)
-        case oneToTen(OneToTenFeedback)
+        case zeroToTen(ZeroToTenFeedback)
         case thumps(ThumpsFeedback)
         case comment(CommentFeedback)
         case opinion(OpinionFeedback)
@@ -40,8 +40,8 @@ public struct FeedbackFlowCoordinator: Sendable {
             case .emoji(let emojiFeedback):
                 emojiFeedback.feedbackCompleted
                 
-            case .oneToTen(let oneToTenFeedback):
-                oneToTenFeedback.feedbackCompleted
+            case .zeroToTen(let zeroToTenFeedback):
+                zeroToTenFeedback.feedbackCompleted
                 
             case .thumps(let thumpsFeedback):
                 thumpsFeedback.feedbackCompleted
@@ -117,7 +117,7 @@ public struct FeedbackFlowCoordinator: Sendable {
             case .path(let pathAction):
                 switch pathAction {
                 case .element(id: _, action: .emoji(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))),
-                        .element(id: _, action: .oneToTen(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))),
+                        .element(id: _, action: .zeroToTen(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))),
                         .element(id: _, action: .comment(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))),
                         .element(id: _, action: .opinion(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))),
                         .element(id: _, action: .thumps(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))):
@@ -278,8 +278,8 @@ extension FeedbackFlowCoordinator.Path.State: Identifiable {
                 )
             )
             
-        case .oneToTen:
-            self = .oneToTen(
+        case .zeroToTen:
+            self = .zeroToTen(
                 .init(
                     questionId: question.id,
                     questionText: question.questionText
@@ -295,7 +295,7 @@ extension FeedbackFlowCoordinator.Path.State: Identifiable {
         switch self {
         case .emoji(let state):
             state.questionId
-        case .oneToTen(let state):
+        case .zeroToTen(let state):
             state.questionId
         case .thumps(let state):
             state.questionId
@@ -309,7 +309,7 @@ extension FeedbackFlowCoordinator.Path.State: Identifiable {
         switch self {
         case .emoji(let state):
             state.questionText
-        case .oneToTen(let state):
+        case .zeroToTen(let state):
             state.questionText
         case .thumps(let state):
             state.questionText
@@ -333,11 +333,11 @@ extension FeedbackInput {
                 ),
                     questionId: input.questionId
                 )
-        case .oneToTen(let oneToTenFeedback):
+        case .zeroToTen(let zeroToTenFeedback):
             self = .init(
-                type: FeedbackTypeWithData.oneToTen(
-                    oneToTen: oneToTenFeedback.ratingAsInt,
-                    comment: oneToTenFeedback.commentTextField.nilIfEmpty
+                type: FeedbackTypeWithData.zeroToTen(
+                    zeroToTen: zeroToTenFeedback.ratingAsInt,
+                    comment: zeroToTenFeedback.commentTextField.nilIfEmpty
                 ),
                 questionId: input.questionId
             )

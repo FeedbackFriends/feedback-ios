@@ -254,14 +254,14 @@ public struct ManagerQuestion: Equatable, Hashable, Sendable {
     public let questionText: String
     public let feedbackType: FeedbackType
     public var feedback: [Feedback]
-    public var feedbackSummary: FeedbackSummary?
+    public var feedbackSummary: QuestionFeedbackSummary?
     
     public init(
         id: UUID,
         questionText: String,
         feedbackType: FeedbackType,
         feedback: [Feedback],
-        feedbackSummary: FeedbackSummary?
+        feedbackSummary: QuestionFeedbackSummary?
     ) {
         self.id = id
         self.questionText = questionText
@@ -363,4 +363,150 @@ public struct RecentlyUsedQuestions: Equatable, Sendable, Hashable {
         self.feedbackType = feedbackType
         self.updatedAt = updatedAt
     }
+}
+
+public enum QuestionFeedbackSummary: Equatable, Sendable {
+    case emojiQuestionFeedbackSummary(unseenCount: Int, emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary)
+    case thumpsQuestionFeedbackSummary(unseenCount: Int, thumpsQuestionFeedbackSummary: ThumpsQuestionFeedbackSummary)
+    case opinionQuestionFeedbackSummary(unseenCount: Int, opinionQuestionFeedbackSummary: OpinionQuestionFeedbackSummary)
+    case zeroToTenQuestionFeedbackSummary(unseenCount: Int, zeroToTenQuestionFeedbackSummary: ZeroToTenQuestionFeedbackSummary)
+    case commentQuestionFeedbackSummary(unseenCount: Int)
+    
+    public var commentCount: Int {
+        switch self {
+            
+        case .emojiQuestionFeedbackSummary(unseenCount: _, emojiQuestionFeedbackSummary: let emojiQuestionFeedbackSummary):
+            emojiQuestionFeedbackSummary.emojiFeedbackCountStats.commentsCount
+        case .thumpsQuestionFeedbackSummary(unseenCount: _, thumpsQuestionFeedbackSummary: let thumpsQuestionFeedbackSummary):
+            thumpsQuestionFeedbackSummary.thumpsFeedbackCountStats.commentsCount
+        case .opinionQuestionFeedbackSummary(unseenCount: _, opinionQuestionFeedbackSummary: let opinionQuestionFeedbackSummary):
+            opinionQuestionFeedbackSummary.opinionFeedbackCountStats.commentsCount
+        case .zeroToTenQuestionFeedbackSummary(unseenCount: _, zeroToTenQuestionFeedbackSummary: let zeroToTenQuestionFeedbackSummary):
+            zeroToTenQuestionFeedbackSummary.zeroToTenFeedbackCountStats.commentsCount
+        case .commentQuestionFeedbackSummary(unseenCount: _):
+            #warning("Fix me")
+            999999999
+        }
+    }
+
+    public var unseenCount: Int {
+        get {
+            switch self {
+            case let .emojiQuestionFeedbackSummary(unseenCount, _):
+                return unseenCount
+            case let .thumpsQuestionFeedbackSummary(unseenCount, _):
+                return unseenCount
+            case let .opinionQuestionFeedbackSummary(unseenCount, _):
+                return unseenCount
+            case let .zeroToTenQuestionFeedbackSummary(unseenCount, _):
+                return unseenCount
+            case .commentQuestionFeedbackSummary(unseenCount: let unseenCount):
+                return unseenCount
+            }
+        }
+        set {
+            switch self {
+            case let .emojiQuestionFeedbackSummary(_, emoji):
+                self = .emojiQuestionFeedbackSummary(unseenCount: newValue, emojiQuestionFeedbackSummary: emoji)
+            case let .thumpsQuestionFeedbackSummary(_, thumps):
+                self = .thumpsQuestionFeedbackSummary(unseenCount: newValue, thumpsQuestionFeedbackSummary: thumps)
+            case let .opinionQuestionFeedbackSummary(_, opinion):
+                self = .opinionQuestionFeedbackSummary(unseenCount: newValue, opinionQuestionFeedbackSummary: opinion)
+            case let .zeroToTenQuestionFeedbackSummary(_, zeroToTen):
+                self = .zeroToTenQuestionFeedbackSummary(unseenCount: newValue, zeroToTenQuestionFeedbackSummary: zeroToTen)
+            case .commentQuestionFeedbackSummary:
+                self = .commentQuestionFeedbackSummary(unseenCount: newValue)
+            }
+        }
+    }
+}
+   
+public struct ZeroToTenQuestionFeedbackSummary: Equatable, Sendable {
+    let zeroToTenFeedbackCountStats: ZeroToTenFeedbackCountStats
+    let zeroToTenFeedbackSegmentationStats: ZeroToTenFeedbackCountSegmentationStats
+}
+
+public struct ZeroToTenFeedbackCountStats: Equatable, Sendable {
+    let value0: Int
+    let value1: Int
+    let value2: Int
+    let value3: Int
+    let value4: Int
+    let value5: Int
+    let value6: Int
+    let value7: Int
+    let value8: Int
+    let value9: Int
+    let value10: Int
+    let commentsCount: Int
+}
+
+public struct ZeroToTenFeedbackCountSegmentationStats: Equatable, Sendable {
+    let value0Percentage: Double
+    let value1Percentage: Double
+    let value2Percentage: Double
+    let value3Percentage: Double
+    let value4Percentage: Double
+    let value5Percentage: Double
+    let value6Percentage: Double
+    let value7Percentage: Double
+    let value8Percentage: Double
+    let value9Percentage: Double
+    let value10Percentage: Double
+}
+
+public struct OpinionQuestionFeedbackSummary: Equatable, Sendable {
+    let opinionFeedbackCountStats: OpinionFeedbackCountStats
+    let opinionFeedbackSegmentationStats: OpinionFeedbackCountSegmentationStats
+}
+
+public struct OpinionFeedbackCountStats: Equatable, Sendable {
+    let stronglyAgree: Int
+    let agree: Int
+    let stronglyDisagree: Int
+    let disagree: Int
+    let commentsCount: Int
+}
+
+public struct OpinionFeedbackCountSegmentationStats: Equatable, Sendable {
+    let stronglyAgreePercentage: Double
+    let agreePercentage: Double
+    let stronglyDisagreePercentage: Double
+    let disagreePercentage: Double
+}
+
+public struct ThumpsQuestionFeedbackSummary: Equatable, Sendable {
+    let thumpsFeedbackCountStats: ThumpsFeedbackCountStats
+    let thumpsFeedbackSegmentationStats: ThumpsFeedbackCountSegmentationStats
+}
+
+public struct ThumpsFeedbackCountStats: Equatable, Sendable {
+    let upCount: Int
+    let downCount: Int
+    let commentsCount: Int
+}
+
+public struct ThumpsFeedbackCountSegmentationStats: Equatable, Sendable {
+    let upPercentage: Double
+    let downPercentage: Double
+}
+
+public struct EmojiQuestionFeedbackSummary: Equatable, Sendable {
+    let emojiFeedbackCountStats: EmojiFeedbackCountStats
+    let emojiFeedbackSegmentationStats: EmojiFeedbackSegmentationStats
+}
+
+public struct EmojiFeedbackCountStats: Equatable, Sendable {
+    let verySadCount: Int
+    let sadCount: Int
+    let happyCount: Int
+    let veryHappyCount: Int
+    let commentsCount: Int
+}
+
+public struct EmojiFeedbackSegmentationStats: Equatable, Sendable {
+    let verySadPercentage: Double
+    let sadPercentage: Double
+    let happyPercentage: Double
+    let veryHappyPercentage: Double
 }

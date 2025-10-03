@@ -42,7 +42,7 @@ extension FeedbackType {
         case .comment: return "Comment"
         case .thumpsUpThumpsDown: return "Thumbs"
         case .opinion: return "Opinion"
-        case .oneToTen: return "1–10"
+        case .zeroToTen: return "1–10"
         }
     }
     
@@ -52,7 +52,7 @@ extension FeedbackType {
         case .comment: return "text.bubble"
         case .thumpsUpThumpsDown: return "hand.thumbsup"
         case .opinion: return "quote.bubble"
-        case .oneToTen: return "number"
+        case .zeroToTen: return "number"
         }
     }
     
@@ -62,7 +62,7 @@ extension FeedbackType {
         case .comment: return "Write freeform text. Best for detailed feedback."
         case .thumpsUpThumpsDown: return "Simple thumbs up/down. Fast sentiment signal."
         case .opinion: return "Express your level of agreement, from Strongly Disagree to Strongly Agree."
-        case .oneToTen: return "Rate on a 1–10 scale for finer granularity."
+        case .zeroToTen: return "Rate on a 1–10 scale for finer granularity."
         }
     }
 }

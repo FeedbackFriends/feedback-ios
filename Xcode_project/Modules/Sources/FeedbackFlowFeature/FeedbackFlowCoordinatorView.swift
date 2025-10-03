@@ -36,8 +36,8 @@ public struct FeedbackFlowCoordinatorView: View {
                         store: store,
                         commentTextfieldFocused: $commentTextfieldFocused
                     )
-                case let .oneToTen(store):
-                    OneToTenFeedbackView(
+                case let .zeroToTen(store):
+                    ZeroToTenFeedbackView(
                         store: store,
                         commentTextfieldFocused: $commentTextfieldFocused
                     )

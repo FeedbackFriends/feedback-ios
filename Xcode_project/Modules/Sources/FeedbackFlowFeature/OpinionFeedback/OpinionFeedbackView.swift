@@ -75,7 +75,10 @@ public struct OpinionFeedbackView: View {
         let isSelected = (store.selectedOpinion == opinion)
             Button(action: action) {
                 HStack(spacing: 14) {
-                    Text(opinion.title)
+                    Circle()
+                        .frame(width: 10, height: 10)
+                        .foregroundStyle(opinion.color.gradient)
+                    Text(opinion.localized)
                         .font(.montserratMedium, 14)
                         .lineLimit(2)
                         .foregroundColor(.themeText)
@@ -92,23 +95,6 @@ public struct OpinionFeedbackView: View {
                 .transition(.blurReplace)
             }
             .buttonStyle(GlassButtonStyle())
-    }
-}
-
-extension Opinion {
-    var title: String {
-        switch self {
-        case .stronglyDisagree:
-            "Strongly disagree"
-        case .disagree:
-            "Disagree"
-        case .neutral:
-            "Neutral"
-        case .agree:
-            "Agree"
-        case .stronglyAgree:
-            "Strongly agree"
-        }
     }
 }
 

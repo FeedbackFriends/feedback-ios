@@ -9,39 +9,132 @@ struct FeedbackCommentRowView: View {
     var body: some View {
         switch feedback.type {
         case .emoji(emoji: let emoji, comment: let optionalComment):
-            if let comment = optionalComment {
-                HStack(alignment: .top, spacing: 8) {
-                    emoji.icon
-                        .resizable()
-                        .frame(width: 20, height: 20)
-                        .padding(.top, 2)
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text(comment)
-                            .font(.montserratRegular, 14)
-                            .fixedSize(horizontal: false, vertical: true)
-                        HStack {
-                            if !feedback.seenByManager {
-                                Text("New")
-                                    .font(.montserratBold, 8)
-                                    .padding(2)
-                                    .padding(.horizontal, 4)
-                                    .foregroundStyle(Color.themeOnPrimaryAction)
-									.background(Color.themeBlue)
-                                    .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
-                            }
-                            Text(feedback.createdAt.timeAgo())
-                                .font(.montserratRegular, 10)
-                            Spacer()
-                            
-                        }
-                    }
+            emojiRow(emoji: emoji, optionalComment: optionalComment)
+        case .comment(comment: let comment):
+            commentRow(comment: comment)
+        case .zeroToTen(zeroToTen: let zeroToTen, comment: let optionalComment):
+            zeroToTenRow(zeroToTen: zeroToTen, optionalComment: optionalComment)
+        case .opinion(opinion: let opinion, comment: let optionalComment):
+            opinionRow(opinion: opinion, optionalComment: optionalComment)
+        case .thumpsUpThumpsDown(thumbsUpThumpsDown: let thumbsUpThumpsDown, comment: let optionalComment):
+            thumpsUpThumpsDownRow(thumpsUpThumpsDown: thumbsUpThumpsDown, optionalComment: optionalComment)
+        }
+    }
+    
+    @ViewBuilder
+    func emojiRow(emoji: Emoji, optionalComment: String?) -> some View {
+        if let comment = optionalComment {
+            HStack(alignment: .top, spacing: 8) {
+                emoji.icon
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .padding(.top, 2)
+                
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(comment)
+                        .font(.montserratRegular, 14)
+                        .fixedSize(horizontal: false, vertical: true)
+                    feedbackInfo(feedback: feedback)
                 }
-				.foregroundStyle(Color.themeTextSecondary)
-                .padding(.vertical, 8)
             }
-        default:
-            Text("To be implemented")
+            .foregroundStyle(Color.themeTextSecondary)
+            .padding(.vertical, 8)
+        }
+    }
+    
+    @ViewBuilder
+    func commentRow(comment: String) -> some View {
+        HStack(alignment: .top, spacing: 8) {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(comment)
+                    .font(.montserratRegular, 14)
+                    .fixedSize(horizontal: false, vertical: true)
+                feedbackInfo(feedback: feedback)
+            }
+        }
+        .foregroundStyle(Color.themeTextSecondary)
+        .padding(.vertical, 8)
+    }
+    
+    @ViewBuilder
+    func zeroToTenRow(zeroToTen: Int, optionalComment: String?) -> some View {
+        if let comment = optionalComment {
+            HStack(alignment: .top, spacing: 8) {
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("\(zeroToTen) of 10")
+                        .font(.montserratBold, 8)
+                        .padding(2)
+                        .padding(.horizontal, 4)
+                        .foregroundStyle(Color.themeOnPrimaryAction)
+                        .background(zeroToTen.ratingColor)
+                        .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
+                    Text(comment)
+                        .font(.montserratRegular, 14)
+                        .fixedSize(horizontal: false, vertical: true)
+                    feedbackInfo(feedback: feedback)
+                }
+            }
+            .foregroundStyle(Color.themeTextSecondary)
+            .padding(.vertical, 8)
+        }
+    }
+    
+    @ViewBuilder
+    func opinionRow(opinion: Opinion, optionalComment: String?) -> some View {
+        if let comment = optionalComment {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(opinion.localized)
+                    .font(.montserratBold, 12)
+                    .padding(2)
+                    .padding(.horizontal, 4)
+                    .foregroundStyle(Color.themeOnPrimaryAction)
+                    .background(opinion.color.gradient)
+                    .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
+                Text(comment)
+                    .font(.montserratRegular, 14)
+                    .fixedSize(horizontal: false, vertical: true)
+                feedbackInfo(feedback: feedback)
+            }
+            .foregroundStyle(Color.themeTextSecondary)
+            .padding(.vertical, 8)
+        }
+    }
+    
+    @ViewBuilder
+    func thumpsUpThumpsDownRow(thumpsUpThumpsDown: ThumbsUpThumpsDown, optionalComment: String?) -> some View {
+        if let comment = optionalComment {
+            HStack(alignment: .top, spacing: 8) {
+                thumpsUpThumpsDown.icon
+                    .resizable()
+                    .frame(width: 20, height: 20)
+                    .padding(.top, 2)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text(comment)
+                        .font(.montserratRegular, 14)
+                        .fixedSize(horizontal: false, vertical: true)
+                    feedbackInfo(feedback: feedback)
+                }
+            }
+            .foregroundStyle(Color.themeTextSecondary)
+            .padding(.vertical, 8)
+        }
+    }
+    
+    func feedbackInfo(feedback: Feedback) -> some View {
+        HStack {
+            if !feedback.seenByManager {
+                Text("New")
+                    .font(.montserratBold, 8)
+                    .padding(2)
+                    .padding(.horizontal, 4)
+                    .foregroundStyle(Color.themeOnPrimaryAction)
+                    .background(Color.themeBlue)
+                    .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
+            }
+            Text(feedback.createdAt.timeAgo())
+                .font(.montserratRegular, 10)
+            Spacer()
+            
         }
     }
 }
@@ -57,6 +150,116 @@ extension Emoji {
             Image.happy
         case .veryHappy:
             Image.veryHappy
+        }
+    }
+}
+
+extension ThumbsUpThumpsDown {
+    var icon: Image {
+        switch self {
+        case .up:
+            Image(systemName: "hand.thumbsup.fill")
+        case .down:
+            Image(systemName: "hand.thumbsdown.fill")
+        }
+    }
+}
+
+#Preview("Emoji") {
+    List {
+        Section {
+            VStack(alignment: .leading, spacing: 0) {
+                FeedbackCommentRowView(
+                    feedback: .init(
+                        type: FeedbackTypeWithData.emoji(emoji: .happy, comment: "Dope shit"),
+                        questionId: UUID(),
+                        seenByManager: false,
+                        createdAt: Date()
+                    )
+                )
+                
+            }
+            .padding(.top, 16)
+            .foregroundStyle(Color.themeTextSecondary)
+        }
+    }
+}
+
+#Preview("Comment") {
+    List {
+        Section {
+            VStack(alignment: .leading, spacing: 0) {
+                FeedbackCommentRowView(
+                    feedback: .init(
+                        type: FeedbackTypeWithData.comment(comment: "This is my dope comment"),
+                        questionId: UUID(),
+                        seenByManager: false,
+                        createdAt: Date()
+                    )
+                )
+                
+            }
+            .padding(.top, 16)
+            .foregroundStyle(Color.themeTextSecondary)
+        }
+    }
+}
+
+#Preview("ZeroToTen") {
+    List {
+        Section {
+            VStack(alignment: .leading, spacing: 0) {
+                FeedbackCommentRowView(
+                    feedback: .init(
+                        type: FeedbackTypeWithData.zeroToTen(zeroToTen: 5, comment: "cool comment"),
+                        questionId: UUID(),
+                        seenByManager: false,
+                        createdAt: Date()
+                    )
+                )
+                
+            }
+            .padding(.top, 16)
+            .foregroundStyle(Color.themeTextSecondary)
+        }
+    }
+}
+
+#Preview("Opinion") {
+    List {
+        Section {
+            VStack(alignment: .leading, spacing: 0) {
+                FeedbackCommentRowView(
+                    feedback: .init(
+                        type: FeedbackTypeWithData.opinion(opinion: Opinion.stronglyAgree, comment: "Dope shit"),
+                        questionId: UUID(),
+                        seenByManager: false,
+                        createdAt: Date()
+                    )
+                )
+            }
+            .padding(.top, 16)
+            .foregroundStyle(Color.themeTextSecondary)
+        }
+    }
+}
+
+#Preview("thumbsUpThumpsDown") {
+    List {
+        Section {
+            VStack(alignment: .leading, spacing: 0) {
+                FeedbackCommentRowView(
+                    feedback: .init(
+                        type: FeedbackTypeWithData.thumpsUpThumpsDown(thumbsUpThumpsDown: .up, comment: "Cool comment"),
+                        questionId: UUID(),
+                        seenByManager: false,
+                        createdAt: Date()
+                    )
+                )
+                
+            }
+            .padding(.top, 16)
+            .foregroundStyle(Color.themeTextSecondary)
         }
     }
 }

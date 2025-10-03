@@ -25,11 +25,35 @@ public extension Feedback {
                 createdAt: feedback.createdAt
             )
         case .thumpsUpThumpsDown:
-            fatalError()
-        case .oneToTen:
-            fatalError()
+            self = .init(
+                type: FeedbackTypeWithData.thumpsUpThumpsDown(
+                    thumbsUpThumpsDown: .init(rawValue: feedback.thumbsUpThumpsDown!.rawValue.lowercasingFirst())!,
+                    comment: feedback.comment
+                ),
+                questionId: UUID(uuidString: feedback.questionId)!,
+                seenByManager: feedback.seenByManager,
+                createdAt: feedback.createdAt
+            )
+        case .zeroToTen:
+            self = .init(
+                type: FeedbackTypeWithData.zeroToTen(
+                    zeroToTen: Int(feedback.zeroToTen!),
+                    comment: feedback.comment
+                ),
+                questionId: UUID(uuidString: feedback.questionId)!,
+                seenByManager: feedback.seenByManager,
+                createdAt: feedback.createdAt
+            )
         case .opinion:
-            fatalError()
+            self = .init(
+                type: FeedbackTypeWithData.opinion(
+                    opinion: .init(rawValue: feedback.opinion!.rawValue.lowercasingFirst())!,
+                    comment: feedback.comment
+                ),
+                questionId: UUID(uuidString: feedback.questionId)!,
+                seenByManager: feedback.seenByManager,
+                createdAt: feedback.createdAt
+            )
         }
     }
 }
@@ -64,12 +88,12 @@ public extension Components.Schemas.FeedbackInput {
                 questionId: feedback.questionId.uuidString,
                 feedbackType: .opinion
             )
-        case .oneToTen(oneToTen: let oneToTen, comment: let optionalComment):
+        case .zeroToTen(zeroToTen: let zeroToTen, comment: let optionalComment):
             self.init(
                 comment: optionalComment,
-                oneToTen: Int32(oneToTen),
+                zeroToTen: Int32(zeroToTen),
                 questionId: feedback.questionId.uuidString,
-                feedbackType: .oneToTen
+                feedbackType: .zeroToTen
             )
         }
     }
@@ -95,27 +119,27 @@ public extension Components.Schemas.FeedbackInput.OpinionPayload {
 
 public extension ManagerEvent {
     init(_ event: Components.Schemas.ManagerEventDto) {
-        let feedbackSummary: FeedbackSummary? = if let eventSummary = event.feedbackSummary {
-            FeedbackSummary(
-                segmentationStats: .init(
-                    verySadPercentage: eventSummary.segmentationStats.verySadPercentage,
-                    sadPercentage: eventSummary.segmentationStats.sadPercentage,
-                    happyPercentage: eventSummary.segmentationStats.happyPercentage,
-                    veryHappyPercentage: eventSummary.segmentationStats.veryHappyPercentage
-                ),
-                countStats: .init(
-                    verySadCount: Int(eventSummary.countStats.verySadCount),
-                    sadCount: Int(eventSummary.countStats.sadCount),
-                    happyCount: Int(eventSummary.countStats.happyCount),
-                    veryHappyCount: Int(eventSummary.countStats.veryHappyCount),
-                    commentsCount: Int(eventSummary.countStats.commentsCount),
-                    uniqueParticipantFeedback: Int(eventSummary.countStats.uniqueParticipantFeedback)
-                ),
-                unseenCount: Int(eventSummary.unseenCount)
-            )
-        } else {
-            nil
-        }
+//        let feedbackSummary: FeedbackSummary? = if let eventSummary = event.feedbackSummary {
+//            FeedbackSummary(
+//                segmentationStats: .init(
+//                    verySadPercentage: eventSummary.segmentationStats.verySadPercentage,
+//                    sadPercentage: eventSummary.segmentationStats.sadPercentage,
+//                    happyPercentage: eventSummary.segmentationStats.happyPercentage,
+//                    veryHappyPercentage: eventSummary.segmentationStats.veryHappyPercentage
+//                ),
+//                countStats: .init(
+//                    verySadCount: Int(eventSummary.countStats.verySadCount),
+//                    sadCount: Int(eventSummary.countStats.sadCount),
+//                    happyCount: Int(eventSummary.countStats.happyCount),
+//                    veryHappyCount: Int(eventSummary.countStats.veryHappyCount),
+//                    commentsCount: Int(eventSummary.countStats.commentsCount),
+//                    uniqueParticipantFeedback: Int(eventSummary.countStats.uniqueParticipantFeedback)
+//                ),
+//                unseenCount: Int(eventSummary.unseenCount)
+//            )
+//        } else {
+//            nil
+//        }
         self.init(
             id: UUID(uuidString: event.id)!,
             title: event.title,
@@ -129,37 +153,38 @@ public extension ManagerEvent {
                 email: event.ownerInfo.email,
                 phoneNumber: event.ownerInfo.phoneNumber
             ),
-            feedbackSummary: feedbackSummary,
-            questions: event.questions.map {
-                let feedbackSummary: FeedbackSummary? = if let questionSummary = $0.feedbackSummary {
-                    FeedbackSummary(
-                        segmentationStats: .init(
-                            verySadPercentage: questionSummary.segmentationStats.verySadPercentage,
-                            sadPercentage: questionSummary.segmentationStats.sadPercentage,
-                            happyPercentage: questionSummary.segmentationStats.happyPercentage,
-                            veryHappyPercentage: questionSummary.segmentationStats.veryHappyPercentage
-                        ),
-                        countStats: .init(
-                            verySadCount: Int(questionSummary.countStats.verySadCount),
-                            sadCount: Int(questionSummary.countStats.sadCount),
-                            happyCount: Int(questionSummary.countStats.happyCount),
-                            veryHappyCount: Int(questionSummary.countStats.veryHappyCount),
-                            commentsCount: Int(questionSummary.countStats.commentsCount),
-                            uniqueParticipantFeedback: Int(questionSummary.countStats.uniqueParticipantFeedback)
-                        ),
-                        unseenCount: Int(questionSummary.unseenCount)
-                    )
-                } else {
-                    nil
-                }
-                return ManagerQuestion(
-                    id: UUID(uuidString: $0.id)!,
-                    questionText: $0.questionText,
-                    feedbackType: .init($0.feedbackType.rawValue),
-                    feedback: $0.feedback.map { Feedback($0) },
-                    feedbackSummary: feedbackSummary
-                )
-            }
+            feedbackSummary: nil,
+            questions: []
+//                event.questions.map {
+//                let feedbackSummary: FeedbackSummary? = if let questionSummary = $0.feedbackSummary {
+//                    FeedbackSummary(
+//                        segmentationStats: .init(
+//                            verySadPercentage: questionSummary.segmentationStats.verySadPercentage,
+//                            sadPercentage: questionSummary.segmentationStats.sadPercentage,
+//                            happyPercentage: questionSummary.segmentationStats.happyPercentage,
+//                            veryHappyPercentage: questionSummary.segmentationStats.veryHappyPercentage
+//                        ),
+//                        countStats: .init(
+//                            verySadCount: Int(questionSummary.countStats.verySadCount),
+//                            sadCount: Int(questionSummary.countStats.sadCount),
+//                            happyCount: Int(questionSummary.countStats.happyCount),
+//                            veryHappyCount: Int(questionSummary.countStats.veryHappyCount),
+//                            commentsCount: Int(questionSummary.countStats.commentsCount),
+//                            uniqueParticipantFeedback: Int(questionSummary.countStats.uniqueParticipantFeedback)
+//                        ),
+//                        unseenCount: Int(questionSummary.unseenCount)
+//                    )
+//                } else {
+//                    nil
+//                }
+//                return ManagerQuestion(
+//                    id: UUID(uuidString: $0.id)!,
+//                    questionText: $0.questionText,
+//                    feedbackType: .init($0.feedbackType.rawValue),
+//                    feedback: $0.feedback.map { Feedback($0) },
+//                    feedbackSummary: feedbackSummary
+//                )
+//            }
         )
     }
 }

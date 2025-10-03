@@ -4,10 +4,10 @@ info:
   description: |-
     API documentation for Lets Grow application.
 
-    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/5806169)
-  version: 114-5806169
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/unknown)
+  version: "${VERSION}"
 servers:
-- url: http://api.letsgrow.dk
+- url: http://localhost:8080
   description: Generated server url
 security:
 - bearerAuth: []
@@ -438,25 +438,12 @@ components:
           - Comment
           - ThumpsUpThumpsDown
           - Opinion
-          - OneToTen
-    EventWrapperDto:
-      required:
-      - event
-      - recentlyUsedQuestions
-      type: object
-      properties:
-        event:
-          $ref: '#/components/schemas/ManagerEventDto'
-        recentlyUsedQuestions:
-          type: array
-          items:
-            $ref: '#/components/schemas/RecentlyUsedQuestions'
-    FeedbackCountStatsDto:
+          - ZeroToTen
+    EmojiFeedbackCountStatsDto:
       required:
       - commentsCount
       - happyCount
       - sadCount
-      - uniqueParticipantFeedback
       - veryHappyCount
       - verySadCount
       type: object
@@ -476,9 +463,48 @@ components:
         commentsCount:
           type: integer
           format: int32
-        uniqueParticipantFeedback:
-          type: integer
-          format: int32
+    EmojiFeedbackSegmentationStatsDto:
+      required:
+      - happyPercentage
+      - sadPercentage
+      - veryHappyPercentage
+      - verySadPercentage
+      type: object
+      properties:
+        verySadPercentage:
+          type: number
+          format: double
+        sadPercentage:
+          type: number
+          format: double
+        happyPercentage:
+          type: number
+          format: double
+        veryHappyPercentage:
+          type: number
+          format: double
+    EmojiQuestionFeedbackSummary:
+      required:
+      - emojiFeedbackCountStats
+      - emojiFeedbackSegmentationStats
+      type: object
+      properties:
+        emojiFeedbackCountStats:
+          $ref: '#/components/schemas/EmojiFeedbackCountStatsDto'
+        emojiFeedbackSegmentationStats:
+          $ref: '#/components/schemas/EmojiFeedbackSegmentationStatsDto'
+    EventWrapperDto:
+      required:
+      - event
+      - recentlyUsedQuestions
+      type: object
+      properties:
+        event:
+          $ref: '#/components/schemas/ManagerEventDto'
+        recentlyUsedQuestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecentlyUsedQuestions'
     FeedbackEntity:
       required:
       - createdAt
@@ -498,7 +524,7 @@ components:
           - Comment
           - ThumpsUpThumpsDown
           - Opinion
-          - OneToTen
+          - ZeroToTen
         comment:
           type: string
         emoji:
@@ -521,7 +547,7 @@ components:
           - Neutral
           - Agree
           - StronglyAgree
-        oneToTen:
+        zeroToTen:
           type: integer
           format: int32
         questionId:
@@ -534,40 +560,6 @@ components:
         createdAt:
           type: string
           format: date-time
-    FeedbackSegmentationStatsDto:
-      required:
-      - happyPercentage
-      - sadPercentage
-      - veryHappyPercentage
-      - verySadPercentage
-      type: object
-      properties:
-        verySadPercentage:
-          type: number
-          format: double
-        sadPercentage:
-          type: number
-          format: double
-        happyPercentage:
-          type: number
-          format: double
-        veryHappyPercentage:
-          type: number
-          format: double
-    FeedbackSummaryDto:
-      required:
-      - countStats
-      - segmentationStats
-      - unseenCount
-      type: object
-      properties:
-        segmentationStats:
-          $ref: '#/components/schemas/FeedbackSegmentationStatsDto'
-        countStats:
-          $ref: '#/components/schemas/FeedbackCountStatsDto'
-        unseenCount:
-          type: integer
-          format: int32
     ManagerEventDto:
       required:
       - date
@@ -597,8 +589,8 @@ components:
           type: string
         ownerInfo:
           $ref: '#/components/schemas/OwnerInfoDto'
-        feedbackSummary:
-          $ref: '#/components/schemas/FeedbackSummaryDto'
+        overallFeedbackSummary:
+          $ref: '#/components/schemas/OverallFeedbackSummaryDto'
         questions:
           type: array
           items:
@@ -623,13 +615,125 @@ components:
           - Comment
           - ThumpsUpThumpsDown
           - Opinion
-          - OneToTen
+          - ZeroToTen
         feedback:
           type: array
           items:
             $ref: '#/components/schemas/FeedbackEntity'
-        feedbackSummary:
-          $ref: '#/components/schemas/FeedbackSummaryDto'
+        questionFeedbackSummary:
+          $ref: '#/components/schemas/QuestionFeedbackSummaryDto'
+    OpinionFeedbackCountSegmentationStatsDto:
+      required:
+      - agreePercentage
+      - disagreePercentage
+      - stronglyAgreePercentage
+      - stronglyDisagreePercentage
+      type: object
+      properties:
+        stronglyAgreePercentage:
+          type: number
+          format: double
+        agreePercentage:
+          type: number
+          format: double
+        stronglyDisagreePercentage:
+          type: number
+          format: double
+        disagreePercentage:
+          type: number
+          format: double
+    OpinionFeedbackCountStatsDto:
+      required:
+      - agree
+      - commentsCount
+      - disagree
+      - stronglyAgree
+      - stronglyDisagree
+      type: object
+      properties:
+        stronglyAgree:
+          type: integer
+          format: int32
+        agree:
+          type: integer
+          format: int32
+        stronglyDisagree:
+          type: integer
+          format: int32
+        disagree:
+          type: integer
+          format: int32
+        commentsCount:
+          type: integer
+          format: int32
+    OpinionQuestionFeedbackSummary:
+      required:
+      - opinionFeedbackCountStats
+      - opinionFeedbackSegmentationStats
+      type: object
+      properties:
+        opinionFeedbackCountStats:
+          $ref: '#/components/schemas/OpinionFeedbackCountStatsDto'
+        opinionFeedbackSegmentationStats:
+          $ref: '#/components/schemas/OpinionFeedbackCountSegmentationStatsDto'
+    OverallFeedbackCountStatsDto:
+      required:
+      - commentsCount
+      - happyCount
+      - sadCount
+      - veryHappyCount
+      - verySadCount
+      type: object
+      properties:
+        verySadCount:
+          type: integer
+          format: int32
+        sadCount:
+          type: integer
+          format: int32
+        happyCount:
+          type: integer
+          format: int32
+        veryHappyCount:
+          type: integer
+          format: int32
+        commentsCount:
+          type: integer
+          format: int32
+    OverallFeedbackSegmentationStatsDto:
+      required:
+      - happyPercentage
+      - sadPercentage
+      - veryHappyPercentage
+      - verySadPercentage
+      type: object
+      properties:
+        verySadPercentage:
+          type: number
+          format: double
+        sadPercentage:
+          type: number
+          format: double
+        happyPercentage:
+          type: number
+          format: double
+        veryHappyPercentage:
+          type: number
+          format: double
+    OverallFeedbackSummaryDto:
+      required:
+      - countStats
+      - segmentationStats
+      - unseenCount
+      type: object
+      properties:
+        segmentationStats:
+          $ref: '#/components/schemas/OverallFeedbackSegmentationStatsDto'
+        countStats:
+          $ref: '#/components/schemas/OverallFeedbackCountStatsDto'
+        unseenCount:
+          type: integer
+          format: int32
     OwnerInfoDto:
       type: object
       properties:
@@ -639,6 +743,22 @@ components:
           type: string
         phoneNumber:
           type: string
+    QuestionFeedbackSummaryDto:
+      required:
+      - unseenCount
+      type: object
+      properties:
+        unseenCount:
+          type: integer
+          format: int32
+        emojiQuestionFeedbackSummary:
+          $ref: '#/components/schemas/EmojiQuestionFeedbackSummary'
+        thumpsQuestionFeedbackSummary:
+          $ref: '#/components/schemas/ThumpsQuestionFeedbackSummary'
+        opinionQuestionFeedbackSummary:
+          $ref: '#/components/schemas/OpinionQuestionFeedbackSummary'
+        zeroToTenQuestionFeedbackSummary:
+          $ref: '#/components/schemas/ZeroToTenQuestionFeedbackSummary'
     RecentlyUsedQuestions:
       required:
       - feedbackType
@@ -655,10 +775,158 @@ components:
           - Comment
           - ThumpsUpThumpsDown
           - Opinion
-          - OneToTen
+          - ZeroToTen
         updatedAt:
           type: string
           format: date-time
+    ThumpsFeedbackCountSegmentationStatsDto:
+      required:
+      - downPercentage
+      - upPercentage
+      type: object
+      properties:
+        upPercentage:
+          type: number
+          format: double
+        downPercentage:
+          type: number
+          format: double
+    ThumpsFeedbackCountStatsDto:
+      required:
+      - commentsCount
+      - downCount
+      - upCount
+      type: object
+      properties:
+        upCount:
+          type: integer
+          format: int32
+        downCount:
+          type: integer
+          format: int32
+        commentsCount:
+          type: integer
+          format: int32
+    ThumpsQuestionFeedbackSummary:
+      required:
+      - thumpsFeedbackCountStats
+      - thumpsFeedbackSegmentationStats
+      type: object
+      properties:
+        thumpsFeedbackCountStats:
+          $ref: '#/components/schemas/ThumpsFeedbackCountStatsDto'
+        thumpsFeedbackSegmentationStats:
+          $ref: '#/components/schemas/ThumpsFeedbackCountSegmentationStatsDto'
+    ZeroToTenFeedbackCountSegmentationStatsDto:
+      required:
+      - value0Percentage
+      - value10Percentage
+      - value1Percentage
+      - value2Percentage
+      - value3Percentage
+      - value4Percentage
+      - value5Percentage
+      - value6Percentage
+      - value7Percentage
+      - value8Percentage
+      - value9Percentage
+      type: object
+      properties:
+        value0Percentage:
+          type: number
+          format: double
+        value1Percentage:
+          type: number
+          format: double
+        value2Percentage:
+          type: number
+          format: double
+        value3Percentage:
+          type: number
+          format: double
+        value4Percentage:
+          type: number
+          format: double
+        value5Percentage:
+          type: number
+          format: double
+        value6Percentage:
+          type: number
+          format: double
+        value7Percentage:
+          type: number
+          format: double
+        value8Percentage:
+          type: number
+          format: double
+        value9Percentage:
+          type: number
+          format: double
+        value10Percentage:
+          type: number
+          format: double
+    ZeroToTenFeedbackCountStatsDto:
+      required:
+      - commentsCount
+      - value0
+      - value1
+      - value10
+      - value2
+      - value3
+      - value4
+      - value5
+      - value6
+      - value7
+      - value8
+      - value9
+      type: object
+      properties:
+        value0:
+          type: integer
+          format: int32
+        value1:
+          type: integer
+          format: int32
+        value2:
+          type: integer
+          format: int32
+        value3:
+          type: integer
+          format: int32
+        value4:
+          type: integer
+          format: int32
+        value5:
+          type: integer
+          format: int32
+        value6:
+          type: integer
+          format: int32
+        value7:
+          type: integer
+          format: int32
+        value8:
+          type: integer
+          format: int32
+        value9:
+          type: integer
+          format: int32
+        value10:
+          type: integer
+          format: int32
+        commentsCount:
+          type: integer
+          format: int32
+    ZeroToTenQuestionFeedbackSummary:
+      required:
+      - zeroToTenFeedbackCountStats
+      - zeroToTenFeedbackSegmentationStats
+      type: object
+      properties:
+        zeroToTenFeedbackCountStats:
+          $ref: '#/components/schemas/ZeroToTenFeedbackCountStatsDto'
+        zeroToTenFeedbackSegmentationStats:
+          $ref: '#/components/schemas/ZeroToTenFeedbackCountSegmentationStatsDto'
     SendNotificationInput:
       required:
       - eventId
@@ -728,7 +996,7 @@ components:
           - Neutral
           - Agree
           - StronglyAgree
-        oneToTen:
+        zeroToTen:
           type: integer
           format: int32
         questionId:
@@ -741,7 +1009,7 @@ components:
           - Comment
           - ThumpsUpThumpsDown
           - Opinion
-          - OneToTen
+          - ZeroToTen
     SubmitFeedbackInput:
       required:
       - feedback
@@ -812,7 +1080,7 @@ components:
           - Comment
           - ThumpsUpThumpsDown
           - Opinion
-          - OneToTen
+          - ZeroToTen
     SubmitFeedbackResponseDto:
       required:
       - event
@@ -1010,3 +1278,4 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+

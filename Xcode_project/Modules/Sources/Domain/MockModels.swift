@@ -61,7 +61,7 @@ public func generateRandomQuestions() -> [ParticipantQuestion] {
         .init(
             id: UUID(),
             questionText: "On a scale of 1-10, how satisfied are you with the meeting outcome?",
-            feedbackType: .oneToTen
+            feedbackType: .zeroToTen
         ),
         .init(
             id: UUID(),
@@ -119,7 +119,9 @@ public extension ManagerSession {
         participantEvents: .init(uniqueElements: (0...100).map { _ in .mock() }),
         managerData: .init(
             managerEvents: .init(
-                uniqueElements: generateMockManagerEvents(count: 100)
+                uniqueElements: [
+                    ManagerEvent.mock()
+                ]
             ),
             activity: .mock,
             recentlyUsedQuestions: [.init(questionText: "Hello world", feedbackType: .emoji, updatedAt: Date())],
@@ -147,7 +149,9 @@ public extension Session {
             participantEvents: .init(uniqueElements: (0...100).map { _ in .mock() }),
             managerData: .init(
                 managerEvents: .init(
-                    uniqueElements: generateMockManagerEvents(count: numberOfManagerEvents)
+                    uniqueElements: [
+                        ManagerEvent.mock()
+                    ]
                 ),
                 activity: .mock,
                 recentlyUsedQuestions: [],
@@ -188,11 +192,11 @@ public extension Session {
     
 }
 
-private func generateMockManagerEvents(count: Int) -> [ManagerEvent] {
-    (0..<count).map { _ in
-        ManagerEvent.mock(Int.random(in: 0...10), Int.random(in: 0...10), index: globalMockUUIDIndex)
-    }
-}
+//private func generateMockManagerEvents(count: Int) -> [ManagerEvent] {
+//    (0..<count).map { _ in
+//        ManagerEvent.mock(Int.random(in: 0...10), Int.random(in: 0...10), index: globalMockUUIDIndex)
+//    }
+//}
 
 public extension ParticipantEvent {
     static func mock() -> Self {
@@ -237,28 +241,16 @@ extension UUID {
 }
 
 public extension ManagerEvent {
-    static func mock(_ feedbackCount: Int = 30, _ questionsCount: Int = 5, index: Int = 0) -> Self {
-        // Generate questions with feedback
-        var questions: [ManagerQuestion] = [.init(
-            id: UUID(),
-            questionText: "What do you think about the meeting duration?",
-            feedbackType: .emoji,
-            feedback: [],
-            feedbackSummary: nil
-        )]
-        var totalFeedback = 0
+    static func mock() -> Self {
         
-        for _ in 0..<questionsCount {
-            let feedbackForQuestion = Int.random(in: 0...30)
-            totalFeedback += feedbackForQuestion
-            questions.append(generateQuestion(amount: feedbackForQuestion))
-        }
-        
-        var feedbackSummary: FeedbackSummary?
-        if totalFeedback != 0 {
-            feedbackSummary = generateFeedbackSummary(total: totalFeedback)
-        }
-        
+        let questions: [ManagerQuestion] = [
+            generateQuestionWithType(feedbackType: FeedbackType.comment),
+            generateQuestionWithType(feedbackType: FeedbackType.emoji),
+            generateQuestionWithType(feedbackType: FeedbackType.zeroToTen),
+            generateQuestionWithType(feedbackType: FeedbackType.opinion),
+            generateQuestionWithType(feedbackType: FeedbackType.thumpsUpThumpsDown)
+        ]
+        let feedbackSummary: FeedbackSummary = generateFeedbackSummary(total: 10)
         return Self.init(
             id: nextDeterministicUUID(),
             title: generateFeedbackEventTitle(),
@@ -272,6 +264,7 @@ public extension ManagerEvent {
             questions: questions
         )
     }
+    
 }
 
 func generateRandomDate() -> Date {
@@ -407,16 +400,156 @@ public extension ManagerEvent {
     )
 }
 
-public func generateQuestion(amount: Int) -> ManagerQuestion {
-    let feedback = generateFeedback(amount: amount)
-    let feedbackSummary: FeedbackSummary? = generateFeedbackSummary(total: amount)
-    return ManagerQuestion(
-        id: nextDeterministicUUID(),
-        questionText: "How do you feel about this aspect of the experience?",
-        feedbackType: .emoji,
-        feedback: feedback,
-        feedbackSummary: feedbackSummary
-    )
+public func generateQuestionWithType(feedbackType: FeedbackType) -> ManagerQuestion {
+    switch feedbackType {
+    case .emoji:
+        let feedback: [Feedback] = [
+            .mock(
+                type: FeedbackTypeWithData.emoji(emoji: Emoji.veryHappy, comment: "Really good")
+            ),
+            .mock(
+                type: FeedbackTypeWithData.emoji(emoji: Emoji.sad, comment: nil)
+            )
+        ]
+        return ManagerQuestion(
+            id: nextDeterministicUUID(),
+            questionText: "How was the presentation?",
+            feedbackType: .emoji,
+            feedback: feedback,
+            feedbackSummary: QuestionFeedbackSummary.emojiQuestionFeedbackSummary(
+                unseenCount: 3,
+                emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary(
+                    emojiFeedbackCountStats: EmojiFeedbackCountStats(
+                        verySadCount: 3,
+                        sadCount: 3,
+                        happyCount: 3,
+                        veryHappyCount: 3,
+                        commentsCount: 2
+                    ),
+                    emojiFeedbackSegmentationStats: .init(
+                        verySadPercentage: 20,
+                        sadPercentage: 20,
+                        happyPercentage: 20,
+                        veryHappyPercentage: 40
+                    )
+                )
+            )
+        )
+    case .comment:
+        let feedback: [Feedback] = [
+            .mock(
+                type: FeedbackTypeWithData.comment(comment: "I was good")
+            )
+        ]
+        return ManagerQuestion(
+            id: nextDeterministicUUID(),
+            questionText: "How do you feel about this aspect of the experience?",
+            feedbackType: .comment,
+            feedback: feedback,
+            feedbackSummary: QuestionFeedbackSummary.commentQuestionFeedbackSummary(unseenCount: 3)
+        )
+    case .thumpsUpThumpsDown:
+        let feedback: [Feedback] = [
+            .mock(
+                type: FeedbackTypeWithData.thumpsUpThumpsDown(thumbsUpThumpsDown: ThumbsUpThumpsDown.down, comment: "Not good")
+            ),
+            .mock(
+                type: FeedbackTypeWithData.thumpsUpThumpsDown(thumbsUpThumpsDown: ThumbsUpThumpsDown.up, comment: "GOOD!")
+            )
+        ]
+        return ManagerQuestion(
+            id: nextDeterministicUUID(),
+            questionText: "Have you enjoyed this feedback session?",
+            feedbackType: .thumpsUpThumpsDown,
+            feedback: feedback,
+            feedbackSummary: QuestionFeedbackSummary.thumpsQuestionFeedbackSummary(
+                unseenCount: 3,
+                thumpsQuestionFeedbackSummary: ThumpsQuestionFeedbackSummary.init(
+                    thumpsFeedbackCountStats: ThumpsFeedbackCountStats.init(
+                        upCount: 30,
+                        downCount: 303,
+                        commentsCount: 30
+                    ),
+                    thumpsFeedbackSegmentationStats: ThumpsFeedbackCountSegmentationStats.init(
+                        upPercentage: 30,
+                        downPercentage: 70
+                    )
+                )
+            )
+        )
+    case .opinion:
+        let feedback: [Feedback] = [
+            .mock(type: .opinion(opinion: .stronglyAgree, comment: "Not much to say. I get the feedback i need.")),
+            .mock(type: .opinion(opinion: .disagree, comment: nil))
+        ]
+        return ManagerQuestion(
+            id: nextDeterministicUUID(),
+            questionText: "I feel i get the feedback i need from my boss.",
+            feedbackType: .emoji,
+            feedback: feedback,
+            feedbackSummary: .opinionQuestionFeedbackSummary(
+                unseenCount: 8,
+                opinionQuestionFeedbackSummary: OpinionQuestionFeedbackSummary.init(
+                    opinionFeedbackCountStats: OpinionFeedbackCountStats.init(
+                        stronglyAgree: 79,
+                        agree: 32,
+                        stronglyDisagree: 23,
+                        disagree: 23,
+                        commentsCount: 12
+                    ),
+                    opinionFeedbackSegmentationStats: OpinionFeedbackCountSegmentationStats.init(
+                        stronglyAgreePercentage: 80,
+                        agreePercentage: 10,
+                        stronglyDisagreePercentage: 10,
+                        disagreePercentage: 0
+                    )
+                )
+            )
+        )
+    case .zeroToTen:
+        let feedback: [Feedback] = [
+            .mock(type: .zeroToTen(zeroToTen: 10, comment: "I FEEL good")),
+            .mock(type: .zeroToTen(zeroToTen: 2, comment: nil))
+        ]
+        return ManagerQuestion(
+            id: nextDeterministicUUID(),
+            questionText: "How are you feeling today?",
+            feedbackType: .zeroToTen,
+            feedback: feedback,
+            feedbackSummary: .zeroToTenQuestionFeedbackSummary(
+                unseenCount: 7,
+                zeroToTenQuestionFeedbackSummary: ZeroToTenQuestionFeedbackSummary.init(
+                    zeroToTenFeedbackCountStats: ZeroToTenFeedbackCountStats.init(
+                        value0: 7,
+                        value1: 7,
+                        value2: 7,
+                        value3: 7,
+                        value4: 7,
+                        value5: 7,
+                        value6: 7,
+                        value7: 7,
+                        value8: 7,
+                        value9: 7,
+                        value10: 7,
+                        commentsCount: 7
+                    ),
+                    zeroToTenFeedbackSegmentationStats: ZeroToTenFeedbackCountSegmentationStats.init(
+                        value0Percentage: 7,
+                        value1Percentage: 7,
+                        value2Percentage: 7,
+                        value3Percentage: 7,
+                        value4Percentage: 7,
+                        value5Percentage: 7,
+                        value6Percentage: 7,
+                        value7Percentage: 7,
+                        value8Percentage: 7,
+                        value9Percentage: 7,
+                        value10Percentage: 7
+                    )
+                )
+            )
+        )
+    }
 }
 
 public func generateFeedback(amount: Int) -> [Feedback] {
@@ -427,7 +560,7 @@ public func generateFeedback(amount: Int) -> [Feedback] {
         "Quite good, had a great time.",
         "Could have been better.",
         "Really disappointing.",
-        nil // Represents no comment
+        nil
     ]
     
     var feedbackArray: [Feedback] = []
@@ -445,6 +578,17 @@ public func generateFeedback(amount: Int) -> [Feedback] {
     }
     
     return feedbackArray
+}
+
+extension Feedback {
+    static func mock(type: FeedbackTypeWithData) -> Self {
+        Feedback(
+            type: type,
+            questionId: UUID(),
+            seenByManager: Bool.random(),
+            createdAt: Date()
+        )
+    }
 }
 
 public extension Activity {

@@ -17,7 +17,7 @@ public struct Feedback: Equatable, Identifiable, Sendable {
             if comment != nil { return true }
         case .opinion(_, let comment):
             if comment != nil { return true }
-        case .oneToTen(_, let comment):
+        case .zeroToTen(_, let comment):
             if comment != nil { return true }
         }
         return false
@@ -36,7 +36,7 @@ public enum FeedbackTypeWithData: Equatable, Sendable {
     case comment(comment: String)
     case thumpsUpThumpsDown(thumbsUpThumpsDown: ThumbsUpThumpsDown, comment: String?)
     case opinion(opinion: Opinion, comment: String?)
-    case oneToTen(oneToTen: Int, comment: String?)
+    case zeroToTen(zeroToTen: Int, comment: String?)
 }
 
 public enum Emoji: String, Equatable, Sendable, Codable {
@@ -57,4 +57,21 @@ public enum Opinion: String, Equatable, Sendable, Codable {
     case neutral = "neutral"
     case agree = "agree"
     case stronglyAgree = "stronglyAgree"
+}
+
+public extension Opinion {
+    var localized: String {
+        switch self {
+        case .stronglyDisagree:
+            return "Strongly disagree"
+        case .disagree:
+            return "Disagree"
+        case .neutral:
+            return "Neutral"
+        case .agree:
+            return "Agree"
+        case .stronglyAgree:
+            return "Strongly agree"
+        }
+    }
 }

@@ -87,10 +87,10 @@ private extension QuestionDetailView {
                     .font(.montserratBold, 15)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 if let summary = question.feedbackSummary {
-                    smileyView(summary.countStats)
-                        .foregroundColor(.themeText)
-                        .offset(y: -6)
-                    if summary.countStats.commentsCount > 0 {
+//                    smileyView(summary.countStats)
+//                        .foregroundColor(.themeText)
+//                        .offset(y: -6)
+                    if summary.commentCount > 0 {
                         VStack(alignment: .leading) {
                             Text("Comments")
                                 .font(.montserratBold, 15)

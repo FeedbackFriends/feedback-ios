@@ -2,7 +2,7 @@ import ComposableArchitecture
 import Foundation
 
 @Reducer
-public struct OneToTenFeedback: Sendable {
+public struct ZeroToTenFeedback: Sendable {
     
     public init () {}
     @ObservableState

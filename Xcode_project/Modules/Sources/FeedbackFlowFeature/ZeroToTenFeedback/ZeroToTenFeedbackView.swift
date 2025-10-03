@@ -2,38 +2,26 @@ import ComposableArchitecture
 import SwiftUI
 import DesignSystem
 
-struct OneToTenFeedbackView: View {
+struct ZeroToTenFeedbackView: View {
     
     @FocusState.Binding var commentTextfieldFocused: Bool
-    @Bindable var store: StoreOf<OneToTenFeedback>
+    @Bindable var store: StoreOf<ZeroToTenFeedback>
     
     public init(
-        store: StoreOf<OneToTenFeedback>,
+        store: StoreOf<ZeroToTenFeedback>,
         commentTextfieldFocused: FocusState<Bool>.Binding
     ) {
         self.store = store
         self._commentTextfieldFocused = commentTextfieldFocused
     }
-    
-    private var ratingColor: Color {
-        switch Int(store.rating) {
-        case 0...2:  return Color.themeVerySad
-        case 3...4:  return Color.themeSad
-        case 5:  return Color.gray
-        case 6...7:  return Color.themeHappy
-        case 8...10:  return Color.themeVeryHappy
-        default:
-            return Color.themeVeryHappy
-        }
-    }
-    
+
     var body: some View {
         VStack(spacing: 8) {
             HStack {
                 Text("\(store.ratingAsInt)")
                     .font(.montserratBold, 20)
                     .monospacedDigit()
-                    .foregroundStyle(ratingColor)
+                    .foregroundStyle(store.ratingAsInt.ratingColor)
                 Text("af 10")
                     .font(.montserratRegular, 14)
                     .foregroundStyle(Color.themeText)
@@ -51,7 +39,7 @@ struct OneToTenFeedbackView: View {
             } onEditingChanged: { editing in
                 store.send(.onEditingSliderChanged(editing))
             }
-            .tint(ratingColor)
+            .tint(store.ratingAsInt.ratingColor)
             
             FeedbackElaborationTextField(
                 commentTextField: $store.commentTextField,
@@ -71,13 +59,13 @@ struct OneToTenFeedbackView: View {
 
 #Preview {
     @Previewable @FocusState var isFocused: Bool
-    return OneToTenFeedbackView(
-        store: StoreOf<OneToTenFeedback>(
-            initialState: OneToTenFeedback.State(
+    return ZeroToTenFeedbackView(
+        store: StoreOf<ZeroToTenFeedback>(
+            initialState: ZeroToTenFeedback.State(
                 questionId: UUID(),
                 questionText: "Hello world"
             ),
-            reducer: { OneToTenFeedback() }
+            reducer: { ZeroToTenFeedback() }
         ),
         commentTextfieldFocused: $isFocused
     )

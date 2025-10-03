@@ -146,7 +146,7 @@ struct QuestionView: View {
                         Text("Comments")
                             .font(.montserratSemiBold, 13)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        if question.feedbackSummary == nil || question.feedbackSummary?.countStats.commentsCount == 0 {
+                        if question.feedbackSummary == nil || question.feedbackSummary?.commentCount == 0 {
                             Text("No comments yet")
                                 .font(.montserratRegular, 14)
                                 .padding(.vertical, 8)
@@ -172,14 +172,14 @@ struct QuestionView: View {
                                 Text(question.questionText)
                                     .font(.montserratRegular, 13)
                                     .multilineTextAlignment(.leading)
-                                if let feedback = question.feedbackSummary {
-                                    smileyView(feedback.countStats)
-                                    FeedbackPercentageBarView(
-                                        feedback: feedback.segmentationStats
-                                    )
-                                    .frame(height: 8)
-                                    .cornerRadius(4)
-                                }
+//                                if let feedback = question.feedbackSummary {
+//                                    smileyView(feedback.countStats)
+//                                    FeedbackPercentageBarView(
+//                                        feedback: feedback.segmentationStats
+//                                    )
+//                                    .frame(height: 8)
+//                                    .cornerRadius(4)
+//                                }
                             }
                         }
                         .padding(.top, 16)
@@ -260,74 +260,74 @@ struct QuestionView: View {
 		.navigationTitle("Event with empty feedback")
     }
 }
-
-#Preview("With feedback") {
-	NavigationStack {
-		DetailSectionView(
-			event: .init(
-				id: UUID(),
-				title: "Title",
-				agenda: "Agenda",
-				date: Date(),
-				pinCode: PinCode(value: "1234"),
-				durationInMinutes: 60,
-				location: "Hellerup",
-				ownerInfo: .init(
-					name: "Nicolai",
-					email: "Email",
-					phoneNumber: "Phonenumber"
-				),
-				feedbackSummary: .init(
-					segmentationStats: .init(
-						verySadPercentage: 30,
-						sadPercentage: 30,
-						happyPercentage: 20,
-						veryHappyPercentage: 20
-					),
-					countStats: .init(
-						verySadCount: 10,
-						sadCount: 10,
-						happyCount: 10,
-						veryHappyCount: 10,
-						commentsCount: 10,
-						uniqueParticipantFeedback: 10
-					),
-					unseenCount: 8
-				),
-				questions: [
-					.init(
-						id: UUID(),
-						questionText: "Why whyyyy whyyy",
-						feedbackType: .emoji,
-						feedback: [
-							.init(
-								type: .emoji(emoji: .happy, comment: "Hello world"),
-								questionId: UUID(),
-								seenByManager: false,
-								createdAt: Date()
-							)
-						],
-						feedbackSummary: .init(
-							segmentationStats: .init(
-								verySadPercentage: 30,
-								sadPercentage: 30,
-								happyPercentage: 20,
-								veryHappyPercentage: 20
-							),
-							countStats: .init(
-								verySadCount: 10,
-								sadCount: 10,
-								happyCount: 10,
-								veryHappyCount: 10,
-								commentsCount: 10,
-								uniqueParticipantFeedback: 10
-							),
-							unseenCount: 10
-						)
-					)
-				]
-			)
-		)
-		.navigationTitle("Event with empty feedback")
-	}
-}
+#warning("Fix me")
+//#Preview("With feedback") {
+//	NavigationStack {
+//		DetailSectionView(
+//			event: .init(
+//				id: UUID(),
+//				title: "Title",
+//				agenda: "Agenda",
+//				date: Date(),
+//				pinCode: PinCode(value: "1234"),
+//				durationInMinutes: 60,
+//				location: "Hellerup",
+//				ownerInfo: .init(
+//					name: "Nicolai",
+//					email: "Email",
+//					phoneNumber: "Phonenumber"
+//				),
+//				feedbackSummary: .init(
+//					segmentationStats: .init(
+//						verySadPercentage: 30,
+//						sadPercentage: 30,
+//						happyPercentage: 20,
+//						veryHappyPercentage: 20
+//					),
+//					countStats: .init(
+//						verySadCount: 10,
+//						sadCount: 10,
+//						happyCount: 10,
+//						veryHappyCount: 10,
+//						commentsCount: 10,
+//						uniqueParticipantFeedback: 10
+//					),
+//					unseenCount: 8
+//				),
+//				questions: [
+//					.init(
+//						id: UUID(),
+//						questionText: "Why whyyyy whyyy",
+//						feedbackType: .emoji,
+//						feedback: [
+//							.init(
+//								type: .emoji(emoji: .happy, comment: "Hello world"),
+//								questionId: UUID(),
+//								seenByManager: false,
+//								createdAt: Date()
+//							)
+//						],
+//						feedbackSummary: .init(
+//							segmentationStats: .init(
+//								verySadPercentage: 30,
+//								sadPercentage: 30,
+//								happyPercentage: 20,
+//								veryHappyPercentage: 20
+//							),
+//							countStats: .init(
+//								verySadCount: 10,
+//								sadCount: 10,
+//								happyCount: 10,
+//								veryHappyCount: 10,
+//								commentsCount: 10,
+//								uniqueParticipantFeedback: 10
+//							),
+//							unseenCount: 10
+//						)
+//					)
+//				]
+//			)
+//		)
+//		.navigationTitle("Event with empty feedback")
+//	}
+//}

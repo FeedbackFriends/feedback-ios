@@ -13,7 +13,7 @@ extension FeedbackType {
             return false
         case .opinion:
             return false
-        case .oneToTen:
+        case .zeroToTen:
             return false
         }
     }

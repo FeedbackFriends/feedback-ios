@@ -2,7 +2,7 @@ import Foundation
 import Utility
 
 public enum FeedbackType: String, Codable, Equatable, RawRepresentable, Sendable, CaseIterable {
-    case emoji, comment, thumpsUpThumpsDown, opinion, oneToTen
+    case emoji, comment, thumpsUpThumpsDown, opinion, zeroToTen
 }
 
 extension FeedbackType {
