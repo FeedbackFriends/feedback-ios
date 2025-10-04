@@ -13,6 +13,12 @@
 		281A89432E69B7970002D56C /* FeedbackFlowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89412E69B7970002D56C /* FeedbackFlowApp.swift */; };
 		281F2AA82E81F01A00D4665A /* Adapters in Frameworks */ = {isa = PBXBuildFile; productRef = 288EC1292E7B40E200544CCE /* Adapters */; };
 		2843B5232E69A39800274A6F /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883B2E6788FF00F0B6BE /* InfoPlist */; };
+		284ACA382E919E00008F01D0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		284ACA392E919E00008F01D0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		284ACA3A2E919E00008F01D0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		284ACA3B2E919E00008F01D0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		284ACA3C2E919E00008F01D0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
+		284ACA3D2E919E00008F01D0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		285E15C12E69BE5600C1B766 /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285E15C02E69BE5600C1B766 /* APIClientMock.swift */; };
 		285E15C22E69BEC100C1B766 /* APIClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 285E15C02E69BE5600C1B766 /* APIClientMock.swift */; };
 		285E15C32E69BEF500C1B766 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
@@ -52,6 +58,7 @@
 		7A49F5292DD5F99200FF5B86 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
 		7A49F52A2DD5F99200FF5B86 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
 		7ABB22262E17F061006B6865 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7ABB22252E17F061006B6865 /* RootFeature */; };
+		B3D484C5A3BE41F0B5CA14E9 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 124060BD033F4556AFD8B98E /* Sentry */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -98,6 +105,7 @@
 				2889A6AC2E8EB67100561B5A /* FeedbackFlow in Frameworks */,
 				28A0501B2E788FDB00CC7316 /* FeedbackFlowFeature in Frameworks */,
 				285E15C52E69C28800C1B766 /* RootFeature in Frameworks */,
+				284ACA3A2E919E00008F01D0 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +116,7 @@
 				28A0501D2E788FDB00CC7316 /* FeedbackFlowFeature in Frameworks */,
 				28A0501C2E788FDB00CC7316 /* FeedbackFlow in Frameworks */,
 				28A050072E786F9E00CC7316 /* RootFeature in Frameworks */,
+				284ACA3B2E919E00008F01D0 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -118,6 +127,7 @@
 				281F2AA82E81F01A00D4665A /* Adapters in Frameworks */,
 				2843B5232E69A39800274A6F /* InfoPlist in Frameworks */,
 				28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */,
+				B3D484C5A3BE41F0B5CA14E9 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +137,7 @@
 			files = (
 				28A050192E788FDB00CC7316 /* AppCore in Frameworks */,
 				7ABB22262E17F061006B6865 /* RootFeature in Frameworks */,
+				284ACA392E919E00008F01D0 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -136,6 +147,7 @@
 			files = (
 				285E15C82E69CA4800C1B766 /* InfoPlist in Frameworks */,
 				7A062A3B2E12EE8F000AA1A5 /* RootFeature in Frameworks */,
+				284ACA382E919E00008F01D0 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +155,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				284ACA3C2E919E00008F01D0 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -150,6 +163,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				284ACA3D2E919E00008F01D0 /* (null) in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -340,6 +354,7 @@
 				28D888432E6788FF00F0B6BE /* Resources */,
 				285E15B42E69BAAE00C1B766 /* Firebase Crashlytics */,
 				285E15B52E69BB5F00C1B766 /* SwiftLint Warnings */,
+				95CAC281A1DE47568C620263 /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -350,6 +365,7 @@
 				28D8883B2E6788FF00F0B6BE /* InfoPlist */,
 				28D8883C2E6788FF00F0B6BE /* RootFeature */,
 				288EC1292E7B40E200544CCE /* Adapters */,
+				124060BD033F4556AFD8B98E /* Sentry */,
 			);
 			productName = FeedbackMock;
 			productReference = 28D8884C2E6788FF00F0B6BE /* App.app */;
@@ -477,6 +493,7 @@
 			);
 			mainGroup = B1057F2B2843FD8600B9EE2F;
 			packageReferences = (
+				D9151BBA40314FE68D85B934 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = B1057F2B2843FD8600B9EE2F;
 			projectDirPath = "";
@@ -666,6 +683,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nOPEN_API_PATH=\"$SRCROOT/Modules/Sources/OpenAPI/openapi.yaml\"\nOPENAPI_URL=\"https://api.letsgrow.dk/v3/api-docs.yaml\"\n\n# Fetch the OpenAPI YAML from the provided URL\ncurl -s $OPENAPI_URL -o /tmp/openapi.yaml\n\n# Check if the download was successful\nif [ $? -ne 0 ]; then\n    echo \"Failed to download the OpenAPI YAML file.\"\n    exit 0  # Continue the build without failing\nfi\n\n# Replace the existing YAML file only if the download was successful\nif [ -f /tmp/openapi.yaml ]; then\n    cp /tmp/openapi.yaml $OPEN_API_PATH\n    echo \"openapi.yaml updated successfully.\"\nelse\n    echo \"Temporary openapi.yaml file not found. Keeping the old version.\"\nfi\n";
+		};
+		95CAC281A1DE47568C620263 /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.\nif which sentry-cli >/dev/null; then\n  export SENTRY_ORG=feedbackfriends\n  export SENTRY_PROJECT=apple-ios\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nelse\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1095,6 +1127,7 @@
 				CODE_SIGN_ENTITLEMENTS = App/Entitlements.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"Resources/Preview Content\"";
 				DEVELOPMENT_TEAM = 8B9KRX6NBR;
 				ENABLE_PREVIEWS = YES;
@@ -1886,7 +1919,23 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCRemoteSwiftPackageReference section */
+		D9151BBA40314FE68D85B934 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/getsentry/sentry-cocoa/";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
 /* Begin XCSwiftPackageProductDependency section */
+		124060BD033F4556AFD8B98E /* Sentry */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D9151BBA40314FE68D85B934 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
+			productName = Sentry;
+		};
 		285E15C42E69C28800C1B766 /* RootFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RootFeature;
