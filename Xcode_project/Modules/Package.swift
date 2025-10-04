@@ -96,7 +96,11 @@ let package = Package(
         .package(
             url: "https://github.com/apple/swift-openapi-urlsession",
             .upToNextMinor(from: "1.1.0")
-        )
+        ),
+        .package(
+            url: "https://github.com/getsentry/sentry-cocoa",
+            from: "8.56.2"
+        ),
     ],
     targets: [
         .target(
@@ -111,7 +115,8 @@ let package = Package(
                 "Logger",
                 "Domain",
                 "Utility",
-                "OpenAPI"
+                "OpenAPI",
+                .product(name: "Sentry", package: "sentry-cocoa"),
             ]
         ),
         .target(

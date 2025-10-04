@@ -15,6 +15,7 @@ import OpenAPI
 import OpenAPIURLSession
 import OpenAPIRuntime
 import InfoPlist
+import Sentry
 
 public enum InfoPlistConfig {
 	
@@ -71,6 +72,13 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 		_ application: UIApplication,
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
 	) -> Bool {
+        SentrySDK.start { options in
+                options.dsn = "https://1d3acbbfa16c39cb6544772448bb28d0@o4509912181899264.ingest.de.sentry.io/4509912183341136"
+                options.debug = true // Enabled debug when first installing is always helpful
+                // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+                // We recommend adjusting this value in production.
+                options.tracesSampleRate = 1.0
+            }
 		FirebaseApp.configure()
 		AppTheme.setUp()
 		UNUserNotificationCenter.current().delegate = self
