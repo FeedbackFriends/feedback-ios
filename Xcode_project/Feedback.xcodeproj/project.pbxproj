@@ -58,7 +58,6 @@
 		7A49F5292DD5F99200FF5B86 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */; };
 		7A49F52A2DD5F99200FF5B86 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7A034FDF2D9AC93B0059C6F3 /* Launch Screen.storyboard */; };
 		7ABB22262E17F061006B6865 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7ABB22252E17F061006B6865 /* RootFeature */; };
-		B3D484C5A3BE41F0B5CA14E9 /* Sentry in Frameworks */ = {isa = PBXBuildFile; productRef = 124060BD033F4556AFD8B98E /* Sentry */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -127,7 +126,6 @@
 				281F2AA82E81F01A00D4665A /* Adapters in Frameworks */,
 				2843B5232E69A39800274A6F /* InfoPlist in Frameworks */,
 				28D888422E6788FF00F0B6BE /* RootFeature in Frameworks */,
-				B3D484C5A3BE41F0B5CA14E9 /* Sentry in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -365,7 +363,6 @@
 				28D8883B2E6788FF00F0B6BE /* InfoPlist */,
 				28D8883C2E6788FF00F0B6BE /* RootFeature */,
 				288EC1292E7B40E200544CCE /* Adapters */,
-				124060BD033F4556AFD8B98E /* Sentry */,
 			);
 			productName = FeedbackMock;
 			productReference = 28D8884C2E6788FF00F0B6BE /* App.app */;
@@ -493,7 +490,6 @@
 			);
 			mainGroup = B1057F2B2843FD8600B9EE2F;
 			packageReferences = (
-				D9151BBA40314FE68D85B934 /* XCRemoteSwiftPackageReference "sentry-cocoa" */,
 			);
 			productRefGroup = B1057F2B2843FD8600B9EE2F;
 			projectDirPath = "";
@@ -1919,23 +1915,7 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		D9151BBA40314FE68D85B934 /* XCRemoteSwiftPackageReference "sentry-cocoa" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/getsentry/sentry-cocoa/";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 8.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		124060BD033F4556AFD8B98E /* Sentry */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D9151BBA40314FE68D85B934 /* XCRemoteSwiftPackageReference "sentry-cocoa" */;
-			productName = Sentry;
-		};
 		285E15C42E69C28800C1B766 /* RootFeature */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = RootFeature;
