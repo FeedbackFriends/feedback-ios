@@ -87,7 +87,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
 		Logger.setup(
 			logClients: [
 				CrashlyticsLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .error),
-				OSLogClient(subsystem: DeviceInfo().bundleIdentifier(), category: "LoggingClient")
+                SentryLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .info),
+                OSLogClient(subsystem: DeviceInfo().bundleIdentifier(), category: "LoggingClient")
 			]
 		)
 		intialStore.send(.onAppOpen)
