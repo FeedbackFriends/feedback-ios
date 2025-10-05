@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		281A892A2E69AAA30002D56C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */; };
 		281A893D2E69B7890002D56C /* FeedbackErrorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89392E69B7890002D56C /* FeedbackErrorApp.swift */; };
 		281A89402E69B7950002D56C /* FeedbackMockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A893E2E69B7950002D56C /* FeedbackMockApp.swift */; };
 		281A89432E69B7970002D56C /* FeedbackFlowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89412E69B7970002D56C /* FeedbackFlowApp.swift */; };
@@ -70,6 +69,8 @@
 		281A89482E69B7AC0002D56C /* localhost.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = localhost.xcconfig; sourceTree = "<group>"; };
 		281A89492E69B7AC0002D56C /* production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = production.xcconfig; sourceTree = "<group>"; };
 		282268002E6F68F400C03174 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = SOURCE_ROOT; };
+		284ACA462E92F8CD008F01D0 /* secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = secrets.xcconfig; sourceTree = "<group>"; };
+		284ACB252E92FF65008F01D0 /* ci_pre_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_pre_xcodebuild.sh; sourceTree = "<group>"; };
 		285E15C02E69BE5600C1B766 /* APIClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientMock.swift; sourceTree = "<group>"; };
 		287B6F862E68ADC1003A419C /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		28A050122E786F9E00CC7316 /* Preview App Question Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Preview App Question Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,7 +89,6 @@
 		7AB225402D7B2B89002BEF81 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7ABEBB622D5F7317002E0FE5 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		7AC03C252D7A4CE6009A06C7 /* DebugMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugMenuView.swift; sourceTree = "<group>"; };
-		7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7AC4A9EA2D2FA71D004DF626 /* Modules */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Modules; sourceTree = "<group>"; };
 		B1057F372843FD8600B9EE2F /* FeedbackApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackApp.swift; sourceTree = "<group>"; };
 		B1057F3B2843FD8700B9EE2F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -191,6 +191,7 @@
 				281A89472E69B7AC0002D56C /* default.xcconfig */,
 				281A89482E69B7AC0002D56C /* localhost.xcconfig */,
 				281A89492E69B7AC0002D56C /* production.xcconfig */,
+				284ACA462E92F8CD008F01D0 /* secrets.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -199,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				28BDE9D92E918A2C00BFD81D /* ci_post_clone.sh */,
+				284ACB252E92FF65008F01D0 /* ci_pre_xcodebuild.sh */,
 			);
 			path = CI_scripts;
 			sourceTree = "<group>";
@@ -237,7 +239,6 @@
 			children = (
 				28A0501E2E78910A00CC7316 /* .swiftlint.yml */,
 				282268002E6F68F400C03174 /* README.md */,
-				7AC3C8982DC4EB9600EF8389 /* GoogleService-Info.plist */,
 				287B6F862E68ADC1003A419C /* UnitTests.xctestplan */,
 				7A49F5202DD5EDDB00FF5B86 /* Resources */,
 				281A893F2E69B7950002D56C /* Mock */,
@@ -345,10 +346,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 28D888482E6788FF00F0B6BE /* Build configuration list for PBXNativeTarget "App" */;
 			buildPhases = (
+				284ACA442E92E2C5008F01D0 /* PRINT ENV VALUE */,
 				28D8883D2E6788FF00F0B6BE /* Sources */,
 				28D8883F2E6788FF00F0B6BE /* Frameworks */,
 				28D888432E6788FF00F0B6BE /* Resources */,
-				285E15B42E69BAAE00C1B766 /* Firebase Crashlytics */,
 				285E15B52E69BB5F00C1B766 /* SwiftLint Warnings */,
 				95CAC281A1DE47568C620263 /* Upload Debug Symbols to Sentry */,
 			);
@@ -533,7 +534,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				281A892A2E69AAA30002D56C /* GoogleService-Info.plist in Resources */,
 				28D888512E67897800F0B6BE /* AppIcon.icon in Resources */,
 				28D888442E6788FF00F0B6BE /* Launch Screen.storyboard in Resources */,
 				28D888452E6788FF00F0B6BE /* Localizable.xcstrings in Resources */,
@@ -579,29 +579,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		285E15B42E69BAAE00C1B766 /* Firebase Crashlytics */ = {
+		284ACA442E92E2C5008F01D0 /* PRINT ENV VALUE */ = {
 			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
-				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
-				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
-				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
 			);
-			name = "Firebase Crashlytics";
+			name = "PRINT ENV VALUE";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#!/bin/sh\n\nprintenv\n";
 		};
 		285E15B52E69BB5F00C1B766 /* SwiftLint Warnings */ = {
 			isa = PBXShellScriptBuildPhase;

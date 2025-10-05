@@ -34,6 +34,27 @@ public enum InfoPlistConfig {
     public static var appStoreId: String {
         InfoPlist().string(for: "APPSTORE_ID")!
     }
+    public static var firebaseGoogleAppId: String {
+        InfoPlist().string(for: "FIREBASE_GOOGLE_APP_ID")!
+    }
+    public static var firebaseGcmSenderId: String {
+        InfoPlist().string(for: "FIREBASE_GCM_SENDER_ID")!
+    }
+    public static var firebaseClientId: String {
+        InfoPlist().string(for: "FIREBASE_CLIENT_ID")!
+    }
+    public static var firebaseApiKey: String {
+        InfoPlist().string(for: "FIREBASE_API_KEY")!
+    }
+    public static var firebaseBundleId: String {
+        InfoPlist().string(for: "FIREBASE_BUNDLE_ID")!
+    }
+    public static var firebaseProjectId: String {
+        InfoPlist().string(for: "FIREBASE_PROJECT_ID")!
+    }
+    public static var firebaseStorageBucket: String {
+        InfoPlist().string(for: "FIREBASE_STORAGE_BUCKET")!
+    }
 }
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
@@ -83,7 +104,16 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
                 InfoPlistConfig.apiBaseUrl.absoluteString
             ]
         }
-        FirebaseApp.configure()
+        let firebaseOptions = FirebaseOptions(
+            googleAppID: InfoPlistConfig.firebaseGoogleAppId,
+            gcmSenderID: InfoPlistConfig.firebaseGcmSenderId
+        )
+        firebaseOptions.clientID = InfoPlistConfig.firebaseClientId
+        firebaseOptions.apiKey = InfoPlistConfig.firebaseApiKey
+        firebaseOptions.bundleID = InfoPlistConfig.firebaseBundleId
+        firebaseOptions.projectID = InfoPlistConfig.firebaseProjectId
+        firebaseOptions.storageBucket = InfoPlistConfig.firebaseStorageBucket
+        FirebaseApp.configure(options: firebaseOptions)
         AppTheme.setUp()
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self

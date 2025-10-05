@@ -1,6 +1,4 @@
 #include "default.xcconfig"
+#include? "secrets.xcconfig"
 
-API_BASE_URL = $(API_BASE_URL_ENVIRONMENT)
 API_SCHEME = https
-SENTRY_DSN_URL = $(SENTRY_DSN_URL_ENVIRONMENT)
-SENTRY_DSN_SCHEME = https
