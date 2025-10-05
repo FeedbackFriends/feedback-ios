@@ -346,7 +346,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 28D888482E6788FF00F0B6BE /* Build configuration list for PBXNativeTarget "App" */;
 			buildPhases = (
-				284ACA442E92E2C5008F01D0 /* PRINT ENV VALUE */,
 				28D8883D2E6788FF00F0B6BE /* Sources */,
 				28D8883F2E6788FF00F0B6BE /* Frameworks */,
 				28D888432E6788FF00F0B6BE /* Resources */,
@@ -579,24 +578,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		284ACA442E92E2C5008F01D0 /* PRINT ENV VALUE */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "PRINT ENV VALUE";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#!/bin/sh\n\nprintenv\n";
-		};
 		285E15B52E69BB5F00C1B766 /* SwiftLint Warnings */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
