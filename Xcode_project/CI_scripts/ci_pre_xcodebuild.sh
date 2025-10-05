@@ -1,6 +1,6 @@
 #!/bin/sh
 mkdir -p "$CI_WORKSPACE/App/Config"
-SECRETS_FILE="$CI_WORKSPACE/Configs/secrets.xcconfig"
+SECRETS_FILE="$CI_WORKSPACE/App/Configs/secrets.xcconfig"
 echo "SENTRY_DSN_URL = ${SENTRY_DSN_URL}" > $SECRETS_FILE
 echo "SENTRY_DSN_SCHEME = ${SENTRY_DSN_SCHEME}" >> $SECRETS_FILE
 echo "API_BASE_URL = ${API_BASE_URL}" >> $SECRETS_FILE
