@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # Always work from the repo root
-mkdir -p "$CI_WORKSPACE/App/Config"
-SECRETS_FILE="$CI_WORKSPACE/App/Config/secrets.xcconfig"
+mkdir -p "$CI_PRIMARY_REPOSITORY_PATH/App/Config"
+SECRETS_FILE="$CI_PRIMARY_REPOSITORY_PATH/App/Config/secrets.xcconfig"
 
 {
   echo "SENTRY_DSN_URL = ${SENTRY_DSN_URL:-}"
