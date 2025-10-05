@@ -1,4 +1,4 @@
-#include "Default.xcconfig"
+#include "default.xcconfig"
 
 API_BASE_URL = localhost:8080
 API_SCHEME =  http

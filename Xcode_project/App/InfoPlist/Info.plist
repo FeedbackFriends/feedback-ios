@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>SENTRY_DSN_SCHEME</key>
+	<string>$(SENTRY_DSN_SCHEME)</string>
+	<key>SENTRY_DSN_URL</key>
+	<string>$(SENTRY_DSN_URL)</string>
 	<key>API_BASE_URL</key>
 	<string>$(API_BASE_URL)</string>
 	<key>API_SCHEME</key>

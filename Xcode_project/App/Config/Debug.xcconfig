@@ -1,4 +1,0 @@
-#include "Default.xcconfig"
-
-API_BASE_URL = api.letsgrow.dk
-API_SCHEME = https

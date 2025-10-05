@@ -65,10 +65,10 @@
 		281A893E2E69B7950002D56C /* FeedbackMockApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackMockApp.swift; sourceTree = "<group>"; };
 		281A89412E69B7970002D56C /* FeedbackFlowApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedbackFlowApp.swift; sourceTree = "<group>"; };
 		281A89442E69B7A90002D56C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		281A89462E69B7AC0002D56C /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
-		281A89472E69B7AC0002D56C /* Default.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Default.xcconfig; sourceTree = "<group>"; };
-		281A89482E69B7AC0002D56C /* Localhost.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Localhost.xcconfig; sourceTree = "<group>"; };
-		281A89492E69B7AC0002D56C /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
+		281A89462E69B7AC0002D56C /* debugProduction.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = debugProduction.xcconfig; sourceTree = "<group>"; };
+		281A89472E69B7AC0002D56C /* default.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = default.xcconfig; sourceTree = "<group>"; };
+		281A89482E69B7AC0002D56C /* localhost.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = localhost.xcconfig; sourceTree = "<group>"; };
+		281A89492E69B7AC0002D56C /* production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = production.xcconfig; sourceTree = "<group>"; };
 		282268002E6F68F400C03174 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = SOURCE_ROOT; };
 		285E15C02E69BE5600C1B766 /* APIClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientMock.swift; sourceTree = "<group>"; };
 		287B6F862E68ADC1003A419C /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
@@ -187,10 +187,10 @@
 		281A894A2E69B7AC0002D56C /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				281A89462E69B7AC0002D56C /* Debug.xcconfig */,
-				281A89472E69B7AC0002D56C /* Default.xcconfig */,
-				281A89482E69B7AC0002D56C /* Localhost.xcconfig */,
-				281A89492E69B7AC0002D56C /* Release.xcconfig */,
+				281A89462E69B7AC0002D56C /* debugProduction.xcconfig */,
+				281A89472E69B7AC0002D56C /* default.xcconfig */,
+				281A89482E69B7AC0002D56C /* localhost.xcconfig */,
+				281A89492E69B7AC0002D56C /* production.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -758,9 +758,9 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		2867BED7299AC324001A11DD /* Debug */ = {
+		2867BED7299AC324001A11DD /* DebugProduction */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 281A89462E69B7AC0002D56C /* Debug.xcconfig */;
+			baseConfigurationReference = 281A89462E69B7AC0002D56C /* debugProduction.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -828,9 +828,9 @@
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 			};
-			name = Debug;
+			name = DebugProduction;
 		};
-		2892AA412C0F89C700F12E83 /* Debug */ = {
+		2892AA412C0F89C700F12E83 /* DebugProduction */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -866,7 +866,7 @@
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = DebugProduction;
 		};
 		2892AA422C0F89C700F12E83 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -904,7 +904,7 @@
 			};
 			name = Release;
 		};
-		28A0500F2E786F9E00CC7316 /* Debug */ = {
+		28A0500F2E786F9E00CC7316 /* DebugProduction */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -940,9 +940,9 @@
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = DebugProduction;
 		};
-		28A050102E786F9E00CC7316 /* Localhost */ = {
+		28A050102E786F9E00CC7316 /* DebugLocalhost */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -978,7 +978,7 @@
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Localhost;
+			name = DebugLocalhost;
 		};
 		28A050112E786F9E00CC7316 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1016,7 +1016,7 @@
 			};
 			name = Release;
 		};
-		28D888492E6788FF00F0B6BE /* Debug */ = {
+		28D888492E6788FF00F0B6BE /* DebugProduction */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1061,9 +1061,9 @@
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
-			name = Debug;
+			name = DebugProduction;
 		};
-		28D8884A2E6788FF00F0B6BE /* Localhost */ = {
+		28D8884A2E6788FF00F0B6BE /* DebugLocalhost */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1108,7 +1108,7 @@
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
-			name = Localhost;
+			name = DebugLocalhost;
 		};
 		28D8884B2E6788FF00F0B6BE /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1156,7 +1156,7 @@
 			};
 			name = Release;
 		};
-		7A7E44EB2DE85B1400B3C4C4 /* Debug */ = {
+		7A7E44EB2DE85B1400B3C4C4 /* DebugProduction */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1193,9 +1193,9 @@
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = DebugProduction;
 		};
-		7A7E44EC2DE85B1400B3C4C4 /* Localhost */ = {
+		7A7E44EC2DE85B1400B3C4C4 /* DebugLocalhost */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1230,7 +1230,7 @@
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Localhost;
+			name = DebugLocalhost;
 		};
 		7A7E44ED2DE85B1400B3C4C4 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1269,9 +1269,9 @@
 			};
 			name = Release;
 		};
-		7A9E6BD72DC52223005F4828 /* Localhost */ = {
+		7A9E6BD72DC52223005F4828 /* DebugLocalhost */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 281A89482E69B7AC0002D56C /* Localhost.xcconfig */;
+			baseConfigurationReference = 281A89482E69B7AC0002D56C /* localhost.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1339,9 +1339,9 @@
 				SWIFT_STRICT_CONCURRENCY = complete;
 				SWIFT_VERSION = 6.0;
 			};
-			name = Localhost;
+			name = DebugLocalhost;
 		};
-		7A9E6BD92DC52223005F4828 /* Localhost */ = {
+		7A9E6BD92DC52223005F4828 /* DebugLocalhost */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1377,9 +1377,9 @@
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Localhost;
+			name = DebugLocalhost;
 		};
-		7A9E6BDA2DC52223005F4828 /* Localhost */ = {
+		7A9E6BDA2DC52223005F4828 /* DebugLocalhost */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1421,9 +1421,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Localhost;
+			name = DebugLocalhost;
 		};
-		7A9E6BDB2DC52223005F4828 /* Localhost */ = {
+		7A9E6BDB2DC52223005F4828 /* DebugLocalhost */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1465,9 +1465,9 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Localhost;
+			name = DebugLocalhost;
 		};
-		7A9E6BDC2DC52223005F4828 /* Localhost */ = {
+		7A9E6BDC2DC52223005F4828 /* DebugLocalhost */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1507,9 +1507,9 @@
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Localhost;
+			name = DebugLocalhost;
 		};
-		7AC3C8752DC4E36B00EF8389 /* Debug */ = {
+		7AC3C8752DC4E36B00EF8389 /* DebugProduction */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1549,7 +1549,7 @@
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
-			name = Debug;
+			name = DebugProduction;
 		};
 		7AC3C8762DC4E36B00EF8389 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1591,7 +1591,7 @@
 			};
 			name = Release;
 		};
-		7AE155E92D26A31200440870 /* Debug */ = {
+		7AE155E92D26A31200440870 /* DebugProduction */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1633,7 +1633,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = DebugProduction;
 		};
 		7AE155EA2D26A31200440870 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1677,7 +1677,7 @@
 			};
 			name = Release;
 		};
-		7AE1562D2D26AD4900440870 /* Debug */ = {
+		7AE1562D2D26AD4900440870 /* DebugProduction */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1719,7 +1719,7 @@
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = DebugProduction;
 		};
 		7AE1562E2D26AD4900440870 /* Release */ = {
 			isa = XCBuildConfiguration;
@@ -1765,7 +1765,7 @@
 		};
 		B1057F412843FD8700B9EE2F /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 281A89492E69B7AC0002D56C /* Release.xcconfig */;
+			baseConfigurationReference = 281A89492E69B7AC0002D56C /* production.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -1797,6 +1797,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COMPILER_FLAG = release;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "";
@@ -1834,8 +1835,8 @@
 		2892AA442C0F89C700F12E83 /* Build configuration list for PBXNativeTarget "Preview App Feedback Flow" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2892AA412C0F89C700F12E83 /* Debug */,
-				7A9E6BD92DC52223005F4828 /* Localhost */,
+				2892AA412C0F89C700F12E83 /* DebugProduction */,
+				7A9E6BD92DC52223005F4828 /* DebugLocalhost */,
 				2892AA422C0F89C700F12E83 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1844,8 +1845,8 @@
 		28A0500E2E786F9E00CC7316 /* Build configuration list for PBXNativeTarget "Preview App Question Picker" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				28A0500F2E786F9E00CC7316 /* Debug */,
-				28A050102E786F9E00CC7316 /* Localhost */,
+				28A0500F2E786F9E00CC7316 /* DebugProduction */,
+				28A050102E786F9E00CC7316 /* DebugLocalhost */,
 				28A050112E786F9E00CC7316 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1854,8 +1855,8 @@
 		28D888482E6788FF00F0B6BE /* Build configuration list for PBXNativeTarget "App" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				28D888492E6788FF00F0B6BE /* Debug */,
-				28D8884A2E6788FF00F0B6BE /* Localhost */,
+				28D888492E6788FF00F0B6BE /* DebugProduction */,
+				28D8884A2E6788FF00F0B6BE /* DebugLocalhost */,
 				28D8884B2E6788FF00F0B6BE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1864,8 +1865,8 @@
 		7A7E44EA2DE85B1400B3C4C4 /* Build configuration list for PBXNativeTarget "Preview App Error" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7A7E44EB2DE85B1400B3C4C4 /* Debug */,
-				7A7E44EC2DE85B1400B3C4C4 /* Localhost */,
+				7A7E44EB2DE85B1400B3C4C4 /* DebugProduction */,
+				7A7E44EC2DE85B1400B3C4C4 /* DebugLocalhost */,
 				7A7E44ED2DE85B1400B3C4C4 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1874,8 +1875,8 @@
 		7AC3C8782DC4E36B00EF8389 /* Build configuration list for PBXNativeTarget "Mock" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7AC3C8752DC4E36B00EF8389 /* Debug */,
-				7A9E6BDC2DC52223005F4828 /* Localhost */,
+				7AC3C8752DC4E36B00EF8389 /* DebugProduction */,
+				7A9E6BDC2DC52223005F4828 /* DebugLocalhost */,
 				7AC3C8762DC4E36B00EF8389 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1884,8 +1885,8 @@
 		7AE155E72D26A31200440870 /* Build configuration list for PBXNativeTarget "Auto Lint" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7AE155E92D26A31200440870 /* Debug */,
-				7A9E6BDA2DC52223005F4828 /* Localhost */,
+				7AE155E92D26A31200440870 /* DebugProduction */,
+				7A9E6BDA2DC52223005F4828 /* DebugLocalhost */,
 				7AE155EA2D26A31200440870 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1894,8 +1895,8 @@
 		7AE1562B2D26AD4900440870 /* Build configuration list for PBXNativeTarget "Fetch OpenApi" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				7AE1562D2D26AD4900440870 /* Debug */,
-				7A9E6BDB2DC52223005F4828 /* Localhost */,
+				7AE1562D2D26AD4900440870 /* DebugProduction */,
+				7A9E6BDB2DC52223005F4828 /* DebugLocalhost */,
 				7AE1562E2D26AD4900440870 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -1904,8 +1905,8 @@
 		B1057F2F2843FD8600B9EE2F /* Build configuration list for PBXProject "Feedback" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2867BED7299AC324001A11DD /* Debug */,
-				7A9E6BD72DC52223005F4828 /* Localhost */,
+				2867BED7299AC324001A11DD /* DebugProduction */,
+				7A9E6BD72DC52223005F4828 /* DebugLocalhost */,
 				B1057F412843FD8700B9EE2F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
