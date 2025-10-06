@@ -72,5 +72,7 @@
 	<string>$(WEB_BASE_URL)</string>
 	<key>WEB_SCHEME</key>
 	<string>$(WEB_SCHEME)</string>
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.3</string>
 </dict>
 </plist>
