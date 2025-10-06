@@ -71,7 +71,6 @@
 		282268002E6F68F400C03174 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = SOURCE_ROOT; };
 		284ACA462E92F8CD008F01D0 /* secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = secrets.xcconfig; sourceTree = "<group>"; };
 		284ACB252E92FF65008F01D0 /* ci_pre_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_pre_xcodebuild.sh; sourceTree = "<group>"; };
-		284ACB262E93934D008F01D0 /* ci_post_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_post_xcodebuild.sh; sourceTree = "<group>"; };
 		285E15C02E69BE5600C1B766 /* APIClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientMock.swift; sourceTree = "<group>"; };
 		287B6F862E68ADC1003A419C /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		28A050122E786F9E00CC7316 /* Preview App Question Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Preview App Question Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -202,7 +201,6 @@
 			children = (
 				28BDE9D92E918A2C00BFD81D /* ci_post_clone.sh */,
 				284ACB252E92FF65008F01D0 /* ci_pre_xcodebuild.sh */,
-				284ACB262E93934D008F01D0 /* ci_post_xcodebuild.sh */,
 			);
 			path = CI_scripts;
 			sourceTree = "<group>";
