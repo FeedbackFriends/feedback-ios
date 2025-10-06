@@ -18,4 +18,4 @@ SECRETS_FILE="$CI_PRIMARY_REPOSITORY_PATH/App/Config/secrets.xcconfig"
   echo "FIREBASE_STORAGE_BUCKET = ${FIREBASE_STORAGE_BUCKET:-}"
 } > "$SECRETS_FILE"
 
-echo "Wrote secrets to $SECRETS_FILE"
+echo "✅ Wrote secrets to $SECRETS_FILE"

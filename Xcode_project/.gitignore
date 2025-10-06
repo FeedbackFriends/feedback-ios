@@ -1,6 +1,6 @@
 .sentryclirc
 
-secrets.xcconfig
+App/Config/secrets.xcconfig
 
 xcuserdata/
 .DS_Store
