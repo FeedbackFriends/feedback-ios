@@ -1,4 +1,4 @@
 #include "default.xcconfig"
-#include? "secrets.xcconfig"
 
 API_SCHEME = https
+API_BASE_URL = api.letsgrow.dk

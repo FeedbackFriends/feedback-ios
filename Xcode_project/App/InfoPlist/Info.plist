@@ -2,8 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<key>FIREBASE_GOOGLE_APP_ID</key>
+	<string>$(FIREBASE_GOOGLE_APP_ID)</string>
 	<key>API_BASE_URL</key>
 	<string>$(API_BASE_URL)</string>
 	<key>API_SCHEME</key>
@@ -44,8 +44,6 @@
 	<string>$(FIREBASE_CLIENT_ID)</string>
 	<key>FIREBASE_GCM_SENDER_ID</key>
 	<string>$(FIREBASE_GCM_SENDER_ID)</string>
-	<key>FIREBASE_GOOGLE_APP_ID</key>
-	<string>$(FIREBASE_GOOGLE_APP_ID)</string>
 	<key>FIREBASE_PROJECT_ID</key>
 	<string>$(FIREBASE_PROJECT_ID)</string>
 	<key>FIREBASE_STORAGE_BUCKET</key>
