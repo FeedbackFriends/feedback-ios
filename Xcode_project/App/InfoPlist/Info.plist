@@ -2,26 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>FIREBASE_STORAGE_BUCKET</key>
-	<string>$(FIREBASE_STORAGE_BUCKET)</string>
-	<key>FIREBASE_PROJECT_ID</key>
-	<string>$(FIREBASE_PROJECT_ID)</string>
-	<key>FIREBASE_BUNDLE_ID</key>
-	<string>$(FIREBASE_BUNDLE_ID)</string>
-	<key>FIREBASE_API_KEY</key>
-	<string>$(FIREBASE_API_KEY)</string>
-	<key>FIREBASE_CLIENT_ID</key>
-	<string>$(FIREBASE_CLIENT_ID)</string>
-	<key>FIREBASE_GCM_SENDER_ID</key>
-	<string>$(FIREBASE_GCM_SENDER_ID)</string>
-	<key>SENTRY_DSN_SCHEME</key>
-	<string>$(SENTRY_DSN_SCHEME)</string>
-	<key>FIREBASE_GOOGLE_APP_ID</key>
-	<string>$(FIREBASE_GOOGLE_APP_ID)</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(MARKETING_VERSION)</string>
 	<key>API_BASE_URL</key>
 	<string>$(API_BASE_URL)</string>
-	<key>SENTRY_DSN_URL</key>
-	<string>$(SENTRY_DSN_URL)</string>
 	<key>API_SCHEME</key>
 	<string>$(API_SCHEME)</string>
 	<key>APPSTORE_ID</key>
@@ -52,6 +36,20 @@
 	</array>
 	<key>COMPILER_FLAG</key>
 	<string>$(COMPILER_FLAG)</string>
+	<key>FIREBASE_API_KEY</key>
+	<string>$(FIREBASE_API_KEY)</string>
+	<key>FIREBASE_BUNDLE_ID</key>
+	<string>$(FIREBASE_BUNDLE_ID)</string>
+	<key>FIREBASE_CLIENT_ID</key>
+	<string>$(FIREBASE_CLIENT_ID)</string>
+	<key>FIREBASE_GCM_SENDER_ID</key>
+	<string>$(FIREBASE_GCM_SENDER_ID)</string>
+	<key>FIREBASE_GOOGLE_APP_ID</key>
+	<string>$(FIREBASE_GOOGLE_APP_ID)</string>
+	<key>FIREBASE_PROJECT_ID</key>
+	<string>$(FIREBASE_PROJECT_ID)</string>
+	<key>FIREBASE_STORAGE_BUCKET</key>
+	<string>$(FIREBASE_STORAGE_BUCKET)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>msauthv2</string>
@@ -62,6 +60,10 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 	</dict>
+	<key>SENTRY_DSN_SCHEME</key>
+	<string>$(SENTRY_DSN_SCHEME)</string>
+	<key>SENTRY_DSN_URL</key>
+	<string>$(SENTRY_DSN_URL)</string>
 	<key>SUPPORT_EMAIL</key>
 	<string>$(SUPPORT_EMAIL)</string>
 	<key>UIBackgroundModes</key>
