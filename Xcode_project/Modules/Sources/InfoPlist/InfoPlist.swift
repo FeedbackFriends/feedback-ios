@@ -10,7 +10,11 @@ public struct InfoPlist {
     
     /// Read a String value for a given key
     public func string(for key: String) -> String? {
-        bundle.object(forInfoDictionaryKey: key) as? String
+        let output = bundle.object(forInfoDictionaryKey: key) as? String
+        if output == "undefined" {
+            fatalError("The secret key \(key) was not found. Please set it in App/Config/secrets.xcconfig or run the Feedback Mock scheme instead.")
+        }
+        return output
     }
     
     /// Read a URL value 
