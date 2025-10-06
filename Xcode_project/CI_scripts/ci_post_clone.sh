@@ -6,9 +6,13 @@ defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
 defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
 
 # Require key env vars (will fail fast with a clear message if missing)
+: "${GITHUB_WRITE_PAT:?GITHUB_WRITE_PAT secret is required for pushing tags}"
 : "${CI_PRIMARY_REPOSITORY_PATH:?CI_PRIMARY_REPOSITORY_PATH is required}"
 : "${CI_BUILD_NUMBER:?CI_BUILD_NUMBER is required}"
 : "${CI_BRANCH:=main}"
+
+# Set up GitHub authentication FIRST
+git remote set-url origin "https://${GITHUB_WRITE_PAT}@github.com/FeedbackFriends/feedback-ios.git"
 
 # Get version from Info.plist
 VERSION=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" \
