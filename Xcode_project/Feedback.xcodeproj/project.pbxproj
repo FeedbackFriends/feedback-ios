@@ -666,7 +666,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.\nif [[ \"${CI:-false}\" != \"true\" ]]; then\n  echo \"Not running in CI, skipping Sentry dSYM upload.\"\n  exit 0\nfi\n\nif ! command -v sentry-cli >/dev/null 2>&1; then\n  echo \"sentry-cli not found, installing...\"\n  curl -sL https://sentry.io/get-cli/ | bash\nfi\n\nif which sentry-cli >/dev/null; then\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nelse\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nfi\n";
+			shellScript = "# This script is responsible for uploading debug symbols and source context for Sentry.\nif [[ \"${CI_XCODE:-false}\" != \"true\" ]]; then\n  echo \"Not running in Xcode Cloud, skipping Sentry dSYM upload.\"\n  exit 0\nfi\n\nif ! command -v sentry-cli >/dev/null 2>&1; then\n  echo \"sentry-cli not found, installing...\"\n  curl -sL https://sentry.io/get-cli/ | bash\nfi\n\nif which sentry-cli >/dev/null; then\n  ERROR=$(sentry-cli debug-files upload --include-sources \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\nelse\n  echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1023,6 +1023,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1069,6 +1070,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1115,6 +1117,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
 				PRODUCT_BUNDLE_IDENTIFIER = dk.nicolaidam.letsgrow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

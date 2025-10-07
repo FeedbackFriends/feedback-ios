@@ -44,6 +44,8 @@
 	<string>$(FIREBASE_CLIENT_ID)</string>
 	<key>FIREBASE_GCM_SENDER_ID</key>
 	<string>$(FIREBASE_GCM_SENDER_ID)</string>
+	<key>FIREBASE_GOOGLE_APP_ID</key>
+	<string>$(FIREBASE_GOOGLE_APP_ID)</string>
 	<key>FIREBASE_PROJECT_ID</key>
 	<string>$(FIREBASE_PROJECT_ID)</string>
 	<key>FIREBASE_STORAGE_BUCKET</key>
@@ -53,6 +55,10 @@
 		<string>msauthv2</string>
 		<string>msauthv3</string>
 	</array>
+    <key>CFBundleShortVersionString</key>
+    <string>$(MARKETING_VERSION)</string>
+	<key>MARKETING_VERSION</key>
+	<string>$(MARKETING_VERSION)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
@@ -72,7 +78,5 @@
 	<string>$(WEB_BASE_URL)</string>
 	<key>WEB_SCHEME</key>
 	<string>$(WEB_SCHEME)</string>
-    <key>CFBundleShortVersionString</key>
-    <string>1.0.3</string>
 </dict>
 </plist>
