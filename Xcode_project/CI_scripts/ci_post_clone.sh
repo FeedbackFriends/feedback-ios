@@ -7,7 +7,7 @@ set -euo pipefail
 : "${CI_BRANCH:=main}"
 
 # --- get version from xcconfig ---
-XCCONFIG="$CI_PRIMARY_REPOSITORY_PATH/App/Config/default.xcconfig"
+XCCONFIG="$CI_PRIMARY_REPOSITORY_PATH/Xcode_project/App/Config/default.xcconfig"
 VERSION=$(grep '^MARKETING_VERSION' "$XCCONFIG" | cut -d= -f2 | tr -d '[:space:]')
 
 [ -n "$VERSION" ] || { echo "ERROR: MARKETING_VERSION not found"; exit 1; }
