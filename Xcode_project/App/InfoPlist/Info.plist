@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.3</string>
 	<key>FIREBASE_GOOGLE_APP_ID</key>
 	<string>$(FIREBASE_GOOGLE_APP_ID)</string>
 	<key>API_BASE_URL</key>
@@ -72,7 +74,5 @@
 	<string>$(WEB_BASE_URL)</string>
 	<key>WEB_SCHEME</key>
 	<string>$(WEB_SCHEME)</string>
-    <key>CFBundleShortVersionString</key>
-    <string>1.0.3</string>
 </dict>
 </plist>
