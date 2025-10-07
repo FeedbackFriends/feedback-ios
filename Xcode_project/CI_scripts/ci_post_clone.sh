@@ -1,6 +1,9 @@
 #!/bin/sh
 set -euo pipefail
 
+defaults write com.apple.dt.Xcode IDESkipMacroFingerprintValidation -bool YES
+defaults write com.apple.dt.Xcode IDESkipPackagePluginFingerprintValidatation -bool YES
+
 : "${GITHUB_WRITE_PAT:?GITHUB_WRITE_PAT is required}"
 : "${CI_PRIMARY_REPOSITORY_PATH:?CI_PRIMARY_REPOSITORY_PATH is required}"
 : "${CI_BUILD_NUMBER:?CI_BUILD_NUMBER is required}"
