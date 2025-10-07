@@ -69,7 +69,6 @@
 		281A89482E69B7AC0002D56C /* localhost.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = localhost.xcconfig; sourceTree = "<group>"; };
 		281A89492E69B7AC0002D56C /* production.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = production.xcconfig; sourceTree = "<group>"; };
 		282268002E6F68F400C03174 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = SOURCE_ROOT; };
-		284ACA462E92F8CD008F01D0 /* secrets.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = secrets.xcconfig; sourceTree = "<group>"; };
 		284ACB252E92FF65008F01D0 /* ci_pre_xcodebuild.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = ci_pre_xcodebuild.sh; sourceTree = "<group>"; };
 		285E15C02E69BE5600C1B766 /* APIClientMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClientMock.swift; sourceTree = "<group>"; };
 		287B6F862E68ADC1003A419C /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
@@ -191,7 +190,6 @@
 				281A89472E69B7AC0002D56C /* default.xcconfig */,
 				281A89482E69B7AC0002D56C /* localhost.xcconfig */,
 				281A89492E69B7AC0002D56C /* production.xcconfig */,
-				284ACA462E92F8CD008F01D0 /* secrets.xcconfig */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -351,6 +349,7 @@
 				28D888432E6788FF00F0B6BE /* Resources */,
 				285E15B52E69BB5F00C1B766 /* SwiftLint Warnings */,
 				95CAC281A1DE47568C620263 /* Upload Debug Symbols to Sentry */,
+				280F27E02E95040A00CF9788 /* Generate empty secrets.xcconfig */,
 			);
 			buildRules = (
 			);
@@ -578,6 +577,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		280F27E02E95040A00CF9788 /* Generate empty secrets.xcconfig */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Generate empty secrets.xcconfig";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#!/bin/sh\nset -euo pipefail\n\nSECRETS_FILE=\"App/Config/secrets.xcconfig\"\n\n# If running in Xcode Cloud, do nothing\nif [ \"${CI_XCODE:-false}\" = \"true\" ]; then\n  echo \"Running in Xcode Cloud, skipping undefined secrets generation.\"\n  exit 0\nfi\n\n# Locally: only create if missing or empty\nmkdir -p \"$(dirname \"$SECRETS_FILE\")\"\nif [ ! -s \"$SECRETS_FILE\" ]; then\n  cat > \"$SECRETS_FILE\" <<EOF\nSENTRY_DSN_URL = undefined\nSENTRY_DSN_SCHEME = undefined\nFIREBASE_GOOGLE_APP_ID = undefined\nFIREBASE_GCM_SENDER_ID = undefined\nFIREBASE_CLIENT_ID = undefined\nFIREBASE_API_KEY = undefined\nFIREBASE_BUNDLE_ID = undefined\nFIREBASE_PROJECT_ID = undefined\nFIREBASE_STORAGE_BUCKET = undefined\nEOF\n  echo \"✅ Generated $SECRETS_FILE with default values\"\nfi\n";
+		};
 		285E15B52E69BB5F00C1B766 /* SwiftLint Warnings */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
