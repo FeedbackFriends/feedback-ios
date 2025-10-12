@@ -27,18 +27,14 @@ private extension EnterCodeView {
                 VStack(alignment: .center) {
                     Spacer()
                     VStack(spacing: 0) {
-                        HStack {
-                            Text("Lets Grow")
-                                .font(.montserratMedium, 30)
-                                .foregroundStyle(Color.themeTextSecondary)
-                            Spacer()
-                        }
-                        HStack {
-                            Spacer()
-                            Text("Feedback")
-                                .font(.montserratExtraBold, 42)
-                                .foregroundStyle(Color.themeText.gradient)
-                        }
+                        Text("Lets Grow")
+                            .font(.montserratMedium, 30)
+                            .foregroundStyle(Color.themeTextSecondary)
+                            .padding(.trailing, 90)
+                        Text("Feedback")
+                            .font(.montserratExtraBold, 42)
+                            .foregroundStyle(Color.themeText.gradient)
+                            .padding(.leading, 90)
                     }
                     .padding(.horizontal, 53)
                     
@@ -78,6 +74,7 @@ private extension EnterCodeView {
                 .padding(.all, Theme.padding)
                 .foregroundStyle(Color.themeText)
                 .frame(minHeight: proxy.size.height)
+                .frame(maxWidth: .infinity)
             }
         }
     }

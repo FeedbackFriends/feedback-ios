@@ -12,7 +12,7 @@ public struct InfoPlist {
     public func string(for key: String) -> String? {
         let output = bundle.object(forInfoDictionaryKey: key) as? String
         if output == "undefined" {
-            fatalError("The secret key \(key) was not found. Please set it in App/Config/secrets.xcconfig or run the Feedback Mock scheme instead.")
+            print("⚠️ The secret key \(key) was not found. Please set it in App/Config/secrets.xcconfig or run the Feedback Mock scheme instead.")
         }
         return output
     }
