@@ -55,6 +55,25 @@ public enum InfoPlistConfig {
     public static var firebaseStorageBucket: String {
         InfoPlist().string(for: "FIREBASE_STORAGE_BUCKET")!
     }
+    
+    public static func logConfigurations() {
+        Logger.debug(
+            """
+            🔹 API_BASE_URL: \(InfoPlistConfig.apiBaseUrl)\n
+            🔹 SENTRY_DSN_URL: \(InfoPlistConfig.sentryDsnUrl)\n
+            🔹 SUPPORT_EMAIL: \(InfoPlistConfig.supportEmail)\n
+            🔹 WEB_BASE_URL: \(InfoPlistConfig.webBaseUrl)\n
+            🔹 APPSTORE_ID: \(InfoPlistConfig.appStoreId)\n
+            🔹 FIREBASE_GOOGLE_APP_ID: \(InfoPlistConfig.firebaseGoogleAppId)\n
+            🔹 FIREBASE_GCM_SENDER_ID: \(InfoPlistConfig.firebaseGcmSenderId)\n
+            🔹 FIREBASE_CLIENT_ID: \(InfoPlistConfig.firebaseClientId)\n
+            🔹 FIREBASE_API_KEY: \(InfoPlistConfig.firebaseApiKey)\n
+            🔹 FIREBASE_BUNDLE_ID: \(InfoPlistConfig.firebaseBundleId)\n
+            🔹 FIREBASE_PROJECT_ID: \(InfoPlistConfig.firebaseProjectId)\n
+            🔹 FIREBASE_STORAGE_BUCKET: \(InfoPlistConfig.firebaseStorageBucket)
+            """
+        )
+    }
 }
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
@@ -96,6 +115,14 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
+        Logger.setup(
+            logClients: [
+                CrashlyticsLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .error),
+                SentryLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .info),
+                OSLogClient(subsystem: DeviceInfo().bundleIdentifier(), category: "LoggingClient")
+            ]
+        )
+        InfoPlistConfig.logConfigurations()
         SentrySDK.start { options in
             options.dsn = InfoPlistConfig.sentryDsnUrl.absoluteString
             options.debug = false
@@ -118,13 +145,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         UNUserNotificationCenter.current().delegate = self
         Messaging.messaging().delegate = self
         UIApplication.shared.registerForRemoteNotifications()
-        Logger.setup(
-            logClients: [
-                CrashlyticsLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .error),
-                SentryLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .info),
-                OSLogClient(subsystem: DeviceInfo().bundleIdentifier(), category: "LoggingClient")
-            ]
-        )
+        
         intialStore.send(.onAppOpen)
         return true
     }
