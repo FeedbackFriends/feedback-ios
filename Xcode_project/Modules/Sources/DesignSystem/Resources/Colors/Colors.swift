@@ -23,6 +23,9 @@ public extension Color {
 	static let themeTextSecondary = Color("textSecondary", bundle: Bundle.module)
     static let themeGradientRed = Color("themeGradientRed", bundle: Bundle.module)
     static let themeGradientBlue = Color("themeGradientBlue", bundle: Bundle.module)
+    static let themeChartHighlighted = Color("themeChartHighlighted", bundle: Bundle.module)
+    static let themeChartBackground = Color("themeChartBackground", bundle: Bundle.module)
+    static let themeHoverOverlay = Color("themeHoverOverlay", bundle: Bundle.module)
 }
 
 public extension UIColor {

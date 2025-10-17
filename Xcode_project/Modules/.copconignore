@@ -1,8 +1,0 @@
-xcuserdata/
-*.DS_Store
-*.build/
-*.json
-*.xcodeproj
-*.pbxproj
-*.yaml
-*.plist

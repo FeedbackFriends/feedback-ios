@@ -65,7 +65,7 @@ public struct ManagerEvents: Sendable {
                 
             case .destination(.dismiss):
                 if case .eventDetail(let eventDetailState) = state.destination,
-                   let eventSummary = eventDetailState.event.feedbackSummary, eventSummary.unseenCount > 0 {
+                   let eventSummary = eventDetailState.event.feedbackSummary, eventSummary.unseenResponses > 0 {
                     return .run { _ in
                         do {
                             try await self.apiClient.markEventAsSeen(eventDetailState.event.id)

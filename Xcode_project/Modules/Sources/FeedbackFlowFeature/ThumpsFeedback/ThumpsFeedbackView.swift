@@ -35,8 +35,7 @@ struct ThumpsFeedbackView: View {
         Button {
             store.send(.thumpTap(thump), animation: .bouncy)
         } label: {
-            
-            Image(systemName: thump == .up ? "hand.thumbsup.fill" : "hand.thumbsdown.fill")
+            thumpImage(thump)
                 .font(.system(size: 34, weight: .semibold))
                 .symbolRenderingMode(.hierarchical)
                 .foregroundStyle(isSelected ? Color.themeOnPrimaryAction : Color.themeTextSecondary)
@@ -53,6 +52,10 @@ struct ThumpsFeedbackView: View {
                     axis: (x: 0.0, y: 1.0, z: 0.0)
                 )
         }
+    }
+    
+    func thumpImage(_ thump: ThumbsUpThumpsDown) -> Image {
+        thump == .up ? Image.thumpsUp : Image.thumpsDown
     }
     
     private func buttonBackgroundGradient(isSelected: Bool, thump: ThumbsUpThumpsDown) -> LinearGradient {

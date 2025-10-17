@@ -63,6 +63,7 @@ public struct EventDetailFeatureView: View {
 			}
 		}
         .navigationTitle(store.navigationTitle)
+        .navigationSubtitle(store.navigationSubTitle)
         .sheet(
             item: editEventStore
         ) { store in

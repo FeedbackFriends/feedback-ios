@@ -12,13 +12,10 @@ public struct EditEventView: View {
         self.store = store
     }
     
+    #warning("Clean")
     public var body: some View {
         EventFormView(
-            eventInput: $store.eventInput,
-            shouldOpenKeyboardOnAppear: false,
-            recentlyUsedQuestions: store.recentlyUsedQuestions,
-            successOverlayMessage: "Event edited",
-            showSuccessOverlay: $store.showSuccessOverlay,
+            store: store.scope(state: \.eventForm, action: \.eventForm),
             action: {
                 Button("Save") {
                     store.send(.editEventButtonTap)
@@ -28,12 +25,9 @@ public struct EditEventView: View {
                 .disabled(store.editEventButtonDisabled)
             }
         )
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationBarTitle("Edit")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
-        .disabled(store.showSuccessOverlay)
-        .animation(.default, value: store.eventInput)
         .alert($store.scope(state: \.alert, action: \.alert))
     }
 }

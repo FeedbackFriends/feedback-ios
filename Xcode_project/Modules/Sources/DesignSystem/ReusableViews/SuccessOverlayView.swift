@@ -60,14 +60,13 @@ private extension SuccessOverlayView {
     }
     
     var backgroundView: some View {
-        Color.themeText
-            .opacity(0.1)
+        Color.themeHoverOverlay
             .ignoresSafeArea()
     }
     
     var alertView: some View {
         VStack(alignment: .center, spacing: 20) {
-            Image(systemName: "checkmark.circle.fill")
+            Image.checkmarkCircleFill
                 .resizable()
                 .foregroundColor(Color.themeSuccess)
                 .frame(width: 40, height: 40)

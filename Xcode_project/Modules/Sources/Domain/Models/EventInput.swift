@@ -10,11 +10,12 @@ public struct EventInput: Equatable, Sendable {
     public var questions: [QuestionInput]
     
     public struct QuestionInput: Equatable, Hashable, Sendable, Identifiable {
-        public var id: UUID { UUID() }
+        public var id: UUID
         public var questionText: String
         public var feedbackType: FeedbackType
         
-        public init(questionText: String, feedbackType: FeedbackType) {
+        public init(id: UUID = UUID(), questionText: String, feedbackType: FeedbackType) {
+            self.id = id
             self.questionText = questionText
             self.feedbackType = feedbackType
         }
@@ -47,7 +48,7 @@ public extension EventInput {
             date: managerEvent.date,
             durationInMinutes: managerEvent.durationInMinutes,
             location: managerEvent.location,
-            questions: managerEvent.questions.map { .init(questionText: $0.questionText, feedbackType: .emoji) }
+            questions: managerEvent.questions.map { .init(questionText: $0.questionText, feedbackType: $0.feedbackType) }
         )
     }
 }

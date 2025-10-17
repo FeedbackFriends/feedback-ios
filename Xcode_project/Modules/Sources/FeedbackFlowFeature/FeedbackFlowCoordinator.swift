@@ -13,7 +13,7 @@ public struct FeedbackFlowCoordinator: Sendable {
     public enum Path {
         case emoji(EmojiFeedback)
         case zeroToTen(ZeroToTenFeedback)
-        case thumps(ThumpsFeedback)
+        case thumpsUpThumpsDown(ThumpsFeedback)
         case comment(CommentFeedback)
         case opinion(OpinionFeedback)
     }
@@ -43,7 +43,7 @@ public struct FeedbackFlowCoordinator: Sendable {
             case .zeroToTen(let zeroToTenFeedback):
                 zeroToTenFeedback.feedbackCompleted
                 
-            case .thumps(let thumpsFeedback):
+            case .thumpsUpThumpsDown(let thumpsFeedback):
                 thumpsFeedback.feedbackCompleted
                 
             case .comment(let commentFeedback):
@@ -83,7 +83,6 @@ public struct FeedbackFlowCoordinator: Sendable {
         case binding(BindingAction<State>)
         case path(StackActionOf<Path>)
         case infoButtonTap
-        case cancelButtonTap
         case presentError(Error)
         case submitFeedbackResponse(shouldPresentRatingPrompt: Bool)
         case previousQuestionButtonTap
@@ -94,6 +93,7 @@ public struct FeedbackFlowCoordinator: Sendable {
         case ratingPromptDismissed
         case navigateToNextQuestion
         case navigateToPreviousQuestion
+        case dismissButtonTap
     }
     
     @Dependency(\.apiClient) var apiClient
@@ -104,6 +104,9 @@ public struct FeedbackFlowCoordinator: Sendable {
         BindingReducer()
         Reduce { state, action in
             switch action {
+                
+            case .dismissButtonTap:
+                return .run { [dismiss] _ in await dismiss() }
                 
             case .ratingPromptDismissed:
                 return .run { _ in
@@ -120,7 +123,7 @@ public struct FeedbackFlowCoordinator: Sendable {
                         .element(id: _, action: .zeroToTen(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))),
                         .element(id: _, action: .comment(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))),
                         .element(id: _, action: .opinion(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))),
-                        .element(id: _, action: .thumps(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))):
+                        .element(id: _, action: .thumpsUpThumpsDown(.delegate(.setCommentTextfieldFocus(let commentTextfieldFocused)))):
                     state.commentTextfieldFocused = commentTextfieldFocused
                     return .none
                 default:
@@ -130,10 +133,7 @@ public struct FeedbackFlowCoordinator: Sendable {
             case .infoButtonTap:
                 state.destination = .showEventInfo
                 return .none
-                
-            case .cancelButtonTap:
-                return .run { [dismiss] _ in await dismiss() }
-                
+             
             case .presentError(let error):
                 state.submitFeedbackInFlight = false
                 state.destination = .alert(.init(error: error))
@@ -264,7 +264,7 @@ extension FeedbackFlowCoordinator.Path.State: Identifiable {
             )
             
         case .thumpsUpThumpsDown:
-            self = .thumps(
+            self = .thumpsUpThumpsDown(
                 .init(
                     questionId: question.id,
                     questionText: question.questionText
@@ -297,7 +297,7 @@ extension FeedbackFlowCoordinator.Path.State: Identifiable {
             state.questionId
         case .zeroToTen(let state):
             state.questionId
-        case .thumps(let state):
+        case .thumpsUpThumpsDown(let state):
             state.questionId
         case .comment(let state):
             state.questionId
@@ -311,7 +311,7 @@ extension FeedbackFlowCoordinator.Path.State: Identifiable {
             state.questionText
         case .zeroToTen(let state):
             state.questionText
-        case .thumps(let state):
+        case .thumpsUpThumpsDown(let state):
             state.questionText
         case .comment(let state):
             state.questionText
@@ -342,7 +342,7 @@ extension FeedbackInput {
                 questionId: input.questionId
             )
             
-        case .thumps(let thumpsFeedback):
+        case .thumpsUpThumpsDown(let thumpsFeedback):
             self = .init(
                 type: FeedbackTypeWithData.thumpsUpThumpsDown(
                     thumbsUpThumpsDown: thumpsFeedback.selectedThump!,
@@ -365,7 +365,6 @@ extension FeedbackInput {
                 ),
                 questionId: input.questionId
             )
-            
         }
     }
 }

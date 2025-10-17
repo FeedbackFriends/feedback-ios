@@ -3,6 +3,7 @@ import OpenAPIRuntime
 import Domain
 import OpenAPIURLSession
 import ComposableArchitecture
+import Utility
 
 public extension Feedback {
     init(_ feedback: Components.Schemas.FeedbackEntity) {
@@ -119,8 +120,8 @@ public extension Components.Schemas.FeedbackInput.OpinionPayload {
 
 public extension ManagerEvent {
     init(_ event: Components.Schemas.ManagerEventDto) {
-        let feedbackSummary: FeedbackSummary? = if let eventSummary = event.overallFeedbackSummary {
-            FeedbackSummary(
+        let overallFeedbackSummary: OverallFeedbackSummary? = if let eventSummary = event.overallFeedbackSummary {
+            OverallFeedbackSummary(
                 segmentationStats: .init(
                     verySadPercentage: eventSummary.segmentationStats.verySadPercentage,
                     sadPercentage: eventSummary.segmentationStats.sadPercentage,
@@ -132,10 +133,10 @@ public extension ManagerEvent {
                     sadCount: Int(eventSummary.countStats.sadCount),
                     happyCount: Int(eventSummary.countStats.happyCount),
                     veryHappyCount: Int(eventSummary.countStats.veryHappyCount),
-                    commentsCount: Int(eventSummary.countStats.commentsCount),
-                    uniqueParticipantFeedback: 1
+                    commentsCount: Int(eventSummary.countStats.commentsCount)
                 ),
-                unseenCount: Int(eventSummary.unseenCount)
+                unseenResponses: Int(eventSummary.unseenResponses),
+                responses: Int(eventSummary.responses)
             )
         } else {
             nil
@@ -154,31 +155,73 @@ public extension ManagerEvent {
                 email: event.ownerInfo.email,
                 phoneNumber: event.ownerInfo.phoneNumber
             ),
-            feedbackSummary: feedbackSummary,
+            feedbackSummary: overallFeedbackSummary,
             questions: event.questions.map {
                 let questionFeedbackSummary: QuestionFeedbackSummary? = if let questionSummary = $0.questionFeedbackSummary {
                     if let emojiSummary = questionSummary.emojiQuestionFeedbackSummary {
-                        .emojiQuestionFeedbackSummary(
-                            unseenCount: Int(questionSummary.unseenCount),
-                            emojiQuestionFeedbackSummary: .init(
-                                emojiFeedbackCountStats: .init(
-                                    verySadCount: Int(emojiSummary.emojiFeedbackCountStats.verySadCount),
-                                    sadCount: Int(emojiSummary.emojiFeedbackCountStats.sadCount),
-                                    happyCount: Int(emojiSummary.emojiFeedbackCountStats.happyCount),
-                                    veryHappyCount: Int(emojiSummary.emojiFeedbackCountStats.veryHappyCount),
-                                    commentsCount: Int(emojiSummary.emojiFeedbackCountStats.commentsCount)
-                                ),
-                                emojiFeedbackSegmentationStats: .init(
-                                    verySadPercentage: emojiSummary.emojiFeedbackSegmentationStats.verySadPercentage,
-                                    sadPercentage: emojiSummary.emojiFeedbackSegmentationStats.sadPercentage,
-                                    happyPercentage: emojiSummary.emojiFeedbackSegmentationStats.happyPercentage,
-                                    veryHappyPercentage: emojiSummary.emojiFeedbackSegmentationStats.veryHappyPercentage
-                                )
+                        QuestionFeedbackSummary(
+                            emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary(
+                                countVerySad: Int(emojiSummary.countVerySad),
+                                countSad: Int(emojiSummary.countSad),
+                                countHappy: Int(emojiSummary.countHappy),
+                                countVeryHappy: Int(emojiSummary.countVerySad),
+                                percentageVerySad: emojiSummary.percentageVerySad,
+                                percentageSad: emojiSummary.percentageSad,
+                                percentageHappy: emojiSummary.percentageHappy,
+                                percentageVeryHappy: emojiSummary.percentageVeryHappy
+                            )
+                        )
+                    } else if let thumpsSummary = questionSummary.thumpsQuestionFeedbackSummary {
+                        QuestionFeedbackSummary(
+                            thumpsQuestionFeedbackSummary: ThumpsQuestionFeedbackSummary(
+                                countUp: Int(thumpsSummary.countUp),
+                                countDown: Int(thumpsSummary.countDown),
+                                percentageUp: thumpsSummary.percentageUp,
+                                percentageDown: thumpsSummary.percentageDown
+                            )
+                        )
+                    } else if let opinionSummary = questionSummary.opinionQuestionFeedbackSummary {
+                        QuestionFeedbackSummary(
+                            opinionQuestionFeedbackSummary: OpinionQuestionFeedbackSummary(
+                                countStronglyAgree: Int(opinionSummary.countStronglyAgree),
+                                countAgree: Int(opinionSummary.countAgree),
+                                countStronglyDisagree: Int(opinionSummary.countStronglyDisagree),
+                                countDisagree: Int(opinionSummary.countDisagree),
+                                percentageStronglyAgree: opinionSummary.percentageStronglyAgree,
+                                percentageAgree: opinionSummary.percentageAgree,
+                                percentageStronglyDisagree: opinionSummary.percentageStronglyDisagree,
+                                percentageDisagree: opinionSummary.percentageDisagree
+                            )
+                        )
+                    } else if let zeroToTenSummary = questionSummary.zeroToTenQuestionFeedbackSummary {
+                        QuestionFeedbackSummary(
+                            zeroToTenQuestionFeedbackSummary: ZeroToTenQuestionFeedbackSummary(
+                                percentageValue0: zeroToTenSummary.percentageValue0,
+                                percentageValue1: zeroToTenSummary.percentageValue1,
+                                percentageValue2: zeroToTenSummary.percentageValue2,
+                                percentageValue3: zeroToTenSummary.percentageValue3,
+                                percentageValue4: zeroToTenSummary.percentageValue4,
+                                percentageValue5: zeroToTenSummary.percentageValue5,
+                                percentageValue6: zeroToTenSummary.percentageValue6,
+                                percentageValue7: zeroToTenSummary.percentageValue7,
+                                percentageValue8: zeroToTenSummary.percentageValue8,
+                                percentageValue9: zeroToTenSummary.percentageValue9,
+                                percentageValue10: zeroToTenSummary.percentageValue10,
+                                countValue0: Int(zeroToTenSummary.countValue0),
+                                countValue1: Int(zeroToTenSummary.countValue1),
+                                countValue2: Int(zeroToTenSummary.countValue2),
+                                countValue3: Int(zeroToTenSummary.countValue3),
+                                countValue4: Int(zeroToTenSummary.countValue4),
+                                countValue5: Int(zeroToTenSummary.countValue5),
+                                countValue6: Int(zeroToTenSummary.countValue6),
+                                countValue7: Int(zeroToTenSummary.countValue7),
+                                countValue8: Int(zeroToTenSummary.countValue8),
+                                countValue9: Int(zeroToTenSummary.countValue9),
+                                countValue10: Int(zeroToTenSummary.countValue10)
                             )
                         )
                     } else {
-                        #warning("Lets also implement the other types here")
-                        nil
+                        fatalError("Feedback type not implemented")
                     }
                 } else {
                     nil
@@ -250,7 +293,10 @@ public extension Components.Schemas.EventInput {
             durationInMinutes: Int32(event.durationInMinutes),
             location: event.location,
             questions: event.questions.map {
-                .init(questionText: $0.questionText, feedbackType: .init(rawValue: $0.feedbackType.rawValue.capitalized)!)
+                guard let feedbackType: Components.Schemas.QuestionInput.FeedbackTypePayload = .init(rawValue: $0.feedbackType.rawValue.uppercasingFirst()) else {
+                    fatalError("Could not create FeedbackTypePayload for \($0.feedbackType.rawValue.uppercasingFirst())")
+                }
+                return .init(questionText: $0.questionText, feedbackType: feedbackType)
             }
         )
     }

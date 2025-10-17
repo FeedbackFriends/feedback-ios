@@ -139,8 +139,8 @@ extension ManagerEventsView {
                         Text(event.title)
                             .font(.montserratSemiBold, 14)
                         Spacer()
-                        if let eventSummary = event.feedbackSummary, eventSummary.unseenCount > 0 {
-                            Text("\(eventSummary.unseenCount) new")
+                        if let eventSummary = event.feedbackSummary, eventSummary.unseenResponses > 0 {
+                            Text("\(eventSummary.unseenResponses) new")
                                 .font(.montserratBold, 10)
                                 .padding(4)
                                 .padding(.horizontal, 4)
@@ -159,7 +159,7 @@ extension ManagerEventsView {
                             }
                         }
                         Spacer()
-                        Image(systemName: "chevron.right")
+                        Image.chevronRight
                             .resizable()
                             .scaledToFit()
                             .frame(width: 10, height: 10)

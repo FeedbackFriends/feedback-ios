@@ -29,7 +29,7 @@ public struct FeedbackFlowCoordinatorView: View {
         } destination: { store in
             VStack(spacing: 0) {
                 questionView
-                    .padding(.top, 80)
+                    .padding(.top, 20)
                 switch store.case {
                 case let .emoji(store):
                     EmojiFeedbackView(
@@ -41,7 +41,7 @@ public struct FeedbackFlowCoordinatorView: View {
                         store: store,
                         commentTextfieldFocused: $commentTextfieldFocused
                     )
-                case let .thumps(store):
+                case let .thumpsUpThumpsDown(store):
                     ThumpsFeedbackView(
                         store: store,
                         commentTextfieldFocused: $commentTextfieldFocused
@@ -58,6 +58,29 @@ public struct FeedbackFlowCoordinatorView: View {
                         store: store,
                         commentTextfieldFocused: $commentTextfieldFocused
                     )
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitle(self.store.title)
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Quit") {
+                        self.store.send(.dismissButtonTap)
+                    }
+                    .buttonStyle(SecondaryTextButtonStyle())
+                    .foregroundStyle(Color.themeText)
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        self.store.send(.infoButtonTap)
+                    } label: {
+                        Image.info
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 12, height: 12)
+                            .padding(4)
+                    }
+                    .buttonStyle(IconToolbarStyle())
                 }
             }
             .padding(.bottom, 90)
@@ -79,9 +102,6 @@ public struct FeedbackFlowCoordinatorView: View {
         }
         .overlay(alignment: .bottom) {
             bottomBar
-        }
-        .overlay(alignment: .top) {
-            topBar
         }
         .animation(.smooth, value: commentTextfieldFocused)
         .synchronize($store.commentTextfieldFocused, self.$commentTextfieldFocused)
@@ -119,43 +139,8 @@ public struct FeedbackFlowCoordinatorView: View {
                 .presentationDetents([.medium])
             }
         )
-        .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
-    }
-    
-    var topBar: some View {
-        VStack {
-            HStack {
-                Button("Cancel") {
-                    store.send(.cancelButtonTap)
-                }
-                .buttonStyle(SecondaryTextButtonStyle())
-                .foregroundStyle(Color.themeText)
-                Spacer()
-                
-                Button {
-                    store.send(.infoButtonTap)
-                } label: {
-                    Image(systemName: "info")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 12, height: 12)
-                        .padding(4)
-                }
-                .buttonStyle(IconToolbarStyle())
-            }
-            .overlay {
-                Text(store.title)
-                    .font(.montserratBold, 16)
-                    .foregroundColor(Color.themeTextSecondary)
-                    .lineLimit(1)
-                    .padding(.horizontal, 60)
-            }
-            .padding(12)
-            Rectangle()
-                .frame(height: 1.5)
-                .foregroundColor(Color.themeSurface)
-        }
         
+        .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
     }
     
     var questionView: some View {
@@ -181,7 +166,7 @@ public struct FeedbackFlowCoordinatorView: View {
                 Button {
                     store.send(.previousQuestionButtonTap)
                 } label: {
-                    Image(systemName: "arrow.backward")
+                    Image.arrowBackwards
                         .resizable()
                         .frame(width: 30, height: 30)
                         .fontWeight(Font.Weight.semibold)
@@ -215,7 +200,7 @@ public struct FeedbackFlowCoordinatorView: View {
     }
 }
 
-#Preview {
+#Preview("Flow") {
     FeedbackFlowCoordinatorView(
         store: Store(
             initialState: FeedbackFlowCoordinator.State.initialState(

@@ -10,24 +10,23 @@ public struct EditEvent: Sendable {
     @ObservableState
     public struct State: Equatable, Sendable {
         
-        var eventInput: EventInput
+        var eventForm: EventForm.State
         var eventId: UUID
-        var createEventRequestInFlight = false
         var editRequestInFlight = false
         var showSuccessOverlay: Bool = false
         
         @Presents var alert: AlertState<Never>?
 		
 		var editEventButtonDisabled: Bool {
-			eventInput.title.isEmpty || eventInput.questions.isEmpty || editRequestInFlight || showSuccessOverlay
+            eventForm.eventInput.title.isEmpty || eventForm.eventInput.questions.isEmpty || editRequestInFlight || showSuccessOverlay
 		}
 		let recentlyUsedQuestions: Set<RecentlyUsedQuestions>
 		public init(
-			eventInput: EventInput,
-			eventId: UUID,
-			recentlyUsedQuestions: Set<RecentlyUsedQuestions>
+            eventForm: EventForm.State,
+            eventId: UUID,
+            recentlyUsedQuestions: Set<RecentlyUsedQuestions>
 		) {
-			self.eventInput = eventInput
+			self.eventForm = eventForm
 			self.eventId = eventId
 			self.recentlyUsedQuestions = recentlyUsedQuestions
 		}
@@ -39,6 +38,7 @@ public struct EditEvent: Sendable {
         case presentError(Error)
         case editEventResponse
         case alert(PresentationAction<Never>)
+        case eventForm(EventForm.Action)
     }
     
     public init() {}
@@ -51,15 +51,21 @@ public struct EditEvent: Sendable {
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
+        Scope(state: \.eventForm, action: \.eventForm) {
+            EventForm()
+        }
         Reduce { state, action in
             switch action {
+                
+            case .eventForm:
+                return .none
                 
             case .editEventButtonTap:
                 state.editRequestInFlight = true
                 return .run { [state = state] send in
                     do {
                         _ = try await apiClient.updateEvent(
-                            state.eventInput,
+                            state.eventForm.eventInput,
                             state.eventId
                         )
                         await send(.editEventResponse)

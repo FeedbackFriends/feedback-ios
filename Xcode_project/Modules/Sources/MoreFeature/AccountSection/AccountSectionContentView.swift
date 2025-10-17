@@ -1,6 +1,7 @@
 import ComposableArchitecture
 import Domain
 import SwiftUI
+import DesignSystem
 
 struct AccountSectionContentView: View {
 	let data: AccountSectionContentViewData
@@ -39,7 +40,7 @@ private extension AccountSectionContentView {
                     Text(name ?? "Not found")
                         .font(.montserratRegular, 16)
                     HStack {
-                        Image(systemName: "person.circle.fill")
+                        Image.personCircleFill
                             .resizable()
                             .scaledToFit()
                             .frame(width: 40, height: 40)
@@ -52,7 +53,7 @@ private extension AccountSectionContentView {
                         }
                         .font(.montserratMedium, 10)
                         Spacer()
-                        Image(systemName: "chevron.right")
+                        Image.chevronRight
                             .resizable()
                             .scaledToFit()
                             .frame(width: 14, height: 14)

@@ -72,7 +72,9 @@ public struct TabbarView: View {
                     action: \.initialiseFeedback.destination.feedbackFlowCoordinator
                 )
             ) { store in
-                FeedbackFlowCoordinatorView(store: store)
+                FeedbackFlowCoordinatorView(
+                    store: store
+                )
             }
     }
 }
@@ -118,7 +120,7 @@ private extension TabbarView {
 				}
             }
             .tabItem {
-                Image(systemName: "calendar")
+                Image.calendar
                 Text("Events")
             }
             .tag(Tab.events)
@@ -170,7 +172,7 @@ private extension TabbarView {
 				.background(Color.themeBackground)
             }
             .tabItem {
-                Image(systemName: "person.crop.circle")
+                Image.personCropCircle
                 Text("Profile")
             }
             .tag(Tab.more)
@@ -213,12 +215,12 @@ private extension TabbarView {
 					}
 				}
 			} label: {
-				Image(systemName: "circle.fill")
+                Image.circleFill
 					.resizable()
 					.frame(width: 44, height: 44)
 					.foregroundStyle(Color.themePrimaryAction.gradient)
 					.overlay {
-						Image(systemName: "plus")
+                        Image.plus
 							.frame(width: 20, height: 20)
 							.foregroundStyle(Color.themeOnPrimaryAction)
 							.fontWeight(.semibold)
@@ -242,7 +244,7 @@ private extension TabbarView {
             Button {
                 store.send(.toolbar(.activityButtonTap))
             } label: {
-                Image(systemName: "sparkles")
+                Image.sparkles
                     .resizable()
                     .scaledToFit()
                     .frame(width: 16, height: 16)
@@ -256,7 +258,7 @@ private extension TabbarView {
             Button {
                 store.send(.signOutButtonTapped)
             } label: {
-                listElementView(image: "rectangle.portrait.and.arrow.right", label: "Logout")
+                listElementView(image: .moreSectionPortraitAndArrowRight, label: "Logout")
             }
 			.confirmationDialog(
 				$store.scope(
@@ -278,7 +280,7 @@ private extension TabbarView {
             Button {
                 store.send(.deleteAccount(.deleteAccountButtonTapped))
             } label: {
-                listElementView(image: "trash", label: "Delete account", isLoading: store.deleteAccount.deleteAccountInFlight)
+                listElementView(image: .moreSectionTrash, label: "Delete account", isLoading: store.deleteAccount.deleteAccountInFlight)
             }
         }
     }
@@ -288,7 +290,7 @@ private extension TabbarView {
             Button {
                 store.send(.signUpButtonTap)
             } label: {
-                listElementView(image: "person.badge.key", label: "Sign up")
+                listElementView(image: .moreSectionPersonBadgeKey, label: "Sign up")
             }
         } footer: {
             Text("Sign up to get feedback from others and much more")

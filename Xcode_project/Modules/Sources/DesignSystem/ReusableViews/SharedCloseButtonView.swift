@@ -12,7 +12,7 @@ public struct SharedCloseButtonView: View {
         Button {
             closeButtonTapped()
         } label: {
-            Image(systemName: "xmark")
+            Image.xmark
                 .resizable()
                 .scaledToFit()
                 .frame(width: 12, height: 12)

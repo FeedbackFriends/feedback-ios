@@ -8,7 +8,7 @@ struct FeedbackTypeInfoSheetView: View {
         NavigationStack {
             List(FeedbackType.allCases, id: \.self) { type in
                 HStack(alignment: .top, spacing: 12) {
-                    Image(systemName: type.systemImage)
+                    type.image
                         .font(.title3)
                         .frame(width: 28)
                     VStack(alignment: .leading, spacing: 4) {
@@ -36,6 +36,7 @@ struct FeedbackTypeInfoSheetView: View {
 }
 
 extension FeedbackType {
+    #warning("Skal genrbuges")
     var title: String {
         switch self {
         case .emoji: return "Emoji"
@@ -46,13 +47,14 @@ extension FeedbackType {
         }
     }
     
-    var systemImage: String {
+    #warning("Skal genrbuges")
+    var image: Image {
         switch self {
-        case .emoji: return "face.smiling"
-        case .comment: return "text.bubble"
-        case .thumpsUpThumpsDown: return "hand.thumbsup"
-        case .opinion: return "quote.bubble"
-        case .zeroToTen: return "number"
+        case .emoji: return .feedbackTypeEmoji
+        case .comment: return .feedbackTypeComment
+        case .thumpsUpThumpsDown: return .feedbackTypeThumpsUpThumpsDown
+        case .opinion: return .feedbackTypeOpinion
+        case .zeroToTen: return .feedbackTypeZeroToTen
         }
     }
     

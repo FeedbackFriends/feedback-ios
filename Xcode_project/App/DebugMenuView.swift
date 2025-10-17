@@ -58,7 +58,7 @@ struct DebugMenuView: View {
                         self.debugMenuExpanded.toggle()
                     }
                 } label: {
-                    Image(systemName: "chevron.compact.down")
+                    Image.chevronCompactDown
                         .resizable()
                         .scaledToFit()
                         .frame(width: 20, height: 20)

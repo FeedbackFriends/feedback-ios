@@ -12,7 +12,7 @@ public struct EmptyStateView: View {
     
     public var body: some View {
         VStack(alignment: .center, spacing: 16) {
-            Image(systemName: "rectangle.on.rectangle")
+            Image.rectangeOnRectangle
                 .resizable()
                 .frame(width: 40, height: 40)
                 .foregroundColor(.themeTextSecondary)

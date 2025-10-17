@@ -45,11 +45,15 @@ private extension DetailSectionView {
                         .font(.montserratSemiBold, 13)
                     Text(event.formattedDate)
                         .font(.montserratRegular, 13)
-                    if let totalFeedback = event.feedbackSummary?.countStats.uniqueParticipantFeedback {
-                        Text("Received feedback")
-                            .font(.montserratSemiBold, 13)
-                        Text(totalFeedback.description)
-                            .font(.montserratRegular, 13)
+                    if let totalFeedback = event.feedbackSummary {
+                        HStack {
+                            Text("\(totalFeedback.responses) responses")
+                                .font(.montserratMedium, 12)
+                        }
+                        .padding(.horizontal, 10)
+                        .padding(.vertical, 6)
+                        .background(Color.themeBackground)
+                        .clipShape(Capsule())
                     }
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -68,12 +72,12 @@ private extension DetailSectionView {
     
     @ViewBuilder
     var eventPinSectionView: some View {
-            VStack(alignment: .leading) {
-                Text("PIN CODE")
-                    .sectionHeaderStyle()
-                    .padding(.leading, 18)
-                VStack(alignment: .trailing, spacing: 12) {
-                    if let pinCode = event.pinCode?.value {
+        VStack(alignment: .leading) {
+            Text("PIN CODE")
+                .sectionHeaderStyle()
+                .padding(.leading, 18)
+            VStack(alignment: .trailing, spacing: 12) {
+                if let pinCode = event.pinCode?.value {
                     Text("\(pinCode)")
                         .frame(maxWidth: .infinity)
                         .font(.montserratMedium, 30)
@@ -84,7 +88,7 @@ private extension DetailSectionView {
                             content: {
                                 ShareLink(item: pinCode) {
                                     HStack {
-                                        Image(systemName: "document.on.document")
+                                        Image.documentOnDocument
                                             .font(.system(size: 16, weight: .regular))
                                     }
                                     .padding(.trailing, 12)
@@ -95,27 +99,27 @@ private extension DetailSectionView {
                         )
                         .background(Color.themeSurface)
                         .cornerRadius(14)
-                    } else {
-                        HStack(spacing: 6) {
-                            Image(systemName: "clock.badge.xmark") // or "xmark.seal"
-                                .foregroundColor(.red) // makes the "expired" status obvious
-                                .font(.system(size: 14, weight: .semibold))
-
-                            Text("Expired")
-                                .font(.montserratRegular, 12)
-                                .foregroundColor(.red)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                        }
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 12)
-                        .padding(.horizontal, 16)
-                        .background(Color.themeSurface)
-                        .cornerRadius(14)
+                } else {
+                    HStack(spacing: 6) {
+                        Image.clockBadgeXmark
+                            .foregroundColor(.red)
+                            .font(.system(size: 14, weight: .semibold))
+                        
+                        Text("Expired")
+                            .font(.montserratRegular, 12)
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .padding(.horizontal, 16)
+                    .background(Color.themeSurface)
+                    .cornerRadius(14)
                 }
-                .frame(maxWidth: .infinity)
-                .font(.montserratRegular, 14)
             }
+            .frame(maxWidth: .infinity)
+            .font(.montserratRegular, 14)
+        }
     }
     
     @ViewBuilder
@@ -146,7 +150,7 @@ struct QuestionView: View {
                         Text("Comments")
                             .font(.montserratSemiBold, 13)
                             .frame(maxWidth: .infinity, alignment: .leading)
-                        if question.feedbackSummary == nil || question.feedbackSummary?.commentCount == 0 {
+                        if question.feedbackSummary == nil {
                             Text("No comments yet")
                                 .font(.montserratRegular, 14)
                                 .padding(.vertical, 8)
@@ -158,28 +162,41 @@ struct QuestionView: View {
                             }
                         }
                     }
-					.padding(.top, 16)
-					.foregroundStyle(Color.themeTextSecondary)
-					
+                    .padding(.top, 16)
+                    .foregroundStyle(Color.themeTextSecondary)
+                    
                 },
                 label: {
                     VStack(spacing: 10) {
                         HStack(alignment: .top) {
-                            VStack(alignment: .leading, spacing: 12) {
-                                Text("Question \(index + 1)")
-                                    .font(.montserratSemiBold, 13)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            VStack(alignment: .leading, spacing: 14) {
+                                HStack(spacing: 8) {
+                                    Text("Question \(index + 1)")
+                                        .font(.montserratRegular, 13)
+                                    HStack {
+                                        question.feedbackType.image
+                                            .resizable()
+                                            .frame(width: 10, height: 10)
+                                        Text(question.feedbackType.title)
+                                            .font(.montserratMedium, 9)
+                                    }
+                                    .padding(.horizontal, 10)
+                                    .padding(.vertical, 6)
+                                    .background(Color.themeBackground)
+                                    .clipShape(Capsule())
+                                }
                                 Text(question.questionText)
-                                    .font(.montserratRegular, 13)
+                                    .font(.montserratMedium, 12)
                                     .multilineTextAlignment(.leading)
-//                                if let feedback = question.feedbackSummary {
-//                                    smileyView(feedback.countStats)
-//                                    FeedbackPercentageBarView(
-//                                        feedback: feedback.segmentationStats
-//                                    )
-//                                    .frame(height: 8)
-//                                    .cornerRadius(4)
-//                                }
+                                if let emojiSummary = question.feedbackSummary?.emojiQuestionFeedbackSummary {
+                                    QuestionEmojiSummaryView(emojiSummary: emojiSummary)
+                                } else if let thumpsSummary = question.feedbackSummary?.thumpsQuestionFeedbackSummary {
+                                    QuestionThumpsSummaryView(thumpsSummary: thumpsSummary)
+                                } else if let opinionSummary = question.feedbackSummary?.opinionQuestionFeedbackSummary {
+                                    QuestionOpinionSummaryView(opinionSummary: opinionSummary)
+                                } else if let zeroToTenSummary = question.feedbackSummary?.zeroToTenQuestionFeedbackSummary {
+                                    QuestionZeroToTenSummaryView(zeroToTenSummary: zeroToTenSummary)
+                                }
                             }
                         }
                         .padding(.top, 16)
@@ -193,142 +210,22 @@ struct QuestionView: View {
         }
         .groupBoxStyle(CustomGroupBoxStyle())
     }
-    
-    func smileyView(_ feedback: FeedbackCountStats) -> some View {
-        Group {
-            VStack(alignment: .leading) {
-                HStack {
-                    HStack(spacing: 4) {
-                        Image.verySad
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                        Text(feedback.verySadCount.description)
-                    }
-                    HStack(spacing: 4) {
-                        Image.sad
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                        Text(feedback.sadCount.description)
-                    }
-                    HStack(spacing: 4) {
-                        Image.happy
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                        Text(feedback.happyCount.description)
-                    }
-                    HStack(spacing: 4) {
-                        Image.veryHappy
-                            .resizable()
-                            .frame(width: 20, height: 20)
-                        Text(feedback.veryHappyCount.description)
-                    }
-                }
-            }
-            .font(.montserratSemiBold, 12)
-        }
+}
+
+#Preview("With feedback") {
+    NavigationStack {
+        DetailSectionView(
+            event: .mock()
+        )
+        .navigationTitle("Event with feedback")
     }
 }
 
 #Preview("Empty feedback") {
     NavigationStack {
-		DetailSectionView(
-			event: .init(
-				id: UUID(),
-				title: "Title",
-				agenda: "Agenda",
-				date: Date(),
-				pinCode: nil,
-				durationInMinutes: 60,
-				location: "Hellerup",
-				ownerInfo: .init(
-					name: "Nicolai",
-					email: "Email",
-					phoneNumber: "Phonenumber"
-				),
-				feedbackSummary: nil,
-				questions: [
-					.init(
-						id: UUID(),
-						questionText: "Why whyyyy whyyy",
-						feedbackType: .emoji,
-						feedback: [],
-						feedbackSummary: nil
-					)
-				]
-			)
-		)
-		.navigationTitle("Event with empty feedback")
+        DetailSectionView(
+            event: .mockEmpty
+        )
+        .navigationTitle("Event empty feedback")
     }
-}
-
-#Preview("With feedback") {
-	NavigationStack {
-		DetailSectionView(
-			event: .init(
-				id: UUID(),
-				title: "Title",
-				agenda: "Agenda",
-				date: Date(),
-				pinCode: PinCode(value: "1234"),
-				durationInMinutes: 60,
-				location: "Hellerup",
-				ownerInfo: .init(
-					name: "Nicolai",
-					email: "Email",
-					phoneNumber: "Phonenumber"
-				),
-				feedbackSummary: .init(
-					segmentationStats: .init(
-						verySadPercentage: 30,
-						sadPercentage: 30,
-						happyPercentage: 20,
-						veryHappyPercentage: 20
-					),
-					countStats: .init(
-						verySadCount: 10,
-						sadCount: 10,
-						happyCount: 10,
-						veryHappyCount: 10,
-						commentsCount: 10,
-						uniqueParticipantFeedback: 10
-					),
-					unseenCount: 8
-				),
-				questions: [
-					.init(
-						id: UUID(),
-						questionText: "Why whyyyy whyyy",
-						feedbackType: .emoji,
-						feedback: [
-							.init(
-								type: .emoji(emoji: .happy, comment: "Hello world"),
-								questionId: UUID(),
-								seenByManager: false,
-								createdAt: Date()
-							)
-						],
-                        feedbackSummary: .emojiQuestionFeedbackSummary(
-                            unseenCount: 10,
-                            emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary(
-                                emojiFeedbackCountStats: EmojiFeedbackCountStats(
-                                    verySadCount: 90,
-                                    sadCount: 89,
-                                    happyCount: 89,
-                                    veryHappyCount: 78,
-                                    commentsCount: 78
-                                ),
-                                emojiFeedbackSegmentationStats: EmojiFeedbackSegmentationStats(
-                                    verySadPercentage: 67,
-                                    sadPercentage: 67,
-                                    happyPercentage: 89,
-                                    veryHappyPercentage: 45
-                                )
-                            )
-                        )
-					)
-				]
-			)
-		)
-		.navigationTitle("Event with feedback")
-	}
 }

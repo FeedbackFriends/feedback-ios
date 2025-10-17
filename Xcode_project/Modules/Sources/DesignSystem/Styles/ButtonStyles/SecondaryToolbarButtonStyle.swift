@@ -14,6 +14,7 @@ public struct SecondaryTextButtonStyle: ButtonStyle {
                 configuration.label
             }
         }
+        .padding(.horizontal, 8)
         .font(.montserratMedium, 15)
         .foregroundStyle(Color.themeText)
         .opacity(isEnabled ? 1.0 : 0.5)

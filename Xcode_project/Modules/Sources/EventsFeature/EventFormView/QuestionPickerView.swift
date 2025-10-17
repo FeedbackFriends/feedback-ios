@@ -2,39 +2,20 @@ import SwiftUI
 import Domain
 import DesignSystem
 
-extension FeedbackType {
-    var isEnabled: Bool {
-        switch self {
-        case .emoji:
-            return true
-        case .comment:
-            return false
-        case .thumpsUpThumpsDown:
-            return false
-        case .opinion:
-            return false
-        case .zeroToTen:
-            return false
-        }
-    }
-}
-
 public struct QuestionPickerView: View {
     
     let existingQuestionIndex: Int?
     let questionSelected: (_ input: EventInput.QuestionInput, _ optionalIndex: Int?) -> Void
     var text: String {
         if existingQuestionIndex != nil {
-            "Edit question"
+            "Edit"
         } else {
-            "Create question"
+            "Add"
         }
     }
     @State var feedbackTypeSelected: FeedbackType
     @State var questionTextField: String
     @State private var showFeedbackInfo = false
-    @State private var showComingSoon = false
-    @State private var comingSoonMessage: String = ""
     @Environment(\.dismiss) private var dismiss
     @FocusState private var isQuestionFocused: Bool
     
@@ -69,11 +50,6 @@ public struct QuestionPickerView: View {
         }
     }
     
-    private func showComingSoonAlert(_ feedbackType: FeedbackType) {
-        comingSoonMessage = "Feedback type '\(feedbackType.title)' is coming soon. Stay tuned!"
-        showComingSoon = true
-    }
-    
     public var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -82,24 +58,18 @@ public struct QuestionPickerView: View {
                         ForEach(FeedbackType.allCases, id: \.self) { type in
                             let isSelected = type == feedbackTypeSelected
                             Button {
-                                if type.isEnabled {
-                                    withAnimation(.easeInOut(duration: 0.4)) {
-                                        feedbackTypeSelected = type
-                                    }
-                                } else {
-                                    self.showComingSoonAlert(type)
+                                withAnimation(.easeInOut(duration: 0.4)) {
+                                    feedbackTypeSelected = type
                                 }
                             } label: {
                                 VStack(spacing: 6) {
-                                    Image(systemName: type.systemImage)
+                                    type.image
                                         .symbolRenderingMode(.hierarchical)
                                         .font(.title3)
                                         .foregroundStyle(Color.themeTextSecondary)
                                     Text(type.title)
                                         .font(.montserratMedium, 10)
                                 }
-                                .opacity(type.isEnabled ? 1 : 0.5)
-                                .saturation(type.isEnabled ? 1 : 0)
                                 .frame(maxWidth: .infinity, minHeight: 70)
                                 .padding(6)
                                 .background(
@@ -110,20 +80,6 @@ public struct QuestionPickerView: View {
                                     RoundedRectangle(cornerRadius: 12)
                                         .stroke(isSelected ? Color.themePrimaryAction : Color.themeTextSecondary.opacity(0.2), lineWidth: isSelected ? 3 : 2)
                                 )
-                                .overlay(alignment: .top) {
-                                    if !type.isEnabled {
-                                        ZStack {
-                                            RoundedRectangle(cornerRadius: 12)
-                                                .fill(Color.clear)
-                                                .background(.ultraThinMaterial.opacity(0.5), in: RoundedRectangle(cornerRadius: 12))
-                                            VStack(spacing: 6) {
-                                                Image(systemName: "lock.fill")
-                                                    .font(.headline)
-                                                    .foregroundColor(.themeTextSecondary)
-                                            }
-                                        }
-                                    }
-                                }
                                 .animation(.easeInOut(duration: 0.15), value: feedbackTypeSelected)
                             }
                             .buttonStyle(IconButtonStyle())
@@ -137,7 +93,7 @@ public struct QuestionPickerView: View {
                         Button {
                             showFeedbackInfo = true
                         } label: {
-                            Image(systemName: "questionmark.circle")
+                            Image.questionmarkCircle
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20, height: 20)
@@ -148,7 +104,7 @@ public struct QuestionPickerView: View {
                     .padding(.bottom, 14)
                 }
                 .padding(.top, 18)
-
+                
                 Form {
                     Section {
                         ZStack(alignment: .trailing) {
@@ -159,12 +115,12 @@ public struct QuestionPickerView: View {
                                 .textInputAutocapitalization(.sentences)
                                 .submitLabel(.go)
                                 .padding(.trailing, 24)
-                                
+                            
                             if !questionTextField.isEmpty {
                                 Button {
                                     questionTextField = ""
                                 } label: {
-                                    Image(systemName: "xmark.circle.fill")
+                                    Image.xmarkCircleFill
                                 }
                                 .foregroundStyle(Color.themeText)
                                 .padding(.trailing, 4)
@@ -187,11 +143,6 @@ public struct QuestionPickerView: View {
             }
             .sheet(isPresented: $showFeedbackInfo) {
                 FeedbackTypeInfoSheetView()
-            }
-            .alert("Coming Soon", isPresented: $showComingSoon) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text(comingSoonMessage)
             }
             .background(Color.themeBackground)
             .scrollContentBackground(.hidden)
