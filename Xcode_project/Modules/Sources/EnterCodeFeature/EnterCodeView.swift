@@ -30,13 +30,13 @@ private extension EnterCodeView {
                         Text("Lets Grow")
                             .font(.montserratMedium, 30)
                             .foregroundStyle(Color.themeTextSecondary)
-                            .padding(.trailing, 90)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         Text("Feedback")
                             .font(.montserratExtraBold, 42)
                             .foregroundStyle(Color.themeText.gradient)
-                            .padding(.leading, 90)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
                     }
-                    .padding(.horizontal, 53)
+                    .frame(maxWidth: 250)
                     
                     Spacer()
                     Text("Enter PIN Code")
@@ -55,7 +55,7 @@ private extension EnterCodeView {
                             new == true
                         }
                         .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
-                        .frame(maxWidth: 400)
+                        .frame(maxWidth: Constants.maxWidthForLargeDevices)
                     Button("Start feedback") {
                         store.send(.startFeedbackButtonTap)
                     }

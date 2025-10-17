@@ -1,6 +1,8 @@
 import SwiftUI
 import Domain
 import DesignSystem
+import FeedbackFlowFeature
+import ComposableArchitecture
 
 struct QuestionsListView: View {
     
@@ -8,6 +10,7 @@ struct QuestionsListView: View {
     @Binding var questionsInputs: [EventInput.QuestionInput]
     @State var presentSelectQuestionSheet: EventInput.QuestionInput?
     @State private var existingQuestionIndex: Int?
+    let presentFeedbackFlowSession: (FeedbackFlowCoordinator.State) -> Void
     
     var body: some View {
         Group {
@@ -24,7 +27,7 @@ struct QuestionsListView: View {
                             self.presentSelectQuestionSheet = questionsInput
                         } label: {
                             HStack(spacing: 12) {
-                                Image(systemName: questionsInput.feedbackType.systemImage)
+                                questionsInput.feedbackType.image
                                     .symbolRenderingMode(.hierarchical)
                                     .font(.title)
                                     .foregroundStyle(Color.themeTextSecondary)
@@ -48,7 +51,7 @@ struct QuestionsListView: View {
                 }
             }
         }
-        .navigationTitle(Text("Questions"))
+        .navigationTitle("Questions")
         .navigationBarTitleDisplayMode(.inline)
         .background(Color.themeBackground.ignoresSafeArea())
         .scrollContentBackground(.hidden)
@@ -70,19 +73,66 @@ struct QuestionsListView: View {
                 }
             }
         )
-        .overlay(alignment: .bottomTrailing, content: {
-            Button {
-                self.existingQuestionIndex = nil
-                self.presentSelectQuestionSheet = .init(questionText: "", feedbackType: .emoji)
-            } label: {
-                Image(systemName: "plus.circle.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 60, height: 60)
-                    .padding(18)
-                    .foregroundStyle(Color.themePrimaryAction.gradient)
+        .overlay(
+            alignment: .bottomTrailing,
+            content: {
+                HStack(spacing: 6) {
+                    Button {
+                        self.presentFeedbackFlowSession(
+                            .initialState(
+                                feedbackSession: .init(
+                                    title: "title",
+                                    agenda: "agenda",
+                                    questions: self.questionsInputs.map {
+                                        ParticipantQuestion(
+                                            id: $0.id,
+                                            questionText: $0.questionText,
+                                            feedbackType: $0.feedbackType
+                                        )
+                                    },
+                                    ownerInfo: OwnerInfo(
+                                        name: nil,
+                                        email: nil,
+                                        phoneNumber: nil
+                                    ),
+                                    pinCode: PinCode(value: "None"),
+                                    date: Date()
+                                )
+                            )
+                        )
+                    } label: {
+                        VStack(alignment: .leading) {
+                            HStack {
+                                Image.playButton
+                                Text("Preview session")
+                            }
+                            Text("See exactly how participants will experience your session.")
+                                .font(.montserratRegular, 8)
+                        }
+                    }
+                    .buttonStyle(LargeBoxButtonStyle())
+                    .opacity(self.questionsInputs.isEmpty ? 0.6 : 1.0)
+                    .disabled(self.questionsInputs.isEmpty)
+                    Spacer()
+                    Button {
+                        self.existingQuestionIndex = nil
+                        self.presentSelectQuestionSheet = .init(questionText: "", feedbackType: .emoji)
+                    } label: {
+                        Image.circleFill
+                            .resizable()
+                            .frame(width: 50, height: 50)
+                            .foregroundStyle(Color.themePrimaryAction.gradient)
+                            .overlay {
+                                Image.plus
+                                    .frame(width: 26, height: 26)
+                                    .foregroundStyle(Color.themeOnPrimaryAction)
+                                    .fontWeight(.semibold)
+                            }
+                    }
+                }
+                .padding(.horizontal, 24)
             }
-        })
+        )
     }
 }
 
@@ -98,6 +148,7 @@ struct QuestionsListView: View {
                     )
                 ]
             ),
+            presentFeedbackFlowSession: { _ in },
         )
     }
 }
@@ -107,6 +158,7 @@ struct QuestionsListView: View {
         QuestionsListView(
             recentlyUsedQuestions: .init(),
             questionsInputs: .constant([]),
+            presentFeedbackFlowSession: { _ in },
         )
     }
 }

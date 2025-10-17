@@ -59,7 +59,7 @@ struct InviteView: View {
 			shareSheet = inviteLink
 		} label: {
 			HStack {
-				Image(systemName: "document.on.document")
+                Image.documentOnDocument
 					.font(.system(size: 16, weight: .regular))
 			}
 			.padding(.trailing, 12)
@@ -73,7 +73,7 @@ struct InviteView: View {
 			shareSheet = shareText
 		} label: {
 			HStack {
-				Image(systemName: "square.and.arrow.up")
+                Image.squareAndArrowUp
 					.font(.system(size: 14, weight: .semibold))
 				Text("Invite")
 			}

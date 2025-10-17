@@ -2,7 +2,7 @@ import SwiftUI
 
 @MainActor
 public func listElementView(
-    image: String,
+    image: Image,
     label: String,
     foregroundColor: Color = Color.themeText,
     isLoading: Bool = false
@@ -14,7 +14,7 @@ public func listElementView(
                 .progressViewStyle(CircularProgressViewStyle(tint: foregroundColor))
             
         }
-        Image(systemName: image)
+        image
             .font(.system(size: 12, weight: .medium))
             .aspectRatio(contentMode: .fill)
             .padding(6)

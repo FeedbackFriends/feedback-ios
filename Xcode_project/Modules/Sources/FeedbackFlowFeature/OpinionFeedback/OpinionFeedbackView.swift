@@ -51,7 +51,7 @@ public struct OpinionFeedbackView: View {
                 }
             }
             .padding(.horizontal, 2)
-            .frame(maxWidth: 400, alignment: .center)
+            .frame(maxWidth: Constants.maxWidthForLargeDevices, alignment: .center)
 
             if store.selectedOpinion != nil {
                 FeedbackElaborationTextField(

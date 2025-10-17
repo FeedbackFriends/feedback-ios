@@ -50,7 +50,7 @@ private extension NotificationPermissionView {
             onTap()
         } label: {
             HStack {
-                Image(systemName: "checkmark.circle.fill")
+                Image.checkmarkCircleFill
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundStyle(Color.themeSuccess)

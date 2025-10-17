@@ -14,7 +14,8 @@ public struct UserTypePickerView: View {
             self.selectedUserType = .participant
         } label: {
             HStack {
-                Image(systemName: selectedUserType == .participant ? "checkmark.circle.fill" : "circle")
+                let image = selectedUserType == .participant ? Image.checkmarkCircleFill : Image.circle
+                image
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundStyle(selectedUserType == .participant ? Color.themeSuccess : Color.themeTextSecondary)
@@ -31,14 +32,15 @@ public struct UserTypePickerView: View {
             }
         }
         .buttonStyle(LargeBoxButtonStyle())
-		.overlay(
-			Capsule().stroke(self.selectedUserType == .participant ? Color.themeTextSecondary : Color.clear, lineWidth: 2)
-		)
+        .overlay(
+            Capsule().stroke(self.selectedUserType == .participant ? Color.themeTextSecondary : Color.clear, lineWidth: 2)
+        )
         Button {
             self.selectedUserType = .manager
         } label: {
             HStack {
-                Image(systemName: selectedUserType == .manager ? "checkmark.circle.fill" : "circle")
+                let image = selectedUserType == .manager ? Image.checkmarkCircleFill : Image.circle
+                image
                     .resizable()
                     .frame(width: 24, height: 24)
                     .foregroundStyle(selectedUserType == .manager ? Color.themeSuccess : Color.themeTextSecondary)
@@ -52,9 +54,9 @@ public struct UserTypePickerView: View {
             }
         }
         .buttonStyle(LargeBoxButtonStyle())
-		.overlay(
-			Capsule().stroke(self.selectedUserType == .manager ? Color.themeTextSecondary : Color.clear, lineWidth: 2)
-		)
+        .overlay(
+            Capsule().stroke(self.selectedUserType == .manager ? Color.themeTextSecondary : Color.clear, lineWidth: 2)
+        )
         .sensoryFeedback(.selection, trigger: selectedUserType)
     }
 }

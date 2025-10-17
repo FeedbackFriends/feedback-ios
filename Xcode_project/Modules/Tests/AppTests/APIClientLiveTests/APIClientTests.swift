@@ -278,7 +278,7 @@ struct APIClientLiveTests {
     func sessionCacheMarkEventAsSeen() async {
         let eventId = UUID()
         let questionFeedbackSummary = QuestionFeedbackSummary.emojiQuestionFeedbackSummary(
-            unseenCount: 5,
+            unseenResponses: 5,
             emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary.init(
                 emojiFeedbackCountStats: EmojiFeedbackCountStats(verySadCount: 0, sadCount: 0, happyCount: 0, veryHappyCount: 0, commentsCount: 0),
                 emojiFeedbackSegmentationStats: EmojiFeedbackSegmentationStats(
@@ -304,7 +304,7 @@ struct APIClientLiveTests {
                 commentsCount: 0,
                 uniqueParticipantFeedback: 0
             ),
-            unseenCount: 5
+            unseenResponses: 5
         )
         
         let question = ManagerQuestion(
@@ -347,8 +347,8 @@ struct APIClientLiveTests {
         await cache.markEventAsSeen(eventId: eventId)
         let updated = await cache.getSession()
         
-        #expect(updated?.managerData?.managerEvents[id: eventId]?.feedbackSummary?.unseenCount == 0)
-        #expect(updated?.managerData?.managerEvents[id: eventId]?.questions.allSatisfy { $0.feedbackSummary?.unseenCount == 0 } == true)
+        #expect(updated?.managerData?.managerEvents[id: eventId]?.feedbackSummary?.unseenResponses == 0)
+        #expect(updated?.managerData?.managerEvents[id: eventId]?.questions.allSatisfy { $0.feedbackSummary?.unseenResponses == 0 } == true)
         #expect(updated?.managerData?.activity.unseenTotal == 0)
         #expect(updated?.managerData?.activity.items.allSatisfy { $0.seenByManager } == true)
     }

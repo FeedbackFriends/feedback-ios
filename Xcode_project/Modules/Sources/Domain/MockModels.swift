@@ -244,7 +244,7 @@ public extension ManagerEvent {
             generateQuestionWithType(feedbackType: FeedbackType.opinion),
             generateQuestionWithType(feedbackType: FeedbackType.thumpsUpThumpsDown)
         ]
-        let feedbackSummary: FeedbackSummary = generateFeedbackSummary(total: 10)
+        let feedbackSummary: OverallFeedbackSummary = generateFeedbackSummary(total: 10)
         return Self.init(
             id: nextDeterministicUUID(),
             title: generateFeedbackEventTitle(),
@@ -327,7 +327,7 @@ func generateFeedbackEventTitle() -> String {
     return possibleTitles.randomElement() ?? "Meeting"
 }
 
-private func generateFeedbackSummary(total: Int) -> FeedbackSummary {
+private func generateFeedbackSummary(total: Int) -> OverallFeedbackSummary {
     // Generate random weights ensuring percentages sum to 100
     let verySadWeight = Int.random(in: 0...50)
     let sadWeight = Int.random(in: 0...(100 - verySadWeight))
@@ -345,7 +345,7 @@ private func generateFeedbackSummary(total: Int) -> FeedbackSummary {
     let happyCount = Int.random(in: 0...(total - verySadCount - sadCount) / 2)
     let veryHappyCount = total - (verySadCount + sadCount + happyCount)
     
-    return FeedbackSummary(
+    return OverallFeedbackSummary(
         segmentationStats: FeedbackSegmentationStats(
             verySadPercentage: verySadPercentage,
             sadPercentage: sadPercentage,
@@ -357,10 +357,10 @@ private func generateFeedbackSummary(total: Int) -> FeedbackSummary {
             sadCount: sadCount,
             happyCount: happyCount,
             veryHappyCount: veryHappyCount,
-            commentsCount: Int.random(in: 0...10),
-            uniqueParticipantFeedback: total
+            commentsCount: Int.random(in: 0...10)
         ),
-        unseenCount: Int.random(in: 0...10)
+        unseenResponses: Int.random(in: 0...10),
+        responses: Int.random(in: 0...10)
     )
 }
 
@@ -407,25 +407,19 @@ public func generateQuestionWithType(feedbackType: FeedbackType) -> ManagerQuest
         ]
         return ManagerQuestion(
             id: nextDeterministicUUID(),
-            questionText: "How was the presentation?",
+            questionText: generateFeedbackEventTitle(),
             feedbackType: .emoji,
             feedback: feedback,
-            feedbackSummary: QuestionFeedbackSummary.emojiQuestionFeedbackSummary(
-                unseenCount: 3,
+            feedbackSummary: QuestionFeedbackSummary(
                 emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary(
-                    emojiFeedbackCountStats: EmojiFeedbackCountStats(
-                        verySadCount: 3,
-                        sadCount: 3,
-                        happyCount: 3,
-                        veryHappyCount: 3,
-                        commentsCount: 2
-                    ),
-                    emojiFeedbackSegmentationStats: .init(
-                        verySadPercentage: 20,
-                        sadPercentage: 20,
-                        happyPercentage: 20,
-                        veryHappyPercentage: 40
-                    )
+                    countVerySad: 10,
+                    countSad: 20,
+                    countHappy: 30,
+                    countVeryHappy: 40,
+                    percentageVerySad: 10,
+                    percentageSad: 20,
+                    percentageHappy: 30,
+                    percentageVeryHappy: 40
                 )
             )
         )
@@ -440,7 +434,7 @@ public func generateQuestionWithType(feedbackType: FeedbackType) -> ManagerQuest
             questionText: "How do you feel about this aspect of the experience?",
             feedbackType: .comment,
             feedback: feedback,
-            feedbackSummary: QuestionFeedbackSummary.commentQuestionFeedbackSummary(unseenCount: 3)
+            feedbackSummary: nil
         )
     case .thumpsUpThumpsDown:
         let feedback: [Feedback] = [
@@ -456,18 +450,12 @@ public func generateQuestionWithType(feedbackType: FeedbackType) -> ManagerQuest
             questionText: "Have you enjoyed this feedback session?",
             feedbackType: .thumpsUpThumpsDown,
             feedback: feedback,
-            feedbackSummary: QuestionFeedbackSummary.thumpsQuestionFeedbackSummary(
-                unseenCount: 3,
-                thumpsQuestionFeedbackSummary: ThumpsQuestionFeedbackSummary.init(
-                    thumpsFeedbackCountStats: ThumpsFeedbackCountStats.init(
-                        upCount: 30,
-                        downCount: 303,
-                        commentsCount: 30
-                    ),
-                    thumpsFeedbackSegmentationStats: ThumpsFeedbackCountSegmentationStats.init(
-                        upPercentage: 30,
-                        downPercentage: 70
-                    )
+            feedbackSummary: QuestionFeedbackSummary(
+                thumpsQuestionFeedbackSummary: ThumpsQuestionFeedbackSummary(
+                    countUp: 35,
+                    countDown: 15,
+                    percentageUp: 70,
+                    percentageDown: 30
                 )
             )
         )
@@ -481,22 +469,16 @@ public func generateQuestionWithType(feedbackType: FeedbackType) -> ManagerQuest
             questionText: "I feel i get the feedback i need from my boss.",
             feedbackType: .emoji,
             feedback: feedback,
-            feedbackSummary: .opinionQuestionFeedbackSummary(
-                unseenCount: 8,
-                opinionQuestionFeedbackSummary: OpinionQuestionFeedbackSummary.init(
-                    opinionFeedbackCountStats: OpinionFeedbackCountStats.init(
-                        stronglyAgree: 79,
-                        agree: 32,
-                        stronglyDisagree: 23,
-                        disagree: 23,
-                        commentsCount: 12
-                    ),
-                    opinionFeedbackSegmentationStats: OpinionFeedbackCountSegmentationStats.init(
-                        stronglyAgreePercentage: 80,
-                        agreePercentage: 10,
-                        stronglyDisagreePercentage: 10,
-                        disagreePercentage: 0
-                    )
+            feedbackSummary: .init(
+                opinionQuestionFeedbackSummary: OpinionQuestionFeedbackSummary(
+                    countStronglyAgree: 25,
+                    countAgree: 15,
+                    countStronglyDisagree: 5,
+                    countDisagree: 10,
+                    percentageStronglyAgree: 40,
+                    percentageAgree: 24,
+                    percentageStronglyDisagree: 8,
+                    percentageDisagree: 16
                 )
             )
         )
@@ -510,36 +492,30 @@ public func generateQuestionWithType(feedbackType: FeedbackType) -> ManagerQuest
             questionText: "How are you feeling today?",
             feedbackType: .zeroToTen,
             feedback: feedback,
-            feedbackSummary: .zeroToTenQuestionFeedbackSummary(
-                unseenCount: 7,
-                zeroToTenQuestionFeedbackSummary: ZeroToTenQuestionFeedbackSummary.init(
-                    zeroToTenFeedbackCountStats: ZeroToTenFeedbackCountStats.init(
-                        value0: 7,
-                        value1: 7,
-                        value2: 7,
-                        value3: 7,
-                        value4: 7,
-                        value5: 7,
-                        value6: 7,
-                        value7: 7,
-                        value8: 7,
-                        value9: 7,
-                        value10: 7,
-                        commentsCount: 7
-                    ),
-                    zeroToTenFeedbackSegmentationStats: ZeroToTenFeedbackCountSegmentationStats.init(
-                        value0Percentage: 7,
-                        value1Percentage: 7,
-                        value2Percentage: 7,
-                        value3Percentage: 7,
-                        value4Percentage: 7,
-                        value5Percentage: 7,
-                        value6Percentage: 7,
-                        value7Percentage: 7,
-                        value8Percentage: 7,
-                        value9Percentage: 7,
-                        value10Percentage: 7
-                    )
+            feedbackSummary: .init(
+                zeroToTenQuestionFeedbackSummary: ZeroToTenQuestionFeedbackSummary(
+                    percentageValue0: 2,
+                    percentageValue1: 3,
+                    percentageValue2: 5,
+                    percentageValue3: 7,
+                    percentageValue4: 8,
+                    percentageValue5: 10,
+                    percentageValue6: 12,
+                    percentageValue7: 14,
+                    percentageValue8: 15,
+                    percentageValue9: 10,
+                    percentageValue10: 14,
+                    countValue0: 1,
+                    countValue1: 2,
+                    countValue2: 3,
+                    countValue3: 4,
+                    countValue4: 5,
+                    countValue5: 6,
+                    countValue6: 7,
+                    countValue7: 8,
+                    countValue8: 9,
+                    countValue9: 6,
+                    countValue10: 10
                 )
             )
         )

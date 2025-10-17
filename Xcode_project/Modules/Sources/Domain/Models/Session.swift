@@ -198,15 +198,16 @@ public struct ParticipantQuestion: Equatable, Sendable, Identifiable {
     }
 }
 
-public struct FeedbackSummary: Equatable, Sendable {
+public struct OverallFeedbackSummary: Equatable, Sendable {
     public let segmentationStats: FeedbackSegmentationStats
     public let countStats: FeedbackCountStats
-    public var unseenCount: Int
-    
-    public init(segmentationStats: FeedbackSegmentationStats, countStats: FeedbackCountStats, unseenCount: Int) {
+    public var unseenResponses: Int
+    public var responses: Int
+    public init(segmentationStats: FeedbackSegmentationStats, countStats: FeedbackCountStats, unseenResponses: Int, responses: Int) {
         self.segmentationStats = segmentationStats
         self.countStats = countStats
-        self.unseenCount = unseenCount
+        self.unseenResponses = unseenResponses
+        self.responses = responses
     }
 }
 
@@ -235,14 +236,12 @@ public struct FeedbackCountStats: Equatable, Sendable {
     public let happyCount: Int
     public let veryHappyCount: Int
     public let commentsCount: Int
-    public let uniqueParticipantFeedback: Int
-    public init(verySadCount: Int, sadCount: Int, happyCount: Int, veryHappyCount: Int, commentsCount: Int, uniqueParticipantFeedback: Int) {
+    public init(verySadCount: Int, sadCount: Int, happyCount: Int, veryHappyCount: Int, commentsCount: Int) {
         self.verySadCount = verySadCount
         self.sadCount = sadCount
         self.happyCount = happyCount
         self.veryHappyCount = veryHappyCount
         self.commentsCount = commentsCount
-        self.uniqueParticipantFeedback = uniqueParticipantFeedback
     }
 }
 
@@ -292,7 +291,8 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
     public var durationInMinutes: Int
     public var location: String?
     public let ownerInfo: OwnerInfo
-    public var feedbackSummary: FeedbackSummary?
+    #warning("Rename pls to overallFeedbackSummary")
+    public var feedbackSummary: OverallFeedbackSummary?
     public var questions: [ManagerQuestion]
     public var end: Date {
         date + TimeInterval(durationInMinutes * 60)
@@ -316,7 +316,7 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
         durationInMinutes: Int,
         location: String? = nil,
         ownerInfo: OwnerInfo,
-        feedbackSummary: FeedbackSummary?,
+        feedbackSummary: OverallFeedbackSummary?,
         questions: [ManagerQuestion]
     ) {
         self.id = id
@@ -337,6 +337,7 @@ public struct ManagerData: Equatable, Sendable {
     public var activity: Activity
     public var recentlyUsedQuestions: Set<RecentlyUsedQuestions>
     public var feedbackSessionHash: UUID
+    
     public init(
         managerEvents: IdentifiedArrayOf<ManagerEvent>,
         activity: Activity,
@@ -354,6 +355,7 @@ public struct RecentlyUsedQuestions: Equatable, Sendable, Hashable {
     public let questionText: String
     public let feedbackType: FeedbackType
     public let updatedAt: Date
+    
     public init(
         questionText: String,
         feedbackType: FeedbackType,
@@ -365,239 +367,175 @@ public struct RecentlyUsedQuestions: Equatable, Sendable, Hashable {
     }
 }
 
-public enum QuestionFeedbackSummary: Equatable, Sendable {
-    case emojiQuestionFeedbackSummary(unseenCount: Int, emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary)
-    case thumpsQuestionFeedbackSummary(unseenCount: Int, thumpsQuestionFeedbackSummary: ThumpsQuestionFeedbackSummary)
-    case opinionQuestionFeedbackSummary(unseenCount: Int, opinionQuestionFeedbackSummary: OpinionQuestionFeedbackSummary)
-    case zeroToTenQuestionFeedbackSummary(unseenCount: Int, zeroToTenQuestionFeedbackSummary: ZeroToTenQuestionFeedbackSummary)
-    case commentQuestionFeedbackSummary(unseenCount: Int)
+public struct QuestionFeedbackSummary: Equatable, Sendable {
+    public let emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary?
+    public let thumpsQuestionFeedbackSummary: ThumpsQuestionFeedbackSummary?
+    public let opinionQuestionFeedbackSummary: OpinionQuestionFeedbackSummary?
+    public let zeroToTenQuestionFeedbackSummary: ZeroToTenQuestionFeedbackSummary?
     
-    public var commentCount: Int {
-        switch self {
-            
-        case .emojiQuestionFeedbackSummary(unseenCount: _, emojiQuestionFeedbackSummary: let emojiQuestionFeedbackSummary):
-            emojiQuestionFeedbackSummary.emojiFeedbackCountStats.commentsCount
-        case .thumpsQuestionFeedbackSummary(unseenCount: _, thumpsQuestionFeedbackSummary: let thumpsQuestionFeedbackSummary):
-            thumpsQuestionFeedbackSummary.thumpsFeedbackCountStats.commentsCount
-        case .opinionQuestionFeedbackSummary(unseenCount: _, opinionQuestionFeedbackSummary: let opinionQuestionFeedbackSummary):
-            opinionQuestionFeedbackSummary.opinionFeedbackCountStats.commentsCount
-        case .zeroToTenQuestionFeedbackSummary(unseenCount: _, zeroToTenQuestionFeedbackSummary: let zeroToTenQuestionFeedbackSummary):
-            zeroToTenQuestionFeedbackSummary.zeroToTenFeedbackCountStats.commentsCount
-        case .commentQuestionFeedbackSummary(unseenCount: _):
-            #warning("Fix me")
-            #warning("kan vi egentlig ikke bare slette unseenCount her??")
-            999999999
-        }
-    }
-
-    public var unseenCount: Int {
-        get {
-            switch self {
-            case let .emojiQuestionFeedbackSummary(unseenCount, _):
-                return unseenCount
-            case let .thumpsQuestionFeedbackSummary(unseenCount, _):
-                return unseenCount
-            case let .opinionQuestionFeedbackSummary(unseenCount, _):
-                return unseenCount
-            case let .zeroToTenQuestionFeedbackSummary(unseenCount, _):
-                return unseenCount
-            case .commentQuestionFeedbackSummary(unseenCount: let unseenCount):
-                return unseenCount
-            }
-        }
-        set {
-            switch self {
-            case let .emojiQuestionFeedbackSummary(_, emoji):
-                self = .emojiQuestionFeedbackSummary(unseenCount: newValue, emojiQuestionFeedbackSummary: emoji)
-            case let .thumpsQuestionFeedbackSummary(_, thumps):
-                self = .thumpsQuestionFeedbackSummary(unseenCount: newValue, thumpsQuestionFeedbackSummary: thumps)
-            case let .opinionQuestionFeedbackSummary(_, opinion):
-                self = .opinionQuestionFeedbackSummary(unseenCount: newValue, opinionQuestionFeedbackSummary: opinion)
-            case let .zeroToTenQuestionFeedbackSummary(_, zeroToTen):
-                self = .zeroToTenQuestionFeedbackSummary(unseenCount: newValue, zeroToTenQuestionFeedbackSummary: zeroToTen)
-            case .commentQuestionFeedbackSummary:
-                self = .commentQuestionFeedbackSummary(unseenCount: newValue)
-            }
-        }
+    public init(
+        emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary? = nil,
+        thumpsQuestionFeedbackSummary: ThumpsQuestionFeedbackSummary? = nil,
+        opinionQuestionFeedbackSummary: OpinionQuestionFeedbackSummary? = nil,
+        zeroToTenQuestionFeedbackSummary: ZeroToTenQuestionFeedbackSummary? = nil
+    ) {
+        self.emojiQuestionFeedbackSummary = emojiQuestionFeedbackSummary
+        self.thumpsQuestionFeedbackSummary = thumpsQuestionFeedbackSummary
+        self.opinionQuestionFeedbackSummary = opinionQuestionFeedbackSummary
+        self.zeroToTenQuestionFeedbackSummary = zeroToTenQuestionFeedbackSummary
     }
 }
    
 public struct ZeroToTenQuestionFeedbackSummary: Equatable, Sendable {
-    let zeroToTenFeedbackCountStats: ZeroToTenFeedbackCountStats
-    let zeroToTenFeedbackSegmentationStats: ZeroToTenFeedbackCountSegmentationStats
-    public init(zeroToTenFeedbackCountStats: ZeroToTenFeedbackCountStats, zeroToTenFeedbackSegmentationStats: ZeroToTenFeedbackCountSegmentationStats) {
-        self.zeroToTenFeedbackCountStats = zeroToTenFeedbackCountStats
-        self.zeroToTenFeedbackSegmentationStats = zeroToTenFeedbackSegmentationStats
-    }
-}
-
-public struct ZeroToTenFeedbackCountStats: Equatable, Sendable {
-    let value0: Int
-    let value1: Int
-    let value2: Int
-    let value3: Int
-    let value4: Int
-    let value5: Int
-    let value6: Int
-    let value7: Int
-    let value8: Int
-    let value9: Int
-    let value10: Int
-    let commentsCount: Int
-    public init(value0: Int, value1: Int, value2: Int, value3: Int, value4: Int, value5: Int, value6: Int, value7: Int, value8: Int, value9: Int, value10: Int, commentsCount: Int) {
-        self.value0 = value0
-        self.value1 = value1
-        self.value2 = value2
-        self.value3 = value3
-        self.value4 = value4
-        self.value5 = value5
-        self.value6 = value6
-        self.value7 = value7
-        self.value8 = value8
-        self.value9 = value9
-        self.value10 = value10
-        self.commentsCount = commentsCount
-    }
-}
-
-public struct ZeroToTenFeedbackCountSegmentationStats: Equatable, Sendable {
-    let value0Percentage: Double
-    let value1Percentage: Double
-    let value2Percentage: Double
-    let value3Percentage: Double
-    let value4Percentage: Double
-    let value5Percentage: Double
-    let value6Percentage: Double
-    let value7Percentage: Double
-    let value8Percentage: Double
-    let value9Percentage: Double
-    let value10Percentage: Double
+    public let percentageValue0: Double
+    public let percentageValue1: Double
+    public let percentageValue2: Double
+    public let percentageValue3: Double
+    public let percentageValue4: Double
+    public let percentageValue5: Double
+    public let percentageValue6: Double
+    public let percentageValue7: Double
+    public let percentageValue8: Double
+    public let percentageValue9: Double
+    public let percentageValue10: Double
+    public let countValue0: Int
+    public let countValue1: Int
+    public let countValue2: Int
+    public let countValue3: Int
+    public let countValue4: Int
+    public let countValue5: Int
+    public let countValue6: Int
+    public let countValue7: Int
+    public let countValue8: Int
+    public let countValue9: Int
+    public let countValue10: Int
+    
     public init(
-        value0Percentage: Double,
-        value1Percentage: Double,
-        value2Percentage: Double,
-        value3Percentage: Double,
-        value4Percentage: Double,
-        value5Percentage: Double,
-        value6Percentage: Double,
-        value7Percentage: Double,
-        value8Percentage: Double,
-        value9Percentage: Double,
-        value10Percentage: Double
+        percentageValue0: Double,
+        percentageValue1: Double,
+        percentageValue2: Double,
+        percentageValue3: Double,
+        percentageValue4: Double,
+        percentageValue5: Double,
+        percentageValue6: Double,
+        percentageValue7: Double,
+        percentageValue8: Double,
+        percentageValue9: Double,
+        percentageValue10: Double,
+        countValue0: Int,
+        countValue1: Int,
+        countValue2: Int,
+        countValue3: Int,
+        countValue4: Int,
+        countValue5: Int,
+        countValue6: Int,
+        countValue7: Int,
+        countValue8: Int,
+        countValue9: Int,
+        countValue10: Int
     ) {
-        self.value0Percentage = value0Percentage
-        self.value1Percentage = value1Percentage
-        self.value2Percentage = value2Percentage
-        self.value3Percentage = value3Percentage
-        self.value4Percentage = value4Percentage
-        self.value5Percentage = value5Percentage
-        self.value6Percentage = value6Percentage
-        self.value7Percentage = value7Percentage
-        self.value8Percentage = value8Percentage
-        self.value9Percentage = value9Percentage
-        self.value10Percentage = value10Percentage
+        self.percentageValue0 = percentageValue0
+        self.percentageValue1 = percentageValue1
+        self.percentageValue2 = percentageValue2
+        self.percentageValue3 = percentageValue3
+        self.percentageValue4 = percentageValue4
+        self.percentageValue5 = percentageValue5
+        self.percentageValue6 = percentageValue6
+        self.percentageValue7 = percentageValue7
+        self.percentageValue8 = percentageValue8
+        self.percentageValue9 = percentageValue9
+        self.percentageValue10 = percentageValue10
+        self.countValue0 = countValue0
+        self.countValue1 = countValue1
+        self.countValue2 = countValue2
+        self.countValue3 = countValue3
+        self.countValue4 = countValue4
+        self.countValue5 = countValue5
+        self.countValue6 = countValue6
+        self.countValue7 = countValue7
+        self.countValue8 = countValue8
+        self.countValue9 = countValue9
+        self.countValue10 = countValue10
     }
 }
 
 public struct OpinionQuestionFeedbackSummary: Equatable, Sendable {
-    let opinionFeedbackCountStats: OpinionFeedbackCountStats
-    let opinionFeedbackSegmentationStats: OpinionFeedbackCountSegmentationStats
-    public init(opinionFeedbackCountStats: OpinionFeedbackCountStats, opinionFeedbackSegmentationStats: OpinionFeedbackCountSegmentationStats) {
-        self.opinionFeedbackCountStats = opinionFeedbackCountStats
-        self.opinionFeedbackSegmentationStats = opinionFeedbackSegmentationStats
-    }
-}
-
-public struct OpinionFeedbackCountStats: Equatable, Sendable {
-    let stronglyAgree: Int
-    let agree: Int
-    let stronglyDisagree: Int
-    let disagree: Int
-    let commentsCount: Int
-    public init(stronglyAgree: Int, agree: Int, stronglyDisagree: Int, disagree: Int, commentsCount: Int) {
-        self.stronglyAgree = stronglyAgree
-        self.agree = agree
-        self.stronglyDisagree = stronglyDisagree
-        self.disagree = disagree
-        self.commentsCount = commentsCount
-    }
-}
-
-public struct OpinionFeedbackCountSegmentationStats: Equatable, Sendable {
-    let stronglyAgreePercentage: Double
-    let agreePercentage: Double
-    let stronglyDisagreePercentage: Double
-    let disagreePercentage: Double
-    public init(stronglyAgreePercentage: Double, agreePercentage: Double, stronglyDisagreePercentage: Double, disagreePercentage: Double) {
-        self.stronglyAgreePercentage = stronglyAgreePercentage
-        self.agreePercentage = agreePercentage
-        self.stronglyDisagreePercentage = stronglyDisagreePercentage
-        self.disagreePercentage = disagreePercentage
+    public let countStronglyAgree: Int
+    public let countAgree: Int
+    public let countStronglyDisagree: Int
+    public let countDisagree: Int
+    public let percentageStronglyAgree: Double
+    public let percentageAgree: Double
+    public let percentageStronglyDisagree: Double
+    public let percentageDisagree: Double
+    
+    public init(
+        countStronglyAgree: Int,
+        countAgree: Int,
+        countStronglyDisagree: Int,
+        countDisagree: Int,
+        percentageStronglyAgree: Double,
+        percentageAgree: Double,
+        percentageStronglyDisagree: Double,
+        percentageDisagree: Double
+    ) {
+        self.countStronglyAgree = countStronglyAgree
+        self.countAgree = countAgree
+        self.countStronglyDisagree = countStronglyDisagree
+        self.countDisagree = countDisagree
+        self.percentageStronglyAgree = percentageStronglyAgree
+        self.percentageAgree = percentageAgree
+        self.percentageStronglyDisagree = percentageStronglyDisagree
+        self.percentageDisagree = percentageDisagree
     }
 }
 
 public struct ThumpsQuestionFeedbackSummary: Equatable, Sendable {
-    let thumpsFeedbackCountStats: ThumpsFeedbackCountStats
-    let thumpsFeedbackSegmentationStats: ThumpsFeedbackCountSegmentationStats
-    public init(thumpsFeedbackCountStats: ThumpsFeedbackCountStats, thumpsFeedbackSegmentationStats: ThumpsFeedbackCountSegmentationStats) {
-        self.thumpsFeedbackCountStats = thumpsFeedbackCountStats
-        self.thumpsFeedbackSegmentationStats = thumpsFeedbackSegmentationStats
-    }
-}
-
-public struct ThumpsFeedbackCountStats: Equatable, Sendable {
-    let upCount: Int
-    let downCount: Int
-    let commentsCount: Int
-    public init(upCount: Int, downCount: Int, commentsCount: Int) {
-        self.upCount = upCount
-        self.downCount = downCount
-        self.commentsCount = commentsCount
-    }
-}
-
-public struct ThumpsFeedbackCountSegmentationStats: Equatable, Sendable {
-    let upPercentage: Double
-    let downPercentage: Double
-    public init(upPercentage: Double, downPercentage: Double) {
-        self.upPercentage = upPercentage
-        self.downPercentage = downPercentage
+    public let countUp: Int
+    public let countDown: Int
+    public let percentageUp: Double
+    public let percentageDown: Double
+    
+    public init(
+        countUp: Int,
+        countDown: Int,
+        percentageUp: Double,
+        percentageDown: Double
+    ) {
+        self.countUp = countUp
+        self.countDown = countDown
+        self.percentageUp = percentageUp
+        self.percentageDown = percentageDown
     }
 }
 
 public struct EmojiQuestionFeedbackSummary: Equatable, Sendable {
-    let emojiFeedbackCountStats: EmojiFeedbackCountStats
-    let emojiFeedbackSegmentationStats: EmojiFeedbackSegmentationStats
-    public init(emojiFeedbackCountStats: EmojiFeedbackCountStats, emojiFeedbackSegmentationStats: EmojiFeedbackSegmentationStats) {
-        self.emojiFeedbackCountStats = emojiFeedbackCountStats
-        self.emojiFeedbackSegmentationStats = emojiFeedbackSegmentationStats
-    }
-}
-
-public struct EmojiFeedbackCountStats: Equatable, Sendable {
-    let verySadCount: Int
-    let sadCount: Int
-    let happyCount: Int
-    let veryHappyCount: Int
-    let commentsCount: Int
-    public init(verySadCount: Int, sadCount: Int, happyCount: Int, veryHappyCount: Int, commentsCount: Int) {
-        self.verySadCount = verySadCount
-        self.sadCount = sadCount
-        self.happyCount = happyCount
-        self.veryHappyCount = veryHappyCount
-        self.commentsCount = commentsCount
-    }
-}
-
-public struct EmojiFeedbackSegmentationStats: Equatable, Sendable {
-    let verySadPercentage: Double
-    let sadPercentage: Double
-    let happyPercentage: Double
-    let veryHappyPercentage: Double
-    public init(verySadPercentage: Double, sadPercentage: Double, happyPercentage: Double, veryHappyPercentage: Double) {
-        self.verySadPercentage = verySadPercentage
-        self.sadPercentage = sadPercentage
-        self.happyPercentage = happyPercentage
-        self.veryHappyPercentage = veryHappyPercentage
+    public let countVerySad: Int
+    public let countSad: Int
+    public let countHappy: Int
+    public let countVeryHappy: Int
+    public let percentageVerySad: Double
+    public let percentageSad: Double
+    public let percentageHappy: Double
+    public let percentageVeryHappy: Double
+    
+    public init(
+        countVerySad: Int,
+        countSad: Int,
+        countHappy: Int,
+        countVeryHappy: Int,
+        percentageVerySad: Double,
+        percentageSad: Double,
+        percentageHappy: Double,
+        percentageVeryHappy: Double
+    ) {
+        self.countVerySad = countVerySad
+        self.countSad = countSad
+        self.countHappy = countHappy
+        self.countVeryHappy = countVeryHappy
+        self.percentageVerySad = percentageVerySad
+        self.percentageSad = percentageSad
+        self.percentageHappy = percentageHappy
+        self.percentageVeryHappy = percentageVeryHappy
     }
 }

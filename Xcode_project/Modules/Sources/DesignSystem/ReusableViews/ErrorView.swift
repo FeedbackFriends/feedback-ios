@@ -38,7 +38,7 @@ public struct ErrorView: View {
     // MARK: Body
     public var body: some View {
         VStack(alignment: .center, spacing: 16) {
-            Image(systemName: "exclamationmark.circle.fill")
+            Image.exlamationmarkCircleFill
                 .resizable()
                 .frame(width: exclamationmark, height: exclamationmark)
                 .foregroundColor(.themeVerySad)

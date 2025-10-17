@@ -439,60 +439,42 @@ components:
           - ThumpsUpThumpsDown
           - Opinion
           - ZeroToTen
-    EmojiFeedbackCountStatsDto:
-      required:
-      - commentsCount
-      - happyCount
-      - sadCount
-      - veryHappyCount
-      - verySadCount
-      type: object
-      properties:
-        verySadCount:
-          type: integer
-          format: int32
-        sadCount:
-          type: integer
-          format: int32
-        happyCount:
-          type: integer
-          format: int32
-        veryHappyCount:
-          type: integer
-          format: int32
-        commentsCount:
-          type: integer
-          format: int32
-    EmojiFeedbackSegmentationStatsDto:
-      required:
-      - happyPercentage
-      - sadPercentage
-      - veryHappyPercentage
-      - verySadPercentage
-      type: object
-      properties:
-        verySadPercentage:
-          type: number
-          format: double
-        sadPercentage:
-          type: number
-          format: double
-        happyPercentage:
-          type: number
-          format: double
-        veryHappyPercentage:
-          type: number
-          format: double
     EmojiQuestionFeedbackSummary:
       required:
-      - emojiFeedbackCountStats
-      - emojiFeedbackSegmentationStats
+      - countHappy
+      - countSad
+      - countVeryHappy
+      - countVerySad
+      - percentageHappy
+      - percentageSad
+      - percentageVeryHappy
+      - percentageVerySad
       type: object
       properties:
-        emojiFeedbackCountStats:
-          $ref: '#/components/schemas/EmojiFeedbackCountStatsDto'
-        emojiFeedbackSegmentationStats:
-          $ref: '#/components/schemas/EmojiFeedbackSegmentationStatsDto'
+        countVerySad:
+          type: integer
+          format: int32
+        countSad:
+          type: integer
+          format: int32
+        countHappy:
+          type: integer
+          format: int32
+        countVeryHappy:
+          type: integer
+          format: int32
+        percentageVerySad:
+          type: number
+          format: double
+        percentageSad:
+          type: number
+          format: double
+        percentageHappy:
+          type: number
+          format: double
+        percentageVeryHappy:
+          type: number
+          format: double
     EventWrapperDto:
       required:
       - event
@@ -622,60 +604,42 @@ components:
             $ref: '#/components/schemas/FeedbackEntity'
         questionFeedbackSummary:
           $ref: '#/components/schemas/QuestionFeedbackSummaryDto'
-    OpinionFeedbackCountSegmentationStatsDto:
-      required:
-      - agreePercentage
-      - disagreePercentage
-      - stronglyAgreePercentage
-      - stronglyDisagreePercentage
-      type: object
-      properties:
-        stronglyAgreePercentage:
-          type: number
-          format: double
-        agreePercentage:
-          type: number
-          format: double
-        stronglyDisagreePercentage:
-          type: number
-          format: double
-        disagreePercentage:
-          type: number
-          format: double
-    OpinionFeedbackCountStatsDto:
-      required:
-      - agree
-      - commentsCount
-      - disagree
-      - stronglyAgree
-      - stronglyDisagree
-      type: object
-      properties:
-        stronglyAgree:
-          type: integer
-          format: int32
-        agree:
-          type: integer
-          format: int32
-        stronglyDisagree:
-          type: integer
-          format: int32
-        disagree:
-          type: integer
-          format: int32
-        commentsCount:
-          type: integer
-          format: int32
     OpinionQuestionFeedbackSummary:
       required:
-      - opinionFeedbackCountStats
-      - opinionFeedbackSegmentationStats
+      - countAgree
+      - countDisagree
+      - countStronglyAgree
+      - countStronglyDisagree
+      - percentageAgree
+      - percentageDisagree
+      - percentageStronglyAgree
+      - percentageStronglyDisagree
       type: object
       properties:
-        opinionFeedbackCountStats:
-          $ref: '#/components/schemas/OpinionFeedbackCountStatsDto'
-        opinionFeedbackSegmentationStats:
-          $ref: '#/components/schemas/OpinionFeedbackCountSegmentationStatsDto'
+        countStronglyAgree:
+          type: integer
+          format: int32
+        countAgree:
+          type: integer
+          format: int32
+        countStronglyDisagree:
+          type: integer
+          format: int32
+        countDisagree:
+          type: integer
+          format: int32
+        percentageStronglyAgree:
+          type: number
+          format: double
+        percentageAgree:
+          type: number
+          format: double
+        percentageStronglyDisagree:
+          type: number
+          format: double
+        percentageDisagree:
+          type: number
+          format: double
     OverallFeedbackCountStatsDto:
       required:
       - commentsCount
@@ -723,19 +687,19 @@ components:
     OverallFeedbackSummaryDto:
       required:
       - countStats
+      - responses
       - segmentationStats
-      - totalUniqueParticipants
-      - unseenCount
+      - unseenResponses
       type: object
       properties:
         segmentationStats:
           $ref: '#/components/schemas/OverallFeedbackSegmentationStatsDto'
         countStats:
           $ref: '#/components/schemas/OverallFeedbackCountStatsDto'
-        unseenCount:
+        unseenResponses:
           type: integer
           format: int32
-        totalUniqueParticipants:
+        responses:
           type: integer
           format: int32
     OwnerInfoDto:
@@ -748,13 +712,8 @@ components:
         phoneNumber:
           type: string
     QuestionFeedbackSummaryDto:
-      required:
-      - unseenCount
       type: object
       properties:
-        unseenCount:
-          type: integer
-          format: int32
         emojiQuestionFeedbackSummary:
           $ref: '#/components/schemas/EmojiQuestionFeedbackSummary'
         thumpsQuestionFeedbackSummary:
@@ -783,154 +742,118 @@ components:
         updatedAt:
           type: string
           format: date-time
-    ThumpsFeedbackCountSegmentationStatsDto:
-      required:
-      - downPercentage
-      - upPercentage
-      type: object
-      properties:
-        upPercentage:
-          type: number
-          format: double
-        downPercentage:
-          type: number
-          format: double
-    ThumpsFeedbackCountStatsDto:
-      required:
-      - commentsCount
-      - downCount
-      - upCount
-      type: object
-      properties:
-        upCount:
-          type: integer
-          format: int32
-        downCount:
-          type: integer
-          format: int32
-        commentsCount:
-          type: integer
-          format: int32
     ThumpsQuestionFeedbackSummary:
       required:
-      - thumpsFeedbackCountStats
-      - thumpsFeedbackSegmentationStats
+      - countDown
+      - countUp
+      - percentageDown
+      - percentageUp
       type: object
       properties:
-        thumpsFeedbackCountStats:
-          $ref: '#/components/schemas/ThumpsFeedbackCountStatsDto'
-        thumpsFeedbackSegmentationStats:
-          $ref: '#/components/schemas/ThumpsFeedbackCountSegmentationStatsDto'
-    ZeroToTenFeedbackCountSegmentationStatsDto:
-      required:
-      - value0Percentage
-      - value10Percentage
-      - value1Percentage
-      - value2Percentage
-      - value3Percentage
-      - value4Percentage
-      - value5Percentage
-      - value6Percentage
-      - value7Percentage
-      - value8Percentage
-      - value9Percentage
-      type: object
-      properties:
-        value0Percentage:
+        countUp:
+          type: integer
+          format: int32
+        countDown:
+          type: integer
+          format: int32
+        percentageUp:
           type: number
           format: double
-        value1Percentage:
+        percentageDown:
           type: number
           format: double
-        value2Percentage:
-          type: number
-          format: double
-        value3Percentage:
-          type: number
-          format: double
-        value4Percentage:
-          type: number
-          format: double
-        value5Percentage:
-          type: number
-          format: double
-        value6Percentage:
-          type: number
-          format: double
-        value7Percentage:
-          type: number
-          format: double
-        value8Percentage:
-          type: number
-          format: double
-        value9Percentage:
-          type: number
-          format: double
-        value10Percentage:
-          type: number
-          format: double
-    ZeroToTenFeedbackCountStatsDto:
-      required:
-      - commentsCount
-      - value0
-      - value1
-      - value10
-      - value2
-      - value3
-      - value4
-      - value5
-      - value6
-      - value7
-      - value8
-      - value9
-      type: object
-      properties:
-        value0:
-          type: integer
-          format: int32
-        value1:
-          type: integer
-          format: int32
-        value2:
-          type: integer
-          format: int32
-        value3:
-          type: integer
-          format: int32
-        value4:
-          type: integer
-          format: int32
-        value5:
-          type: integer
-          format: int32
-        value6:
-          type: integer
-          format: int32
-        value7:
-          type: integer
-          format: int32
-        value8:
-          type: integer
-          format: int32
-        value9:
-          type: integer
-          format: int32
-        value10:
-          type: integer
-          format: int32
-        commentsCount:
-          type: integer
-          format: int32
     ZeroToTenQuestionFeedbackSummary:
       required:
-      - zeroToTenFeedbackCountStats
-      - zeroToTenFeedbackSegmentationStats
+      - countValue0
+      - countValue1
+      - countValue10
+      - countValue2
+      - countValue3
+      - countValue4
+      - countValue5
+      - countValue6
+      - countValue7
+      - countValue8
+      - countValue9
+      - percentageValue0
+      - percentageValue1
+      - percentageValue10
+      - percentageValue2
+      - percentageValue3
+      - percentageValue4
+      - percentageValue5
+      - percentageValue6
+      - percentageValue7
+      - percentageValue8
+      - percentageValue9
       type: object
       properties:
-        zeroToTenFeedbackCountStats:
-          $ref: '#/components/schemas/ZeroToTenFeedbackCountStatsDto'
-        zeroToTenFeedbackSegmentationStats:
-          $ref: '#/components/schemas/ZeroToTenFeedbackCountSegmentationStatsDto'
+        countValue0:
+          type: integer
+          format: int32
+        countValue1:
+          type: integer
+          format: int32
+        countValue2:
+          type: integer
+          format: int32
+        countValue3:
+          type: integer
+          format: int32
+        countValue4:
+          type: integer
+          format: int32
+        countValue5:
+          type: integer
+          format: int32
+        countValue6:
+          type: integer
+          format: int32
+        countValue7:
+          type: integer
+          format: int32
+        countValue8:
+          type: integer
+          format: int32
+        countValue9:
+          type: integer
+          format: int32
+        countValue10:
+          type: integer
+          format: int32
+        percentageValue0:
+          type: number
+          format: double
+        percentageValue1:
+          type: number
+          format: double
+        percentageValue2:
+          type: number
+          format: double
+        percentageValue3:
+          type: number
+          format: double
+        percentageValue4:
+          type: number
+          format: double
+        percentageValue5:
+          type: number
+          format: double
+        percentageValue6:
+          type: number
+          format: double
+        percentageValue7:
+          type: number
+          format: double
+        percentageValue8:
+          type: number
+          format: double
+        percentageValue9:
+          type: number
+          format: double
+        percentageValue10:
+          type: number
+          format: double
     SendNotificationInput:
       required:
       - eventId

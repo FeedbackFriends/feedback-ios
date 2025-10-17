@@ -17,7 +17,7 @@ struct FeedbackCommentRowView: View {
         case .opinion(opinion: let opinion, comment: let optionalComment):
             opinionRow(opinion: opinion, optionalComment: optionalComment)
         case .thumpsUpThumpsDown(thumbsUpThumpsDown: let thumbsUpThumpsDown, comment: let optionalComment):
-            thumpsUpThumpsDownRow(thumpsUpThumpsDown: thumbsUpThumpsDown, optionalComment: optionalComment)
+            thumpsRow(thumps: thumbsUpThumpsDown, optionalComment: optionalComment)
         }
     }
     
@@ -101,10 +101,10 @@ struct FeedbackCommentRowView: View {
     }
     
     @ViewBuilder
-    func thumpsUpThumpsDownRow(thumpsUpThumpsDown: ThumbsUpThumpsDown, optionalComment: String?) -> some View {
+    func thumpsRow(thumps: ThumbsUpThumpsDown, optionalComment: String?) -> some View {
         if let comment = optionalComment {
             HStack(alignment: .top, spacing: 8) {
-                thumpsUpThumpsDown.icon
+                thumps.icon
                     .resizable()
                     .frame(width: 20, height: 20)
                     .padding(.top, 2)
@@ -158,9 +158,9 @@ extension ThumbsUpThumpsDown {
     var icon: Image {
         switch self {
         case .up:
-            Image(systemName: "hand.thumbsup.fill")
+            Image.thumpsUp
         case .down:
-            Image(systemName: "hand.thumbsdown.fill")
+            Image.thumpsDown
         }
     }
 }

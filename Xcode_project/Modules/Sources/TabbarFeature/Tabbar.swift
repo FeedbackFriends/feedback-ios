@@ -86,6 +86,7 @@ public struct Tabbar: Sendable {
         case activityManagerEventButtonTap(ActivityItems)
         case tabbarLifecyle(TabbarLifecycle.Action)
         case deleteAccount(DeleteAccount.Action)
+        case dismissFeedbackFlow
         public enum Toolbar: Equatable {
             case createEventButtonTap
             case joinEventButtonTap
@@ -131,6 +132,10 @@ public struct Tabbar: Sendable {
         Reduce { state, action in
             switch action {
                 
+            case .dismissFeedbackFlow:
+                state.initialiseFeedback.destination = nil
+                return .none
+                
             case .tabbarLifecyle(.delegate(let delegateAction)):
                 switch delegateAction {
                 case .presentNotificationPermissionPrompt:
@@ -168,17 +173,17 @@ public struct Tabbar: Sendable {
                 return .none
                 
             case .signOutButtonTapped:
-            state.destination = .confirmationDialog(
-                ConfirmationDialogState<Destination.ConfirmationDialog>(
-					title: { TextState("Logout") },
-					actions: {
-						ButtonState(role: .destructive, action: .logoutConfirmed, label: { TextState("Logout") })
-						ButtonState(label: { TextState("Cancel") })
-					},
-					message: { TextState("Are you sure you want to logout?") }
+                state.destination = .confirmationDialog(
+                    ConfirmationDialogState<Destination.ConfirmationDialog>(
+                        title: { TextState("Logout") },
+                        actions: {
+                            ButtonState(role: .destructive, action: .logoutConfirmed, label: { TextState("Logout") })
+                            ButtonState(label: { TextState("Cancel") })
+                        },
+                        message: { TextState("Are you sure you want to logout?") }
+                    )
                 )
-            )
-            return .none
+                return .none
                 
             case .accountSection:
                 return .none
@@ -194,7 +199,7 @@ public struct Tabbar: Sendable {
                 case .logoutConfirmed:
                     return .send(.delegate(.navigateToSignUp))
                 }
-                             
+                
             case .destination(.presented(.joinEvent(.delegate(.navigateToParticipantEvent(let pinCode))))):
                 state.managerEvents.segmentedControl = .participating
                 state.managerEvents.participantEvents.destination = .startFeedbackConfirmation(pinCode)
@@ -244,13 +249,21 @@ public struct Tabbar: Sendable {
                         )
                         return .none
                     }
-					let recentlyUsedQuestions = if let managerData = state.session.managerData {
-						Set<RecentlyUsedQuestions>(managerData.recentlyUsedQuestions)
-					} else {
-						Set<RecentlyUsedQuestions>()
-					}
+                    let recentlyUsedQuestions = if let managerData = state.session.managerData {
+                        Set<RecentlyUsedQuestions>(managerData.recentlyUsedQuestions)
+                    } else {
+                        Set<RecentlyUsedQuestions>()
+                    }
                     state.destination = .createEvent(
-						CreateEvent.State(recentlyUsedQuestions: recentlyUsedQuestions)
+                        CreateEvent.State(
+                            eventForm:
+                                EventForm.State(
+                                    eventInput: .init(),
+                                    shouldOpenKeyboardOnAppear: true,
+                                    recentlyUsedQuestions: recentlyUsedQuestions,
+                                    successOverlayMessage: "Event created"
+                                )
+                        )
                 )
                 case .joinEventButtonTap:
                     state.destination = .joinEvent(.init())

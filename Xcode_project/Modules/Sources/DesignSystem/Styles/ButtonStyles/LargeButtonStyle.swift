@@ -21,7 +21,7 @@ public struct LargeButtonStyle<BackgroundInput: ShapeStyle>: ButtonStyle {
             }
             configuration.label
         }
-        .frame(maxWidth: 400, minHeight: 50, idealHeight: 50, maxHeight: 55, alignment: .center)
+        .frame(maxWidth: Constants.maxWidthForLargeDevices, minHeight: 50, idealHeight: 50, maxHeight: 55, alignment: .center)
         .font(.montserratSemiBold, 16)
         .background(backgroundColor)
         .multilineTextAlignment(.center)

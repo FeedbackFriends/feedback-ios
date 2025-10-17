@@ -29,11 +29,11 @@ public struct MoreSectionView: View {
 				Button {
 					store.send(.onNotificationsButtonTap)
                 } label: {
-                    listElementView(image: "bell", label: "Notifications")
+                    listElementView(image: .moreSectionBell, label: "Notifications")
                 }
                 if let privacyPolicyUrl = store.privacyPolicyUrl {
 					Link(destination: privacyPolicyUrl) {
-						listElementView(image: "doc.plaintext", label: "Privacy policy")
+                        listElementView(image: .moreSectiondocPlaintext, label: "Privacy policy")
 					}
 					.onOpenURL(prefersInApp: true)
                 }
@@ -41,7 +41,7 @@ public struct MoreSectionView: View {
                     store.send(.onSupportUsButtonTap)
                 } label: {
                     HStack {
-                        Image(systemName: "heart.fill")
+                        Image.heartFill
                             .frame(width: 24, height: 24)
                             .foregroundStyle(Color.themePrimaryAction.gradient)
                         Text("Support us")
@@ -64,12 +64,12 @@ public struct MoreSectionView: View {
             Button {
                 store.send(.onFeedbackButtonTap)
             } label: {
-                listElementView(image: "ellipsis.bubble", label: "Send us feedback")
+                listElementView(image: .moreSectionElipsisBubble, label: "Send us feedback")
             }
             Button {
                 store.send(.onReportBugButtonTap)
             } label: {
-                listElementView(image: "exclamationmark.square", label: "Report a bug")
+                listElementView(image: .moreSectionExlamaionmarkSquare, label: "Report a bug")
             }
         } header: {
             Text("Contact us")

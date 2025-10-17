@@ -31,6 +31,9 @@ public struct EventDetailFeature: Sendable {
         var navigationTitle: String {
             event.title
         }
+        var navigationSubTitle: String {
+            "\(event.feedbackSummary?.responses ?? 0) responses"
+        }
         @Shared var session: Session
         var shareText: String {
   """
@@ -100,7 +103,12 @@ public struct EventDetailFeature: Sendable {
                     }
                     state.destination = .editEvent(
                         EditEvent.State(
-                            eventInput: EventInput(state.event),
+                            eventForm: EventForm.State.init(
+                                eventInput: EventInput(state.event),
+                                shouldOpenKeyboardOnAppear: false,
+                                recentlyUsedQuestions: recentlyUsedQuestions,
+                                successOverlayMessage: "Event edited"
+                            ),
                             eventId: state.event.id,
                             recentlyUsedQuestions: recentlyUsedQuestions
                         )
