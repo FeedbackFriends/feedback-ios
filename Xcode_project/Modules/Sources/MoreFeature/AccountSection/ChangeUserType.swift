@@ -5,7 +5,7 @@ import ComposableArchitecture
 @Reducer
 public struct ChangeUserType: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<Never>)
     }
@@ -86,3 +86,5 @@ public struct ChangeUserType: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension ChangeUserType.Destination.State: Sendable, Equatable {}

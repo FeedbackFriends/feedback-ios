@@ -16,7 +16,7 @@ public enum Tab: Hashable, Sendable {
 @Reducer
 public struct Tabbar: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<AlertAction>)
         @ReducerCaseIgnored
@@ -311,3 +311,5 @@ public struct Tabbar: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension Tabbar.Destination.State: Sendable, Equatable {}

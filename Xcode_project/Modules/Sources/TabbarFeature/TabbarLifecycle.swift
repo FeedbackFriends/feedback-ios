@@ -7,7 +7,7 @@ import Logger
 @Reducer
 public struct TabbarLifecycle: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<Never>)
     }
@@ -100,3 +100,5 @@ public struct TabbarLifecycle: Sendable {
         }
     }
 }
+
+extension TabbarLifecycle.Destination.State: Sendable, Equatable {}

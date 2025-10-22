@@ -5,7 +5,7 @@ import ComposableArchitecture
 @Reducer
 public struct DeleteConfirmation: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<Never>)
     }
@@ -95,3 +95,5 @@ public struct DeleteConfirmation: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension DeleteConfirmation.Destination.State: Equatable, Sendable {}

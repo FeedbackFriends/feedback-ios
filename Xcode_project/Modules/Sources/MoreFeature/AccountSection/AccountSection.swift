@@ -6,7 +6,7 @@ import SwiftUI
 @Reducer
 public struct AccountSection: Sendable {
 	
-	@Reducer(state: .equatable, .sendable)
+	@Reducer
 	public enum Destination {
 		case modifyAccount(ModifyAccount)
 		case changeUserType(ChangeUserType)
@@ -70,3 +70,5 @@ public struct AccountSection: Sendable {
 		.ifLet(\.$destination, action: \.destination)
 	}
 }
+
+extension AccountSection.Destination.State: Sendable, Equatable {}

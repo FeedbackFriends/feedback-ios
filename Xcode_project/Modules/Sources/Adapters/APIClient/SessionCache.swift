@@ -106,7 +106,7 @@ public extension Session {
     
     mutating func markEventAsSeen(eventId: UUID) {
         guard var event = self.managerData?.managerEvents[id: eventId] else { return }
-        event.feedbackSummary?.unseenResponses = 0
+        event.overallFeedbackSummary?.unseenResponses = 0
         event.questions = event.questions.map { question in
             var updatedQuestion = question
             updatedQuestion.feedback = updatedQuestion.feedback.map { feedback in

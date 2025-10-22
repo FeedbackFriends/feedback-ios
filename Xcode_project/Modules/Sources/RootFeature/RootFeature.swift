@@ -11,7 +11,7 @@ import Foundation
 @Reducer
 public struct RootFeature: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case signUp(SignUp)
         @ReducerCaseIgnored
@@ -262,6 +262,8 @@ extension RootFeature.State {
         }
     }
 }
+
+extension RootFeature.Destination.State: Equatable {}
 
 /// Helpers
 private extension RootFeature {

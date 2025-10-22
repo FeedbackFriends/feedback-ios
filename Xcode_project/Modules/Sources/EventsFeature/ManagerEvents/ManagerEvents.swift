@@ -8,7 +8,7 @@ import Logger
 @Reducer
 public struct ManagerEvents: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case eventDetail(EventDetailFeature)
     }
@@ -65,7 +65,7 @@ public struct ManagerEvents: Sendable {
                 
             case .destination(.dismiss):
                 if case .eventDetail(let eventDetailState) = state.destination,
-                   let eventSummary = eventDetailState.event.feedbackSummary, eventSummary.unseenResponses > 0 {
+                   let overallFeedbackSummary = eventDetailState.event.overallFeedbackSummary, overallFeedbackSummary.unseenResponses > 0 {
                     return .run { _ in
                         do {
                             try await self.apiClient.markEventAsSeen(eventDetailState.event.id)
@@ -96,3 +96,5 @@ public struct ManagerEvents: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension ManagerEvents.Destination.State: Equatable, Sendable {}
