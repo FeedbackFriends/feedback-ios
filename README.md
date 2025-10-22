@@ -4,7 +4,7 @@
 ![iOS 26](https://img.shields.io/badge/iOS-26-000000?logo=apple&logoColor=white&style=plastic)
 
 This repository contains the source code for the **Lets Grow: Feedback** iOS app, available on the [App Store](https://apps.apple.com/us/app/lets-grow-feedback/id6742420307).  
-It is an open-source project built with [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and leverages iOS 26’s new **Liquid Glass** design system.
+The app is 100% SwiftUI, [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and leverages iOS 26’s **Liquid Glass** effects.
 
 <p float="left">
   <img src="Docs/screenshots/screenshot_1.jpg" width="19%" />
@@ -26,27 +26,9 @@ It is an open-source project built with [The Composable Architecture (TCA)](http
 
 ---
 
-## 🚀 Quick start
-
-1. Clone: `git clone https://github.com/FeedbackFriends/feedback-ios.git`
-2. Open project: `open Xcode_project/Feedback.xcodeproj`
-3. Select a scheme:
-   - Feedback Debug (default dev)
-   - Feedback Localhost (points to local API)
-   - Feedback Mock (mock adapters)
-   - Feedback Prod (production)
-4. Run on simulator or device.
-
-Run tests from Xcode or:
-
-```bash
-xcodebuild \
-  -project Xcode_project/Feedback.xcodeproj \
-  -scheme "Feedback Debug" \
-  -destination 'platform=iOS Simulator,name=iPhone 16' \
-  test
-```
-
+## 🚀 How to build
+You can quicly get a Mock version up running from Xcode with no connection to a backend by running Feedback Mock scheme. 
+This can be done directly after cloning and choosing your own developer team under Signing. 
 
 ---
 
@@ -54,7 +36,7 @@ xcodebuild \
 
 ```
 Xcode_project/
-  App/                         # App entry, AppDelegate, debug menu
+  App/                         # App entry, AppDelegate, Composition Root
   Modules/
     Sources/
       RootFeature/             # App root reducer & navigation
@@ -62,9 +44,9 @@ Xcode_project/
       FeedbackFlowFeature/     # Feedback screens and flow
       EventsFeature/           # Event list/detail/create
       MoreFeature/             # Settings/account
-      SignUpFeature/           # Auth, role selection
-      TabbarFeature/           # Shell/tab coordination
-      Domain/                  # Models, errors, service interfaces & DI keys
+      SignUpFeature/           # Sign up
+      TabbarFeature/           # Tab coordination
+      Domain/                  # Models, errors, service interfaces 
       Adapters/                # Live implementations (API, Firebase, etc.)
       OpenAPI/                 # Spec + generated client (plugin)
       DesignSystem/            # Theme, styles, reusable views
