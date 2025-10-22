@@ -8,7 +8,7 @@ import Logger
 @Reducer
 public struct SignUp: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<Never>)
         case selectUserType(SelectUserType)
@@ -116,3 +116,5 @@ public struct SignUp: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension SignUp.Destination.State: Equatable, Sendable {}

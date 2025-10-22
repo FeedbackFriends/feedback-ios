@@ -5,7 +5,7 @@ import SwiftUI
 @Reducer
 public struct ParticipantEvents: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         @ReducerCaseIgnored
         case info(ParticipantEvent)
@@ -67,3 +67,5 @@ public struct ParticipantEvents: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension ParticipantEvents.Destination.State: Equatable, Sendable {}

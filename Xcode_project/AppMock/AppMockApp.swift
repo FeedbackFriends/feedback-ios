@@ -8,7 +8,7 @@ import Logger
 import Utility
 
 @main
-struct FeedbackMockApp: App {
+struct AppMockApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     
     var body: some Scene {
@@ -142,7 +142,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-		AppTheme.setUp()
+        AppTheme.setUp()
         UNUserNotificationCenter.current().delegate = self
         UIApplication.shared.registerForRemoteNotifications()
         Logger.setup(

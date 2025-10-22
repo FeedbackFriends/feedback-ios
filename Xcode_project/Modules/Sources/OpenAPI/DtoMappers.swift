@@ -155,7 +155,7 @@ public extension ManagerEvent {
                 email: event.ownerInfo.email,
                 phoneNumber: event.ownerInfo.phoneNumber
             ),
-            feedbackSummary: overallFeedbackSummary,
+            overallFeedbackSummary: overallFeedbackSummary,
             questions: event.questions.map {
                 let questionFeedbackSummary: QuestionFeedbackSummary? = if let questionSummary = $0.questionFeedbackSummary {
                     if let emojiSummary = questionSummary.emojiQuestionFeedbackSummary {

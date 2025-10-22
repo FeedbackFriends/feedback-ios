@@ -12,7 +12,6 @@ public struct EditEventView: View {
         self.store = store
     }
     
-    #warning("Clean")
     public var body: some View {
         EventFormView(
             store: store.scope(state: \.eventForm, action: \.eventForm),

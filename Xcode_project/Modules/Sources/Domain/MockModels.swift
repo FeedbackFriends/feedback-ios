@@ -254,7 +254,7 @@ public extension ManagerEvent {
             durationInMinutes: Int.random(in: 0...2400),
             location: generateRandomLocation(),
             ownerInfo: .mock(),
-            feedbackSummary: feedbackSummary,
+            overallFeedbackSummary: feedbackSummary,
             questions: questions
         )
     }
@@ -374,7 +374,7 @@ public extension ManagerEvent {
         durationInMinutes: 30,
         location: "Roskilde",
         ownerInfo: .mock(),
-        feedbackSummary: nil,
+        overallFeedbackSummary: nil,
         questions: [
             .init(
                 id: nextDeterministicUUID(),

@@ -6,7 +6,7 @@ import DesignSystem
 @Reducer
 public struct SelectUserType: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<Never>)
     }
@@ -74,3 +74,5 @@ public struct SelectUserType: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension SelectUserType.Destination.State: Equatable, Sendable {}

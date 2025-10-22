@@ -18,7 +18,7 @@ public struct FeedbackFlowCoordinator: Sendable {
         case opinion(OpinionFeedback)
     }
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<Never>)
         @ReducerCaseIgnored
@@ -368,3 +368,5 @@ extension FeedbackInput {
         }
     }
 }
+
+extension FeedbackFlowCoordinator.Destination.State: Equatable, Sendable {}

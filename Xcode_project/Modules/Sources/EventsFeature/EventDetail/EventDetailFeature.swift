@@ -8,7 +8,7 @@ import Utility
 @Reducer
 public struct EventDetailFeature: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case deleteConfirmation(DeleteConfirmation)
         case editEvent(EditEvent)
@@ -16,7 +16,7 @@ public struct EventDetailFeature: Sendable {
         case confirmationDialog(ConfirmationDialogState<ConfirmationDialog>)
         @ReducerCaseIgnored
         case invite(ManagerEvent)
-        public enum ConfirmationDialog {
+        public enum ConfirmationDialog: Equatable, Sendable {
             case edit
             case delete
             case invite
@@ -32,7 +32,7 @@ public struct EventDetailFeature: Sendable {
             event.title
         }
         var navigationSubTitle: String {
-            "\(event.feedbackSummary?.responses ?? 0) responses"
+            "\(event.overallFeedbackSummary?.responses ?? 0) responses"
         }
         @Shared var session: Session
         var shareText: String {
@@ -129,7 +129,7 @@ public struct EventDetailFeature: Sendable {
                         titleVisibility: .hidden,
                         title: { TextState("") },
                         actions: {
-                            if state.event.feedbackSummary == nil && state.event.pinCode != nil {
+                            if state.event.overallFeedbackSummary == nil && state.event.pinCode != nil {
                                 ButtonState(action: .send(.edit)) {
                                     TextState("Edit ✏️")
                                 }
@@ -183,3 +183,5 @@ public struct EventDetailFeature: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension EventDetailFeature.Destination.State: Equatable, Sendable {}

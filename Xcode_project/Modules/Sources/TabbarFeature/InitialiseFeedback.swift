@@ -8,7 +8,7 @@ import SwiftUI
 @Reducer
 public struct InitialiseFeedback: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case feedbackFlowCoordinator(FeedbackFlowCoordinator)
         case alert(AlertState<Never>)
@@ -77,3 +77,5 @@ public struct InitialiseFeedback: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension InitialiseFeedback.Destination.State: Sendable, Equatable {}

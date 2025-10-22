@@ -139,8 +139,8 @@ extension ManagerEventsView {
                         Text(event.title)
                             .font(.montserratSemiBold, 14)
                         Spacer()
-                        if let eventSummary = event.feedbackSummary, eventSummary.unseenResponses > 0 {
-                            Text("\(eventSummary.unseenResponses) new")
+                        if let overallFeedbackSummary = event.overallFeedbackSummary, overallFeedbackSummary.unseenResponses > 0 {
+                            Text("\(overallFeedbackSummary.unseenResponses) new")
                                 .font(.montserratBold, 10)
                                 .padding(4)
                                 .padding(.horizontal, 4)
@@ -170,8 +170,8 @@ extension ManagerEventsView {
                 .font(.montserratRegular, 12)
                 .foregroundColor(Color.themeText)
                 .padding(.all, 10)
-                if let feedbackSummary = event.feedbackSummary {
-                    FeedbackPercentageBarView(feedback: feedbackSummary.segmentationStats)
+                if let overallFeedbackSummary = event.overallFeedbackSummary {
+                    FeedbackPercentageBarView(feedback: overallFeedbackSummary.segmentationStats)
                         .frame(height: 10)
                 } else {
                     EmptyFeedbackSegmentationStatsView()

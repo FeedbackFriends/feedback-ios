@@ -83,7 +83,7 @@ let package = Package(
         ),
         .package(
             url: "https://github.com/pointfreeco/swift-composable-architecture.git",
-            revision: "1.22.1"
+            revision: "1.23.0"
         ),
         .package(
             url: "https://github.com/apple/swift-openapi-generator",

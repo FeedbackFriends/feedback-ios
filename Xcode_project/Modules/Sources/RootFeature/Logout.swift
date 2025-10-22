@@ -6,7 +6,7 @@ public struct Logout: Sendable {
     
     public init() {}
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<Never>)
     }
@@ -58,3 +58,5 @@ public struct Logout: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension Logout.Destination.State: Equatable {}

@@ -6,7 +6,7 @@ import Foundation
 @Reducer
 public struct JoinEvent: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<Never>)
     }
@@ -98,3 +98,5 @@ public struct JoinEvent: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension JoinEvent.Destination.State: Equatable, Sendable {}

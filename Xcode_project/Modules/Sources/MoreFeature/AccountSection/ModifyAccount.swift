@@ -5,7 +5,7 @@ import Domain
 @Reducer
 public struct ModifyAccount: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<Never>)
     }
@@ -73,3 +73,5 @@ public struct ModifyAccount: Sendable {
         .ifLet(\.$destination, action: \.destination)
     }
 }
+
+extension ModifyAccount.Destination.State: Equatable, Sendable {}

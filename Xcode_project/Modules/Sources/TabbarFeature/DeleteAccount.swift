@@ -2,13 +2,15 @@ import Foundation
 import Domain
 import ComposableArchitecture
 
+extension DeleteAccount.Destination.State: Sendable, Equatable {}
+
 @Reducer
 public struct DeleteAccount: Sendable {
     
-    @Reducer(state: .equatable, .sendable)
+    @Reducer
     public enum Destination {
         case alert(AlertState<AlertAction>)
-        public enum AlertAction: Equatable {
+        public enum AlertAction: Equatable, Sendable {
             case confirmedToDeleteAccount
             case closeSessionButtonTap
             case logout

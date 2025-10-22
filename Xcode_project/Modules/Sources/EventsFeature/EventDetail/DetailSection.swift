@@ -45,7 +45,7 @@ private extension DetailSectionView {
                         .font(.montserratSemiBold, 13)
                     Text(event.formattedDate)
                         .font(.montserratRegular, 13)
-                    if let totalFeedback = event.feedbackSummary {
+                    if let totalFeedback = event.overallFeedbackSummary {
                         HStack {
                             Text("\(totalFeedback.responses) responses")
                                 .font(.montserratMedium, 12)
@@ -58,7 +58,7 @@ private extension DetailSectionView {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(15)
-                if let feedback = event.feedbackSummary {
+                if let feedback = event.overallFeedbackSummary {
                     FeedbackPercentageBarView(feedback: feedback.segmentationStats)
                 } else {
                     EmptyFeedbackSegmentationStatsView()
@@ -130,7 +130,7 @@ private extension DetailSectionView {
                 .padding(.leading, 18)
             ForEach(Array(zip(event.questions.indices, event.questions)), id: \.0) { index, question in
                 QuestionView(question: question, index: index)
-                    .disabled(event.feedbackSummary == nil)
+                    .disabled(event.overallFeedbackSummary == nil)
                 
             }
         }

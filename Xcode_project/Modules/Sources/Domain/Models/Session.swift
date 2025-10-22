@@ -291,8 +291,7 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
     public var durationInMinutes: Int
     public var location: String?
     public let ownerInfo: OwnerInfo
-    #warning("Rename pls to overallFeedbackSummary")
-    public var feedbackSummary: OverallFeedbackSummary?
+    public var overallFeedbackSummary: OverallFeedbackSummary?
     public var questions: [ManagerQuestion]
     public var end: Date {
         date + TimeInterval(durationInMinutes * 60)
@@ -316,7 +315,7 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
         durationInMinutes: Int,
         location: String? = nil,
         ownerInfo: OwnerInfo,
-        feedbackSummary: OverallFeedbackSummary?,
+        overallFeedbackSummary: OverallFeedbackSummary?,
         questions: [ManagerQuestion]
     ) {
         self.id = id
@@ -327,7 +326,7 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
         self.durationInMinutes = durationInMinutes
         self.location = location
         self.ownerInfo = ownerInfo
-        self.feedbackSummary = feedbackSummary
+        self.overallFeedbackSummary = overallFeedbackSummary
         self.questions = questions
     }
 }
