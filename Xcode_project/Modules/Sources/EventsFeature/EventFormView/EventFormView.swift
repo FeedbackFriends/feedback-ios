@@ -10,22 +10,20 @@ public struct EventFormView<ActionView: View>: View {
     @ViewBuilder let action: () -> ActionView
     @FocusState var focus: EventForm.FocusedField?
     @Bindable var store: StoreOf<EventForm>
-    
+    @Binding var showSuccessOverlay: Bool
     init(
+        showSuccessOverlay: Binding<Bool>,
         store: StoreOf<EventForm>,
         action: @escaping () -> ActionView
         
     ) {
+        self._showSuccessOverlay = showSuccessOverlay
         self.store = store
         self.action = action
     }
     
     @Dependency(\.calendar) var calendar
     @Dependency(\.date) var date
-    
-    func onAppear() {
-        UIDatePicker.appearance().minuteInterval = 5
-    }
     
     public var body: some View {
         Form {
@@ -38,7 +36,10 @@ public struct EventFormView<ActionView: View>: View {
         }
         .foregroundColor(.themeText)
         .font(.montserratMedium, 14)
-        .onAppear { onAppear() }
+        .onAppear {
+            UIDatePicker.appearance().minuteInterval = 5
+            store.send(.onAppear)
+        }
         .onChange(of: store.minutePicker) { _, _ in
             store.send(.minutePickerChanged)
         }
@@ -58,7 +59,16 @@ public struct EventFormView<ActionView: View>: View {
             )
         ) { store in
             FeedbackFlowCoordinatorView(
-                store: store
+                store: store,
+                principalToolbarItem: {
+                    Text("Preview")
+                        .font(.montserratSemiBold, 12)
+                        .padding(.vertical, 8)
+                        .padding(.horizontal, 12)
+                        .background(Color.themeBlue.gradient)
+                        .foregroundStyle(Color.themeOnPrimaryAction)
+                        .clipShape(Capsule())
+                }
             )
         }
     }
@@ -82,7 +92,7 @@ public struct EventFormView<ActionView: View>: View {
                     )
                     .successOverlay(
                         message: store.successOverlayMessage,
-                        show: $store.showSuccessOverlay,
+                        show: $showSuccessOverlay,
                         enableAutomaticDismissal: false
                     )
                     .toolbar {
@@ -189,6 +199,7 @@ private extension EventFormView {
 #Preview {
     NavigationStack {
         EventFormView(
+            showSuccessOverlay: .constant(false),
             store: StoreOf<EventForm>(initialState: .init(
                 eventInput: EventInput(.mock()),
                 startNowEnabled: false,

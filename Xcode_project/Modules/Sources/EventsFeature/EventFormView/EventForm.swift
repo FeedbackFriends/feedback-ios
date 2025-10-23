@@ -61,7 +61,8 @@ public struct EventForm: Sendable {
         let shouldOpenKeyboardOnAppear: Bool
         let recentlyUsedQuestions: Set<RecentlyUsedQuestions>
         let successOverlayMessage: String
-        var showSuccessOverlay: Bool
+        
+        let initialFocus: FocusedField?
         
         @Presents var feedbackFlowCoordinator: FeedbackFlowCoordinator.State?
         
@@ -71,14 +72,15 @@ public struct EventForm: Sendable {
         }
         
         public init(
+            initialFocus: FocusedField? = nil,
             eventInput: EventInput,
             startNowEnabled: Bool = false,
             focus: FocusedField? = nil,
             shouldOpenKeyboardOnAppear: Bool,
             recentlyUsedQuestions: Set<RecentlyUsedQuestions>,
             successOverlayMessage: String,
-            showSuccessOverlay: Bool = false
         ) {
+            self.initialFocus = initialFocus
             self.eventInput = eventInput
             self.startNowEnabled = startNowEnabled
             self.durationPicker = DurationPicker(durationInMinutes: eventInput.durationInMinutes)
@@ -89,7 +91,6 @@ public struct EventForm: Sendable {
             self.shouldOpenKeyboardOnAppear = shouldOpenKeyboardOnAppear
             self.recentlyUsedQuestions = recentlyUsedQuestions
             self.successOverlayMessage = successOverlayMessage
-            self.showSuccessOverlay = showSuccessOverlay
         }
     }
     
@@ -103,6 +104,7 @@ public struct EventForm: Sendable {
         case durationPickerChanged(DurationPicker)
         case presentFeedbackFlowSession(FeedbackFlowCoordinator.State)
         case feedbackFlowCoordinator(PresentationAction<FeedbackFlowCoordinator.Action>)
+        case onAppear
     }
     
     @Dependency(\.dismiss) var dismiss
@@ -115,6 +117,11 @@ public struct EventForm: Sendable {
         BindingReducer()
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                if let initialFocus = state.initialFocus {
+                    state.focus = initialFocus
+                }
+                return .none
             case .presentFeedbackFlowSession(let feedbackFlowSession):
                 state.feedbackFlowCoordinator = feedbackFlowSession
                 return .none

@@ -14,6 +14,7 @@ public struct EditEventView: View {
     
     public var body: some View {
         EventFormView(
+            showSuccessOverlay: $store.showSuccessOverlay,
             store: store.scope(state: \.eventForm, action: \.eventForm),
             action: {
                 Button("Save") {

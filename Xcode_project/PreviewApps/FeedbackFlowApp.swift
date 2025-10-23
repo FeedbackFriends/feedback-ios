@@ -16,7 +16,15 @@ struct FeedbackFlowApp: App {
                     withDependencies: {
                         $0.apiClient = .mock
                     }
-                )
+                ),
+                principalToolbarItem: {
+                    Text("Hello title")
+                        .font(.montserratBold, 12)
+                        .padding(.vertical, 4)
+                        .padding(.horizontal, 12)
+                        .background(Color.yellow.opacity(0.9))
+                        .cornerRadius(8)
+                }
             )
         }
     }

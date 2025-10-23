@@ -38,6 +38,7 @@ public struct JoinEvent: Sendable {
         case joinButtonTap
         case joinSuccess(pinCode: PinCode)
         case delegate(Delegate)
+        case onAppear
         public enum Delegate: Equatable {
             case navigateToParticipantEvent(withPinCode: PinCode)
         }
@@ -52,6 +53,10 @@ public struct JoinEvent: Sendable {
         BindingReducer()
         Reduce { state, action in
             switch action {
+                
+            case .onAppear:
+                state.pinCodeTextfieldFocused = true
+                return .none
                 
             case .binding:
                 return .none

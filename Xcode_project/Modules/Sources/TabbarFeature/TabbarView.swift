@@ -35,7 +35,7 @@ public struct TabbarView: View {
             }
             .sheet(item: joinEventStore) { store in
                 JoinEventView(store: store)
-                    .presentationDetents([.height(270)])
+                    .presentationDetents([.height(300)])
             }
             .sheet(item: activityStore) { activityItems in
                 activityItems.withState { activityItems in
@@ -73,7 +73,14 @@ public struct TabbarView: View {
                 )
             ) { store in
                 FeedbackFlowCoordinatorView(
-                    store: store
+                    store: store,
+                    principalToolbarItem: {
+                        store.withState { state in
+                            Text(state.title)
+                                .font(.montserratSemiBold, 12)
+                                .foregroundStyle(Color.themeText)
+                        }
+                    }
                 )
             }
     }

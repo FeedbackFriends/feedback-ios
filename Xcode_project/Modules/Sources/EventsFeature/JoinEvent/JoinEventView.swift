@@ -6,7 +6,6 @@ public struct JoinEventView: View {
     
     @FocusState var pinCodeTextfieldFocused: Bool
     @Bindable var store: StoreOf<JoinEvent>
-    @FocusState private var isFocused: Bool
     
     public init(store: StoreOf<JoinEvent>) {
         self.store = store
@@ -15,11 +14,10 @@ public struct JoinEventView: View {
     public var body: some View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 12) {
-                HStack {
-                    Text("Join event")
-                        .font(.montserratBold, 28)
-                }
-                .padding(.top, 20)
+                
+                Text("Join event")
+                    .font(.montserratBold, 28)
+                    .padding(.top, 20)
                 Text("PIN Code")
                     .padding(.top, 20)
                     .font(.montserratBold, 18)
@@ -33,7 +31,7 @@ public struct JoinEventView: View {
                     .keyboardType(.numberPad)
                     .multilineTextAlignment(.center)
                     .submitLabel(.next)
-                    .focused($isFocused)
+                    .focused($pinCodeTextfieldFocused)
                     .padding(.top, 5)
                     .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
                 Button("Join") {
@@ -41,14 +39,15 @@ public struct JoinEventView: View {
                 }
                 .buttonStyle(LargeButtonStyle())
                 .isLoading(store.joinRequestInFlight)
-                .padding(.bottom, 20)
+                .padding(.bottom, 50)
                 .disabled(store.disableJoinButton)
+                .frame(maxWidth: .infinity, alignment: .center)
             }
             .synchronize($store.pinCodeTextfieldFocused, $pinCodeTextfieldFocused)
-            .onAppear { isFocused = true }
+            .onAppear { store.send(.onAppear) }
             .padding(.all, Theme.padding)
             .multilineTextAlignment(.center)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+            .frame(maxWidth: Constants.maxWidthForLargeDevices, maxHeight: .infinity, alignment: .center)
             .foregroundStyle(Color.themeText.gradient)
             .background {
                 /// this makes the keyboard to appear with a single animation
