@@ -82,7 +82,6 @@ public struct QuestionPickerView: View {
                                 )
                                 .animation(.easeInOut(duration: 0.15), value: feedbackTypeSelected)
                             }
-                            .buttonStyle(IconButtonStyle())
                         }
                     }
                     .padding(.horizontal, 14)
@@ -98,7 +97,6 @@ public struct QuestionPickerView: View {
                                 .scaledToFit()
                                 .frame(width: 20, height: 20)
                         }
-                        .buttonStyle(IconButtonStyle())
                     }
                     .padding(.trailing, 14)
                     .padding(.bottom, 14)

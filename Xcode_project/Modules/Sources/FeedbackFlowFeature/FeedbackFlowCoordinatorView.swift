@@ -3,9 +3,10 @@ import DesignSystem
 import Foundation
 import SwiftUI
 
-public struct FeedbackFlowCoordinatorView: View {
+public struct FeedbackFlowCoordinatorView<PrincipalToolbarItem: View>: View {
     @Bindable var store: StoreOf<FeedbackFlowCoordinator>
     @FocusState var commentTextfieldFocused: Bool
+    @ViewBuilder var principalToolbarItem: () -> PrincipalToolbarItem
     var showNavigateBackButton: Bool {
         store.questionIndex != 0
     }
@@ -19,8 +20,9 @@ public struct FeedbackFlowCoordinatorView: View {
         !store.feedbackItemCompleted
     }
     
-    public init(store: StoreOf<FeedbackFlowCoordinator>) {
+    public init(store: StoreOf<FeedbackFlowCoordinator>, principalToolbarItem: @escaping () -> PrincipalToolbarItem) {
         self.store = store
+        self.principalToolbarItem = principalToolbarItem
     }
     
     public var body: some View {
@@ -60,8 +62,6 @@ public struct FeedbackFlowCoordinatorView: View {
                     )
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarTitle(self.store.title)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
                     Button("Quit") {
@@ -69,6 +69,9 @@ public struct FeedbackFlowCoordinatorView: View {
                     }
                     .buttonStyle(SecondaryTextButtonStyle())
                     .foregroundStyle(Color.themeText)
+                }
+                ToolbarItem(placement: .principal) {
+                    principalToolbarItem()
                 }
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
@@ -78,9 +81,10 @@ public struct FeedbackFlowCoordinatorView: View {
                             .resizable()
                             .scaledToFit()
                             .frame(width: 12, height: 12)
+                            .fontWeight(.bold)
+                            .foregroundStyle(Color.themeText)
                             .padding(4)
                     }
-                    .buttonStyle(IconToolbarStyle())
                 }
             }
             .padding(.bottom, 90)
@@ -208,6 +212,9 @@ public struct FeedbackFlowCoordinatorView: View {
             )
         ) {
             FeedbackFlowCoordinator()
+        },
+        principalToolbarItem: {
+            Text("Hello")
         }
     )
 }

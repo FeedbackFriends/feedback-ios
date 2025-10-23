@@ -258,6 +258,7 @@ public struct Tabbar: Sendable {
                         CreateEvent.State(
                             eventForm:
                                 EventForm.State(
+                                    initialFocus: EventForm.FocusedField.title,
                                     eventInput: .init(),
                                     shouldOpenKeyboardOnAppear: true,
                                     recentlyUsedQuestions: recentlyUsedQuestions,

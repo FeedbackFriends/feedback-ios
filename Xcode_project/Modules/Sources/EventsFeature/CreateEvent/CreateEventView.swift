@@ -12,7 +12,10 @@ public struct CreateEventView: View {
     }
     
     public var body: some View {
-        EventFormView(store: store.scope(state: \.eventForm, action: \.eventForm)) {
+        EventFormView(
+            showSuccessOverlay: $store.showSuccessOverlay,
+            store: store.scope(state: \.eventForm, action: \.eventForm)
+        ) {
             Button("Finish") {
                 store.send(.createEventButtonTap)
             }

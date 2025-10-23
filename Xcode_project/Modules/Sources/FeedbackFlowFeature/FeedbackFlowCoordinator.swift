@@ -59,7 +59,7 @@ public struct FeedbackFlowCoordinator: Sendable {
         }
         let feedbackSession: FeedbackSession
         var commentTextfieldFocused: Bool
-        var title: String {
+        public var title: String {
             feedbackSession.title
         }
         var agenda: String? {
