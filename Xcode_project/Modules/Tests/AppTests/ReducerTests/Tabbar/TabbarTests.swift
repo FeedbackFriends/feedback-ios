@@ -91,9 +91,19 @@ struct TabbarTests {
         let session = sharedSession
         let store = TestStore(initialState: .init(session: session)) {
             Tabbar()
-        }
+        } 
         await store.send(.toolbar(.createEventButtonTap)) {
-			$0.destination = .createEvent(.init(recentlyUsedQuestions: .init([])))
+            $0.destination = .createEvent(
+                .init(
+                    eventForm: .init(
+                        initialFocus: .title,
+                        eventInput: .init(),
+                        shouldOpenKeyboardOnAppear: true,
+                        recentlyUsedQuestions: .init([]),
+                        successOverlayMessage: "Session created"
+                    )
+                )
+            )
         }
         await store.send(.destination(.presented(.createEvent(.delegate(.dismissAndNavigateToDetail(createdEvent)))))) {
             $0.destination = nil
