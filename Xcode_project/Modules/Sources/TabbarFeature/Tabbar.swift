@@ -262,7 +262,7 @@ public struct Tabbar: Sendable {
                                     eventInput: .init(),
                                     shouldOpenKeyboardOnAppear: true,
                                     recentlyUsedQuestions: recentlyUsedQuestions,
-                                    successOverlayMessage: "Event created"
+                                    successOverlayMessage: "Session created"
                                 )
                         )
                 )

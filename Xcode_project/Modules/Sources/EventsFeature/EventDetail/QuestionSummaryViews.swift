@@ -206,7 +206,7 @@ struct PercentageBar<TopView: View>: View {
     @ViewBuilder var topView: TopView
     var body: some View {
         let height: CGFloat = 40
-        let width: CGFloat = 20
+        let width: CGFloat = 24
         VStack(spacing: 4) {
             topView
                 .font(.montserratSemiBold, 8)

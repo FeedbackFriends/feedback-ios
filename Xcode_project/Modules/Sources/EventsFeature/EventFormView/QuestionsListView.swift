@@ -28,9 +28,8 @@ struct QuestionsListView: View {
                         } label: {
                             HStack(spacing: 12) {
                                 questionsInput.feedbackType.image
-                                    .symbolRenderingMode(.hierarchical)
                                     .font(.title)
-                                    .foregroundStyle(Color.themeTextSecondary)
+                                    .foregroundStyle(Color.themeText)
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(questionsInput.questionText)
                                         .foregroundColor(Color.themeText)

@@ -70,7 +70,7 @@ public struct ManagerEvents: Sendable {
                         do {
                             try await self.apiClient.markEventAsSeen(eventDetailState.event.id)
                         } catch {
-                            Logger.debug("Mark event as seen failed: \(error.localizedDescription)")
+                            Logger.debug("Mark session as seen failed: \(error.localizedDescription)")
                         }
                     }
                     
