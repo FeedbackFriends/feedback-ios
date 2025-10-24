@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>FIREBASE_GOOGLE_APP_ID</key>
-	<string>$(FIREBASE_GOOGLE_APP_ID)</string>
 	<key>API_BASE_URL</key>
 	<string>$(API_BASE_URL)</string>
 	<key>API_SCHEME</key>
@@ -44,6 +42,8 @@
 	<string>$(FIREBASE_CLIENT_ID)</string>
 	<key>FIREBASE_GCM_SENDER_ID</key>
 	<string>$(FIREBASE_GCM_SENDER_ID)</string>
+	<key>FIREBASE_GOOGLE_APP_ID</key>
+	<string>$(FIREBASE_GOOGLE_APP_ID)</string>
 	<key>FIREBASE_PROJECT_ID</key>
 	<string>$(FIREBASE_PROJECT_ID)</string>
 	<key>FIREBASE_STORAGE_BUCKET</key>
@@ -53,25 +53,26 @@
 		<string>msauthv2</string>
 		<string>msauthv3</string>
 	</array>
-	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
 	<key>MARKETING_VERSION</key>
-    <string>$(MARKETING_VERSION)</string>
-    <key>NSAppTransportSecurity</key>
-    <dict>
-        <key>NSExceptionDomains</key>
-        <dict>
-            <key>proxyman.debug</key>
-            <dict>
-                <key>NSIncludesSubdomains</key><true/>
-                <key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key><true/>
-                <key>NSTemporaryExceptionMinimumTLSVersion</key><string>TLSv1.0</string>
-            </dict>
-        </dict>
-        <key>NSAllowsArbitraryLoads</key>
-        <false/>
-    </dict>
-    <key>SENTRY_DSN_SCHEME</key>
+	<string>$(MARKETING_VERSION)</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<false/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>proxyman.debug</key>
+			<dict>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSTemporaryExceptionMinimumTLSVersion</key>
+				<string>TLSv1.0</string>
+			</dict>
+		</dict>
+	</dict>
+	<key>SENTRY_DSN_SCHEME</key>
 	<string>$(SENTRY_DSN_SCHEME)</string>
 	<key>SENTRY_DSN_URL</key>
 	<string>$(SENTRY_DSN_URL)</string>

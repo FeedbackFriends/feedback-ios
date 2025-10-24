@@ -45,7 +45,7 @@ struct FeedbackFlowTests {
             $0.dismiss = .init { didDismiss.setValue(true) }
         }
         
-        await store.send(.cancelButtonTap)
+        await store.send(.dismissButtonTap)
         #expect(didDismiss.value)
     }
     
