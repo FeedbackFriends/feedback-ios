@@ -467,7 +467,7 @@ public func generateQuestionWithType(feedbackType: FeedbackType) -> ManagerQuest
         return ManagerQuestion(
             id: nextDeterministicUUID(),
             questionText: "I feel i get the feedback i need from my boss.",
-            feedbackType: .emoji,
+            feedbackType: .opinion,
             feedback: feedback,
             feedbackSummary: .init(
                 opinionQuestionFeedbackSummary: OpinionQuestionFeedbackSummary(

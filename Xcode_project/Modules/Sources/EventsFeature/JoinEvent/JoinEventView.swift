@@ -15,7 +15,7 @@ public struct JoinEventView: View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 12) {
                 
-                Text("Join event")
+                Text("Join session")
                     .font(.montserratBold, 28)
                     .padding(.top, 20)
                 Text("PIN Code")
@@ -58,7 +58,7 @@ public struct JoinEventView: View {
             }
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
             .successOverlay(
-                message: "Event joined",
+                message: "Session joined",
                 show: $store.showSuccessOverlay
             )
             .toolbar {

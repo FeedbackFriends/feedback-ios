@@ -179,6 +179,7 @@ struct QuestionView: View {
                                             .frame(width: 10, height: 10)
                                         Text(question.feedbackType.title)
                                             .font(.montserratMedium, 9)
+                                            .foregroundStyle(Color.themeTextSecondary)
                                     }
                                     .padding(.horizontal, 10)
                                     .padding(.vertical, 6)
@@ -217,7 +218,7 @@ struct QuestionView: View {
         DetailSectionView(
             event: .mock()
         )
-        .navigationTitle("Event with feedback")
+        .navigationTitle("Session with feedback")
     }
 }
 
@@ -226,6 +227,6 @@ struct QuestionView: View {
         DetailSectionView(
             event: .mockEmpty
         )
-        .navigationTitle("Event empty feedback")
+        .navigationTitle("Session empty feedback")
     }
 }

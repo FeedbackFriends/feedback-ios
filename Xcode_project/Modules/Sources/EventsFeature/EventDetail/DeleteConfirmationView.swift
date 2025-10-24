@@ -43,7 +43,7 @@ struct DeleteConfirmationView: View {
             }
         }
         .successOverlay(
-            message: "Event deleted",
+            message: "Session deleted",
             show: $store.showSuccessOverlay
         )
         .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))

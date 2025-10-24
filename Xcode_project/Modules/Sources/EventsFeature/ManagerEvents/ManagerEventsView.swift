@@ -72,7 +72,7 @@ extension ManagerEventsView {
         LazyVStack(alignment: .leading, spacing: 18, pinnedViews: [.sectionHeaders]) {
             if todayEvents.isEmpty && comingUpEvents.isEmpty && previousEvents.isEmpty {
                 EmptyStateView(
-                    message: "Create a new event by tapping the + button."
+                    message: "Create a new session by tapping the + button."
                 )
             } else {
                 if store.filterCollection.allEnabled {

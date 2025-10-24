@@ -105,21 +105,21 @@ private extension TabbarView {
 				switch store.session.account {
 				case .manager:
 					managerEventsView
-						.navigationTitle("Events")
+						.navigationTitle("Sessions")
 						.toolbar {
 							createEventToolbarItem
 							activityToolbarItem(store.session.activityBadgeCount)
 						}
 				case .participant:
 					participantEventsView
-						.navigationTitle("Events")
+						.navigationTitle("Sessions")
 						.toolbar {
 							joinEventToolbarItem
 							activityToolbarItem(store.session.activityBadgeCount)
 						}
 				case .anonymous:
 					participantEventsView
-						.navigationTitle("Events")
+						.navigationTitle("Sessions")
 						.toolbar {
 							createEventToolbarItem
 							activityToolbarItem(store.session.activityBadgeCount)
@@ -128,7 +128,7 @@ private extension TabbarView {
             }
             .tabItem {
                 Image.calendar
-                Text("Events")
+                Text("Sessions")
             }
             .tag(Tab.events)
             
@@ -210,7 +210,7 @@ private extension TabbarView {
 					Button {
 						store.send(.toolbar(.createEventButtonTap))
 					} label: {
-						Text("Create event")
+						Text("Create session")
 					}
 					
 				}
@@ -218,7 +218,7 @@ private extension TabbarView {
 					Button {
 						store.send(.toolbar(.joinEventButtonTap))
 					} label: {
-						Text("Join event")
+						Text("Join session")
 					}
 				}
 			} label: {

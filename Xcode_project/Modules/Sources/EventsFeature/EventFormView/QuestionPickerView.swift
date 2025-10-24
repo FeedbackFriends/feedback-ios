@@ -55,33 +55,33 @@ public struct QuestionPickerView: View {
             VStack(spacing: 0) {
                 Section {
                     LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 5), spacing: 8) {
-                        ForEach(FeedbackType.allCases, id: \.self) { type in
-                            let isSelected = type == feedbackTypeSelected
+                        ForEach(FeedbackType.allCases, id: \.self) { question in
+                            let isSelected = question == feedbackTypeSelected
                             Button {
                                 withAnimation(.easeInOut(duration: 0.4)) {
-                                    feedbackTypeSelected = type
+                                    feedbackTypeSelected = question
                                 }
                             } label: {
-                                VStack(spacing: 6) {
-                                    type.image
-                                        .symbolRenderingMode(.hierarchical)
-                                        .font(.title3)
+                                VStack {
+                                    question.image
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 18, height: 18)
+                                        .foregroundStyle(Color.themeText)
+                                    Text(question.title)
+                                        .font(.montserratMedium, 9)
                                         .foregroundStyle(Color.themeTextSecondary)
-                                    Text(type.title)
-                                        .font(.montserratMedium, 10)
                                 }
-                                .frame(maxWidth: .infinity, minHeight: 70)
-                                .padding(6)
-                                .background(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .fill(Color.themeSurface)
-                                )
+                                .padding(10)
+                                .frame(maxWidth: .infinity, minHeight: 60)
+                                .background(Color.themeSurface)
+                                .clipShape(Capsule())
                                 .overlay(
-                                    RoundedRectangle(cornerRadius: 12)
-                                        .stroke(isSelected ? Color.themePrimaryAction : Color.themeTextSecondary.opacity(0.2), lineWidth: isSelected ? 3 : 2)
+                                    Capsule()
+                                        .stroke(isSelected ? Color.themeChartHighlighted : Color.clear, lineWidth: 2)
                                 )
-                                .animation(.easeInOut(duration: 0.15), value: feedbackTypeSelected)
                             }
+                            .buttonStyle(ScalingButtonStyle())
                         }
                     }
                     .padding(.horizontal, 14)
@@ -96,6 +96,7 @@ public struct QuestionPickerView: View {
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 20, height: 20)
+                                .foregroundStyle(Color.themeText)
                         }
                     }
                     .padding(.trailing, 14)
@@ -105,26 +106,24 @@ public struct QuestionPickerView: View {
                 
                 Form {
                     Section {
-                        ZStack(alignment: .trailing) {
-                            TextField("Enter question.", text: $questionTextField, axis: .vertical)
-                                .focused($isQuestionFocused)
-                                .font(.montserratMedium, 13)
-                                .foregroundColor(Color.themeText)
-                                .textInputAutocapitalization(.sentences)
-                                .submitLabel(.go)
-                                .padding(.trailing, 24)
-                            
-                            if !questionTextField.isEmpty {
-                                Button {
-                                    questionTextField = ""
-                                } label: {
-                                    Image.xmarkCircleFill
+                        TextField("Enter question.", text: $questionTextField, axis: .vertical)
+                            .focused($isQuestionFocused)
+                            .font(.montserratMedium, 13)
+                            .foregroundColor(Color.themeText)
+                            .textInputAutocapitalization(.sentences)
+                            .submitLabel(.go)
+                            .padding(.trailing, 24)
+                            .overlay(alignment: .trailing) {
+                                if !questionTextField.isEmpty {
+                                    Button {
+                                        questionTextField = ""
+                                    } label: {
+                                        Image.xmarkCircleFill
+                                    }
+                                    .foregroundStyle(Color.themeTextSecondary)
                                 }
-                                .foregroundStyle(Color.themeText)
-                                .padding(.trailing, 4)
-                                .padding(.top, 8)
                             }
-                        }
+                            .padding(.trailing, 4)
                     } header: {
                         Text("Question")
                             .sectionHeaderStyle()
@@ -133,6 +132,7 @@ public struct QuestionPickerView: View {
                 }
                 
             }
+            .sensoryFeedback(.selection, trigger: feedbackTypeSelected)
             .overlay(alignment: .bottom) {
                 Button(text, action: commitQuestion)
                     .buttonStyle(LargeButtonStyle())

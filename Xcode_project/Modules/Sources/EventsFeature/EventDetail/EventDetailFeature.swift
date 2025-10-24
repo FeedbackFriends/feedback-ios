@@ -107,7 +107,7 @@ public struct EventDetailFeature: Sendable {
                                 eventInput: EventInput(state.event),
                                 shouldOpenKeyboardOnAppear: false,
                                 recentlyUsedQuestions: recentlyUsedQuestions,
-                                successOverlayMessage: "Event edited"
+                                successOverlayMessage: "Session edited"
                             ),
                             eventId: state.event.id,
                             recentlyUsedQuestions: recentlyUsedQuestions

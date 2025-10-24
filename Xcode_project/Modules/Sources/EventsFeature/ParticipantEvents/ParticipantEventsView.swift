@@ -19,7 +19,7 @@ public struct ParticipantEventsView: View {
                 let participantEvents = store.session.participantEvents
                 if participantEvents.isEmpty {
                     EmptyStateView(
-                        message: "Events you are attending will be visible here."
+                        message: "Sessions you are attending will be visible here."
                     )
                 } else {
                     let todayMeetings = participantEvents.filter { $0.date.isToday }

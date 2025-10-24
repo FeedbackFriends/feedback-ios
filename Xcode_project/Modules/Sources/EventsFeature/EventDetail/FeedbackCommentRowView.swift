@@ -24,18 +24,20 @@ struct FeedbackCommentRowView: View {
     @ViewBuilder
     func emojiRow(emoji: Emoji, optionalComment: String?) -> some View {
         if let comment = optionalComment {
-            HStack(alignment: .top, spacing: 8) {
-                emoji.icon
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .padding(.top, 2)
-                
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(comment)
-                        .font(.montserratRegular, 14)
-                        .fixedSize(horizontal: false, vertical: true)
-                    feedbackInfo(feedback: feedback)
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(alignment: .center, spacing: 8) {
+                    emoji.icon
+                        .resizable()
+                        .frame(width: 20, height: 20)
+                        .padding(.top, 2)
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(comment)
+                            .font(.montserratMedium, 12)
+                            .fixedSize(horizontal: false, vertical: true)
+                    }
                 }
+                feedbackInfo(feedback: feedback)
             }
             .foregroundStyle(Color.themeTextSecondary)
             .padding(.vertical, 8)
@@ -44,10 +46,10 @@ struct FeedbackCommentRowView: View {
     
     @ViewBuilder
     func commentRow(comment: String) -> some View {
-        HStack(alignment: .top, spacing: 8) {
+        HStack(alignment: .center, spacing: 8) {
             VStack(alignment: .leading, spacing: 4) {
                 Text(comment)
-                    .font(.montserratRegular, 14)
+                    .font(.montserratMedium, 12)
                     .fixedSize(horizontal: false, vertical: true)
                 feedbackInfo(feedback: feedback)
             }
@@ -59,20 +61,20 @@ struct FeedbackCommentRowView: View {
     @ViewBuilder
     func zeroToTenRow(zeroToTen: Int, optionalComment: String?) -> some View {
         if let comment = optionalComment {
-            HStack(alignment: .top, spacing: 8) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("\(zeroToTen) of 10")
-                        .font(.montserratBold, 8)
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(alignment: .center, spacing: 8) {
+                    Text("\(zeroToTen)")
+                        .font(.montserratSemiBold, 13)
                         .padding(2)
                         .padding(.horizontal, 4)
                         .foregroundStyle(Color.themeOnPrimaryAction)
-                        .background(zeroToTen.ratingColor)
+                        .background(zeroToTen.ratingColor.gradient)
                         .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
                     Text(comment)
-                        .font(.montserratRegular, 14)
+                        .font(.montserratMedium, 12)
                         .fixedSize(horizontal: false, vertical: true)
-                    feedbackInfo(feedback: feedback)
                 }
+                feedbackInfo(feedback: feedback)
             }
             .foregroundStyle(Color.themeTextSecondary)
             .padding(.vertical, 8)
@@ -83,17 +85,27 @@ struct FeedbackCommentRowView: View {
     func opinionRow(opinion: Opinion, optionalComment: String?) -> some View {
         if let comment = optionalComment {
             VStack(alignment: .leading, spacing: 4) {
-                Text(opinion.localized)
-                    .font(.montserratBold, 12)
-                    .padding(2)
-                    .padding(.horizontal, 4)
-                    .foregroundStyle(Color.themeOnPrimaryAction)
-                    .background(opinion.color.gradient)
+                HStack(alignment: .center, spacing: 8) {
+                    HStack(spacing: 6) {
+                        Circle()
+                            .frame(width: 10, height: 10)
+                            .foregroundStyle(opinion.color.gradient)
+                        Text(opinion.localized)
+                            .font(.montserratMedium, 10)
+                            .foregroundStyle(Color.themeText)
+                    }
+                    .padding(6)
+                    .multilineTextAlignment(.leading)
+                    .frame(maxWidth: 80)
+                    .background(Color.themeBackground)
                     .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
-                Text(comment)
-                    .font(.montserratRegular, 14)
-                    .fixedSize(horizontal: false, vertical: true)
-                feedbackInfo(feedback: feedback)
+                    Text(comment)
+                        .font(.montserratMedium, 12)
+                        .fixedSize(horizontal: false, vertical: true)
+                }
+                VStack(alignment: .leading, spacing: 4) {
+                    feedbackInfo(feedback: feedback)
+                }
             }
             .foregroundStyle(Color.themeTextSecondary)
             .padding(.vertical, 8)
@@ -103,19 +115,19 @@ struct FeedbackCommentRowView: View {
     @ViewBuilder
     func thumpsRow(thumps: ThumbsUpThumpsDown, optionalComment: String?) -> some View {
         if let comment = optionalComment {
-            HStack(alignment: .top, spacing: 8) {
-                thumps.icon
-                    .resizable()
-                    .frame(width: 20, height: 20)
-                    .padding(.top, 2)
-                VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 4) {
+                HStack(alignment: .center, spacing: 8) {
+                    thumps.icon
+                        .resizable()
+                        .frame(width: 18, height: 18)
+                        .padding(.top, 2)
                     Text(comment)
-                        .font(.montserratRegular, 14)
+                        .font(.montserratMedium, 12)
                         .fixedSize(horizontal: false, vertical: true)
-                    feedbackInfo(feedback: feedback)
                 }
+                feedbackInfo(feedback: feedback)
             }
-            .foregroundStyle(Color.themeTextSecondary)
+            .foregroundStyle(Color.themeTextSecondary.gradient)
             .padding(.vertical, 8)
         }
     }

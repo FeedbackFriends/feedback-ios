@@ -23,7 +23,7 @@ public struct CreateEventView: View {
             .isLoading(store.createEventRequestInFlight)
             .disabled(store.createEventButtonDisabled)
         }
-        .navigationBarTitle("New event")
+        .navigationBarTitle("New session")
         .navigationBarTitleDisplayMode(.inline)
         .scrollContentBackground(.hidden)
         .alert($store.scope(state: \.alert, action: \.alert))
