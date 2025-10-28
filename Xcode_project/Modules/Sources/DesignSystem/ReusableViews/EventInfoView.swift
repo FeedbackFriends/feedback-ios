@@ -74,7 +74,7 @@ public struct EventInfoView: View {
             .navigationTitle(eventTitle)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    SharedCloseButtonView { dismiss() }
+                    CloseButtonView { dismiss() }
                 }
             }
         }

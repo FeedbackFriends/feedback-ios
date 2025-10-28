@@ -6,6 +6,8 @@ import ComposableArchitecture
 import DesignSystem
 import Logger
 import Utility
+import TabbarFeature
+import EventsFeature
 
 @main
 struct AppMockApp: App {
@@ -16,12 +18,12 @@ struct AppMockApp: App {
             RootFeatureView(
                 store: appDelegate.intialStore
             )
-            .task {
-                Task {
-                    try await Task.sleep(for: .seconds(1))
-                    await appDelegate.mockAuthEngine.yield(.authenticated)
-                }
-            }
+//            .task {
+//                Task {
+//                    try await Task.sleep(for: .seconds(1))
+//                    await appDelegate.mockAuthEngine.yield(.authenticated)
+//                }
+//            }
         }
     }
 }
@@ -85,16 +87,17 @@ extension SystemClient {
 extension NotificationClient {
     static let mock = Self.init(
         shouldPromptForAuthorization: { role in
-            if role == nil {
-                return false
-            }
-            let settings = await UNUserNotificationCenter.current().notificationSettings()
-            switch settings.authorizationStatus {
-            case .notDetermined:
-                return true
-            default:
-                return false
-            }
+//            if role == nil {
+//                return false
+//            }
+//            let settings = await UNUserNotificationCenter.current().notificationSettings()
+//            switch settings.authorizationStatus {
+//            case .notDetermined:
+//                return true
+//            default:
+//                return false
+//            }
+            return false
         },
         requestAuthorization: {
             try await UNUserNotificationCenter.current().requestAuthorization(options: [
@@ -124,8 +127,28 @@ extension WebURLClient {
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     let mockAuthEngine = MockAuthEngine()
+    let session = Shared(value: Session.mock())
     lazy var intialStore = Store(
-        initialState: RootFeature.State(),
+        initialState: RootFeature.State(
+            destination: .loggedIn(
+                .init(
+                    session: session,
+                    selectedTab: .events
+//                    managerEvents: ManagerEvents.State(session: session)
+//                    managerEvents: ManagerEvents.State.init(
+//                        destination: .eventDetail(
+//                            .eventDetail(
+//                                EventDetailFeature.State.init(
+//                                    event: session.managerData!.managerEvents[0],
+//                                    session: session
+//                                )
+//                            )
+//                        ),
+//                        session: session
+//                    )
+                )
+            )
+        ),
         reducer: {
             RootFeature()._printChanges()
         },

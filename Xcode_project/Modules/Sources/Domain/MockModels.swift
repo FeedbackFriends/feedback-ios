@@ -399,7 +399,25 @@ public func generateQuestionWithType(feedbackType: FeedbackType) -> ManagerQuest
     case .emoji:
         let feedback: [Feedback] = [
             .mock(
-                type: FeedbackTypeWithData.emoji(emoji: Emoji.veryHappy, comment: "Really good")
+                type: FeedbackTypeWithData.emoji(emoji: Emoji.happy, comment: "Great session")
+            ),
+            .mock(
+                type: FeedbackTypeWithData.emoji(emoji: Emoji.sad, comment: "Could be better")
+            ),
+            .mock(
+                type: FeedbackTypeWithData.emoji(emoji: Emoji.sad, comment: "Not my favorite meeting")
+            ),
+            .mock(
+                type: FeedbackTypeWithData.emoji(emoji: Emoji.verySad, comment: "Disappointed in the outcome")
+            ),
+            .mock(
+                type: FeedbackTypeWithData.emoji(emoji: Emoji.veryHappy, comment: "Loved it")
+            ),
+            .mock(
+                type: FeedbackTypeWithData.emoji(emoji: Emoji.verySad, comment: "The meeting ran too long")
+            ),
+            .mock(
+                type: FeedbackTypeWithData.emoji(emoji: Emoji.happy, comment: "Felt productive and well-organized")
             ),
             .mock(
                 type: FeedbackTypeWithData.emoji(emoji: Emoji.sad, comment: nil)
@@ -407,19 +425,19 @@ public func generateQuestionWithType(feedbackType: FeedbackType) -> ManagerQuest
         ]
         return ManagerQuestion(
             id: nextDeterministicUUID(),
-            questionText: generateFeedbackEventTitle(),
+            questionText: "How do you feel about the meeting?",
             feedbackType: .emoji,
             feedback: feedback,
             feedbackSummary: QuestionFeedbackSummary(
                 emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary(
                     countVerySad: 10,
-                    countSad: 20,
+                    countSad: 60,
                     countHappy: 30,
-                    countVeryHappy: 40,
+                    countVeryHappy: 0,
                     percentageVerySad: 10,
-                    percentageSad: 20,
+                    percentageSad: 60,
                     percentageHappy: 30,
-                    percentageVeryHappy: 40
+                    percentageVeryHappy: 0
                 )
             )
         )

@@ -36,7 +36,7 @@ struct StartFeedbackConfirmationView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    SharedCloseButtonView {
+                    CloseButtonView {
                         dismiss()
                     }
                 }

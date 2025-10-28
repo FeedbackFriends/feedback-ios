@@ -13,6 +13,52 @@ public enum Tab: Hashable, Sendable {
     case feedback, events, more
 }
 
+public extension Tabbar.State {
+    init(
+        session: Shared<Session>,
+        tabbarLifecyle: TabbarLifecycle.State,
+        enterCode: EnterCode.State,
+        moreSection: MoreSection.State,
+        accountSection: AccountSection.State,
+        selectedTab: Tab,
+        initialiseFeedback: InitialiseFeedback.State,
+        managerEvents: ManagerEvents.State,
+        participantEvents: ParticipantEvents.State,
+        deleteAccount: DeleteAccount.State,
+        destination: Tabbar.Destination.State? = nil
+    ) {
+        self._session = session
+        self.tabbarLifecyle = tabbarLifecyle
+        self.enterCode = enterCode
+        self.moreSection = moreSection
+        self.accountSection = accountSection
+        self.selectedTab = selectedTab
+        self.initialiseFeedback = initialiseFeedback
+        self.managerEvents = managerEvents
+        self.participantEvents = participantEvents
+        self.deleteAccount = deleteAccount
+        self.destination = destination
+    }
+    
+    init(
+        session: Shared<Session>,
+        selectedTab: Tab = .events,
+        destination: Tabbar.Destination.State? = nil,
+    ) {
+        self._session = session
+        self.enterCode = .init()
+        self.selectedTab = selectedTab
+        self.moreSection = .init()
+        self.accountSection = .init(session: session)
+        self.initialiseFeedback = .init()
+        self.participantEvents = .init(session: session)
+        self.deleteAccount = .init()
+        self.managerEvents = .init(session: session)
+        self.tabbarLifecyle = .init(session: session)
+        self.destination = destination
+    }
+}
+
 @Reducer
 public struct Tabbar: Sendable {
     
@@ -49,24 +95,6 @@ public struct Tabbar: Sendable {
         var participantEvents: ParticipantEvents.State
         var deleteAccount: DeleteAccount.State
         @Presents var destination: Destination.State?
-        
-        public init(
-            session: Shared<Session>,
-            selectedTab: Tab = .events,
-            destination: Destination.State? = nil,
-        ) {
-            self._session = session
-            self.enterCode = .init()
-            self.selectedTab = selectedTab
-            self.moreSection = .init()
-            self.accountSection = .init(session: session)
-            self.initialiseFeedback = .init()
-            self.participantEvents = .init(session: session)
-            self.deleteAccount = .init()
-            self.managerEvents = .init(session: session)
-            self.tabbarLifecyle = .init(session: session)
-            self.destination = destination
-        }
     }
     public enum Action: BindableAction {
         case binding(BindingAction<State>)

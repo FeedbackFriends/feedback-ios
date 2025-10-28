@@ -23,7 +23,7 @@ struct FeedbackTypeInfoSheetView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    SharedCloseButtonView { dismiss() }
+                    CloseButtonView { dismiss() }
                 }
             }
             .background(Color.themeBackground)

@@ -36,7 +36,7 @@ struct DeleteConfirmationView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    SharedCloseButtonView {
+                    CloseButtonView {
                         store.send(.cancelButtonTap)
                     }
                 }

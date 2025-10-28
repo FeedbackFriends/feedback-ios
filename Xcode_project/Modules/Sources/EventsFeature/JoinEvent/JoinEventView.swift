@@ -63,7 +63,7 @@ public struct JoinEventView: View {
             )
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    SharedCloseButtonView {
+                    CloseButtonView {
                         store.send(.closeButtonTap)
                     }
                 }
@@ -99,23 +99,4 @@ public struct JoinEventView: View {
         )
         .presentationDetents([.medium])
     }
-}
-
-class FirstResponderField: UITextField {
-    init() {
-        super.init(frame: .zero)
-        keyboardType = .numberPad
-        becomeFirstResponder()
-    }
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
-struct FirstResponderFieldView: UIViewRepresentable {
-    func makeUIView(context: Context) -> FirstResponderField {
-        return FirstResponderField()
-    }
-    
-    func updateUIView(_ uiView: FirstResponderField, context: Context) {}
 }

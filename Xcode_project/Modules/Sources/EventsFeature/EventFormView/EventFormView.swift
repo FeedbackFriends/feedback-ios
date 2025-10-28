@@ -76,7 +76,7 @@ public struct EventFormView<ActionView: View>: View {
     var toolbarItems: some ToolbarContent {
         Group {
             ToolbarItem(placement: .cancellationAction) {
-                SharedCloseButtonView {
+                CloseButtonView {
                     store.send(.closeButtonTap)
                 }
                 .buttonStyle(SecondaryTextButtonStyle())
