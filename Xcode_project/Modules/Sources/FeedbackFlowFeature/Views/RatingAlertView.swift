@@ -28,7 +28,7 @@ public struct RatingAlertView: View {
 				.interactiveDismissDisabled()
 				.toolbar {
 					ToolbarItem(placement: .cancellationAction) {
-						SharedCloseButtonView {
+						CloseButtonView {
 							self.dismiss()
 						}
 					}

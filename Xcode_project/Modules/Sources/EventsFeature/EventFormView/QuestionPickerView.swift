@@ -69,25 +69,28 @@ public struct QuestionPickerView: View {
                                         .frame(width: 18, height: 18)
                                         .foregroundStyle(Color.themeText)
                                     Text(question.title)
-                                        .font(.montserratMedium, 9)
+                                        .font(.montserratSemiBold, 9)
                                         .foregroundStyle(Color.themeTextSecondary)
                                 }
-                                .padding(10)
+                                .padding(2)
                                 .frame(maxWidth: .infinity, minHeight: 60)
                                 .background(Color.themeSurface)
                                 .clipShape(Capsule())
                                 .overlay(
                                     Capsule()
-                                        .stroke(isSelected ? Color.themeChartHighlighted : Color.clear, lineWidth: 2)
+                                        .stroke(isSelected ? Color.themePrimaryAction : Color.clear, lineWidth: 2)
                                 )
                             }
                             .buttonStyle(ScalingButtonStyle())
                         }
                     }
-                    .padding(.horizontal, 14)
+                    .padding(.horizontal, 20)
                     .background(Color.themeBackground)
                 } header: {
                     HStack(spacing: 8) {
+                        Text("Choose feedback type")
+                            .foregroundStyle(Color.themeText)
+                            .font(.montserratMedium, 14)
                         Spacer()
                         Button {
                             showFeedbackInfo = true
@@ -99,8 +102,8 @@ public struct QuestionPickerView: View {
                                 .foregroundStyle(Color.themeText)
                         }
                     }
-                    .padding(.trailing, 14)
-                    .padding(.bottom, 14)
+                    .padding(.trailing, 20)
+                    .padding(.leading, 20)
                 }
                 .padding(.top, 18)
                 
@@ -108,7 +111,7 @@ public struct QuestionPickerView: View {
                     Section {
                         TextField("Enter question.", text: $questionTextField, axis: .vertical)
                             .focused($isQuestionFocused)
-                            .font(.montserratMedium, 13)
+                            .font(.montserratMedium, 12)
                             .foregroundColor(Color.themeText)
                             .textInputAutocapitalization(.sentences)
                             .submitLabel(.go)
@@ -127,7 +130,6 @@ public struct QuestionPickerView: View {
                     } header: {
                         Text("Question")
                             .sectionHeaderStyle()
-                            .padding(.leading, 12)
                     }
                 }
                 
@@ -146,10 +148,9 @@ public struct QuestionPickerView: View {
             .scrollContentBackground(.hidden)
             .scrollDismissesKeyboard(.interactively)
             .navigationBarTitleDisplayMode(.inline)
-            .navigationTitle(text)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    SharedCloseButtonView {
+                    CloseButtonView {
                         self.dismiss()
                     }
                 }
@@ -157,12 +158,19 @@ public struct QuestionPickerView: View {
             .onAppear {
                 isQuestionFocused = true
             }
+            .background {
+                /// this makes the keyboard to appear with a single animation
+                FirstResponderFieldView()
+                    .frame(width: 0, height: 0)
+                    .opacity(0)
+                    .background(Color.themeSurface.ignoresSafeArea())
+            }
         }
     }
 }
 
 #Preview("Empty - Create") {
-    QuestionPickerView.init(
+    QuestionPickerView(
         existingQuestionIndex: nil,
         feedbackTypeSelected: .emoji,
         questionTextField: "",
@@ -171,7 +179,7 @@ public struct QuestionPickerView: View {
 }
 
 #Preview("Empty - Edit") {
-    QuestionPickerView.init(
+    QuestionPickerView(
         existingQuestionIndex: 3,
         feedbackTypeSelected: .emoji,
         questionTextField: "",
@@ -180,10 +188,11 @@ public struct QuestionPickerView: View {
 }
 
 #Preview("Long input") {
-    QuestionPickerView.init(
+    QuestionPickerView(
         existingQuestionIndex: nil,
         feedbackTypeSelected: .emoji,
-        questionTextField: "Aslkdjska lsak slksak sakaksl kaskask sa kask sak sak as k kask as kask  kas kask ask ask k as kas k sdjdsjds sd js djs sjd",
+        questionTextField: "Aslkdjska lsak slksak sakaksl kaskask sa kask sak sak as k kask as kask kas kask ask ask k as kas k sdjdsjds sd js djs sjd",
         questionSelected: { _, _ in }
     )
 }
+

@@ -70,7 +70,7 @@ public struct ActivityView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    SharedCloseButtonView { dismiss() }
+                    CloseButtonView { dismiss() }
                 }
             }
         }

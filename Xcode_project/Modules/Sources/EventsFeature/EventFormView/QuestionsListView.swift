@@ -70,6 +70,7 @@ struct QuestionsListView: View {
                         self.questionsInputs.append(selectedQuestionInput)
                     }
                 }
+                .presentationDetents(.init([.height(340)]))
             }
         )
         .overlay(

@@ -37,7 +37,7 @@ public struct ChangeUserTypeView: View {
 			.padding(.all, Theme.padding)
 			.toolbar {
 				ToolbarItem(placement: .primaryAction) {
-					SharedCloseButtonView {
+					CloseButtonView {
 						store.send(.closeButtonTap)
 					}
 				}
