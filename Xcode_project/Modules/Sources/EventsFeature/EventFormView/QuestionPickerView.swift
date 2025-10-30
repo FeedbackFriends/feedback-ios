@@ -54,11 +54,11 @@ public struct QuestionPickerView: View {
         NavigationStack {
             VStack(spacing: 0) {
                 Section {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 5), spacing: 8) {
+                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 5), spacing: 8) {
                         ForEach(FeedbackType.allCases, id: \.self) { question in
                             let isSelected = question == feedbackTypeSelected
                             Button {
-                                withAnimation(.easeInOut(duration: 0.4)) {
+                                withAnimation {
                                     feedbackTypeSelected = question
                                 }
                             } label: {
@@ -73,12 +73,12 @@ public struct QuestionPickerView: View {
                                         .foregroundStyle(Color.themeTextSecondary)
                                 }
                                 .padding(2)
-                                .frame(maxWidth: .infinity, minHeight: 60)
-                                .background(Color.themeSurface)
+                                .frame(maxWidth: .infinity, minHeight: isSelected ? 60 : 50)
+                                .background(isSelected ? Color.themeSurface : Color.themeSurface.opacity(0.4))
                                 .clipShape(Capsule())
                                 .overlay(
                                     Capsule()
-                                        .stroke(isSelected ? Color.themePrimaryAction : Color.clear, lineWidth: 2)
+                                        .stroke(isSelected ? Color.themePrimaryAction.opacity(0.5) : Color.clear, lineWidth: 2)
                                 )
                             }
                             .buttonStyle(ScalingButtonStyle())
