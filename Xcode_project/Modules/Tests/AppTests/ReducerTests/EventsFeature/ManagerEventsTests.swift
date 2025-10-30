@@ -19,9 +19,6 @@ struct ManagerEventsTests {
             $0.apiClient.markEventAsSeen = { @MainActor in
                 eventMarkedAsSeen = $0
             }
-            $0.webURLClient.inviteUrl = { _ in
-                     URL(string: "https://example.com")!
-            }
         }
         
         await store.send(.managerEventTap(mockEvent)) {

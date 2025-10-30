@@ -3,6 +3,7 @@ import ComposableArchitecture
 import SwiftUI
 import DesignSystem
 import Logger
+import Domain
 
 @main
 struct FeedbackApp: App {
@@ -22,7 +23,7 @@ struct FeedbackApp: App {
         WindowGroup {
             RootFeatureView(store: appDelegate.intialStore)
                 .onOpenURL { url in
-                    guard let deeplink = DeeplinkParser.fromUrl(url) else { return }
+                    guard let deeplink = Deeplink(url: url) else { return }
                     appDelegate.intialStore.send(.onUrlOpen(deeplink))
                 }
                 #if DEBUG

@@ -27,6 +27,7 @@ public struct SentryLoggingClient: LoggingClient {
             event.extra = extra
 
             SentrySDK.capture(event: event)
+            
         } else {
             // Below threshold: add a breadcrumb so it's visible with future events
             let crumb = Breadcrumb()
@@ -48,9 +49,7 @@ public struct SentryLoggingClient: LoggingClient {
         SentrySDK.setUser(user)
     }
 
-    // MARK: - Helpers
     private func sentryLevel(from level: SeverityLevel) -> SentryLevel {
-        // Map your Logger.SeverityLevel to SentryLevel. Adjust cases if your enum differs.
         switch level {
         case .fault: return .fatal
         case .error: return .error

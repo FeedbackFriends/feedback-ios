@@ -8,13 +8,6 @@ public extension DependencyValues {
 }
 
 public extension DependencyValues {
-	var webURLClient: WebURLClient {
-		get { self[WebURLClient.self] }
-		set { self[WebURLClient.self] = newValue }
-	}
-}
-
-public extension DependencyValues {
 	var authClient: AuthClient {
 		get { self[AuthClient.self] }
 		set { self[AuthClient.self] = newValue }

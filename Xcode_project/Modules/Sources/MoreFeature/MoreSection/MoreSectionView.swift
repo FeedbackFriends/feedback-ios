@@ -11,32 +11,27 @@ public struct MoreSectionView: View {
     public init(store: StoreOf<MoreSection>) {
         self.store = store
     }
-	
-	public var body: some View {
-		Group {
-			generalSection
-			contactSection
-			if let appStoreReviewUrl = store.appStoreReviewUrl {
-				shareSection(appStoreReviewUrl: appStoreReviewUrl)
-			}
-		}
-		.onAppear { store.send(.onAppear) }
-	}
-	
-	var generalSection: some View {
-		Group {
-			Section {
-				Button {
-					store.send(.onNotificationsButtonTap)
+    
+    public var body: some View {
+        Group {
+            generalSection
+            contactSection
+            shareSection(appStoreReviewUrl: store.appStoreReviewUrl)
+        }
+    }
+    
+    var generalSection: some View {
+        Group {
+            Section {
+                Button {
+                    store.send(.onNotificationsButtonTap)
                 } label: {
                     listElementView(image: .moreSectionBell, label: "Notifications")
                 }
-                if let privacyPolicyUrl = store.privacyPolicyUrl {
-					Link(destination: privacyPolicyUrl) {
-                        listElementView(image: .moreSectiondocPlaintext, label: "Privacy policy")
-					}
-					.onOpenURL(prefersInApp: true)
+                Link(destination: store.privacyPolicyUrl) {
+                    listElementView(image: .moreSectiondocPlaintext, label: "Privacy policy")
                 }
+                .onOpenURL(prefersInApp: true)
                 Button {
                     store.send(.onSupportUsButtonTap)
                 } label: {

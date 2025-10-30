@@ -17,65 +17,6 @@ import OpenAPIRuntime
 import InfoPlist
 import Sentry
 
-public enum InfoPlistConfig {
-    
-    public static var apiBaseUrl: URL {
-        InfoPlist().url(for: "API_BASE_URL", scheme: "API_SCHEME")!
-    }
-    public static var sentryDsnUrl: URL {
-        InfoPlist().url(for: "SENTRY_DSN_URL", scheme: "SENTRY_DSN_SCHEME")!
-    }
-    public static var supportEmail: String {
-        InfoPlist().string(for: "SUPPORT_EMAIL")!
-    }
-    public static var webBaseUrl: URL {
-        InfoPlist().url(for: "WEB_BASE_URL", scheme: "WEB_SCHEME")!
-    }
-    public static var appStoreId: String {
-        InfoPlist().string(for: "APPSTORE_ID")!
-    }
-    public static var firebaseGoogleAppId: String {
-        InfoPlist().string(for: "FIREBASE_GOOGLE_APP_ID")!
-    }
-    public static var firebaseGcmSenderId: String {
-        InfoPlist().string(for: "FIREBASE_GCM_SENDER_ID")!
-    }
-    public static var firebaseClientId: String {
-        InfoPlist().string(for: "FIREBASE_CLIENT_ID")!
-    }
-    public static var firebaseApiKey: String {
-        InfoPlist().string(for: "FIREBASE_API_KEY")!
-    }
-    public static var firebaseBundleId: String {
-        InfoPlist().string(for: "FIREBASE_BUNDLE_ID")!
-    }
-    public static var firebaseProjectId: String {
-        InfoPlist().string(for: "FIREBASE_PROJECT_ID")!
-    }
-    public static var firebaseStorageBucket: String {
-        InfoPlist().string(for: "FIREBASE_STORAGE_BUCKET")!
-    }
-    
-    public static func logConfigurations() {
-        Logger.debug(
-            """
-            🔹 API_BASE_URL: \(InfoPlistConfig.apiBaseUrl)\n
-            🔹 SENTRY_DSN_URL: \(InfoPlistConfig.sentryDsnUrl)\n
-            🔹 SUPPORT_EMAIL: \(InfoPlistConfig.supportEmail)\n
-            🔹 WEB_BASE_URL: \(InfoPlistConfig.webBaseUrl)\n
-            🔹 APPSTORE_ID: \(InfoPlistConfig.appStoreId)\n
-            🔹 FIREBASE_GOOGLE_APP_ID: \(InfoPlistConfig.firebaseGoogleAppId)\n
-            🔹 FIREBASE_GCM_SENDER_ID: \(InfoPlistConfig.firebaseGcmSenderId)\n
-            🔹 FIREBASE_CLIENT_ID: \(InfoPlistConfig.firebaseClientId)\n
-            🔹 FIREBASE_API_KEY: \(InfoPlistConfig.firebaseApiKey)\n
-            🔹 FIREBASE_BUNDLE_ID: \(InfoPlistConfig.firebaseBundleId)\n
-            🔹 FIREBASE_PROJECT_ID: \(InfoPlistConfig.firebaseProjectId)\n
-            🔹 FIREBASE_STORAGE_BUCKET: \(InfoPlistConfig.firebaseStorageBucket)
-            """
-        )
-    }
-}
-
 final class AppDelegate: NSObject, UIApplicationDelegate {
     
     let apiClient: APIClient = .live(
@@ -100,10 +41,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     ) {
         RootFeature()._printChanges()
     } withDependencies: {
-        $0.webURLClient = .live(
-            webBaseUrl: InfoPlistConfig.webBaseUrl,
-            appStoreId: InfoPlistConfig.appStoreId
-        )
         $0.systemClient = .live(supportEmail: InfoPlistConfig.supportEmail)
         $0.notificationClient = self.notificationClient
         $0.authClient = .live
@@ -126,10 +63,13 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         SentrySDK.start { options in
             options.dsn = InfoPlistConfig.sentryDsnUrl.absoluteString
             options.debug = false
-            options.tracesSampleRate = 0.1
+            // Example uniform sample rate: capture 100% of transactions
+            // In Production you will probably want a smaller number such as 0.5 for 50%
+            options.tracesSampleRate = 1.0
             options.tracePropagationTargets = [
                 InfoPlistConfig.apiBaseUrl.absoluteString
             ]
+            options.experimental.enableLogs = true
         }
         let firebaseOptions = FirebaseOptions(
             googleAppID: InfoPlistConfig.firebaseGoogleAppId,
@@ -152,7 +92,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     
     /// When a notification is tapped
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        guard let deeplink = DeeplinkParser.fromNotificationPayload(response.notification.request.content.userInfo) else { return }
+        guard let deeplink = Deeplink(notificationUserInfo: response.notification.request.content.userInfo) else { return }
         intialStore.send(.onNotificationTap(deeplink))
     }
 }

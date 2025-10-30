@@ -39,12 +39,15 @@ public struct EventDetailFeatureView: View {
         .sheet(
             item: inviteStore
         ) { state in
-            state.withState { event in
-                InviteView(
-                    code: event.pinCode?.value ?? "",
-                    inviteLink: store.inviteLink,
-                    shareText: store.shareText
-                ).presentationDetents([.height(350)])
+            if let inviteLink = store.inviteLink {
+                state.withState { event in
+                    InviteView(
+                        code: event.pinCode?.value ?? "",
+                        inviteLink: inviteLink,
+                        shareText: store.shareText
+                    )
+                    .presentationDetents([.height(350)])
+                }
             }
         }
         .refreshable {

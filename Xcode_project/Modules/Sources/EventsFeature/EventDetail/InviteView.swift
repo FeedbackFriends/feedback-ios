@@ -93,7 +93,6 @@ struct ShareSheet: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {
-        // No updates needed
     }
 }
 

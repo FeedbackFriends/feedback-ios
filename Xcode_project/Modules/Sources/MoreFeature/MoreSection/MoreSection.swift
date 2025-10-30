@@ -4,15 +4,25 @@ import DesignSystem
 import ComposableArchitecture
 import Logger
 import Utility
+import InfoPlist
 
 @Reducer
 public struct MoreSection: Sendable {
     
     @ObservableState
     public struct State: Equatable, Sendable {
-        var privacyPolicyUrl: URL?
-        var appStoreReviewUrl: URL?
-        public init() {}
+        private let webBaseUrl: URL
+        private let appStoreId: String
+        var privacyPolicyUrl: URL {
+            AppWebURLProvider.privacyPolicy(forBaseUrl: webBaseUrl)
+        }
+        var appStoreReviewUrl: URL {
+            AppWebURLProvider.appStoreReview(forAppStoreId: appStoreId)
+        }
+        public init(webBaseUrl: URL = InfoPlistConfig.webBaseUrl, appStoreId: String = InfoPlistConfig.appStoreId) {
+            self.webBaseUrl = webBaseUrl
+            self.appStoreId = appStoreId
+        }
     }
     
     public enum Action: BindableAction {
@@ -21,14 +31,12 @@ public struct MoreSection: Sendable {
         case onReportBugButtonTap
         case onSupportUsButtonTap
         case binding(BindingAction<State>)
-        case onAppear
     }
     
     public init() {}
     
     @Dependency(\.openURL) var openURL
     @Dependency(\.systemClient) var systemClient
-    @Dependency(\.webURLClient) var webURLClient
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.authClient) var authClient
     
@@ -36,11 +44,6 @@ public struct MoreSection: Sendable {
         BindingReducer()
         Reduce { state, action in
             switch action {
-                
-            case .onAppear:
-                state.privacyPolicyUrl = try? webURLClient.privacyPolicyUrl()
-                state.appStoreReviewUrl = try? webURLClient.appStoreReviewUrl()
-                return .none
                 
             case .onNotificationsButtonTap:
                 return .run { [openURL = self.openURL, systemClient = self.systemClient] _ in
@@ -75,8 +78,8 @@ public struct MoreSection: Sendable {
                 }
                 
             case .onSupportUsButtonTap:
-                return .run { [openURL = self.openURL, webURLClient = self.webURLClient] _ in
-                    await openURL(try webURLClient.appStoreReviewUrl())
+                return .run { [openURL = self.openURL, state = state] _ in
+                    await openURL(state.appStoreReviewUrl)
                 }
                 
             case .binding:
