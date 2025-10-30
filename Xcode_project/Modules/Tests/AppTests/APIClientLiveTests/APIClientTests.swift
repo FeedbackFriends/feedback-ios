@@ -272,84 +272,84 @@ struct APIClientLiveTests {
         #expect(updated?.accountInfo.phoneNumber == "42424242")
     }
     
-//    @Test
-//    func sessionCacheMarkEventAsSeen() async {
-//        let eventId = UUID()
-//        let questionFeedbackSummary = QuestionFeedbackSummary.emojiQuestionFeedbackSummary(
-//            unseenResponses: 5,
-//            emojiQuestionFeedbackSummary: EmojiQuestionFeedbackSummary.init(
-//                emojiFeedbackCountStats: EmojiFeedbackCountStats(verySadCount: 0, sadCount: 0, happyCount: 0, veryHappyCount: 0, commentsCount: 0),
-//                emojiFeedbackSegmentationStats: EmojiFeedbackSegmentationStats(
-//                    verySadPercentage: 0,
-//                    sadPercentage: 0,
-//                    happyPercentage: 0,
-//                    veryHappyPercentage: 0
-//                )
-//            )
-//        )
-//        let eventFeedbackSummary = FeedbackSummary(
-//            segmentationStats: .init(
-//                verySadPercentage: 0,
-//                sadPercentage: 0,
-//                happyPercentage: 0,
-//                veryHappyPercentage: 0
-//            ),
-//            countStats: .init(
-//                verySadCount: 0,
-//                sadCount: 0,
-//                happyCount: 0,
-//                veryHappyCount: 0,
-//                commentsCount: 0,
-//                uniqueParticipantFeedback: 0
-//            ),
-//            unseenResponses: 5
-//        )
-//        
-//        let question = ManagerQuestion(
-//            id: UUID(),
-//            questionText: "Q",
-//            feedbackType: .emoji,
-//            feedback: [],
-//            feedbackSummary: questionFeedbackSummary
-//        )
-//        let event = ManagerEvent(
-//            id: eventId,
-//            title: "Event",
-//            agenda: nil,
-//            date: .now,
-//            pinCode: PinCode(value: "111111"),
-//            durationInMinutes: 60,
-//            location: nil,
-//            ownerInfo: .init(name: nil, email: nil, phoneNumber: nil),
-//            feedbackSummary: eventFeedbackSummary,
-//            questions: [question]
-//        )
-//        let activityItem = ActivityItems(
-//            id: UUID(),
-//            date: .now,
-//            eventTitle: "Event",
-//            eventId: eventId,
-//            newFeedbackCount: 1,
-//            seenByManager: false
-//        )
-//        let activity = Activity(items: [activityItem], unseenTotal: 1)
-//        let managerData = ManagerData(
-//            managerEvents: [event],
-//            activity: activity,
-//            recentlyUsedQuestions: [],
-//            feedbackSessionHash: UUID()
-//        )
-//        let session = Session(participantEvents: [], managerData: managerData, accountInfo: .init(name: nil, email: nil, phoneNumber: nil), role: .manager)
-//        let cache = SessionCache(session: session)
-//        
-//        await cache.markEventAsSeen(eventId: eventId)
-//        let updated = await cache.getSession()
-//        
-//        #expect(updated?.managerData?.managerEvents[id: eventId]?.feedbackSummary?.unseenResponses == 0)
-//        #expect(updated?.managerData?.managerEvents[id: eventId]?.questions.allSatisfy { $0.feedbackSummary?.unseenResponses == 0 } == true)
-//        #expect(updated?.managerData?.activity.unseenTotal == 0)
-//        #expect(updated?.managerData?.activity.items.allSatisfy { $0.seenByManager } == true)
-//    }
+    @Test
+    func sessionCacheMarkEventAsSeen() async {
+        let eventId = UUID()
+        let emojiFeedbackSummary = EmojiQuestionFeedbackSummary(
+            countVerySad: 0,
+            countSad: 0,
+            countHappy: 0,
+            countVeryHappy: 0,
+            percentageVerySad: 0,
+            percentageSad: 0,
+            percentageHappy: 0,
+            percentageVeryHappy: 0
+        )
+        let questionFeedbackSummary = QuestionFeedbackSummary(
+            emojiQuestionFeedbackSummary: emojiFeedbackSummary
+        )
+        
+        let question = ManagerQuestion(
+            id: UUID(),
+            questionText: "Q",
+            feedbackType: .emoji,
+            feedback: [],
+            feedbackSummary: questionFeedbackSummary
+        )
+        let overallFeedbackSummary: OverallFeedbackSummary = .init(
+            segmentationStats: FeedbackSegmentationStats(
+                verySadPercentage: 0,
+                sadPercentage: 0,
+                happyPercentage: 0,
+                veryHappyPercentage: 0
+            ),
+            countStats: FeedbackCountStats(
+                verySadCount: 0,
+                sadCount: 0,
+                happyCount: 0,
+                veryHappyCount: 0,
+                commentsCount: 0
+            ),
+            unseenResponses: 0,
+            responses: 0
+        )
+        let event = ManagerEvent(
+            id: eventId,
+            title: "Event",
+            agenda: nil,
+            date: .now,
+            pinCode: PinCode(value: "111111"),
+            durationInMinutes: 60,
+            location: nil,
+            ownerInfo: .init(name: nil, email: nil, phoneNumber: nil),
+            overallFeedbackSummary: overallFeedbackSummary,
+            questions: [question]
+        )
+        let activityItem = ActivityItems(
+            id: UUID(),
+            date: .now,
+            eventTitle: "Event",
+            eventId: eventId,
+            newFeedbackCount: 1,
+            seenByManager: false
+        )
+        let activity = Activity(items: [activityItem], unseenTotal: 1)
+        let managerData = ManagerData(
+            managerEvents: [event],
+            activity: activity,
+            recentlyUsedQuestions: [],
+            feedbackSessionHash: UUID()
+        )
+        let session = Session(participantEvents: [], managerData: managerData, accountInfo: .init(name: nil, email: nil, phoneNumber: nil), role: .manager)
+        let cache = SessionCache(session: session)
+        
+        await cache.markEventAsSeen(eventId: eventId)
+        let updated = await cache.getSession()
+        
+        #expect(updated?.managerData?.managerEvents[id: eventId]?.overallFeedbackSummary?.unseenResponses == 0)
+        #expect(updated?.managerData?.activity.unseenTotal == 0)
+        #expect(updated?.managerData?.activity.items.allSatisfy { $0.seenByManager } == true)
+    }
     
     @Test
     func sessionCacheUpdateActivity() async {
