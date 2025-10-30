@@ -47,6 +47,14 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         $0.apiClient = self.apiClient
     }
     
+    var isDebug: Bool {
+        #if DEBUG
+        return true
+        #else
+        return false
+        #endif
+    }
+    
     /// On app launch
     func application(
         _ application: UIApplication,
@@ -55,21 +63,21 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         Logger.setup(
             logClients: [
                 CrashlyticsLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .error),
-                SentryLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .info),
+                SentryLoggingClient.create(deviceId: DeviceInfo().deviceID(), minLevel: .error),
                 OSLogClient(subsystem: DeviceInfo().bundleIdentifier(), category: "LoggingClient")
             ]
         )
         InfoPlistConfig.logConfigurations()
         SentrySDK.start { options in
             options.dsn = InfoPlistConfig.sentryDsnUrl.absoluteString
-            options.debug = false
-            // Example uniform sample rate: capture 100% of transactions
-            // In Production you will probably want a smaller number such as 0.5 for 50%
+            options.debug = isDebug
             options.tracesSampleRate = 1.0
+            options.profilesSampleRate = 1.0
             options.tracePropagationTargets = [
                 InfoPlistConfig.apiBaseUrl.absoluteString
             ]
             options.experimental.enableLogs = true
+            options.releaseName = "\(DeviceInfo().appVersion())(\(DeviceInfo().buildNumber))"
         }
         let firebaseOptions = FirebaseOptions(
             googleAppID: InfoPlistConfig.firebaseGoogleAppId,
