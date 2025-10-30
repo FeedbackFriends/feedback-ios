@@ -7,13 +7,13 @@ import Testing
 class InfoPlistReaderTests {
     
     @Test
-    func stringValueReturnsCorrectValue() {
+    func `String value returns correct value from Info.plist`() {
         let plist = InfoPlistReader(bundle: MockBundle(info: ["API_BASE_URL": "api.example.com"]))
         #expect(plist.string(for: "API_BASE_URL") == "api.example.com")
     }
     
     @Test
-    func urlValueConstructsCorrectUrlFromHostAndScheme() {
+    func `URL value is correctly constructed from host and scheme`() {
         let plist = InfoPlistReader(bundle: MockBundle(info: [
             "WEB_BASE_URL": "example.com",
             "WEB_SCHEME": "https"
@@ -23,7 +23,7 @@ class InfoPlistReaderTests {
     }
     
     @Test
-    func rawRepresentableValueDecodesEnumSuccessfully() {
+    func `Raw representable value decodes enum successfully`() {
         enum Mode: String { case dev, prod }
         
         let plist = InfoPlistReader(bundle: MockBundle(info: ["MODE": "prod"]))
@@ -31,7 +31,7 @@ class InfoPlistReaderTests {
     }
     
     @Test
-    func missingKeysReturnNilGracefully() {
+    func `Missing keys return nil gracefully`() {
         let plist = InfoPlistReader(bundle: MockBundle(info: [:]))
         #expect(plist.string(for: "MISSING_KEY") == nil)
         #expect(plist.url(for: "X", scheme: "Y") == nil)

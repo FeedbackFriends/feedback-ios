@@ -8,8 +8,8 @@ import OpenAPI
 @MainActor
 struct APIClientLiveTests {
     
-    @Test("Testing that session is returned and saved in cache after being fetched")
-    func getSessionCachesSession() async throws {
+    @Test
+    func `Session is returned and saved in cache after being fetched`() async throws {
         
         let apiResponse: Components.Schemas.SessionDto = .init(
             role: "Manager",
@@ -53,8 +53,8 @@ struct APIClientLiveTests {
         #expect(snapshot == Session(apiResponse))
     }
     
-    @Test("Testing that event is removed from cache after deletion and stream is triggered with updated session")
-    func sessionCacheDeleteEvent() async throws {
+    @Test
+    func `Event is removed from cache after deletion and stream is triggered with updated session`() async throws {
         
         let event1 = ManagerEvent.mock()
         let event2 = ManagerEvent.mock()
@@ -102,8 +102,8 @@ struct APIClientLiveTests {
         #expect(updatedSession2 == snapshot2)
     }
     
-    @Test("Testing that updating an event updates the cache and stream is triggered with updated session")
-    func sessionCacheUpdateOrAppendManagerEvent() async throws {
+    @Test
+    func `Updating an event apicall also updates the cache and stream is triggered with updated session`() async throws {
         
         let originalEvent = ManagerEvent(
             id: UUID(),
@@ -202,7 +202,7 @@ struct APIClientLiveTests {
     }
     
     @Test
-    func sessionCacheUpdateRecentlyUsedQuestions() async {
+    func `Recently used questions are updated in cache`() async {
         let initialQuestions: Set<RecentlyUsedQuestions> = [
             .init(questionText: "Old question", feedbackType: .emoji, updatedAt: .distantPast)
         ]
@@ -230,7 +230,7 @@ struct APIClientLiveTests {
     }
     
     @Test
-    func sessionCacheUpdateOrAppendParticipantEvent() async {
+    func `Participant event is appended to session`() async {
         let event = ParticipantEvent(
             id: UUID(),
             title: "Title",
@@ -260,7 +260,7 @@ struct APIClientLiveTests {
     }
     
     @Test
-    func sessionCacheUpdateAccount() async {
+    func `Account information is updated in cache`() async {
         let session = Session.mock()
         let cache = SessionCache(session: session)
         
@@ -273,7 +273,7 @@ struct APIClientLiveTests {
     }
     
     @Test
-    func sessionCacheMarkEventAsSeen() async {
+    func `Manager event is marked as seen`() async {
         let eventId = UUID()
         let emojiFeedbackSummary = EmojiQuestionFeedbackSummary(
             countVerySad: 0,
@@ -352,7 +352,7 @@ struct APIClientLiveTests {
     }
     
     @Test
-    func sessionCacheUpdateActivity() async {
+    func `Activity is updated in cache`() async {
         let eventId = UUID()
         let activityItem = ActivityItems(
             id: UUID(),
@@ -379,7 +379,7 @@ struct APIClientLiveTests {
     }
     
     @Test
-    func sessionCacheMarkActivityAsSeen() async {
+    func `Manager activity is marked as seen`() async {
         let eventId = UUID()
         let activityItem = ActivityItems(
             id: UUID(),
@@ -411,7 +411,7 @@ struct APIClientLiveTests {
     }
     
     @Test
-    func sessionCacheReset() async {
+    func `Session cache is reset correctly`() async {
         let session = Session.mock()
         let cache = SessionCache(session: session)
         

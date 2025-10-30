@@ -28,7 +28,7 @@ struct InitialiseFeedbackTests {
     )
     
     @Test
-    func testStartFeedbackSuccessNavigatesToFeedbackFlow() async {
+    func `Start feedback success navigates to feedback flow correctly`() async {
         let store = TestStore(initialState: InitialiseFeedback.State()) {
             InitialiseFeedback()
         } withDependencies: {
@@ -55,7 +55,7 @@ struct InitialiseFeedbackTests {
     }
 
     @Test
-    func testStartFeedbackFailureShowsAlertAndStopsLoading() async {
+    func `Start feedback failure shows alert and stops loading`() async {
         let error = URLError(.cannotFindHost)
         let store = TestStore(initialState: InitialiseFeedback.State()) {
             InitialiseFeedback()

@@ -8,7 +8,7 @@ import Domain
 struct ManagerEventsTests {
     
     @Test
-    func managerEvent_eventDetail() async {
+    func `Manager event detail view is shown and event is marked as seen when dismissed`() async {
         let session: Shared<Session> = .init(value: .mock(numberOfManagerEvents: 2))
         let mockEvent = session.wrappedValue.managerData!.managerEvents[0]
         var eventMarkedAsSeen: UUID?

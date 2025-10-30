@@ -8,7 +8,7 @@ import Domain
 struct AccountSectionTests {
     
     @Test
-    func updateProfileButtonTap() async {
+    func `Tap on update profile button`() async {
         let session: Session = .mock()
         let store = TestStore(initialState: AccountSection.State(session: .init(value: session))) {
             AccountSection()
@@ -23,7 +23,7 @@ struct AccountSectionTests {
     }
     
     @Test
-    func changeUserTypeButtonTap() async {
+    func `Change user button tap`() async {
         let store = TestStore(initialState: AccountSection.State(session: .init(value: .mock()))) {
             AccountSection()
         }

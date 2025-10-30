@@ -7,7 +7,7 @@ import Foundation
 struct ModifyAccountTests {
     
     @Test
-    func saveButtonTapSuccess() async {
+    func `Save button updates account successfully and dismisses view`() async {
         let dismissed = LockIsolated(false)
         let store = TestStore(initialState: ModifyAccount.State(
             nameInput: "John Doe",
@@ -31,7 +31,7 @@ struct ModifyAccountTests {
     }
     
     @Test
-    func saveButtonTapFailure() async {
+    func `Save button shows error alert when account update fails`() async {
         struct Failure: Error, Equatable {}
         
         let store = TestStore(initialState: ModifyAccount.State(

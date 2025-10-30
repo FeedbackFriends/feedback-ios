@@ -4,37 +4,37 @@ import Testing
 final class StringExtensionsTests {
     
     @Test
-    func testNilIfEmpty_withEmptyString_returnsNil() {
+    func `NilIfEmpty returns nil for empty string`() {
         let emptyString = ""
         #expect(emptyString.nilIfEmpty == nil)
     }
     
     @Test
-    func testNilIfEmpty_withNonEmptyString_returnsString() {
+    func `NilIfEmpty returns original string when non-empty`() {
         let nonEmptyString = "Hello"
         #expect(nonEmptyString.nilIfEmpty == "Hello")
     }
     
     @Test
-    func testLowercasingFirst_withEmptyString_returnsEmptyString() {
+    func `Lowercasing first letter returns empty string when input is empty`() {
         let emptyString = ""
-		#expect(emptyString.lowercasingFirst().isEmpty)
+        #expect(emptyString.lowercasingFirst().isEmpty)
     }
     
     @Test
-    func testLowercasingFirst_withNonEmptyString_returnsLowercaseFirst() {
+    func `Lowercasing first letter works correctly for non-empty string`() {
         let string = "Hello"
         #expect(string.lowercasingFirst() == "hello")
     }
     
     @Test
-    func testUppercasingFirst_withEmptyString_returnsEmptyString() {
+    func `Uppercasing first letter returns empty string when input is empty`() {
         let emptyString = ""
-		#expect(emptyString.uppercasingFirst().isEmpty)
+        #expect(emptyString.uppercasingFirst().isEmpty)
     }
     
     @Test
-    func testUppercasingFirst_withNonEmptyString_returnsUppercaseFirst() {
+    func `Uppercasing first letter works correctly for non-empty string`() {
         let string = "helloHello"
         #expect(string.uppercasingFirst() == "HelloHello")
     }

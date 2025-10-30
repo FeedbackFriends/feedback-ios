@@ -7,7 +7,7 @@ struct SignUpTests {
     enum TestError: Error, Equatable { case mock }
     
     @Test
-    func signUpWithApple_success() async {
+    func `Sign up with Apple succeeds and updates state correctly`() async {
         let store = await TestStore(initialState: SignUp.State()) {
             SignUp()
         } withDependencies: {
@@ -23,7 +23,7 @@ struct SignUpTests {
     }
 
     @Test
-    func signUpWithGoogle_success() async {
+    func `Sign up with Google succeeds and updates state correctly`() async {
         let store = await TestStore(initialState: SignUp.State()) {
             SignUp()
         } withDependencies: {
@@ -39,7 +39,7 @@ struct SignUpTests {
     }
 
     @Test
-    func signUpWithApple_cancelled() async {
+    func `Sign up with Apple is cancelled and resets state`() async {
         let store = await TestStore(initialState: SignUp.State()) {
             SignUp()
         } withDependencies: {
@@ -54,7 +54,7 @@ struct SignUpTests {
     }
 
     @Test
-    func signUpWithGoogle_cancelled() async {
+    func `Sign up with Google is cancelled and resets state`() async {
         let store = await TestStore(initialState: SignUp.State()) {
             SignUp()
         } withDependencies: {
@@ -70,7 +70,7 @@ struct SignUpTests {
     }
 
     @Test
-    func signUpWithApple_failure() async {
+    func `Sign up with Apple fails and presents error alert`() async {
         let store = await TestStore(initialState: SignUp.State()) {
             SignUp()
         } withDependencies: {
@@ -87,7 +87,7 @@ struct SignUpTests {
     }
 
     @Test
-    func signUpWithGoogle_failure() async {
+    func `Sign up with Google fails and presents error alert`() async {
         let store = await TestStore(initialState: SignUp.State()) {
             SignUp()
         } withDependencies: {

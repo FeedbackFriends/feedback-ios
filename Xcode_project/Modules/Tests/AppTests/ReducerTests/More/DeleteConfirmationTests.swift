@@ -6,10 +6,10 @@ import Foundation
 struct DeleteConfirmationTests {
     
     @Test
-    func testDeleteSuccess() async {
+    func `Delete button removes event successfully and shows success overlay`() async {
         let eventId = UUID()
         let deletedEvent: LockIsolated<UUID?> = .init(nil)
-		let store = await TestStore(initialState: DeleteConfirmation.State(eventId: eventId)) {
+        let store = await TestStore(initialState: DeleteConfirmation.State(eventId: eventId)) {
             DeleteConfirmation()
         } withDependencies: {
             $0.apiClient.deleteEvent = { @MainActor in
@@ -31,7 +31,7 @@ struct DeleteConfirmationTests {
     }
     
     @Test
-    func testDeleteFailure() async {
+    func `Delete button shows error alert when deletion fails`() async {
         struct Failure: Error, Equatable {}
         let store = await TestStore(initialState: DeleteConfirmation.State(eventId: UUID())) {
             DeleteConfirmation()
@@ -50,7 +50,7 @@ struct DeleteConfirmationTests {
     }
     
     @Test
-    func cancelButtonTap() async {
+    func `Cancel button dismisses confirmation dialog`() async {
         let didDismiss = LockIsolated(false)
         let store = await TestStore(initialState: DeleteConfirmation.State(eventId: UUID())) {
             DeleteConfirmation()

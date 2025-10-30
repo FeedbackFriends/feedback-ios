@@ -10,8 +10,8 @@ import Testing
 @MainActor
 struct TabbarTests {
     
-    @Test("Tap sign out button and confirm logout")
-    func signOut() async {
+    @Test
+    func `Sign out button shows confirmation dialog and navigates to sign-up after confirmation`() async {
         
         let store = TestStore(
             initialState: .init(
@@ -38,8 +38,8 @@ struct TabbarTests {
         await store.receive(\.delegate, .navigateToSignUp)
     }
     
-    @Test("Tap activity button and tap on manager event in the list of activities")
-    func activity() async {
+    @Test
+    func `Activity button opens activity list and navigates to event detail`() async {
         let event: ManagerEvent = .mock()
         let sharedSession = Shared<Session>(
             value: .init(
@@ -82,8 +82,8 @@ struct TabbarTests {
         }
     }
     
-    @Test("Navigation to create event screen as manager and navigation to event detail invitation on creation")
-    func createEventButtonManager() async {
+    @Test
+    func `Create event button as manager navigates to create screen and event detail`() async {
         let sharedSession = Shared<Session>(
             value: .mock()
         )
@@ -91,7 +91,7 @@ struct TabbarTests {
         let session = sharedSession
         let store = TestStore(initialState: .init(session: session)) {
             Tabbar()
-        } 
+        }
         await store.send(.toolbar(.createEventButtonTap)) {
             $0.destination = .createEvent(
                 .init(
@@ -117,8 +117,8 @@ struct TabbarTests {
         }
     }
     
-    @Test("Tap create event button as anonymous")
-    func createEventButtonAnonymous() async {
+    @Test
+    func `Create event button as anonymous shows login required alert`() async {
         let sharedSession = Shared<Session>(
             value: .mockAnonymous()
         )
@@ -146,8 +146,8 @@ struct TabbarTests {
         await store.receive(\.delegate, .navigateToSignUp)
     }
     
-    @Test("Tap join event -> when join event succeeds dismiss and navigate to participant events")
-    func joinEventAnonymous() async {
+    @Test
+    func `Join event as anonymous starts feedback flow successfully`() async {
         let session = Shared<Session>(
             value: .mockAnonymous()
         )
@@ -195,8 +195,8 @@ struct TabbarTests {
         }
     }
     
-    @Test("Notification prompt is presented and cancel button is tapped")
-    func notificationPermissionPromptCancel() async {
+    @Test
+    func `Notification permission prompt cancel button dismisses prompt`() async {
         let store = TestStore(
             initialState: .init(
                 session: .init(value: .mock())
@@ -212,8 +212,8 @@ struct TabbarTests {
         }
     }
     
-    @Test("Notification prompt is presented and authorization is requested")
-    func notificationPermissionPromptAurhorize() async {
+    @Test
+    func `Notification permission prompt requests authorization successfully`() async {
         let notificationAuthorizationRequested = LockIsolated(false)
         let store = TestStore(
             initialState: .init(
@@ -236,8 +236,8 @@ struct TabbarTests {
         #expect(notificationAuthorizationRequested.value == true)
     }
 
-    @Test("Start feedback from Enter Code screen")
-    func startFeedbackEventCode() async {
+    @Test
+    func `Start feedback from enter code screen triggers feedback flow`() async {
         let pin = PinCode(value: "123456")
         let store = TestStore(
             initialState: .init(
@@ -251,8 +251,8 @@ struct TabbarTests {
         await store.receive(\.initialiseFeedback.startFeedback, pin)
     }
     
-    @Test("Start feedback participant event as Manager")
-    func startFeedbackManager() async {
+    @Test
+    func `Start feedback from manager events triggers feedback flow`() async {
         let pin = PinCode(value: "654321")
         let store = TestStore(
             initialState: .init(
@@ -266,8 +266,8 @@ struct TabbarTests {
         await store.receive(\.initialiseFeedback.startFeedback, pin)
     }
     
-    @Test("Start feedback participant event as Participant or Anonymous")
-    func startFeedbackParticipant() async {
+    @Test
+    func `Start feedback from participant events triggers feedback flow`() async {
         let pin = PinCode(value: "111111")
         let store = TestStore(
             initialState: .init(
