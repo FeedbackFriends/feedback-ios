@@ -111,19 +111,6 @@ extension NotificationClient {
     )
 }
 
-extension WebURLClient {
-    static let mock = Self.init(
-        inviteUrl: { pinCode in
-            URL(string: "https://letsgrow.dk/invite/\(pinCode.value)")!
-        },
-        privacyPolicyUrl: {
-            URL(string: "https://letsgrow.dk/privacy-policy")!
-        },
-        appStoreReviewUrl: {
-            URL(string: "https://letsgrow.dk/")!
-        }
-    )
-}
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     let mockAuthEngine = MockAuthEngine()
@@ -157,7 +144,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             $0.authClient = .mock(mockAuthEngine: self.mockAuthEngine)
             $0.systemClient = .mock
             $0.notificationClient = .mock
-            $0.webURLClient = .mock
         }
     )
     /// On app launch
@@ -179,7 +165,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     
     /// When a notification is tapped
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        guard let deeplink = DeeplinkParser.fromNotificationPayload(response.notification.request.content.userInfo) else { return }
+        guard let deeplink = Deeplink(notificationUserInfo: response.notification.request.content.userInfo) else { return }
         intialStore.send(.onNotificationTap(deeplink))
     }
 }

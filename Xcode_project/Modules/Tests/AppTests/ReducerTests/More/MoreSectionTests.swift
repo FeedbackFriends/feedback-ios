@@ -17,8 +17,6 @@ struct MoreSectionTests {
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.webURLClient.appStoreReviewUrl = { mockAppStoreReviewUrl }
-            $0.webURLClient.privacyPolicyUrl = { mockPrivacyPolicyUrl }
             $0.systemClient.openAppSettings = {
                 "settings_url"
             }
@@ -41,8 +39,6 @@ struct MoreSectionTests {
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.webURLClient.appStoreReviewUrl = { mockAppStoreReviewUrl }
-            $0.webURLClient.privacyPolicyUrl = { mockPrivacyPolicyUrl }
             $0.systemClient = .live(supportEmail: mockSupportEmailAddress)
             $0.openURL = .init(handler: { url in
                 openedUrl.setValue(url)
@@ -64,8 +60,6 @@ struct MoreSectionTests {
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.webURLClient.appStoreReviewUrl = { mockAppStoreReviewUrl }
-            $0.webURLClient.privacyPolicyUrl = { mockPrivacyPolicyUrl }
             $0.systemClient = .live(supportEmail: mockSupportEmailAddress)
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
@@ -87,8 +81,6 @@ struct MoreSectionTests {
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.webURLClient.appStoreReviewUrl = { mockAppStoreReviewUrl }
-            $0.webURLClient.privacyPolicyUrl = { mockPrivacyPolicyUrl }
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
                 return true
@@ -101,5 +93,4 @@ struct MoreSectionTests {
         await store.send(.onSupportUsButtonTap)
         #expect(openedUrl.value == mockAppStoreReviewUrl)
     }
-    
 }

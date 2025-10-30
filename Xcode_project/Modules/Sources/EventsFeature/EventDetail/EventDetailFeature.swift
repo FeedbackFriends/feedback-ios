@@ -4,6 +4,7 @@ import Foundation
 import ComposableArchitecture
 import UIKit
 import Utility
+import InfoPlist
 
 @Reducer
 public struct EventDetailFeature: Sendable {
@@ -25,6 +26,7 @@ public struct EventDetailFeature: Sendable {
     
     @ObservableState
     public struct State: Equatable, Sendable {
+        private let webBaseUrl: URL
         public var event: ManagerEvent
         @Presents var destination: Destination.State?
         var fetchEventDetailInFlight = true
@@ -41,22 +43,27 @@ public struct EventDetailFeature: Sendable {
   Use pin code \(event.pinCode?.value ?? "") to join.
   
   👇🏼 Tap the link to join:  
-  \(inviteLink)
+  \(inviteLink ?? "invalid_link")
   """
         }
         
-        var inviteLink: String = ""
+        var inviteLink: String? {
+            guard let pinCode = event.pinCode?.value else { return nil }
+            return AppWebURLProvider.invite(forPinCode: pinCode, baseUrl: webBaseUrl)?.absoluteString
+        }
         
         public init(
             event: ManagerEvent,
             destination: Destination.State? = nil,
             fetchEventDetailInFlight: Bool = true,
-            session: Shared<Session>
+            session: Shared<Session>,
+            webBaseUrl: URL = InfoPlistConfig.webBaseUrl
         ) {
             self.event = event
             self.destination = destination
             self.fetchEventDetailInFlight = fetchEventDetailInFlight
             self._session = session
+            self.webBaseUrl = webBaseUrl
         }
     }
     
@@ -76,7 +83,6 @@ public struct EventDetailFeature: Sendable {
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.continuousClock) var clock
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.webURLClient) var webURLClient
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -151,13 +157,6 @@ public struct EventDetailFeature: Sendable {
                 return .none
                 
             case .onTask:
-                if let pinCode = state.event.pinCode {
-                    do {
-                        state.inviteLink = try self.webURLClient.inviteUrl(pinCode: pinCode).absoluteString
-                    } catch {
-                        fatalError("Failed to generate invite URL: \(error)")
-                    }
-                }
                 return .publisher {
                     state.$session.publisher
                         .map(Action.sessionUpdated)
