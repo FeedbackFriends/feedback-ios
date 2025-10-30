@@ -116,7 +116,6 @@ let package = Package(
                 "Domain",
                 "Utility",
                 "OpenAPI",
-                "InfoPlist",
                 .product(name: "Sentry", package: "sentry-cocoa"),
             ]
         ),
@@ -177,7 +176,6 @@ let package = Package(
         .target(
             name: "MoreFeature",
             dependencies: [
-                "InfoPlist",
                 "DesignSystem",
                 "Domain",
                 "Utility",
@@ -187,7 +185,6 @@ let package = Package(
         .target(
             name: "EventsFeature",
             dependencies: [
-                "InfoPlist",
                 "DesignSystem",
                 "Domain",
                 "Utility",
@@ -230,7 +227,8 @@ let package = Package(
         .target(
             name: "InfoPlist",
             dependencies: [
-                "Logger"
+                "Logger",
+                "Domain"
             ]
         ),
         .target(

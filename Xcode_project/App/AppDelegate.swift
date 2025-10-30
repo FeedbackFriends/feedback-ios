@@ -21,7 +21,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     
     let apiClient: APIClient = .live(
         client: Client(
-            serverURL: InfoPlistConfig.apiBaseUrl,
+            serverURL: InfoPlistConfig().apiBaseUrl,
             configuration: Configuration(),
             transport: URLSessionTransport(),
             middlewares: [
@@ -41,7 +41,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     ) {
         RootFeature()._printChanges()
     } withDependencies: {
-        $0.systemClient = .live(supportEmail: InfoPlistConfig.supportEmail)
+        $0.systemClient = .live(
+            supportEmail: InfoPlistConfig().supportEmail,
+            webBaseUrl: InfoPlistConfig().webBaseUrl,
+            appStoreId: InfoPlistConfig().appStoreId
+        )
         $0.notificationClient = self.notificationClient
         $0.authClient = .live
         $0.apiClient = self.apiClient
@@ -67,27 +71,27 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
                 OSLogClient(subsystem: DeviceInfo().bundleIdentifier(), category: "LoggingClient")
             ]
         )
-        InfoPlistConfig.logConfigurations()
+        InfoPlistConfig().logConfigurations()
         SentrySDK.start { options in
-            options.dsn = InfoPlistConfig.sentryDsnUrl.absoluteString
-            options.debug = isDebug
+            options.dsn = InfoPlistConfig().sentryDsnUrl.absoluteString
+            options.debug = self.isDebug
             options.tracesSampleRate = 1.0
             options.profilesSampleRate = 1.0
             options.tracePropagationTargets = [
-                InfoPlistConfig.apiBaseUrl.absoluteString
+                InfoPlistConfig().apiBaseUrl.absoluteString
             ]
             options.experimental.enableLogs = true
-            options.releaseName = "\(DeviceInfo().appVersion())(\(DeviceInfo().buildNumber))"
+            options.releaseName = "\(DeviceInfo().version())(\(DeviceInfo().build))"
         }
         let firebaseOptions = FirebaseOptions(
-            googleAppID: InfoPlistConfig.firebaseGoogleAppId,
-            gcmSenderID: InfoPlistConfig.firebaseGcmSenderId
+            googleAppID: InfoPlistConfig().firebaseGoogleAppId,
+            gcmSenderID: InfoPlistConfig().firebaseGcmSenderId
         )
-        firebaseOptions.clientID = InfoPlistConfig.firebaseClientId
-        firebaseOptions.apiKey = InfoPlistConfig.firebaseApiKey
-        firebaseOptions.bundleID = InfoPlistConfig.firebaseBundleId
-        firebaseOptions.projectID = InfoPlistConfig.firebaseProjectId
-        firebaseOptions.storageBucket = InfoPlistConfig.firebaseStorageBucket
+        firebaseOptions.clientID = InfoPlistConfig().firebaseClientId
+        firebaseOptions.apiKey = InfoPlistConfig().firebaseApiKey
+        firebaseOptions.bundleID = InfoPlistConfig().firebaseBundleId
+        firebaseOptions.projectID = InfoPlistConfig().firebaseProjectId
+        firebaseOptions.storageBucket = InfoPlistConfig().firebaseStorageBucket
         FirebaseApp.configure(options: firebaseOptions)
         AppTheme.setUp()
         UNUserNotificationCenter.current().delegate = self

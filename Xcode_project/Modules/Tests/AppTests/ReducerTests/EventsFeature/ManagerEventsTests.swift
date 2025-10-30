@@ -20,7 +20,6 @@ struct ManagerEventsTests {
                 eventMarkedAsSeen = $0
             }
         }
-        
         await store.send(.managerEventTap(mockEvent)) {
             $0.destination = .eventDetail(
                 EventDetailFeature.State.init(

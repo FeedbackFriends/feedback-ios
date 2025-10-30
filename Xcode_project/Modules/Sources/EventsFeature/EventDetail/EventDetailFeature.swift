@@ -4,7 +4,6 @@ import Foundation
 import ComposableArchitecture
 import UIKit
 import Utility
-import InfoPlist
 
 @Reducer
 public struct EventDetailFeature: Sendable {
@@ -26,7 +25,6 @@ public struct EventDetailFeature: Sendable {
     
     @ObservableState
     public struct State: Equatable, Sendable {
-        private let webBaseUrl: URL
         public var event: ManagerEvent
         @Presents var destination: Destination.State?
         var fetchEventDetailInFlight = true
@@ -43,27 +41,26 @@ public struct EventDetailFeature: Sendable {
   Use pin code \(event.pinCode?.value ?? "") to join.
   
   👇🏼 Tap the link to join:  
-  \(inviteLink ?? "invalid_link")
+  \(inviteLink ?? "")
   """
         }
         
         var inviteLink: String? {
             guard let pinCode = event.pinCode?.value else { return nil }
-            return AppWebURLProvider.invite(forPinCode: pinCode, baseUrl: webBaseUrl)?.absoluteString
+            @Dependency(\.systemClient.configuration()) var configuration
+            return configuration.inviteUrl(pinCode: pinCode)?.absoluteString
         }
         
         public init(
             event: ManagerEvent,
             destination: Destination.State? = nil,
             fetchEventDetailInFlight: Bool = true,
-            session: Shared<Session>,
-            webBaseUrl: URL = InfoPlistConfig.webBaseUrl
+            session: Shared<Session>
         ) {
             self.event = event
             self.destination = destination
             self.fetchEventDetailInFlight = fetchEventDetailInFlight
             self._session = session
-            self.webBaseUrl = webBaseUrl
         }
     }
     
