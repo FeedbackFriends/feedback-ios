@@ -45,10 +45,18 @@ struct MoreSectionTests {
                 openedUrl.setValue(url)
                 return true
             })
+            $0.systemClient.openEmail = { _, _ in
+                var components = URLComponents(string: "mailto:mock@mock.dk")!
+                components.queryItems = [
+                    URLQueryItem(name: "subject", value: "mock"),
+                    URLQueryItem(name: "body", value: "mock")
+                ]
+                return components.url!
+            }
         }
         await store.send(.onFeedbackButtonTap)
         #expect(openedUrl.value?.absoluteString.contains("mailto:\(mockEmail)") == true)
-        #expect(openedUrl.value?.absoluteString.contains("subject=Feedback") == true)
+        #expect(openedUrl.value?.absoluteString.contains("mailto:mock@mock.dk") == true)
     }
     
     @Test
@@ -63,10 +71,19 @@ struct MoreSectionTests {
                 openedUrl.setValue(url)
                 return true
             })
+            $0.systemClient.openEmail = { _, _ in
+                var components = URLComponents(string: "mailto:mock@mock.dk")!
+                components.queryItems = [
+                    URLQueryItem(name: "subject", value: "mock"),
+                    URLQueryItem(name: "body", value: "mock")
+                ]
+                return components.url!
+            }
         }
         await store.send(.onReportBugButtonTap)
         #expect(openedUrl.value?.absoluteString.contains("mailto:\(mockEmail)") == true)
-        #expect(openedUrl.value?.absoluteString.contains("subject=Bug") == true)
+        #expect(openedUrl.value?.absoluteString.contains("subject=mock") == true)
+        #expect(openedUrl.value?.absoluteString.contains("body=mock") == true)
     }
     
     @Test
@@ -84,6 +101,6 @@ struct MoreSectionTests {
             })
         }
         await store.send(.onSupportUsButtonTap)
-        #expect(openedUrl.value == URL(string: "https://apps.apple.com/app/id123123123?action=write-review")!)
+        #expect(openedUrl.value == URL(string: "https://apps.apple.com/app/id123456789?action=write-review")!)
     }
 }
