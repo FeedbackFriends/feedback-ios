@@ -10,14 +10,7 @@ struct FeedbackApp: App {
     
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     
-    init() {
-        #if DEBUG
-        Logger.debug("IS DEBUG: true")
-        #else
-        Logger.debug("IS DEBUG: false")
-        #endif
-        
-    }
+    init() {}
     
     var body: some Scene {
         WindowGroup {

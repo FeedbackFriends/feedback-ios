@@ -3,24 +3,27 @@ import Testing
 import ComposableArchitecture
 import Foundation
 import Utility
+import Domain
 
 @MainActor
 struct MoreSectionTests {
-
+    
+    nonisolated let mockConfiguration = AppConfiguration(
+        webBaseUrl: URL(string: "https://letsgrow.dk")!,
+        appStoreId: "123456789",
+        supportEmail: "mock@mock.dk"
+    )
+    
     @Test
     func onNotificationsButtonTap() async {
-        let baseUrl = URL(string: "https://letsgrow.dk")!
-        let appStoreId = "123123123"
         let openedUrl = LockIsolated<URL?>(nil)
-        let store = TestStore(initialState: MoreSection.State(
-            webBaseUrl: baseUrl,
-            appStoreId: appStoreId
-        )) {
+        let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
             $0.systemClient.openAppSettings = {
                 "settings_url"
             }
+            $0.systemClient.configuration = { mockConfiguration }
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
                 return true
@@ -32,17 +35,12 @@ struct MoreSectionTests {
     
     @Test
     func onFeedbackButtonTap() async {
-        let baseUrl = URL(string: "https://letsgrow.dk")!
-        let appStoreId = "123123123"
         let mockEmail = "mock@mock.dk"
         let openedUrl = LockIsolated<URL?>(nil)
-        let store = TestStore(initialState: MoreSection.State(
-            webBaseUrl: baseUrl,
-            appStoreId: appStoreId
-        )) {
+        let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.systemClient = .live(supportEmail: mockEmail)
+            $0.systemClient.configuration = { mockConfiguration }
             $0.openURL = .init(handler: { url in
                 openedUrl.setValue(url)
                 return true
@@ -55,17 +53,12 @@ struct MoreSectionTests {
     
     @Test
     func onReportBugButtonTap() async {
-        let baseUrl = URL(string: "https://letsgrow.dk")!
-        let appStoreId = "123123123"
         let mockEmail = "mock@mock.dk"
         let openedUrl = LockIsolated<URL?>(nil)
-        let store = TestStore(initialState: MoreSection.State(
-            webBaseUrl: baseUrl,
-            appStoreId: appStoreId
-        )) {
+        let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.systemClient = .live(supportEmail: mockEmail)
+            $0.systemClient.configuration = { mockConfiguration }
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
                 return true
@@ -78,17 +71,13 @@ struct MoreSectionTests {
     
     @Test
     func onSupportUsButtonTap() async {
-        let baseUrl = URL(string: "https://letsgrow.dk")!
-        let appStoreId = "123123123"
         let openedUrl = LockIsolated<URL?>(nil)
         let store = TestStore(
-            initialState: MoreSection.State(
-                webBaseUrl: baseUrl,
-                appStoreId: appStoreId
-            )
+            initialState: MoreSection.State()
         ) {
             MoreSection()
         } withDependencies: {
+            $0.systemClient.configuration = { mockConfiguration }
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
                 return true

@@ -80,6 +80,13 @@ extension SystemClient {
             ]
             return components.url!
             
+        },
+        configuration: {
+            return AppConfiguration(
+                webBaseUrl: URL(string: "https://letsgrow.dk")!,
+                appStoreId: "123456789",
+                supportEmail: "mock@mock.dk"
+            )
         }
     )
 }

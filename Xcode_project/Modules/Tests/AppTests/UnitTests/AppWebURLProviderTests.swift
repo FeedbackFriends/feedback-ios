@@ -9,9 +9,6 @@ import Domain
     @Test
     func testInviteUrlGeneration() {
         let baseUrl = URL(string: "https://letsgrow.com")!
-        let appstoreId = "123456789"
-        let supportEmail = "support@example.com"
-        
         let pinCode = PinCode(value: "2344")
         let inviteUrl = AppWebURLProvider.invite(forPinCode: pinCode.value, baseUrl: baseUrl)
         #expect(inviteUrl!.absoluteString == "https://letsgrow.com/invite/2344")
