@@ -8,7 +8,7 @@ import Domain
 struct FeedbackFlowTests {
     
     @Test
-    func testInitialState() async throws {
+    func `Initial state is set up correctly with feedback session data`() async throws {
         let store = TestStore(initialState: .initialState(feedbackSession: session)) {
             FeedbackFlowCoordinator()
         }
@@ -22,7 +22,7 @@ struct FeedbackFlowTests {
     }
     
     @Test
-    func showsInfoScreenAndDismisses() async {
+    func `Info button shows event info screen and dismisses correctly`() async {
         let store = TestStore(initialState: .initialState(feedbackSession: session)) {
             FeedbackFlowCoordinator()
         }
@@ -36,7 +36,7 @@ struct FeedbackFlowTests {
     }
     
     @Test
-    func cancelButtonDismissesView() async {
+    func `Cancel button triggers view dismissal`() async {
         let didDismiss = LockIsolated(false)
         
         let store = TestStore(initialState: .initialState(feedbackSession: session)) {
@@ -50,7 +50,7 @@ struct FeedbackFlowTests {
     }
     
     @Test
-    func fullFlowHappyPathWithRatingPrompt() async {
+    func `Full feedback flow runs successfully with rating prompt and dismissal`() async {
         let didDismiss = LockIsolated(false)
         let clock = TestClock()
         
@@ -140,7 +140,7 @@ struct FeedbackFlowTests {
     }
     
     @Test
-    func submitFeedbackDismissesAutomaticallyIfNoRatingPrompt() async {
+    func `Feedback submission without rating prompt dismisses automatically`() async {
         let didDismiss = LockIsolated(false)
         
         let store = TestStore(initialState: readyForSubmissionState) {
@@ -161,7 +161,7 @@ struct FeedbackFlowTests {
     }
     
     @Test
-    func submitFeedbackFailure() async {
+    func `Feedback submission failure shows error alert`() async {
         let error = URLError(.badURL)
         
         let store = TestStore(initialState: readyForSubmissionState) {
@@ -180,7 +180,7 @@ struct FeedbackFlowTests {
     }
     
     @Test
-    func fromPathToModelEmojiFeedback() async throws {
+    func `Feedback input correctly converts from emoji path to model`() async throws {
         let id = UUID()
         let withComment = FeedbackInput(
             .emoji(

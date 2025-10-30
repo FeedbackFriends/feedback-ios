@@ -8,7 +8,7 @@ import Domain
 struct ChangeUserTypeTests {
     
     @Test
-    func saveButtonTapSuccess() async {
+    func `Save button updates user type successfully and refreshes session`() async {
         let mockRole = Role.manager
         let store = TestStore(initialState: ChangeUserType.State(selectedUserType: mockRole)) {
             ChangeUserType()
@@ -25,7 +25,7 @@ struct ChangeUserTypeTests {
     }
     
     @Test
-    func saveButtonTapFailure() async {
+    func `Save button shows error alert when updating user type fails`() async {
         struct Failure: Error, Equatable {}
         
         let store = TestStore(initialState: ChangeUserType.State(selectedUserType: Role.manager)) {
@@ -48,7 +48,7 @@ struct ChangeUserTypeTests {
     }
     
     @Test
-    func closeButtonTap() async {
+    func `Close button triggers dismissal correctly`() async {
         let didDismiss = LockIsolated(false)
         
         let store = TestStore(initialState: ChangeUserType.State(selectedUserType: Role.manager)) {

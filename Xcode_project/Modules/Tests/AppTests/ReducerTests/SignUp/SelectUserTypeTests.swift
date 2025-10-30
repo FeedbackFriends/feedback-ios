@@ -7,7 +7,7 @@ struct SelectUserTypeTests {
     enum TestError: Error, Equatable { case mock }
 
     @Test
-    func createAccountSuccess() async {
+    func `Create account succeeds and navigates to session fetch`() async {
         let store = await TestStore(initialState: SelectUserType.State()) {
             SelectUserType()
         } withDependencies: {
@@ -24,11 +24,11 @@ struct SelectUserTypeTests {
             $0.isLoading = true
         }
 
-        await store.receive(\.delegate, .getSession) 
+        await store.receive(\.delegate, .getSession)
     }
 
     @Test
-    func createAccountFailure() async {
+    func `Create account fails and shows error alert`() async {
         let store = await TestStore(initialState: SelectUserType.State()) {
             SelectUserType()
         } withDependencies: {
@@ -50,13 +50,13 @@ struct SelectUserTypeTests {
     }
 
     @Test
-    func buttonDisabledWithoutSelection() {
+    func `Create account button is disabled when no user type is selected`() {
         let state = SelectUserType.State()
         #expect(state.disableUserTypeSelectionButton)
     }
 
     @Test
-    func buttonEnabledWithSelection() {
+    func `Create account button is enabled when user type is selected`() {
         var state = SelectUserType.State()
         state.selectedUserType = .manager
         #expect(!state.disableUserTypeSelectionButton)

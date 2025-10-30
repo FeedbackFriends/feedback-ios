@@ -7,7 +7,7 @@ import Foundation
 struct EmojiFeedbackTests {
     
     @Test
-    func tapEmojiSelectsEmojiAndFocusesCommentField() async {
+    func `Tapping emoji selects emoji and focuses comment field`() async {
         let questionId = UUID()
         let store = TestStore(
             initialState: EmojiFeedback.State(
@@ -26,7 +26,7 @@ struct EmojiFeedbackTests {
     }
 
     @Test
-    func tapOutsideTextFieldClosesCommentField() async {
+    func `Tapping outside text field closes comment field`() async {
         let questionId = UUID()
         let store = TestStore(
             initialState: EmojiFeedback.State(
@@ -42,7 +42,7 @@ struct EmojiFeedbackTests {
     }
 
     @Test
-    func bindingCommentTextFieldUpdatesState() async {
+    func `Typing in comment field updates state`() async {
         let questionId = UUID()
         let store = TestStore(
             initialState: EmojiFeedback.State(

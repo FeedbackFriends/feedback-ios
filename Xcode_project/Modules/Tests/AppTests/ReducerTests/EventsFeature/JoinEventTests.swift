@@ -5,7 +5,7 @@ import Foundation
 
 struct JoinEventTests {
     @Test
-    func testJoinSuccess() async {
+    func `Join event succeeds and navigates to participant event`() async {
         let store = await TestStore(initialState: JoinEvent.State(pinCodeInput: .init(value: "1234"))) {
             JoinEvent()
         } withDependencies: {
@@ -27,7 +27,7 @@ struct JoinEventTests {
     }
     
     @Test
-    func testJoinFailure() async {
+    func `Join event failure shows error alert`() async {
         struct Failure: Error, Equatable {}
         let store = await TestStore(initialState: JoinEvent.State(pinCodeInput: .init(value: "1234"))) {
             JoinEvent()
@@ -46,7 +46,7 @@ struct JoinEventTests {
     }
     
     @Test
-    func testJoinDismiss() async {
+    func `Close button dismisses join event view`() async {
         
         let didDismiss = LockIsolated(false)
         

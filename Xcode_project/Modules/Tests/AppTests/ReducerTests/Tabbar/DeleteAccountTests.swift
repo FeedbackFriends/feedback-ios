@@ -8,7 +8,7 @@ import Domain
 struct DeleteAccountTests {
 
     @Test
-    func testConfirmDeleteSuccessFlow() async {
+    func `Delete account confirmation completes successfully and shows success alert`() async {
         let store = TestStore(initialState: .init()) {
             DeleteAccount()
         } withDependencies: {
@@ -49,7 +49,7 @@ struct DeleteAccountTests {
     }
 
     @Test
-    func testDeleteFailurePresentsError() async {
+    func `Delete account failure presents error alert`() async {
         let error = URLError(.cannotConnectToHost)
         let store = TestStore(initialState: .init()) {
             DeleteAccount()
@@ -89,7 +89,7 @@ struct DeleteAccountTests {
     }
 
     @Test
-    func testLogoutFailureShowsRetryAlert() async {
+    func `Logout failure shows retry alert`() async {
         let store = TestStore(initialState: .init(
             destination: .alert(AlertState(title: { TextState("Account deleted.") }))
         )) {
@@ -115,7 +115,7 @@ struct DeleteAccountTests {
     }
 
     @Test
-    func testLogoutRetrySucceeds() async {
+    func `Logout retry succeeds and closes session`() async {
         let store = TestStore(initialState: .init(
             destination: .alert(AlertState(title: { TextState("Logout failed.") }))
         )) {

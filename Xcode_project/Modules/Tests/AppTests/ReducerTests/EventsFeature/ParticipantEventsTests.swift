@@ -24,7 +24,7 @@ struct ParticipantEventsTests {
     }
     
     @Test
-    func startFeedbackButtonTap() async {
+    func `Start feedback button triggers delegate with correct pin code`() async {
         let pinCode = PinCode(value: "1234")
         
         let store = TestStore(initialState: ParticipantEvents.State(session: .init(value: .mock()))) {

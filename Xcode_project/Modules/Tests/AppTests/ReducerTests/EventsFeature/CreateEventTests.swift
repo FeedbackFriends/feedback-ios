@@ -6,7 +6,7 @@ import Domain
 
 struct CreateEventTests {
     @Test
-    func createEventSuccess() async {
+    func `Event is created successfully and navigates to detail`() async {
         let mockEvent = ManagerEvent.mock()
         
         let store = await TestStore(
@@ -37,7 +37,7 @@ struct CreateEventTests {
     }
     
     @Test
-    func createEventFailure() async {
+    func `Event creation failure shows error alert`() async {
         struct Failure: Error, Equatable {}
         let store = await TestStore(initialState: CreateEvent.State(
             eventForm: .init(

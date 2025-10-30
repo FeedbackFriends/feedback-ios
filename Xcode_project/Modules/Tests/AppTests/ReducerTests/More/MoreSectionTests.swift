@@ -15,7 +15,7 @@ struct MoreSectionTests {
     )
     
     @Test
-    func onNotificationsButtonTap() async {
+    func `Notifications button opens app settings URL`() async {
         let openedUrl = LockIsolated<URL?>(nil)
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
@@ -34,7 +34,7 @@ struct MoreSectionTests {
     }
     
     @Test
-    func onFeedbackButtonTap() async {
+    func `Feedback button opens email composer with prefilled details`() async {
         let mockEmail = "mock@mock.dk"
         let openedUrl = LockIsolated<URL?>(nil)
         let store = TestStore(initialState: MoreSection.State()) {
@@ -60,7 +60,7 @@ struct MoreSectionTests {
     }
     
     @Test
-    func onReportBugButtonTap() async {
+    func `Report bug button opens email composer with bug details`() async {
         let mockEmail = "mock@mock.dk"
         let openedUrl = LockIsolated<URL?>(nil)
         let store = TestStore(initialState: MoreSection.State()) {
@@ -87,7 +87,7 @@ struct MoreSectionTests {
     }
     
     @Test
-    func onSupportUsButtonTap() async {
+    func `Support us button opens App Store review page`() async {
         let openedUrl = LockIsolated<URL?>(nil)
         let store = TestStore(
             initialState: MoreSection.State()

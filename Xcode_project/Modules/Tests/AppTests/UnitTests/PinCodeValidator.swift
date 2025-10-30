@@ -5,7 +5,7 @@ import Testing
 @MainActor
 struct PinCodeValidatorTests {
     
-    @Test func validateInputs() async throws {
+    @Test func `Pin code input validation behaves correctly for various cases`() async throws {
         
         let validPin = PinCodeInput(value: "1234")
         #expect(validPin.isValidInput() == true)

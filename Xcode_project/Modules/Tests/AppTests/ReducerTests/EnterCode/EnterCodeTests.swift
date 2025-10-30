@@ -8,7 +8,7 @@ import Domain
 struct EnterCodeTests {
     
     @Test
-    func startFeedback() async {
+    func `Start feedback button triggers delegate with entered pin code`() async {
         let store = TestStore(initialState: EnterCode.State(pinCodeInput: PinCodeInput.initial())) {
             EnterCode()
         }

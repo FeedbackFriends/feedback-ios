@@ -6,7 +6,7 @@ import Testing
 class DeeplinkParserTests {
     
     @Test
-    func deeplinkFromNotificationPayload_feedbackReceived() {
+    func `Deeplink correctly parses FEEDBACK_RECEIVED notification payload`() {
         let uuid = UUID()
         let userInfo: [AnyHashable: Any] = [
             "type": "FEEDBACK_RECEIVED",
@@ -22,7 +22,7 @@ class DeeplinkParserTests {
     }
     
     @Test
-    func deeplinkFromNotificationPayload_missingType() {
+    func `Deeplink returns nil when notification payload is missing type`() {
         let userInfo: [AnyHashable: Any] = [
             "eventId": UUID().uuidString
         ]
@@ -31,7 +31,7 @@ class DeeplinkParserTests {
     }
     
     @Test
-    func deeplinkFromNotificationPayload_invalidEventId() {
+    func `Deeplink returns nil when event ID is invalid`() {
         let userInfo: [AnyHashable: Any] = [
             "type": "FEEDBACK_RECEIVED",
             "eventId": "not-a-uuid"
@@ -41,7 +41,7 @@ class DeeplinkParserTests {
     }
     
     @Test
-    func deeplinkFromNotificationPayload_unexpectedType() {
+    func `Deeplink returns nil when notification payload has unexpected type`() {
         let userInfo: [AnyHashable: Any] = [
             "type": "UNKNOWN_TYPE",
             "eventId": UUID().uuidString
@@ -51,7 +51,7 @@ class DeeplinkParserTests {
     }
     
     @Test
-    func deeplinkJoinEvent() {
+    func `Deeplink correctly parses join event URL`() {
         let url = URL(string: "letsgrow://invite?pin_code=1234")!
         guard let deeplink = Deeplink(url: url) else {
             fatalError()
@@ -65,14 +65,14 @@ class DeeplinkParserTests {
     }
     
     @Test
-    func deeplinkEmpty() {
+    func `Deeplink returns nil for empty URL`() {
         let url = URL(string: "letsgrow://")!
         let deeplink = Deeplink(url: url)
         #expect(deeplink == nil)
     }
     
     @Test
-    func deeplinkWrongScheme() {
+    func `Deeplink returns nil for unsupported URL scheme`() {
         let url = URL(string: "wtf://")!
         let deeplink = Deeplink(url: url)
         #expect(deeplink == nil)
