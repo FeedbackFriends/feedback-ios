@@ -9,7 +9,7 @@ public struct AppWebURLProvider {
     }
 
     public static func privacyPolicy(forBaseUrl baseUrl: URL) -> URL {
-        baseUrl.appendingPathComponent("privacy-policy")
+        baseUrl.appendingPathComponent("privacy-policy/")
     }
 
     public static func appStoreReview(forAppStoreId appStoreId: String) -> URL {
