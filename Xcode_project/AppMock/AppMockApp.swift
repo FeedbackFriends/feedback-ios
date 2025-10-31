@@ -67,28 +67,40 @@ extension AuthClient {
     }
 }
 
-extension SystemClient {
-    static let mock = Self.init(
-        openAppSettings: {
-            UIApplication.openSettingsURLString
-        },
-        openEmail: { subject, body in
-            var components = URLComponents(string: "mailto:nicolaidam96@gmail.com")!
-            components.queryItems = [
-                URLQueryItem(name: "subject", value: subject),
-                URLQueryItem(name: "body", value: body)
-            ]
-            return components.url!
-            
-        },
-        configuration: {
-            return AppConfiguration(
-                webBaseUrl: URL(string: "https://letsgrow.dk")!,
-                appStoreId: "123456789",
-                supportEmail: "mock@mock.dk"
-            )
-        }
-    )
+public extension SystemClient {
+    static func mock() -> SystemClient {
+        
+        let webBaseUrl = URL(string: "https://letsgrow.dk")!
+        let appStoreId = "123456789"
+        let supportEmail = "mock@mock.dk"
+        
+        let config = AppConfiguration(
+            webBaseUrl: webBaseUrl,
+            appStoreId: appStoreId,
+            supportEmail: supportEmail
+        )
+        
+        return .init(
+            openAppSettings: { UIApplication.openSettingsURLString },
+            openEmail: { subject, body in
+                var components = URLComponents(string: "mailto:\(supportEmail)")!
+                components.queryItems = [
+                    URLQueryItem(name: "subject", value: subject),
+                    URLQueryItem(name: "body", value: body)
+                ]
+                return components.url!
+            },
+            privacyPolicyUrl: {
+                return config.privacyPolicyUrl
+            },
+            appStoreReviewUrl: {
+                return config.appStoreReviewUrl
+            },
+            inviteUrl: { pinCode in
+                return config.inviteUrl(pinCode: pinCode)
+            }
+        )
+    }
 }
 
 extension NotificationClient {
@@ -149,7 +161,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         withDependencies: {
             $0.apiClient = .mock
             $0.authClient = .mock(mockAuthEngine: self.mockAuthEngine)
-            $0.systemClient = .mock
+            $0.systemClient = .mock()
             $0.notificationClient = .mock
         }
     )

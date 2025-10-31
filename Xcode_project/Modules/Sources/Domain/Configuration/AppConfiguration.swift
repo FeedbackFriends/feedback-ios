@@ -1,4 +1,5 @@
 import Foundation
+import Logger
 
 public struct AppConfiguration: Sendable {
     let webBaseUrl: URL
@@ -20,6 +21,7 @@ public struct AppConfiguration: Sendable {
     public var appStoreReviewUrl: URL { AppWebURLProvider.appStoreReview(forAppStoreId: appStoreId) }
     
     public func inviteUrl(pinCode: String) -> URL? {
-        AppWebURLProvider.invite(forPinCode: pinCode, baseUrl: webBaseUrl)
+        Logger.debug("Makeing invite URL for pin code: \(pinCode), and web base url: \(webBaseUrl)")
+        return AppWebURLProvider.invite(forPinCode: pinCode, baseUrl: webBaseUrl)
     }
 }
