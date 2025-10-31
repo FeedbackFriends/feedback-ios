@@ -39,15 +39,14 @@ public struct EventDetailFeatureView: View {
         .sheet(
             item: inviteStore
         ) { state in
-            if let inviteLink = store.inviteLink {
-                state.withState { event in
-                    InviteView(
-                        code: event.pinCode?.value ?? "",
-                        inviteLink: inviteLink,
-                        shareText: store.shareText
-                    )
-                    .presentationDetents([.height(350)])
-                }
+            state.withState { event in
+                let inviteLink = store.inviteUrl
+                return InviteView(
+                    code: event.pinCode?.value ?? "",
+                    inviteLink: inviteLink,
+                    shareText: event.shareText(inviteLink: inviteLink)
+                )
+                .presentationDetents([.height(350)])
             }
         }
         .refreshable {
@@ -81,5 +80,18 @@ public struct EventDetailFeatureView: View {
                 .presentationDetents([.height(300)])
         }
         .animation(.default, value: store.event)
+    }
+}
+
+
+extension ManagerEvent {
+    func shareText(inviteLink: String?) -> String {
+    """
+    You’re invited to \(self.title)!   
+    Use pin code \(self.pinCode?.value ?? "[Not Found]") to join.
+    
+    👇🏼 Tap the link to join:  
+    \(inviteLink ?? "[Not Found]")
+    """
     }
 }

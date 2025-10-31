@@ -35,20 +35,10 @@ public struct EventDetailFeature: Sendable {
             "\(event.overallFeedbackSummary?.responses ?? 0) responses"
         }
         @Shared var session: Session
-        var shareText: String {
-  """
-  You’re invited to \(event.title)!   
-  Use pin code \(event.pinCode?.value ?? "") to join.
-  
-  👇🏼 Tap the link to join:  
-  \(inviteLink ?? "")
-  """
-        }
         
-        var inviteLink: String? {
-            guard let pinCode = event.pinCode?.value else { return nil }
-            @Dependency(\.systemClient.configuration()) var configuration
-            return configuration.inviteUrl(pinCode: pinCode)?.absoluteString
+        var inviteUrl: String {
+            @Dependency(\.systemClient) var systemClient
+            return systemClient.inviteUrl(event.pinCode?.value ?? "")?.absoluteString ?? ""
         }
         
         public init(

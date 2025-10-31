@@ -11,8 +11,8 @@ public struct MoreSection: Sendable {
     @ObservableState
     public struct State: Equatable, Sendable {
         var privacyPolicyUrl: URL {
-            @Dependency(\.systemClient.configuration()) var configuration
-            return configuration.privacyPolicyUrl
+            @Dependency(\.systemClient.privacyPolicyUrl) var privacyPolicyUrl
+            return privacyPolicyUrl()
         }
         public init() {}
     }
@@ -31,7 +31,6 @@ public struct MoreSection: Sendable {
     @Dependency(\.systemClient) var systemClient
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.authClient) var authClient
-    @Dependency(\.systemClient.configuration) var configuration
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -72,7 +71,7 @@ public struct MoreSection: Sendable {
                 
             case .onSupportUsButtonTap:
                 return .run { [openURL = self.openURL] _ in
-                    await openURL(self.configuration().appStoreReviewUrl)
+                    await openURL(self.systemClient.appStoreReviewUrl())
                 }
                 
             case .binding:
