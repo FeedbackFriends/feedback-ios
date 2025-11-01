@@ -68,8 +68,11 @@ extension AuthClient {
 }
 
 public extension SystemClient {
-    static var mock: SystemClient {
-        let supportEmail = "mock@mock.dk"
+    static func mock(
+        supportEmail: String,
+        webBaseUrl: URL,
+        appStoreId: String
+    ) -> SystemClient {
         return .init(
             openAppSettings: { UIApplication.openSettingsURLString },
             openEmail: { subject, body in
@@ -79,10 +82,17 @@ public extension SystemClient {
                     URLQueryItem(name: "body", value: body)
                 ]
                 return components.url!
+            },
+            privacyPolicyUrl: {
+                return AppWebURLProvider.privacyPolicy(forBaseUrl: webBaseUrl)
+            },
+            appStoreReviewUrl: {
+                return AppWebURLProvider.appStoreReview(forAppStoreId: appStoreId)
             }
         )
     }
 }
+
 
 extension NotificationClient {
     static let mock = Self.init(
@@ -130,7 +140,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         withDependencies: {
             $0.apiClient = .mock
             $0.authClient = .mock(mockAuthEngine: self.mockAuthEngine)
-            $0.systemClient = .mock
+            $0.systemClient = .mock(
+                supportEmail: "nicolaidam96@gmail.com",
+                webBaseUrl: URL(string: "https://letsgrow.dk")!,
+                appStoreId: "123456789"
+            )
             $0.notificationClient = .mock
         }
     )

@@ -16,8 +16,11 @@ public struct MoreSectionView: View {
         Group {
             generalSection
             contactSection
-            shareSection(appStoreReviewUrl: store.appStoreReviewUrl)
+            if let appStoreReviewUrl = store.appStoreReviewUrl {
+                shareSection(appStoreReviewUrl: appStoreReviewUrl)
+            }
         }
+        .onAppear { store.send(.onAppear) }
     }
     
     var generalSection: some View {
@@ -28,10 +31,12 @@ public struct MoreSectionView: View {
                 } label: {
                     listElementView(image: .moreSectionBell, label: "Notifications")
                 }
-                Link(destination: store.privacyPolicyUrl) {
-                    listElementView(image: .moreSectiondocPlaintext, label: "Privacy policy")
+                if let privacyPolicyUrl = store.privacyPolicyUrl {
+                    Link(destination: privacyPolicyUrl) {
+                        listElementView(image: .moreSectiondocPlaintext, label: "Privacy policy")
+                    }
+                    .onOpenURL(prefersInApp: true)
                 }
-                .onOpenURL(prefersInApp: true)
                 Button {
                     store.send(.onSupportUsButtonTap)
                 } label: {
@@ -98,10 +103,7 @@ public struct MoreSectionView: View {
     NavigationStack {
         MoreSectionView(
             store: StoreOf<MoreSection>(
-                initialState: MoreSection.State(
-                    privacyPolicyUrl: URL(string: "https://letsgrow.dk")!,
-                    appStoreReviewUrl: URL(string: "https://letsgrow.dk")!
-                ),
+                initialState: MoreSection.State(),
                 reducer: {
                     MoreSection()
                 }

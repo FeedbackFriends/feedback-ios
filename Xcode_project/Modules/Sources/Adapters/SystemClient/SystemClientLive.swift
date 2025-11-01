@@ -1,10 +1,14 @@
 import Foundation
 import UIKit
 import Domain
+import InfoPlist
+import Utility
 
 public extension SystemClient {
     static func live(
-        supportEmail: String
+        supportEmail: String,
+        webBaseUrl: URL,
+        appStoreId: String
     ) -> SystemClient {
         return .init(
             openAppSettings: { UIApplication.openSettingsURLString },
@@ -15,6 +19,15 @@ public extension SystemClient {
                     URLQueryItem(name: "body", value: body)
                 ]
                 return components.url!
+            },
+            privacyPolicyUrl: {
+                return AppWebURLProvider.privacyPolicy(forBaseUrl: webBaseUrl)
+            },
+            appStoreReviewUrl: {
+                return AppWebURLProvider.appStoreReview(forAppStoreId: appStoreId)
+            },
+            webBaseUrl: {
+                return webBaseUrl
             }
         )
     }

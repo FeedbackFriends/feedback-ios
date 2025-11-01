@@ -8,22 +8,16 @@ import Domain
 @MainActor
 struct MoreSectionTests {
     
-    nonisolated let mockConfiguration = AppConfiguration(
-        webBaseUrl: URL(string: "https://letsgrow.dk")!,
-        appStoreId: "123456789",
-        supportEmail: "mock@mock.dk"
-    )
-    
     @Test
     func `Notifications button opens app settings URL`() async {
         let openedUrl = LockIsolated<URL?>(nil)
-        let store = TestStore(initialState: MoreSection.State()) {
+        let store = TestStore(
+            initialState: MoreSection.State() {
             MoreSection()
         } withDependencies: {
             $0.systemClient.openAppSettings = {
                 "settings_url"
             }
-            $0.systemClient.configuration = { mockConfiguration }
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
                 return true
@@ -40,7 +34,6 @@ struct MoreSectionTests {
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.systemClient.configuration = { mockConfiguration }
             $0.openURL = .init(handler: { url in
                 openedUrl.setValue(url)
                 return true
@@ -66,7 +59,6 @@ struct MoreSectionTests {
         let store = TestStore(initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
-            $0.systemClient.configuration = { mockConfiguration }
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
                 return true
@@ -90,11 +82,9 @@ struct MoreSectionTests {
     func `Support us button opens App Store review page`() async {
         let openedUrl = LockIsolated<URL?>(nil)
         let store = TestStore(
-            initialState: MoreSection.State()
-        ) {
+            initialState: MoreSection.State() {
             MoreSection()
         } withDependencies: {
-            $0.systemClient.configuration = { mockConfiguration }
             $0.openURL = .init(handler: { @MainActor url in
                 openedUrl.setValue(url)
                 return true

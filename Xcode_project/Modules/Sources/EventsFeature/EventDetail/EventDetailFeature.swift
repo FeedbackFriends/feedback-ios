@@ -4,7 +4,6 @@ import Foundation
 import ComposableArchitecture
 import UIKit
 import Utility
-import InfoPlist
 
 @Reducer
 public struct EventDetailFeature: Sendable {
@@ -29,9 +28,10 @@ public struct EventDetailFeature: Sendable {
         public var event: ManagerEvent
         @Presents var destination: Destination.State?
         var fetchEventDetailInFlight = true
-        var webBaseUrl: URL
+        var webBaseUrl: URL?
         var inviteUrl: String {
             guard let pinCode = event.pinCode?.value else { return "PINCODE_NOT_FOUND" }
+            guard let webBaseUrl = webBaseUrl else { return "WEB_BASE_URL_NOT_FOUND" }
             return AppWebURLProvider.invite(forPinCode: pinCode, baseUrl: webBaseUrl)?.absoluteString ?? "COULD_NOT_GENERATE_INVITE_LINK"
         }
         var navigationTitle: String {
@@ -55,14 +55,12 @@ public struct EventDetailFeature: Sendable {
             event: ManagerEvent,
             destination: Destination.State? = nil,
             fetchEventDetailInFlight: Bool = true,
-            session: Shared<Session>,
-            webBaseUrl: URL = InfoPlistConfig.webBaseUrl
+            session: Shared<Session>
         ) {
             self.event = event
             self.destination = destination
             self.fetchEventDetailInFlight = fetchEventDetailInFlight
             self._session = session
-            self.webBaseUrl = webBaseUrl
         }
     }
     
@@ -82,6 +80,7 @@ public struct EventDetailFeature: Sendable {
     @Dependency(\.dismiss) var dismiss
     @Dependency(\.continuousClock) var clock
     @Dependency(\.apiClient) var apiClient
+    @Dependency(\.systemClient) var systemClient
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
@@ -156,6 +155,7 @@ public struct EventDetailFeature: Sendable {
                 return .none
                 
             case .onTask:
+                state.webBaseUrl = self.systemClient.webBaseUrl()
                 return .publisher {
                     state.$session.publisher
                         .map(Action.sessionUpdated)
