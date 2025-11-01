@@ -4,6 +4,7 @@ import Foundation
 import ComposableArchitecture
 import UIKit
 import Utility
+import InfoPlist
 
 @Reducer
 public struct EventDetailFeature: Sendable {
@@ -28,29 +29,40 @@ public struct EventDetailFeature: Sendable {
         public var event: ManagerEvent
         @Presents var destination: Destination.State?
         var fetchEventDetailInFlight = true
+        var webBaseUrl: URL
+        var inviteUrl: String {
+            guard let pinCode = event.pinCode?.value else { return "PINCODE_NOT_FOUND" }
+            return AppWebURLProvider.invite(forPinCode: pinCode, baseUrl: webBaseUrl)?.absoluteString ?? "COULD_NOT_GENERATE_INVITE_LINK"
+        }
         var navigationTitle: String {
             event.title
         }
         var navigationSubTitle: String {
             "\(event.overallFeedbackSummary?.responses ?? 0) responses"
         }
-        @Shared var session: Session
+        var shareText: String {
+        """
+        You’re invited to \(event.title)!   
+        Use pin code \(event.pinCode?.value ?? "PINCODE_NOT_FOUND") to join.
         
-        var inviteUrl: String {
-            @Dependency(\.systemClient) var systemClient
-            return systemClient.inviteUrl(event.pinCode?.value ?? "")?.absoluteString ?? ""
+        👇🏼 Tap the link to join:  
+        \(inviteUrl)
+        """
         }
+        @Shared var session: Session
         
         public init(
             event: ManagerEvent,
             destination: Destination.State? = nil,
             fetchEventDetailInFlight: Bool = true,
-            session: Shared<Session>
+            session: Shared<Session>,
+            webBaseUrl: URL = InfoPlistConfig.webBaseUrl
         ) {
             self.event = event
             self.destination = destination
             self.fetchEventDetailInFlight = fetchEventDetailInFlight
             self._session = session
+            self.webBaseUrl = webBaseUrl
         }
     }
     

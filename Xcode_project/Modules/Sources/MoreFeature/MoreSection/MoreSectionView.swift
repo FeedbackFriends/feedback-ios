@@ -14,45 +14,45 @@ public struct MoreSectionView: View {
     
     public var body: some View {
         Group {
-//            generalSection
+            generalSection
             contactSection
-//            shareSection(appStoreReviewUrl: store.appStoreReviewUrl)
+            shareSection(appStoreReviewUrl: store.appStoreReviewUrl)
         }
     }
     
-//    var generalSection: some View {
-//        Group {
-//            Section {
-//                Button {
-//                    store.send(.onNotificationsButtonTap)
-//                } label: {
-//                    listElementView(image: .moreSectionBell, label: "Notifications")
-//                }
-//                Link(destination: store.privacyPolicyUrl) {
-//                    listElementView(image: .moreSectiondocPlaintext, label: "Privacy policy")
-//                }
-//                .onOpenURL(prefersInApp: true)
-//                Button {
-//                    store.send(.onSupportUsButtonTap)
-//                } label: {
-//                    HStack {
-//                        Image.heartFill
-//                            .frame(width: 24, height: 24)
-//                            .foregroundStyle(Color.themePrimaryAction.gradient)
-//                        Text("Support us")
-//                    }
-//                    .font(.montserratRegular, 14)
-//                    .foregroundColor(.themeText)
-//                }
-//                
-//            } header: {
-//                Text("General")
-//                    .sectionHeaderStyle()
-//            }
-//        }
-//        .foregroundColor(Color.themeText)
-//        .scrollContentBackground(.hidden)
-//    }
+    var generalSection: some View {
+        Group {
+            Section {
+                Button {
+                    store.send(.onNotificationsButtonTap)
+                } label: {
+                    listElementView(image: .moreSectionBell, label: "Notifications")
+                }
+                Link(destination: store.privacyPolicyUrl) {
+                    listElementView(image: .moreSectiondocPlaintext, label: "Privacy policy")
+                }
+                .onOpenURL(prefersInApp: true)
+                Button {
+                    store.send(.onSupportUsButtonTap)
+                } label: {
+                    HStack {
+                        Image.heartFill
+                            .frame(width: 24, height: 24)
+                            .foregroundStyle(Color.themePrimaryAction.gradient)
+                        Text("Support us")
+                    }
+                    .font(.montserratRegular, 14)
+                    .foregroundColor(.themeText)
+                }
+                
+            } header: {
+                Text("General")
+                    .sectionHeaderStyle()
+            }
+        }
+        .foregroundColor(Color.themeText)
+        .scrollContentBackground(.hidden)
+    }
     
     var contactSection: some View {
         Section {
@@ -72,33 +72,36 @@ public struct MoreSectionView: View {
         }
     }
     
-//    func shareSection(appStoreReviewUrl: URL) -> some View {
-//        Section {
-//            ShareLink(item: appStoreReviewUrl) {
-//                VStack(spacing: 10) {
-//                    Text("Invite your colleagues")
-//                        .font(.montserratExtraBold, 18)
-//                    Text("Improve the feedback culture in the office 🤟🏽")
-//                        .font(.montserratMedium, 14)
-//                }
-//                .padding(8)
-//                .frame(maxWidth: .infinity)
-//                .multilineTextAlignment(.center)
-//                .foregroundColor(.themeOnPrimaryAction)
-//            }
-//        }
-//        .listRowBackground(
-//            Rectangle()
-//                .foregroundStyle(Color.themePrimaryAction)
-//        )
-//    }
+    func shareSection(appStoreReviewUrl: URL) -> some View {
+        Section {
+            ShareLink(item: appStoreReviewUrl) {
+                VStack(spacing: 10) {
+                    Text("Invite your colleagues")
+                        .font(.montserratExtraBold, 18)
+                    Text("Improve the feedback culture in the office 🤟🏽")
+                        .font(.montserratMedium, 14)
+                }
+                .padding(8)
+                .frame(maxWidth: .infinity)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.themeOnPrimaryAction)
+            }
+        }
+        .listRowBackground(
+            Rectangle()
+                .foregroundStyle(Color.themePrimaryAction)
+        )
+    }
 }
 
 #Preview {
     NavigationStack {
         MoreSectionView(
             store: StoreOf<MoreSection>(
-                initialState: MoreSection.State(),
+                initialState: MoreSection.State(
+                    privacyPolicyUrl: URL(string: "https://letsgrow.dk")!,
+                    appStoreReviewUrl: URL(string: "https://letsgrow.dk")!
+                ),
                 reducer: {
                     MoreSection()
                 }

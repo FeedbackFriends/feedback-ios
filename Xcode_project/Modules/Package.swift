@@ -179,6 +179,7 @@ let package = Package(
                 "DesignSystem",
                 "Domain",
                 "Utility",
+                "InfoPlist",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -189,6 +190,7 @@ let package = Package(
                 "Domain",
                 "Utility",
                 "FeedbackFlowFeature",
+                "InfoPlist",
                 .product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
         ),
@@ -214,6 +216,7 @@ let package = Package(
         .target(
             name: "Utility",
             dependencies: [
+                "InfoPlist",
                 "Logger",
 				.product(name: "ComposableArchitecture", package: "swift-composable-architecture")
             ]
@@ -227,8 +230,7 @@ let package = Package(
         .target(
             name: "InfoPlist",
             dependencies: [
-                "Logger",
-                "Domain"
+                "Logger"
             ]
         ),
         .target(
