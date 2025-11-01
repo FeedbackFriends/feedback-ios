@@ -88,6 +88,9 @@ public extension SystemClient {
             },
             appStoreReviewUrl: {
                 return AppWebURLProvider.appStoreReview(forAppStoreId: appStoreId)
+            },
+            webBaseUrl: {
+                return webBaseUrl
             }
         )
     }

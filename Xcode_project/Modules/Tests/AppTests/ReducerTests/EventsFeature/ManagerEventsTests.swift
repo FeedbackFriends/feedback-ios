@@ -24,8 +24,7 @@ struct ManagerEventsTests {
             $0.destination = .eventDetail(
                 EventDetailFeature.State.init(
                     event: mockEvent,
-                    session: session,
-                    webBaseUrl: URL(string: "https://example.com")!
+                    session: session
                 )
             )
         }

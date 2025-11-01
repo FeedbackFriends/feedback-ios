@@ -12,7 +12,7 @@ struct MoreSectionTests {
     func `Notifications button opens app settings URL`() async {
         let openedUrl = LockIsolated<URL?>(nil)
         let store = TestStore(
-            initialState: MoreSection.State() {
+            initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
             $0.systemClient.openAppSettings = {
@@ -82,7 +82,7 @@ struct MoreSectionTests {
     func `Support us button opens App Store review page`() async {
         let openedUrl = LockIsolated<URL?>(nil)
         let store = TestStore(
-            initialState: MoreSection.State() {
+            initialState: MoreSection.State()) {
             MoreSection()
         } withDependencies: {
             $0.openURL = .init(handler: { @MainActor url in
