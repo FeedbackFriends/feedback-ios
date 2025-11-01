@@ -3,7 +3,6 @@ import Foundation
 import DesignSystem
 import ComposableArchitecture
 import Logger
-import InfoPlist
 import Utility
 
 @Reducer
@@ -11,15 +10,9 @@ public struct MoreSection: Sendable {
     
     @ObservableState
     public struct State: Equatable, Sendable {
-        var privacyPolicyUrl: URL
-        var appStoreReviewUrl: URL
-        public init(
-            privacyPolicyUrl: URL = AppWebURLProvider.privacyPolicy(forBaseUrl: InfoPlistConfig.webBaseUrl),
-            appStoreReviewUrl: URL = AppWebURLProvider.appStoreReview(forAppStoreId:  InfoPlistConfig.appStoreId)
-        ) {
-            self.privacyPolicyUrl = privacyPolicyUrl
-            self.appStoreReviewUrl = appStoreReviewUrl
-        }
+        var privacyPolicyUrl: URL?
+        var appStoreReviewUrl: URL?
+        public init() {}
     }
     
     public enum Action: BindableAction {
@@ -28,6 +21,7 @@ public struct MoreSection: Sendable {
         case onReportBugButtonTap
         case onSupportUsButtonTap
         case binding(BindingAction<State>)
+        case onAppear
     }
     
     public init() {}
@@ -41,6 +35,11 @@ public struct MoreSection: Sendable {
         BindingReducer()
         Reduce { state, action in
             switch action {
+                
+            case .onAppear:
+                state.privacyPolicyUrl = systemClient.privacyPolicyUrl()
+                state.appStoreReviewUrl = systemClient.appStoreReviewUrl()
+                return .none
                 
             case .onNotificationsButtonTap:
                 return .run { [openURL = self.openURL, systemClient = self.systemClient] _ in
@@ -75,8 +74,8 @@ public struct MoreSection: Sendable {
                 }
                 
             case .onSupportUsButtonTap:
-                return .run { [openURL = self.openURL, state = state] _ in
-                    await openURL(state.appStoreReviewUrl)
+                return .run { [openURL = self.openURL] _ in
+                    await openURL(systemClient.appStoreReviewUrl())
                 }
                 
             case .binding:
