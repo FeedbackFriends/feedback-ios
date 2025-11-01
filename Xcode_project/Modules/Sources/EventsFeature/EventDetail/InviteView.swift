@@ -3,7 +3,6 @@ import DesignSystem
 import UIKit
 
 struct InviteView: View {
-    let code: String
     let inviteLink: String
     let shareText: String
     @State private var shareSheet: String?
@@ -98,7 +97,6 @@ struct ShareSheet: UIViewControllerRepresentable {
 
 #Preview {
     InviteView(
-        code: "1234",
         inviteLink: "https://example.com",
         shareText: "ShareText"
     )

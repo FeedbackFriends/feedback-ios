@@ -155,7 +155,7 @@ public struct RootFeature: Sendable {
                     state.destination = Destination.State.loggedIn(
                         Tabbar.State(
                             session: sharedSession,
-                            selectedTab: .feedback
+                            selectedTab: .feedback,
                         )
                     )
                     return .none

@@ -3,6 +3,7 @@ import Foundation
 import DesignSystem
 import ComposableArchitecture
 import Logger
+import InfoPlist
 import Utility
 
 @Reducer
@@ -10,11 +11,15 @@ public struct MoreSection: Sendable {
     
     @ObservableState
     public struct State: Equatable, Sendable {
-        var privacyPolicyUrl: URL {
-            @Dependency(\.systemClient.privacyPolicyUrl) var privacyPolicyUrl
-            return privacyPolicyUrl()
+        var privacyPolicyUrl: URL
+        var appStoreReviewUrl: URL
+        public init(
+            privacyPolicyUrl: URL = AppWebURLProvider.privacyPolicy(forBaseUrl: InfoPlistConfig.webBaseUrl),
+            appStoreReviewUrl: URL = AppWebURLProvider.appStoreReview(forAppStoreId:  InfoPlistConfig.appStoreId)
+        ) {
+            self.privacyPolicyUrl = privacyPolicyUrl
+            self.appStoreReviewUrl = appStoreReviewUrl
         }
-        public init() {}
     }
     
     public enum Action: BindableAction {
@@ -70,8 +75,8 @@ public struct MoreSection: Sendable {
                 }
                 
             case .onSupportUsButtonTap:
-                return .run { [openURL = self.openURL] _ in
-                    await openURL(self.systemClient.appStoreReviewUrl())
+                return .run { [openURL = self.openURL, state = state] _ in
+                    await openURL(state.appStoreReviewUrl)
                 }
                 
             case .binding:

@@ -41,11 +41,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     ) {
         RootFeature()._printChanges()
     } withDependencies: {
-        $0.systemClient = .live(
-            supportEmail: InfoPlistConfig().supportEmail,
-            webBaseUrl: InfoPlistConfig().webBaseUrl,
-            appStoreId: InfoPlistConfig().appStoreId
-        )
+        $0.systemClient = .live
         $0.notificationClient = self.notificationClient
         $0.authClient = .live
         $0.apiClient = self.apiClient
@@ -76,12 +72,11 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             options.dsn = InfoPlistConfig().sentryDsnUrl.absoluteString
             options.debug = self.isDebug
             options.tracesSampleRate = 1.0
-            options.profilesSampleRate = 1.0
             options.tracePropagationTargets = [
                 InfoPlistConfig().apiBaseUrl.absoluteString
             ]
             options.experimental.enableLogs = true
-            options.releaseName = "\(DeviceInfo().version())(\(DeviceInfo().build))"
+            options.releaseName = "\(DeviceInfo().version())(\(String(describing: DeviceInfo().build)))"
         }
         let firebaseOptions = FirebaseOptions(
             googleAppID: InfoPlistConfig().firebaseGoogleAppId,
