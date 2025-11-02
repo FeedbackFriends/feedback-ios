@@ -89,6 +89,9 @@ struct MoreSectionTests {
                 openedUrl.setValue(url)
                 return true
             })
+            $0.systemClient.appStoreReviewUrl = {
+                URL(string: "https://apps.apple.com/app/id123456789?action=write-review")!
+            }
         }
         await store.send(.onSupportUsButtonTap)
         #expect(openedUrl.value == URL(string: "https://apps.apple.com/app/id123456789?action=write-review")!)
