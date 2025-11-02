@@ -47,7 +47,6 @@
 		7ABB22262E17F061006B6865 /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 7ABB22252E17F061006B6865 /* RootFeature */; };
 		C30B1C4E2EB611E6000E4AAA /* ApiClientMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B1C4B2EB611E6000E4AAA /* ApiClientMock.swift */; };
 		C30B1C4F2EB611E6000E4AAA /* AppMockApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C30B1C4C2EB611E6000E4AAA /* AppMockApp.swift */; };
-		C31A4FA22EAB4AF900225AE1 /* Adapters in Frameworks */ = {isa = PBXBuildFile; productRef = C3E527932EA8AC6C005FECFC /* Adapters */; };
 		C3E5279A2EA8AC6C005FECFC /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = C3E527912EA8AC6C005FECFC /* InfoPlist */; };
 		C3E5279B2EA8AC6C005FECFC /* RootFeature in Frameworks */ = {isa = PBXBuildFile; productRef = C3E527922EA8AC6C005FECFC /* RootFeature */; };
 		C3E5279D2EA8AC6C005FECFC /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 28DB6A3A2E5E054700F90EA0 /* AppIcon.icon */; };
@@ -178,7 +177,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C31A4FA22EAB4AF900225AE1 /* Adapters in Frameworks */,
 				C3E5279A2EA8AC6C005FECFC /* InfoPlist in Frameworks */,
 				C3E5279B2EA8AC6C005FECFC /* RootFeature in Frameworks */,
 			);
