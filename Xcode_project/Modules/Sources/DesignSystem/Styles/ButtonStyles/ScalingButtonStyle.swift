@@ -5,7 +5,7 @@ public struct ScalingButtonStyle: ButtonStyle {
     public func makeBody(configuration: ButtonStyleConfiguration) -> some View {
         configuration
             .label
-            .scaleEffect(configuration.isPressed ? 0.90 : 1)
+            .scaleEffect(configuration.isPressed ? 1.03 : 1)
             .animation(.linear(duration: 0.1), value: configuration.isPressed)
     }
 }

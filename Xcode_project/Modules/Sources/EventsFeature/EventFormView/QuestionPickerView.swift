@@ -52,62 +52,57 @@ public struct QuestionPickerView: View {
     
     public var body: some View {
         NavigationStack {
-            VStack(spacing: 0) {
-                Section {
-                    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 5), spacing: 8) {
-                        ForEach(FeedbackType.allCases, id: \.self) { question in
-                            let isSelected = question == feedbackTypeSelected
-                            Button {
-                                withAnimation {
-                                    feedbackTypeSelected = question
+            ScrollView {
+                VStack(alignment: .leading, spacing: 18) {
+                    Section {
+                        LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 6), count: 5), spacing: 8) {
+                            ForEach(FeedbackType.allCases, id: \.self) { question in
+                                let isSelected = question == feedbackTypeSelected
+                                Button {
+                                    withAnimation {
+                                        feedbackTypeSelected = question
+                                    }
+                                } label: {
+                                    VStack {
+                                        question.image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 18, height: 18)
+                                            .foregroundStyle(Color.themeText)
+                                        Text(question.title)
+                                            .font(.montserratSemiBold, 9)
+                                            .foregroundStyle(Color.themeTextSecondary)
+                                    }
+                                    .padding(2)
+                                    .frame(maxWidth: .infinity, minHeight: isSelected ? 60 : 58)
+                                    .background(isSelected ? Color.themeSurface : Color.themeSurface.opacity(0.4))
+                                    .clipShape(Capsule())
+                                    .overlay(
+                                        Capsule()
+                                            .stroke(isSelected ? Color.themePrimaryAction.opacity(0.5) : Color.clear, lineWidth: 2)
+                                    )
                                 }
-                            } label: {
-                                VStack {
-                                    question.image
-                                        .resizable()
-                                        .scaledToFit()
-                                        .frame(width: 18, height: 18)
-                                        .foregroundStyle(Color.themeText)
-                                    Text(question.title)
-                                        .font(.montserratSemiBold, 9)
-                                        .foregroundStyle(Color.themeTextSecondary)
-                                }
-                                .padding(2)
-                                .frame(maxWidth: .infinity, minHeight: isSelected ? 60 : 50)
-                                .background(isSelected ? Color.themeSurface : Color.themeSurface.opacity(0.4))
-                                .clipShape(Capsule())
-                                .overlay(
-                                    Capsule()
-                                        .stroke(isSelected ? Color.themePrimaryAction.opacity(0.5) : Color.clear, lineWidth: 2)
-                                )
+                                .buttonStyle(ScalingButtonStyle())
                             }
-                            .buttonStyle(ScalingButtonStyle())
+                        }
+                        .background(Color.themeBackground)
+                    } header: {
+                        HStack(spacing: 8) {
+                            Text("Choose feedback type")
+                                .sectionHeaderStyle()
+                            Spacer()
+                            Button {
+                                showFeedbackInfo = true
+                            } label: {
+                                Image.questionmarkCircle
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: 20, height: 20)
+                                    .foregroundStyle(Color.themeText)
+                            }
                         }
                     }
-                    .padding(.horizontal, 20)
-                    .background(Color.themeBackground)
-                } header: {
-                    HStack(spacing: 8) {
-                        Text("Choose feedback type")
-                            .foregroundStyle(Color.themeText)
-                            .font(.montserratMedium, 14)
-                        Spacer()
-                        Button {
-                            showFeedbackInfo = true
-                        } label: {
-                            Image.questionmarkCircle
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 20, height: 20)
-                                .foregroundStyle(Color.themeText)
-                        }
-                    }
-                    .padding(.trailing, 20)
-                    .padding(.leading, 20)
-                }
-                .padding(.top, 18)
-                
-                Form {
+                    
                     Section {
                         TextField("Enter question.", text: $questionTextField, axis: .vertical)
                             .focused($isQuestionFocused)
@@ -115,15 +110,19 @@ public struct QuestionPickerView: View {
                             .foregroundColor(Color.themeText)
                             .textInputAutocapitalization(.sentences)
                             .submitLabel(.go)
-                            .padding(.trailing, 24)
+                            .padding(18)
+                            .background(Color.themeSurface)
+                            .clipShape(Capsule(style: .continuous))
                             .overlay(alignment: .trailing) {
                                 if !questionTextField.isEmpty {
                                     Button {
                                         questionTextField = ""
                                     } label: {
                                         Image.xmarkCircleFill
+                                            .foregroundStyle(Color.themeTextSecondary)
                                     }
                                     .foregroundStyle(Color.themeTextSecondary)
+                                    .padding(.trailing, 10)
                                 }
                             }
                             .padding(.trailing, 4)
@@ -131,23 +130,22 @@ public struct QuestionPickerView: View {
                         Text("Question")
                             .sectionHeaderStyle()
                     }
+                    
+                    Button(text, action: commitQuestion)
+                        .buttonStyle(LargeButtonStyle())
+                        .disabled(!isQuestionValid)
+                        .padding(.bottom, 18)
                 }
-                
+                .padding(.horizontal, 20)
+                .sensoryFeedback(.selection, trigger: feedbackTypeSelected)
+                .sheet(isPresented: $showFeedbackInfo) {
+                    FeedbackTypeInfoSheetView()
+                }
+                .scrollContentBackground(.hidden)
+                .scrollDismissesKeyboard(.interactively)
+                .navigationBarTitleDisplayMode(.inline)
             }
-            .sensoryFeedback(.selection, trigger: feedbackTypeSelected)
-            .overlay(alignment: .bottom) {
-                Button(text, action: commitQuestion)
-                    .buttonStyle(LargeButtonStyle())
-                    .disabled(!isQuestionValid)
-                    .padding(14)
-            }
-            .sheet(isPresented: $showFeedbackInfo) {
-                FeedbackTypeInfoSheetView()
-            }
-            .background(Color.themeBackground)
-            .scrollContentBackground(.hidden)
-            .scrollDismissesKeyboard(.interactively)
-            .navigationBarTitleDisplayMode(.inline)
+            .background(Color.themeBackground.ignoresSafeArea())
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     CloseButtonView {

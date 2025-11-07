@@ -101,12 +101,12 @@ struct QuestionsListView: View {
                             )
                         )
                     } label: {
-                        VStack(alignment: .leading) {
+                        VStack(alignment: .leading, spacing: 6) {
                             HStack {
                                 Image.playButton
                                 Text("Preview session")
                             }
-                            Text("See exactly how participants will experience your session.")
+                            Text("How participants will experience your session.")
                                 .font(.montserratRegular, 8)
                         }
                     }
