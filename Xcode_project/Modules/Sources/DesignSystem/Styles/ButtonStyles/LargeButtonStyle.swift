@@ -30,7 +30,7 @@ public struct LargeButtonStyle<BackgroundInput: ShapeStyle>: ButtonStyle {
         .animation(.default, value: isEnabled)
         .animation(.default, value: isLoading)
         .clipShape(Capsule(style: .continuous))
-        .scaleEffect(configuration.isPressed ? 0.95 : 1)
+        .scaleEffect(configuration.isPressed ? 1.03 : 1)
         .animation(.linear(duration: 0.1), value: configuration.isPressed)
     }
 }

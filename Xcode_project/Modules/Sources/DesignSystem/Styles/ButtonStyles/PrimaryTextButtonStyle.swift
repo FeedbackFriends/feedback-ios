@@ -27,7 +27,7 @@ public struct PrimaryTextButtonStyle: ButtonStyle {
                        .padding(.vertical, 8)
                }
            }
-           .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+           .scaleEffect(configuration.isPressed ? 1.03 : 1.0)
            .opacity(isEnabled ? 1 : 0.4)
            .progressViewStyle(.circular)
            .fixedSize()

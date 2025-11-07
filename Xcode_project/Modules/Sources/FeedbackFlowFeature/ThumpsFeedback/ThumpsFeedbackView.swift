@@ -46,7 +46,7 @@ struct ThumpsFeedbackView: View {
                     RoundedRectangle(cornerRadius: Theme.cornerRadius * 1.25, style: .continuous)
                         .fill(buttonBackgroundGradient(isSelected: isSelected, thump: thump))
                 )
-                .scaleEffect(isSelected ? 1.05 : 1.0)
+                .scaleEffect(isSelected ? 1.03 : 1.0)
                 .rotation3DEffect(
                     .degrees(isSelected ? (thump == .up ? -8 : 8) : 0),
                     axis: (x: 0.0, y: 1.0, z: 0.0)
