@@ -6,7 +6,7 @@ if [ "${TEST_RUNNER_CI:-}" = "TRUE" ]; then
   exit 0
 fi
 
-# Always work from the repo root
+CI_PRIMARY_REPOSITORY_PATH="${CI_PRIMARY_REPOSITORY_PATH:-$(pwd)}"# Always work from the repo root
 mkdir -p "$CI_PRIMARY_REPOSITORY_PATH/App/Config"
 SECRETS_FILE="$CI_PRIMARY_REPOSITORY_PATH/App/Config/secrets.xcconfig"
 
