@@ -1,6 +1,11 @@
 #!/bin/sh
 set -euo pipefail
 
+if [ "${TEST_RUNNER_CI:-}" = "TRUE" ]; then
+  echo "Skipping pre-xcodebuild steps for test runner CI."
+  exit 0
+fi
+
 # Always work from the repo root
 mkdir -p "$CI_PRIMARY_REPOSITORY_PATH/App/Config"
 SECRETS_FILE="$CI_PRIMARY_REPOSITORY_PATH/App/Config/secrets.xcconfig"
