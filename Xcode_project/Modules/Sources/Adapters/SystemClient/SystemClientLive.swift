@@ -1,7 +1,6 @@
 import Foundation
 import UIKit
 import Domain
-import InfoPlist
 import Utility
 
 public extension SystemClient {
