@@ -39,7 +39,7 @@ public struct EventDetailFeatureView: View {
         .sheet(
             item: inviteStore
         ) { state in
-            state.withState { event in
+            state.withState { _ in
                 return InviteView(
                     inviteLink: store.inviteUrl,
                     shareText: store.shareText

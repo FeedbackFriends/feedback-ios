@@ -2,8 +2,9 @@ import SwiftUI
 import UIKit
 
 public class FirstResponderField: UITextField {
-    public init() {
+    public init(keyboardType: UIKeyboardType = .numberPad) {
         super.init(frame: .zero)
+        self.keyboardType = keyboardType
         becomeFirstResponder()
     }
     required init?(coder: NSCoder) {

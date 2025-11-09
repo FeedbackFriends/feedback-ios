@@ -193,4 +193,3 @@ public struct QuestionPickerView: View {
         questionSelected: { _, _ in }
     )
 }
-
