@@ -293,6 +293,9 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
     public let ownerInfo: OwnerInfo
     public var overallFeedbackSummary: OverallFeedbackSummary?
     public var questions: [ManagerQuestion]
+    public var invitedEmails: [String]
+    public let isDraft: Bool
+    public let calendarProvider: CalendarProvider?
     public var end: Date {
         date + TimeInterval(durationInMinutes * 60)
     }
@@ -316,7 +319,10 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
         location: String? = nil,
         ownerInfo: OwnerInfo,
         overallFeedbackSummary: OverallFeedbackSummary?,
-        questions: [ManagerQuestion]
+        questions: [ManagerQuestion],
+        isDraft: Bool,
+        invitedEmails: [String],
+        calendarProvider: CalendarProvider?
     ) {
         self.id = id
         self.title = title
@@ -328,6 +334,9 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
         self.ownerInfo = ownerInfo
         self.overallFeedbackSummary = overallFeedbackSummary
         self.questions = questions
+        self.isDraft = isDraft
+        self.invitedEmails = invitedEmails
+        self.calendarProvider = calendarProvider
     }
 }
 
@@ -336,17 +345,18 @@ public struct ManagerData: Equatable, Sendable {
     public var activity: Activity
     public var recentlyUsedQuestions: Set<RecentlyUsedQuestions>
     public var feedbackSessionHash: UUID
-    
+    public var draftEvents: [ManagerEvent]
     public init(
         managerEvents: IdentifiedArrayOf<ManagerEvent>,
         activity: Activity,
         recentlyUsedQuestions: Set<RecentlyUsedQuestions>,
         feedbackSessionHash: UUID
     ) {
-        self.managerEvents = managerEvents
+        self.managerEvents = managerEvents.filter { !$0.isDraft }
         self.activity = activity
         self.recentlyUsedQuestions = recentlyUsedQuestions
         self.feedbackSessionHash = feedbackSessionHash
+        self.draftEvents = managerEvents.filter(\.isDraft)
     }
 }
 

@@ -73,6 +73,8 @@ public struct Tabbar: Sendable {
         case joinEvent(JoinEvent)
         @ReducerCaseIgnored
         case activity([ActivityItems])
+        @ReducerCaseIgnored
+        case draftEvents([ManagerEvent])
         public enum ConfirmationDialog: Equatable, Sendable {
             case logoutConfirmed
         }
@@ -119,6 +121,7 @@ public struct Tabbar: Sendable {
             case createEventButtonTap
             case joinEventButtonTap
             case activityButtonTap
+            case draftEventsButtonTap
         }
         public enum Delegate: Equatable {
             case startFeedback(pinCode: PinCode)
@@ -159,7 +162,7 @@ public struct Tabbar: Sendable {
         }
         Reduce { state, action in
             switch action {
-                
+             
             case .dismissFeedbackFlow:
                 state.initialiseFeedback.destination = nil
                 return .none
@@ -305,6 +308,11 @@ public struct Tabbar: Sendable {
                             Logger.debug("Reset new feedback failed with error: \(error.localizedDescription)")
                         }
                     }
+                case .draftEventsButtonTap:
+                    state.destination = .draftEvents(
+                        state.session.managerData?.draftEvents ?? []
+                    )
+                    return .none
                 }
                 return .none
                 

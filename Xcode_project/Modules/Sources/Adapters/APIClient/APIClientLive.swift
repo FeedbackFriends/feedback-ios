@@ -139,21 +139,19 @@ public extension APIClient {
                 
             },
             joinEvent: { pinCode in
-                do {
-                    return try await withAuthorization {
-                        
-                        let response = try await api.joinEvent(.init(path: .init(pinCode: pinCode.value)))
-                        
-                        switch response {
-                        case .ok(let output):
-                            let participantEvent = try output.body.json
-                            await sessionCache.updateOrAppendParticipantEvent(ParticipantEvent(participantEvent))
-                        case .internalServerError(let internalError):
-                            let apiErrorDto = try internalError.body.json
-                            throw ApiError(apiErrorDto: apiErrorDto)
-                        case .undocumented:
-                            throw URLError(.unknown)
-                        }
+                try await withAuthorization {
+                    
+                    let response = try await api.joinEvent(.init(path: .init(pinCode: pinCode.value)))
+                    
+                    switch response {
+                    case .ok(let output):
+                        let participantEvent = try output.body.json
+                        await sessionCache.updateOrAppendParticipantEvent(ParticipantEvent(participantEvent))
+                    case .internalServerError(let internalError):
+                        let apiErrorDto = try internalError.body.json
+                        throw ApiError(apiErrorDto: apiErrorDto)
+                    case .undocumented:
+                        throw URLError(.unknown)
                     }
                 }
             },

@@ -20,6 +20,7 @@ public struct TabbarView: View {
         let createEventStore = $store.scope(state: \.destination?.createEvent, action: \.destination.createEvent)
         let joinEventStore = $store.scope(state: \.destination?.joinEvent, action: \.destination.joinEvent)
         let activityStore = $store.scope(state: \.destination?.activity, action: \.destination.activity)
+        let draftEventsStore = $store.scope(state: \.destination?.draftEvents, action: \.destination.draftEvents)
         let notificationPermissionPromptStore = $store.scope(
             state: \.destination?.notificationPermissionPrompt,
             action: \.destination.notificationPermissionPrompt
@@ -47,6 +48,17 @@ public struct TabbarView: View {
                     )
                     .presentationDetents([.medium, .large])
                 }
+            }
+            .sheet(item: draftEventsStore) { draftEvents in
+                draftEvents.withState { activityItems in
+                    DraftEventsView(
+                        draftEvents: activityItems,
+                        draftEventButtonTap: { _ in
+                            
+                        }
+                    )
+                    .presentationDetents([.medium, .large])
+                } 
             }
             .animation(.bouncy, value: store.session)
             .banner(unwrapping: store.tabbarLifecyle.bannerState)
@@ -99,32 +111,34 @@ private extension TabbarView {
                     .imageScale(.small)
                 Text("Feedback")
             }
-			.tag(Tab.feedback)
-			
-			NavigationStack {
-				switch store.session.account {
-				case .manager:
-					managerEventsView
-						.navigationTitle("Sessions")
-						.toolbar {
-							createEventToolbarItem
-							activityToolbarItem(store.session.activityBadgeCount)
-						}
-				case .participant:
-					participantEventsView
-						.navigationTitle("Sessions")
-						.toolbar {
-							joinEventToolbarItem
-							activityToolbarItem(store.session.activityBadgeCount)
-						}
-				case .anonymous:
-					participantEventsView
-						.navigationTitle("Sessions")
-						.toolbar {
-							createEventToolbarItem
-							activityToolbarItem(store.session.activityBadgeCount)
-						}
-				}
+            .tag(Tab.feedback)
+            
+            NavigationStack {
+                switch store.session.account {
+                case .manager:
+                    managerEventsView
+                        .navigationTitle("Sessions")
+                        .toolbar {
+                            activityToolbarItem(store.session.activityBadgeCount)
+                            ToolbarSpacer(.flexible)
+                            draftsToolbarItem(store.session.managerData?.draftEvents.count ?? 0)
+                            createEventToolbarItem
+                        }
+                case .participant:
+                    participantEventsView
+                        .navigationTitle("Sessions")
+                        .toolbar {
+                            joinEventToolbarItem
+                            activityToolbarItem(store.session.activityBadgeCount)
+                        }
+                case .anonymous:
+                    participantEventsView
+                        .navigationTitle("Sessions")
+                        .toolbar {
+                            createEventToolbarItem
+                            activityToolbarItem(store.session.activityBadgeCount)
+                        }
+                }
             }
             .tabItem {
                 Image.calendar
@@ -135,29 +149,29 @@ private extension TabbarView {
             NavigationStack {
                 List {
                     Group {
-						switch store.session.account {
-						case .manager, .participant:
-							AccountSectionView(store: store.scope(state: \.accountSection, action: \.accountSection))
-						case .anonymous:
-							EmptyView()
-						}
-						MoreSectionView(store: store.scope(state: \.moreSection, action: \.moreSection))
-						switch store.session.account {
-						case .manager, .participant:
-							logoutSection()
-							deleteAccountSection()
-							
-						case .anonymous:
-							signUpSection
-						}
-					}
-					.listRowBackground(
-						Color.themeSurface
-					)
+                        switch store.session.account {
+                        case .manager, .participant:
+                            AccountSectionView(store: store.scope(state: \.accountSection, action: \.accountSection))
+                        case .anonymous:
+                            EmptyView()
+                        }
+                        MoreSectionView(store: store.scope(state: \.moreSection, action: \.moreSection))
+                        switch store.session.account {
+                        case .manager, .participant:
+                            logoutSection()
+                            deleteAccountSection()
+                            
+                        case .anonymous:
+                            signUpSection
+                        }
+                    }
+                    .listRowBackground(
+                        Color.themeSurface
+                    )
                 }
-				.scrollContentBackground(.hidden)
-				.background(Color.themeBackground)
-				.tint(Color.themeText)
+                .scrollContentBackground(.hidden)
+                .background(Color.themeBackground)
+                .tint(Color.themeText)
                 .navigationDestination(
                     item: $store.scope(
                         state: \.accountSection.destination?.modifyAccount,
@@ -176,7 +190,7 @@ private extension TabbarView {
                         .presentationDetents([.height(240)])
                 }
                 .navigationTitle("Profile")
-				.background(Color.themeBackground)
+                .background(Color.themeBackground)
             }
             .tabItem {
                 Image.personCropCircle
@@ -184,7 +198,7 @@ private extension TabbarView {
             }
             .tag(Tab.more)
         }
-		
+        
     }
     
     var participantEventsView: some View {
@@ -203,39 +217,51 @@ private extension TabbarView {
         .tag(SegmentedControlMenu.yourEvents)
     }
     
-	var createEventToolbarItem: some ToolbarContent {
-		ToolbarItem(placement: .primaryAction) {
-			Menu {
-				Section {
-					Button {
-						store.send(.toolbar(.createEventButtonTap))
-					} label: {
-						Text("Create session")
-					}
-					
-				}
-				Section {
-					Button {
-						store.send(.toolbar(.joinEventButtonTap))
-					} label: {
-						Text("Join session")
-					}
-				}
-			} label: {
+    func draftsToolbarItem(_ draftsCount: Int) -> some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button {
+                store.send(.toolbar(.draftEventsButtonTap))
+            } label: {
+                Text("Drafts")
+                    .font(.montserratMedium, 12)
+            }
+            .badge(draftsCount)
+        }
+    }
+    
+    var createEventToolbarItem: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Menu {
+                Section {
+                    Button {
+                        store.send(.toolbar(.createEventButtonTap))
+                    } label: {
+                        Text("Create session")
+                    }
+                    
+                }
+                Section {
+                    Button {
+                        store.send(.toolbar(.joinEventButtonTap))
+                    } label: {
+                        Text("Join session")
+                    }
+                }
+            } label: {
                 Image.circleFill
-					.resizable()
-					.frame(width: 44, height: 44)
-					.foregroundStyle(Color.themePrimaryAction.gradient)
-					.overlay {
+                    .resizable()
+                    .frame(width: 44, height: 44)
+                    .foregroundStyle(Color.themePrimaryAction.gradient)
+                    .overlay {
                         Image.plus
-							.frame(width: 20, height: 20)
-							.foregroundStyle(Color.themeOnPrimaryAction)
-							.fontWeight(.semibold)
-					}
-			}
-		}
-		.sharedBackgroundVisibility(.hidden)
-	}
+                            .frame(width: 20, height: 20)
+                            .foregroundStyle(Color.themeOnPrimaryAction)
+                            .fontWeight(.semibold)
+                    }
+            }
+        }
+        .sharedBackgroundVisibility(.hidden)
+    }
     
     var joinEventToolbarItem: some ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
@@ -256,7 +282,7 @@ private extension TabbarView {
                     .scaledToFit()
                     .frame(width: 16, height: 16)
             }
-			.badge(badgeCount)
+            .badge(badgeCount)
         }
     }
     
@@ -267,12 +293,12 @@ private extension TabbarView {
             } label: {
                 listElementView(image: .moreSectionPortraitAndArrowRight, label: "Logout")
             }
-			.confirmationDialog(
-				$store.scope(
-					state: \.destination?.confirmationDialog,
-					action: \.destination.confirmationDialog
-				)
-			)
+            .confirmationDialog(
+                $store.scope(
+                    state: \.destination?.confirmationDialog,
+                    action: \.destination.confirmationDialog
+                )
+            )
         } footer: {
             Text("\(DeviceInfo().version())(\(DeviceInfo().build()))")
                 .frame(maxWidth: .infinity)
@@ -306,9 +332,9 @@ private extension TabbarView {
 }
 
 #Preview {
-	TabbarView(
-		store: StoreOf<Tabbar>.init(initialState: .init(session: .init(value: .mock()))) {
-			Tabbar()
-		}
-	)
+    TabbarView(
+        store: StoreOf<Tabbar>.init(initialState: .init(session: .init(value: .mock()))) {
+            Tabbar()
+        }
+    )
 }
