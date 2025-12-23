@@ -10,6 +10,7 @@
 		281A893D2E69B7890002D56C /* FeedbackErrorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89392E69B7890002D56C /* FeedbackErrorApp.swift */; };
 		281A89432E69B7970002D56C /* FeedbackFlowApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281A89412E69B7970002D56C /* FeedbackFlowApp.swift */; };
 		281F2AA82E81F01A00D4665A /* Adapters in Frameworks */ = {isa = PBXBuildFile; productRef = 288EC1292E7B40E200544CCE /* Adapters */; };
+		284015572EF98A05003EEDEF /* Adapters in Frameworks */ = {isa = PBXBuildFile; productRef = C3E527932EA8AC6C005FECFC /* Adapters */; };
 		2843B5232E69A39800274A6F /* InfoPlist in Frameworks */ = {isa = PBXBuildFile; productRef = 28D8883B2E6788FF00F0B6BE /* InfoPlist */; };
 		284ACA392E919E00008F01D0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		284ACA3A2E919E00008F01D0 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
@@ -177,6 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				284015572EF98A05003EEDEF /* Adapters in Frameworks */,
 				C3E5279A2EA8AC6C005FECFC /* InfoPlist in Frameworks */,
 				C3E5279B2EA8AC6C005FECFC /* RootFeature in Frameworks */,
 			);
@@ -668,7 +670,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nOPEN_API_PATH=\"$SRCROOT/Modules/Sources/OpenAPI/openapi.yaml\"\nOPENAPI_URL=\"https://api.letsgrow.dk/v3/api-docs.yaml\"\n\n# Fetch the OpenAPI YAML from the provided URL\ncurl -s $OPENAPI_URL -o /tmp/openapi.yaml\n\n# Check if the download was successful\nif [ $? -ne 0 ]; then\n    echo \"Failed to download the OpenAPI YAML file.\"\n    exit 0  # Continue the build without failing\nfi\n\n# Replace the existing YAML file only if the download was successful\nif [ -f /tmp/openapi.yaml ]; then\n    cp /tmp/openapi.yaml $OPEN_API_PATH\n    echo \"openapi.yaml updated successfully.\"\nelse\n    echo \"Temporary openapi.yaml file not found. Keeping the old version.\"\nfi\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nOPEN_API_PATH=\"$SRCROOT/Modules/Sources/OpenAPI/openapi.yaml\"\nOPENAPI_URL=\"https://github.com/FeedbackFriends/feedback-backend/releases/latest/download/openapi.yaml\"\n\n# Fetch the OpenAPI YAML from the provided URL\ncurl -s $OPENAPI_URL -o /tmp/openapi.yaml\n\n# Check if the download was successful\nif [ $? -ne 0 ]; then\n    echo \"Failed to download the OpenAPI YAML file.\"\n    exit 0  # Continue the build without failing\nfi\n\n# Replace the existing YAML file only if the download was successful\nif [ -f /tmp/openapi.yaml ]; then\n    cp /tmp/openapi.yaml $OPEN_API_PATH\n    echo \"openapi.yaml updated successfully.\"\nelse\n    echo \"Temporary openapi.yaml file not found. Keeping the old version.\"\nfi\n";
 		};
 		95CAC281A1DE47568C620263 /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;

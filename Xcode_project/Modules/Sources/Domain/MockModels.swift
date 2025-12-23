@@ -255,7 +255,10 @@ public extension ManagerEvent {
             location: generateRandomLocation(),
             ownerInfo: .mock(),
             overallFeedbackSummary: feedbackSummary,
-            questions: questions
+            questions: questions,
+            isDraft: Bool.random(),
+            invitedEmails: [],
+            calendarProvider: .APPLE
         )
     }
     
@@ -390,7 +393,10 @@ public extension ManagerEvent {
                 feedback: [],
                 feedbackSummary: nil
             )
-        ]
+        ],
+        isDraft: Bool.random(),
+        invitedEmails: [],
+        calendarProvider: .GOOGLE
     )
 }
 

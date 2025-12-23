@@ -4,10 +4,10 @@ info:
   description: |-
     API documentation for Lets Grow application.
 
-    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/unknown)
-  version: "${VERSION}"
+    [Link to GitHub commit](https://github.com/FeedbackFriends/feedback-backend/commit/81aa2b6)
+  version: 10-81aa2b6
 servers:
-- url: http://localhost:8080
+- url: http://api.letsgrow.dk
   description: Generated server url
 security:
 - bearerAuth: []
@@ -547,6 +547,8 @@ components:
       - date
       - durationInMinutes
       - id
+      - invitedEmails
+      - isDraft
       - ownerInfo
       - questions
       - title
@@ -569,10 +571,23 @@ components:
           format: int32
         location:
           type: string
+        calendarProvider:
+          type: string
+          enum:
+          - GOOGLE
+          - APPLE
+          - MICROSOFT
+          - ZOOM
+        isDraft:
+          type: boolean
         ownerInfo:
           $ref: '#/components/schemas/OwnerInfoDto'
         overallFeedbackSummary:
           $ref: '#/components/schemas/OverallFeedbackSummaryDto'
+        invitedEmails:
+          type: array
+          items:
+            type: string
         questions:
           type: array
           items:
@@ -951,6 +966,7 @@ components:
           type: string
     ParticipantEventDto:
       required:
+      - createdFromMailListener
       - date
       - durationInMinutes
       - feedbackSubmited
@@ -978,6 +994,8 @@ components:
           format: int32
         location:
           type: string
+        createdFromMailListener:
+          type: boolean
         ownerInfo:
           $ref: '#/components/schemas/OwnerInfoDto'
         questions:
@@ -1205,4 +1223,3 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
-

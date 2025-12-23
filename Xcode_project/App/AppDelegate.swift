@@ -19,7 +19,24 @@ import Sentry
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
     
-    let intialStore = Store(
+    var apiClient: APIClient = .live(
+        client: Client(
+            serverURL: InfoPlistConfig().apiBaseUrl,
+            configuration: Configuration(),
+            transport: URLSessionTransport(),
+            middlewares: [
+                AuthorisationMiddleware(),
+                DelayMiddleware(),
+                DeviceIdHeaderMiddleware(deviceId: DeviceInfo().deviceID())
+            ]
+        ),
+        provideFcmToken: {
+            try? await Messaging.messaging().token()
+        }
+    )
+    var notificationClient: NotificationClient = .live
+    
+    lazy var intialStore = Store(
         initialState: RootFeature.State()
     ) {
         RootFeature()._printChanges()
@@ -29,23 +46,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             webBaseUrl: InfoPlistConfig().webBaseUrl,
             appStoreId: InfoPlistConfig().appStoreId
         )
-        $0.notificationClient = .live
+        $0.notificationClient = self.notificationClient
         $0.authClient = .live
-        $0.apiClient = .live(
-            client: Client(
-                serverURL: InfoPlistConfig().apiBaseUrl,
-                configuration: Configuration(),
-                transport: URLSessionTransport(),
-                middlewares: [
-                    AuthorisationMiddleware(),
-                    DelayMiddleware(),
-                    DeviceIdHeaderMiddleware(deviceId: DeviceInfo().deviceID())
-                ]
-            ),
-            provideFcmToken: {
-                try? await Messaging.messaging().token()
-            }
-        )
+        $0.apiClient = self.apiClient
     }
     
     var isDebug: Bool {

@@ -32,7 +32,6 @@ public struct ManagerEventsView: View {
 				.tag(SegmentedControlMenu.yourEvents)
 				
 			case .participating:
-				
 				ScrollView {
 					ParticipantEventsView(
 						store: store.scope(

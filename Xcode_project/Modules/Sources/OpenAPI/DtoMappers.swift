@@ -233,7 +233,10 @@ public extension ManagerEvent {
                     feedback: $0.feedback.map { Feedback($0) },
                     feedbackSummary: questionFeedbackSummary
                 )
-            }
+            },
+            isDraft: event.isDraft,
+            invitedEmails: event.invitedEmails,
+            calendarProvider: event.calendarProvider.map { .init($0.rawValue) }
         )
     }
 }
