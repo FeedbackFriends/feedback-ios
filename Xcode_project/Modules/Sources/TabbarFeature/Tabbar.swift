@@ -73,8 +73,7 @@ public struct Tabbar: Sendable {
         case joinEvent(JoinEvent)
         @ReducerCaseIgnored
         case activity([ActivityItems])
-        @ReducerCaseIgnored
-        case draftEvents([ManagerEvent])
+        case draftEvents(DraftEvents)
         public enum ConfirmationDialog: Equatable, Sendable {
             case logoutConfirmed
         }
@@ -197,7 +196,7 @@ public struct Tabbar: Sendable {
                 state.managerEvents.destination = .eventDetail(
                     EventDetailFeature.State(
                         event: event,
-                        destination: .invite(event),
+                        destination: nil,
                         session: state.$session
                     )
                 )
@@ -310,7 +309,7 @@ public struct Tabbar: Sendable {
                     }
                 case .draftEventsButtonTap:
                     state.destination = .draftEvents(
-                        state.session.managerData?.draftEvents ?? []
+                        DraftEvents.State(session: state.$session)
                     )
                     return .none
                 }

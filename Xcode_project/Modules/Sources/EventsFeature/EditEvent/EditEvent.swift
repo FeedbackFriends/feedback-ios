@@ -61,6 +61,7 @@ public struct EditEvent: Sendable {
                 return .none
                 
             case .editEventButtonTap:
+                state.eventForm.commitAttendeeEmailInput()
                 state.editRequestInFlight = true
                 return .run { [state = state] send in
                     do {

@@ -79,7 +79,19 @@ public actor SessionCache {
 public extension Session {
     
     mutating func updateOrAppendManagerEvent(_ event: ManagerEvent) {
-        self.managerData?.managerEvents.updateOrAppend(event)
+        guard var managerData = managerData else { return }
+        if event.isDraft {
+            if let index = managerData.draftEvents.firstIndex(where: { $0.id == event.id }) {
+                managerData.draftEvents[index] = event
+            } else {
+                managerData.draftEvents.append(event)
+            }
+            managerData.managerEvents.remove(id: event.id)
+        } else {
+            managerData.managerEvents.updateOrAppend(event)
+            managerData.draftEvents.removeAll { $0.id == event.id }
+        }
+        self.managerData = managerData
     }
     
     mutating func updateOrAppendParticipantEvent(_ event: ParticipantEvent) {
@@ -93,7 +105,10 @@ public extension Session {
     }
     
     mutating func deleteEvent(_ id: UUID) {
-        self.managerData?.managerEvents.remove(id: id)
+        guard var managerData = managerData else { return }
+        managerData.managerEvents.remove(id: id)
+        managerData.draftEvents.removeAll { $0.id == id }
+        self.managerData = managerData
     }
     
     func getManagerEventId(_ id: UUID) -> ManagerEvent {

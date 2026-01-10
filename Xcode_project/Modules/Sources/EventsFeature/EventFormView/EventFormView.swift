@@ -114,28 +114,80 @@ public struct EventFormView<ActionView: View>: View {
 
 private extension EventFormView {
     var content: some View {
-        Section {
-            TextField("Title", text: $store.eventInput.title)
-                .focused($focus, equals: .title)
-                .submitLabel(.next)
-                .onSubmit {
-                    store.send(.onSubmitTitleTextField)
+        Group {
+            Section {
+                TextField("Title", text: $store.eventInput.title)
+                    .focused($focus, equals: .title)
+                    .submitLabel(.next)
+                    .onSubmit {
+                        store.send(.onSubmitTitleTextField)
+                    }
+                TextField("Agenda (optional)", text: $store.eventInput.agenda.asNonOptional(), axis: .vertical)
+                    .lineLimit(2, reservesSpace: true)
+                    .submitLabel(.return)
+                    .focused($focus, equals: .description)
+                Toggle(isOn: $store.allDay) {
+                    Text("All day")
                 }
-            TextField("Agenda (optional)", text: $store.eventInput.agenda.asNonOptional(), axis: .vertical)
-                .lineLimit(2, reservesSpace: true)
-                .submitLabel(.return)
-                .focused($focus, equals: .description)
-            Toggle(isOn: $store.allDay) {
-                Text("All day")
+                durationPickerView
+            } header: {
+                Text("Details")
+                    .sectionHeaderStyle()
+                    .padding(.leading, 12)
             }
-            durationPickerView
-        } header: {
-            Text("Details")
-                .sectionHeaderStyle()
-                .padding(.leading, 12)
+            .animation(.default, value: store.startNowEnabled)
+            .scrollContentBackground(.hidden)
+            if store.showsParticipants {
+                Section {
+                    if store.participants.isEmpty {
+                        Text("No participants yet.")
+                            .font(.montserratRegular, 12)
+                            .foregroundStyle(Color.themeTextSecondary)
+                    } else {
+                        ForEach(Array(store.participants.enumerated()), id: \.offset) { _, participant in
+                            participantRow(participant)
+                        }
+                    }
+                } header: {
+                    sectionHeader(title: "Participants", count: store.participants.count)
+                }
+            }
+            Section {
+                HStack(spacing: 8) {
+                    TextField("Add invitee email", text: $store.attendeeEmailInput)
+                        .keyboardType(.emailAddress)
+                        .textInputAutocapitalization(.never)
+                        .autocorrectionDisabled()
+                        .submitLabel(.done)
+                        .onSubmit {
+                            store.send(.addAttendeeEmailButtonTap)
+                        }
+                    Button("Add") {
+                        store.send(.addAttendeeEmailButtonTap)
+                    }
+                    .buttonStyle(SecondaryTextButtonStyle())
+                    .disabled(store.attendeeEmailInput.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                }
+                ForEach(store.eventInput.invitedEmails, id: \.self) { email in
+                    HStack {
+                        Text(email)
+                            .font(.montserratRegular, 12)
+                            .foregroundStyle(Color.themeTextSecondary)
+                        Spacer()
+                        Button {
+                            store.send(.removeAttendeeEmailButtonTap(email))
+                        } label: {
+                            Image.xmarkCircleFill
+                                .foregroundStyle(Color.themeTextSecondary)
+                        }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel(Text("Remove \(email)"))
+                    }
+                }
+            } header: {
+                sectionHeader(title: "Invited (pending)", count: store.eventInput.invitedEmails.count)
+            }
         }
-        .animation(.default, value: store.startNowEnabled)
-        .scrollContentBackground(.hidden)
     }
     
     @ViewBuilder
@@ -193,6 +245,88 @@ private extension EventFormView {
                 Text("Time")
             }
         }
+    }
+
+    func sectionHeader(title: String, count: Int) -> some View {
+        HStack {
+            Text(title)
+                .sectionHeaderStyle()
+            Spacer()
+            Text("\(count)")
+                .font(.montserratMedium, 12)
+                .foregroundStyle(Color.themeTextSecondary)
+                .padding(.vertical, 4)
+                .padding(.horizontal, 8)
+                .background(Color.themeSurfaceSecondary)
+                .clipShape(Capsule())
+        }
+        .padding(.leading, 12)
+        .textCase(nil)
+    }
+
+    func participantRow(_ participant: ParticipantSummary) -> some View {
+        HStack(spacing: 12) {
+            ZStack {
+                Circle()
+                    .fill(Color.themeSurfaceSecondary)
+                    .frame(width: 32, height: 32)
+                Text(participantInitials(participant))
+                    .font(.montserratSemiBold, 12)
+                    .foregroundStyle(Color.themeText)
+            }
+            VStack(alignment: .leading, spacing: 2) {
+                Text(participantPrimaryText(participant))
+                    .font(.montserratMedium, 13)
+                    .foregroundStyle(Color.themeText)
+                if let secondary = participantSecondaryText(participant) {
+                    Text(secondary)
+                        .font(.montserratRegular, 11)
+                        .foregroundStyle(Color.themeTextSecondary)
+                }
+            }
+            Spacer()
+            Image.checkmarkCircleFill
+                .foregroundStyle(Color.themeSuccess)
+                .font(.system(size: 14))
+                .accessibilityHidden(true)
+        }
+        .padding(.vertical, 4)
+        .textSelection(.enabled)
+    }
+
+    func participantInitials(_ participant: ParticipantSummary) -> String {
+        String(participantPrimaryText(participant).prefix(1)).uppercased()
+    }
+
+    func participantPrimaryText(_ participant: ParticipantSummary) -> String {
+        if let name = participant.name, !name.isEmpty {
+            return name
+        }
+        if let email = participant.email, !email.isEmpty {
+            return email
+        }
+        if let phoneNumber = participant.phoneNumber, !phoneNumber.isEmpty {
+            return phoneNumber
+        }
+        return "Participant"
+    }
+
+    func participantSecondaryText(_ participant: ParticipantSummary) -> String? {
+        let name = participant.name?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let email = participant.email?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+        let phone = participant.phoneNumber?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+
+        if !name.isEmpty {
+            if !email.isEmpty {
+                return email
+            }
+            if !phone.isEmpty {
+                return phone
+            }
+        } else if !email.isEmpty && !phone.isEmpty {
+            return phone
+        }
+        return nil
     }
 }
 

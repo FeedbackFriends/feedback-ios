@@ -39,13 +39,7 @@ public struct EventDetailFeatureView: View {
         .sheet(
             item: inviteStore
         ) { state in
-            state.withState { _ in
-                return InviteView(
-                    inviteLink: store.inviteUrl,
-                    shareText: store.shareText
-                )
-                .presentationDetents([.height(350)])
-            }
+            InviteView(store: state)
         }
         .refreshable {
             await store.send(.refresh).finish()

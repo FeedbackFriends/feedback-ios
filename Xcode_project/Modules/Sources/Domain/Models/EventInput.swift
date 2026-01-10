@@ -7,6 +7,7 @@ public struct EventInput: Equatable, Sendable {
     public var date: Date
     public var durationInMinutes: Int
     public var location: String?
+    public var invitedEmails: [String]
     public var questions: [QuestionInput]
     
     public struct QuestionInput: Equatable, Hashable, Sendable, Identifiable {
@@ -27,6 +28,7 @@ public struct EventInput: Equatable, Sendable {
         date: Date = Date().roundedUpcoming5Min(),
         durationInMinutes: Int = 30,
         location: String? = nil,
+        invitedEmails: [String] = [],
         questions: [QuestionInput] = []
     ) {
         self.title = title
@@ -34,6 +36,7 @@ public struct EventInput: Equatable, Sendable {
         self.date = date
         self.durationInMinutes = durationInMinutes
         self.location = location
+        self.invitedEmails = invitedEmails
         self.questions = questions
     }
 }
@@ -48,6 +51,7 @@ public extension EventInput {
             date: managerEvent.date,
             durationInMinutes: managerEvent.durationInMinutes,
             location: managerEvent.location,
+            invitedEmails: managerEvent.invitedEmails,
             questions: managerEvent.questions.map { .init(questionText: $0.questionText, feedbackType: $0.feedbackType) }
         )
     }

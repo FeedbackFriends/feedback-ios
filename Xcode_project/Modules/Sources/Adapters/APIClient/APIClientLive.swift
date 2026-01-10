@@ -4,12 +4,28 @@ import OpenAPIRuntime
 import Domain
 import OpenAPI
 
+func mergeInvitedEmails(eventInput: EventInput, into event: ManagerEvent) -> ManagerEvent {
+    guard !eventInput.invitedEmails.isEmpty else { return event }
+    var mergedEvent = event
+    var normalizedEmails = Set(mergedEvent.invitedEmails.map { $0.lowercased() })
+    for email in eventInput.invitedEmails {
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedEmail.isEmpty else { continue }
+        let normalizedEmail = trimmedEmail.lowercased()
+        guard !normalizedEmails.contains(normalizedEmail) else { continue }
+        mergedEvent.invitedEmails.append(trimmedEmail)
+        normalizedEmails.insert(normalizedEmail)
+    }
+    return mergedEvent
+}
+
 public extension APIClient {
     static func live(
         client api: APIProtocol,
         provideFcmToken: @escaping @Sendable () async -> String?,
         sessionCache: SessionCache = SessionCache()
     ) -> APIClient {
+       
         return APIClient(
             deleteAccount: {
                 try await withAuthorization {
@@ -93,21 +109,23 @@ public extension APIClient {
             createEvent: { eventInput in
                 try await withAuthorization {
                     let eventWrapper = EventWrapper(try await api.createEvent(body: .json(.init(eventInput))).ok.body.json)
+                    let event = mergeInvitedEmails(eventInput: eventInput, into: eventWrapper.event)
                     await sessionCache.updateOrAppendManagerEvent(
-                        event: eventWrapper.event
+                        event: event
                     )
                     await sessionCache.updateRecentlyUsedQuestions(recentlyUsedQuestions: eventWrapper.recentlyUsedQuestions)
-                    return eventWrapper.event
+                    return event
                 }
             },
             updateEvent: { eventInput, eventId in
                 try await withAuthorization {
                     let eventWrapper = EventWrapper(try await api.updateEvent(path: .init(eventId: eventId.uuidString), body: .json(.init(eventInput))).ok.body.json)
+                    let event = mergeInvitedEmails(eventInput: eventInput, into: eventWrapper.event)
                     await sessionCache.updateOrAppendManagerEvent(
-                        event: eventWrapper.event
+                        event: event
                     )
                     await sessionCache.updateRecentlyUsedQuestions(recentlyUsedQuestions: eventWrapper.recentlyUsedQuestions)
-                    return eventWrapper.event
+                    return event
                 }
             },
             deleteEvent: { eventId in

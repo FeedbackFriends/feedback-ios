@@ -50,15 +50,7 @@ public struct TabbarView: View {
                 }
             }
             .sheet(item: draftEventsStore) { draftEvents in
-                draftEvents.withState { activityItems in
-                    DraftEventsView(
-                        draftEvents: activityItems,
-                        draftEventButtonTap: { _ in
-                            
-                        }
-                    )
-                    .presentationDetents([.medium, .large])
-                } 
+                DraftEventsView(store: draftEvents)
             }
             .animation(.bouncy, value: store.session)
             .banner(unwrapping: store.tabbarLifecyle.bannerState)

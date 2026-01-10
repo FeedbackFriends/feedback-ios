@@ -72,6 +72,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             ]
         )
         InfoPlistConfig().logConfigurations()
+        #if RELEASE
         SentrySDK.start { options in
             options.dsn = InfoPlistConfig().sentryDsnUrl.absoluteString
             options.debug = self.isDebug
@@ -82,6 +83,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             options.experimental.enableLogs = true
             options.releaseName = "\(DeviceInfo().version())(\(String(describing: DeviceInfo().build)))"
         }
+        #endif
         let firebaseOptions = FirebaseOptions(
             googleAppID: InfoPlistConfig().firebaseGoogleAppId,
             gcmSenderID: InfoPlistConfig().firebaseGcmSenderId

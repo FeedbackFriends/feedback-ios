@@ -14,8 +14,7 @@ public struct EventDetailFeature: Sendable {
         case editEvent(EditEvent)
         @ReducerCaseEphemeral
         case confirmationDialog(ConfirmationDialogState<ConfirmationDialog>)
-        @ReducerCaseIgnored
-        case invite(ManagerEvent)
+        case invite(InviteFeature)
         public enum ConfirmationDialog: Equatable, Sendable {
             case edit
             case delete
@@ -34,21 +33,16 @@ public struct EventDetailFeature: Sendable {
             guard let webBaseUrl = webBaseUrl else { return "WEB_BASE_URL_NOT_FOUND" }
             return AppWebURLProvider.invite(forPinCode: pinCode, baseUrl: webBaseUrl)?.absoluteString ?? "COULD_NOT_GENERATE_INVITE_LINK"
         }
+        var shareText: String {
+            event.shareText
+        }
         var navigationTitle: String {
             event.title
         }
         var navigationSubTitle: String {
             "\(event.overallFeedbackSummary?.responses ?? 0) responses"
         }
-        var shareText: String {
-        """
-        You’re invited to \(event.title)!   
-        Use pin code \(event.pinCode?.value ?? "PINCODE_NOT_FOUND") to join.
-        
-        👇🏼 Tap the link to join:  
-        \(inviteUrl)
-        """
-        }
+
         @Shared var session: Session
         
         public init(
@@ -109,6 +103,8 @@ public struct EventDetailFeature: Sendable {
                         EditEvent.State(
                             eventForm: EventForm.State.init(
                                 eventInput: EventInput(state.event),
+                                participants: state.event.participants,
+                                showsParticipants: true,
                                 shouldOpenKeyboardOnAppear: false,
                                 recentlyUsedQuestions: recentlyUsedQuestions,
                                 successOverlayMessage: "Session edited"
@@ -120,7 +116,13 @@ public struct EventDetailFeature: Sendable {
                 case .delete:
                     state.destination = .deleteConfirmation(.init(eventId: state.event.id))
                 case .invite:
-                    state.destination = .invite(state.event)
+                    state.destination = .invite(
+                        InviteFeature.State(
+                            event: state.event,
+                            inviteLink: state.inviteUrl,
+                            shareText: state.shareText
+                        )
+                    )
                 }
                 return .none
                 

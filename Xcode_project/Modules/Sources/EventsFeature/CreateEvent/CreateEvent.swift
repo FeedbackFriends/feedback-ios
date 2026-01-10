@@ -54,6 +54,7 @@ public struct CreateEvent: Sendable {
                 return .none
                 
             case .createEventButtonTap:
+                state.eventForm.commitAttendeeEmailInput()
                 state.createEventRequestInFlight = true
                 return .run { [state = state] send in
                     do {

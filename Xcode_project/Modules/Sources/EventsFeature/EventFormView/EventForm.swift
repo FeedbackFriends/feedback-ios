@@ -51,6 +51,9 @@ public struct EventForm: Sendable {
     @ObservableState
     public struct State: Equatable, Sendable {
         var eventInput: EventInput
+        var attendeeEmailInput: String
+        var participants: [ParticipantSummary]
+        var showsParticipants: Bool
         var startNowEnabled: Bool
         var durationPicker: EventForm.DurationPicker
         var allDay: Bool
@@ -74,6 +77,8 @@ public struct EventForm: Sendable {
         public init(
             initialFocus: FocusedField? = nil,
             eventInput: EventInput,
+            participants: [ParticipantSummary] = [],
+            showsParticipants: Bool = false,
             startNowEnabled: Bool = false,
             focus: FocusedField? = nil,
             shouldOpenKeyboardOnAppear: Bool,
@@ -82,6 +87,9 @@ public struct EventForm: Sendable {
         ) {
             self.initialFocus = initialFocus
             self.eventInput = eventInput
+            self.attendeeEmailInput = ""
+            self.participants = participants
+            self.showsParticipants = showsParticipants
             self.startNowEnabled = startNowEnabled
             self.durationPicker = DurationPicker(durationInMinutes: eventInput.durationInMinutes)
             self.allDay = eventInput.durationInMinutes == .minutesOneDay ? true : false
@@ -92,10 +100,32 @@ public struct EventForm: Sendable {
             self.recentlyUsedQuestions = recentlyUsedQuestions
             self.successOverlayMessage = successOverlayMessage
         }
+
+        mutating func commitAttendeeEmailInput() {
+            let trimmedInput = attendeeEmailInput.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmedInput.isEmpty else { return }
+            let inputEmails = trimmedInput.split(whereSeparator: { $0 == "," || $0 == ";" || $0.isWhitespace })
+            var normalizedExisting = Set(eventInput.invitedEmails.map { $0.lowercased() })
+            var added = false
+            for rawEmail in inputEmails {
+                let trimmedEmail = rawEmail.trimmingCharacters(in: .whitespacesAndNewlines)
+                guard !trimmedEmail.isEmpty else { continue }
+                let normalizedEmail = trimmedEmail.lowercased()
+                guard !normalizedExisting.contains(normalizedEmail) else { continue }
+                eventInput.invitedEmails.append(trimmedEmail)
+                normalizedExisting.insert(normalizedEmail)
+                added = true
+            }
+            if added {
+                attendeeEmailInput = ""
+            }
+        }
     }
     
     public enum Action: BindableAction {
         case binding(BindingAction<State>)
+        case addAttendeeEmailButtonTap
+        case removeAttendeeEmailButtonTap(String)
         case onSubmitTitleTextField
         case minutePickerChanged
         case hourPickerChanged
@@ -121,6 +151,12 @@ public struct EventForm: Sendable {
                 if let initialFocus = state.initialFocus {
                     state.focus = initialFocus
                 }
+                return .none
+            case .addAttendeeEmailButtonTap:
+                state.commitAttendeeEmailInput()
+                return .none
+            case .removeAttendeeEmailButtonTap(let email):
+                state.eventInput.invitedEmails.removeAll { $0.caseInsensitiveCompare(email) == .orderedSame }
                 return .none
             case .presentFeedbackFlowSession(let feedbackFlowSession):
                 state.feedbackFlowCoordinator = feedbackFlowSession
