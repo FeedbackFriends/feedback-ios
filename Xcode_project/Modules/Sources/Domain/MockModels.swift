@@ -258,6 +258,7 @@ public extension ManagerEvent {
             questions: questions,
             isDraft: Bool.random(),
             invitedEmails: [],
+            participants: [],
             calendarProvider: .APPLE
         )
     }
@@ -396,6 +397,7 @@ public extension ManagerEvent {
         ],
         isDraft: Bool.random(),
         invitedEmails: [],
+        participants: [],
         calendarProvider: .GOOGLE
     )
 }

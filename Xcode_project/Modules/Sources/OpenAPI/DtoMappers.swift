@@ -236,6 +236,9 @@ public extension ManagerEvent {
             },
             isDraft: event.isDraft,
             invitedEmails: event.invitedEmails,
+            participants: event.participants.map {
+                .init(name: $0.name, email: $0.email, phoneNumber: $0.phoneNumber)
+            },
             calendarProvider: event.calendarProvider.map { .init($0.rawValue) }
         )
     }
@@ -295,6 +298,8 @@ public extension Components.Schemas.EventInput {
             date: event.date,
             durationInMinutes: Int32(event.durationInMinutes),
             location: event.location,
+            invitedEmails: [],
+//            invitedEmails: event.invitedEmails,
             questions: event.questions.map {
                 guard let feedbackType: Components.Schemas.QuestionInput.FeedbackTypePayload = .init(rawValue: $0.feedbackType.rawValue.uppercasingFirst()) else {
                     fatalError("Could not create FeedbackTypePayload for \($0.feedbackType.rawValue.uppercasingFirst())")
@@ -451,3 +456,4 @@ public extension Activity {
         )
     }
 }
+

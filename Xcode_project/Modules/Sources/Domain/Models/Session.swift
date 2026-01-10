@@ -1,5 +1,6 @@
 import Foundation
 import ComposableArchitecture
+import Utility
 
 public struct ManagerSession: Equatable, Sendable {
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
@@ -245,6 +246,17 @@ public struct FeedbackCountStats: Equatable, Sendable {
     }
 }
 
+public struct ParticipantSummary: Equatable, Hashable, Sendable {
+    public let name: String?
+    public let email: String?
+    public let phoneNumber: String?
+    public init(name: String?, email: String?, phoneNumber: String?) {
+        self.name = name
+        self.email = email
+        self.phoneNumber = phoneNumber
+    }
+}
+
 public struct ManagerQuestion: Equatable, Hashable, Sendable {
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -294,8 +306,22 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
     public var overallFeedbackSummary: OverallFeedbackSummary?
     public var questions: [ManagerQuestion]
     public var invitedEmails: [String]
+    public var participants: [ParticipantSummary]
     public let isDraft: Bool
     public let calendarProvider: CalendarProvider?
+    public func inviteUrl(webBaseUrl: URL) -> String {
+        guard let pinCode = self.pinCode?.value else { return "PINCODE_NOT_FOUND" }
+        return AppWebURLProvider.invite(forPinCode: pinCode, baseUrl: webBaseUrl)?.absoluteString ?? "COULD_NOT_GENERATE_INVITE_LINK"
+    }
+    public var shareText: String {
+    """
+    You’re invited to \(self.title)!   
+    Use pin code \(self.pinCode?.value ?? "PINCODE_NOT_FOUND") to join.
+    
+    👇🏼 Tap the link to join:  
+    \(String(describing: inviteUrl))
+    """
+    }
     public var end: Date {
         date + TimeInterval(durationInMinutes * 60)
     }
@@ -322,6 +348,7 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
         questions: [ManagerQuestion],
         isDraft: Bool,
         invitedEmails: [String],
+        participants: [ParticipantSummary],
         calendarProvider: CalendarProvider?
     ) {
         self.id = id
@@ -336,6 +363,7 @@ public struct ManagerEvent: Equatable, Identifiable, Sendable {
         self.questions = questions
         self.isDraft = isDraft
         self.invitedEmails = invitedEmails
+        self.participants = participants
         self.calendarProvider = calendarProvider
     }
 }
@@ -548,3 +576,4 @@ public struct EmojiQuestionFeedbackSummary: Equatable, Sendable {
         self.percentageVeryHappy = percentageVeryHappy
     }
 }
+
