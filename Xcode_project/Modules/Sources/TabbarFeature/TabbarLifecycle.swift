@@ -1,4 +1,5 @@
 import SwiftUI
+import Foundation
 import ComposableArchitecture
 import Domain
 import DesignSystem
@@ -15,10 +16,15 @@ public struct TabbarLifecycle: Sendable {
     @ObservableState
     public struct State: Equatable, Sendable {
         @Shared var session: Session
+        @Shared var syncStatus: SyncStatus
         var bannerState: BannerState?
 		var appLoaded = false
-        public init(session: Shared<Session>) {
+        public init(
+            session: Shared<Session>,
+            syncStatus: Shared<SyncStatus>
+        ) {
             self._session = session
+            self._syncStatus = syncStatus
         }
     }
     
@@ -56,6 +62,9 @@ public struct TabbarLifecycle: Sendable {
                 state.$session.withLock {
                     $0 = session
                 }
+                state.$syncStatus.withLock {
+                    $0.lastUpdatedAt = Date()
+                }
                 return .none
                 
             case .onTask:
@@ -63,6 +72,7 @@ public struct TabbarLifecycle: Sendable {
 					return .none
 				}
 				state.appLoaded = true
+                let syncStatus = state.$syncStatus
                 return .merge(
                     .run { [role = state.session.role] send in
                         if await notificationClient
@@ -76,6 +86,14 @@ public struct TabbarLifecycle: Sendable {
                     },
                     .run { _ in
                         for await _ in self.clock.timer(interval: .seconds(10)) {
+                            syncStatus.withLock {
+                                $0.isSyncing = true
+                            }
+                            defer {
+                                syncStatus.withLock {
+                                    $0.isSyncing = false
+                                }
+                            }
                             do {
                                 _ = try await apiClient.getUpdatedSession()
                             } catch {

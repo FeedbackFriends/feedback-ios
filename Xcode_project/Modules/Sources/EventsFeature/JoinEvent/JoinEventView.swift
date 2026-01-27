@@ -15,10 +15,10 @@ public struct JoinEventView: View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 12) {
                 
-                Text("Join session")
+                Text("Join feedback")
                     .font(.montserratBold, 28)
                     .padding(.top, 20)
-                Text("PIN Code")
+                Text("Feedback code")
                     .padding(.top, 20)
                     .font(.montserratBold, 18)
                     .foregroundStyle(Color.themeText)
@@ -34,7 +34,7 @@ public struct JoinEventView: View {
                     .focused($pinCodeTextfieldFocused)
                     .padding(.top, 5)
                     .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
-                Button("Join") {
+                Button("Join feedback") {
                     store.send(.joinButtonTap)
                 }
                 .buttonStyle(LargeButtonStyle())
@@ -58,7 +58,7 @@ public struct JoinEventView: View {
             }
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
             .successOverlay(
-                message: "Session joined",
+                message: "Feedback ready",
                 show: $store.showSuccessOverlay
             )
             .toolbar {
