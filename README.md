@@ -24,14 +24,6 @@ The app is 100% SwiftUI, [The Composable Architecture (TCA)](https://github.com/
 - SwiftLint (`brew install swiftlint`)
 
 
----
-
-## 🚀 How to build
-You can quicly get a Mock version up running from Xcode with no connection to a backend by running Feedback Mock scheme. 
-This can be done directly after cloning and choosing your own developer team under Signing. 
-
----
-
 ## 🗂 Project structure
 
 ```
@@ -70,9 +62,6 @@ This ensures the client stays in sync with the backend contract.
 - Generation is handled by the Swift OpenAPI Generator plugin during builds; no manual step needed.
 - The live `APIClient` is injected via TCA dependencies.
 
-More details: see [Docs/ARCHITECTURE.md](Docs/ARCHITECTURE.md) and [Docs/SETUP.md](Docs/SETUP.md).
-
-
 ---
 
 ## 🧪 Testing
@@ -100,9 +89,6 @@ Required keys:
 | `APPSTORE_ID` | `1234567890` | App Store links |
 
 Schemes select different environments (Prod/Debug/Localhost/Mock) using `.xcconfig` under `Xcode_project/App/Config/`.
-
-Full guide: [Docs/CONFIGURATION.md](Docs/CONFIGURATION.md)
-
 
 ---
 
@@ -132,27 +118,6 @@ Details: [Docs/NOTIFICATIONS.md](Docs/NOTIFICATIONS.md)
 ## 🧰 CI
 
 - `Xcode_project/CI_scripts/ci_post_clone.sh` relaxes SwiftPM plugin fingerprint checks (needed for the OpenAPI generator) in CI environments.
-
-
----
-
-## 🤝 Contributing
-
-Issues and PRs are welcome. Please:
-
-- Keep PRs focused and well‑described
-- Add tests for reducer/business logic
-- Follow TCA conventions and existing module boundaries
-
-
----
-
-## 📄 License
-
-MIT (or update to your chosen license)
-
-
----
 
 
 ## 🏗️ Architecture
@@ -244,12 +209,3 @@ flowchart TD
     Adapters --> External
     Infrastructure --> Domain
 ```
-
----
-
-## 🐞 Issues & Feedback
-
-If you run into problems, have questions, or notice something that isn’t working as expected,  
-please [open an issue](../../issues) on this repository.  
-
-We welcome bug reports, feature requests, and ideas that can help improve the app.  
