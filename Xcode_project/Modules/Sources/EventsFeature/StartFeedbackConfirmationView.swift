@@ -12,7 +12,7 @@ struct StartFeedbackConfirmationView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
                     VStack(alignment: .leading, spacing: 8) {
-                        Text("Session joined! Would you like to start the feedback now? 🙏🏼")
+                        Text("Feedback is ready. Would you like to start now? 🙏🏼")
                     }
                     .font(.montserratRegular, 14)
                     VStack(alignment: .center, spacing: 12) {
@@ -30,7 +30,7 @@ struct StartFeedbackConfirmationView: View {
                     }
                 }
                 .padding(.horizontal, 18)
-                .navigationTitle("Session joined")
+                .navigationTitle("Feedback ready")
                 .navigationBarTitleDisplayMode(.large)
                 .foregroundStyle(Color.themeText)
             }

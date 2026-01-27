@@ -23,9 +23,9 @@ public struct EventDetailFeatureView: View {
             action: \.destination.invite
         )
                 
-        let editEventStore = $store.scope(
-            state: \.destination?.editEvent,
-            action: \.destination.editEvent
+        let editQuestionsStore = $store.scope(
+            state: \.destination?.editQuestions,
+            action: \.destination.editQuestions
         )
         
         let deleteConfirmationStore = $store.scope(
@@ -64,13 +64,9 @@ public struct EventDetailFeatureView: View {
 		}
         .navigationTitle(store.navigationTitle)
         .navigationSubtitle(store.navigationSubTitle)
-        .sheet(
-            item: editEventStore
-        ) { store in
+        .sheet(item: editQuestionsStore) { store in
             NavigationStack {
-                EditEventView(
-                    store: store
-                )
+                EditQuestionsView(store: store)
             }
         }
         .sheet(item: deleteConfirmationStore) { store in

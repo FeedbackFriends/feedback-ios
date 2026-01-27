@@ -11,6 +11,7 @@ public struct ManagerEvents: Sendable {
     @Reducer
     public enum Destination {
         case eventDetail(EventDetailFeature)
+        case editQuestions(EditQuestions)
     }
     
     @ObservableState
@@ -18,26 +19,15 @@ public struct ManagerEvents: Sendable {
         
         @Presents public var destination: Destination.State?
         @Shared var session: Session
-        public var segmentedControl: SegmentedControlMenu
-        public var participantEvents: ParticipantEvents.State
-        var searchTextfield: String
-        var filterCollection: FilterCollection
-        public var startFeedbackPincodeInFlight: String?
+        @Shared var syncStatus: SyncStatus
         public init(
             destination: Destination.State? = nil,
             session: Shared<Session>,
-            segmentedControl: SegmentedControlMenu = .yourEvents,
-            searchTextfield: String = "",
-            filterCollection: FilterCollection = .initial,
-            startFeedbackPincodeInFlight: String? = nil
+            syncStatus: Shared<SyncStatus> = Shared(value: SyncStatus(lastUpdatedAt: Date()))
         ) {
             self.destination = destination
             self._session = session
-            self.segmentedControl = segmentedControl
-            self.participantEvents = .init(session: session)
-            self.searchTextfield = searchTextfield
-            self.filterCollection = filterCollection
-            self.startFeedbackPincodeInFlight = startFeedbackPincodeInFlight
+            self._syncStatus = syncStatus
         }
     }
     
@@ -45,7 +35,6 @@ public struct ManagerEvents: Sendable {
         case binding(BindingAction<State>)
         case destination(PresentationAction<Destination.Action>)
         case managerEventTap(ManagerEvent)
-        case participantEvents(ParticipantEvents.Action)
     }
     
     public init() {}
@@ -54,14 +43,8 @@ public struct ManagerEvents: Sendable {
     
     public var body: some ReducerOf<Self> {
         BindingReducer()
-        Scope(state: \.participantEvents, action: \.participantEvents) {
-            ParticipantEvents()
-        }
         Reduce { state, action in
             switch action {
-                
-            case .participantEvents:
-                return .none
                 
             case .destination(.dismiss):
                 if case .eventDetail(let eventDetailState) = state.destination,
@@ -81,12 +64,27 @@ public struct ManagerEvents: Sendable {
                 return .none
                 
             case .managerEventTap(let event):
-                state.destination = .eventDetail(
-                    EventDetailFeature.State(
-                        event: event,
-                        session: state.$session
+                let hasResponses = (event.overallFeedbackSummary?.responses ?? 0) > 0
+                if !hasResponses, event.questions.isEmpty {
+                    let recentlyUsedQuestions = if let managerData = state.session.managerData {
+                        Set<RecentlyUsedQuestions>(managerData.recentlyUsedQuestions)
+                    } else {
+                        Set<RecentlyUsedQuestions>()
+                    }
+                    state.destination = .editQuestions(
+                        EditQuestions.State(
+                            event: event,
+                            recentlyUsedQuestions: recentlyUsedQuestions
+                        )
                     )
-                )
+                } else {
+                    state.destination = .eventDetail(
+                        EventDetailFeature.State(
+                            event: event,
+                            session: state.$session
+                        )
+                    )
+                }
                 return .none
                 
             case .destination:

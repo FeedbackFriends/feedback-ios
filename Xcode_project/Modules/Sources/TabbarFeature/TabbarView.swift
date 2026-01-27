@@ -1,4 +1,3 @@
-import EnterCodeFeature
 import EventsFeature
 import MoreFeature
 import DesignSystem
@@ -11,16 +10,16 @@ public struct TabbarView: View {
     
     @Environment(\.scenePhase) private var scenePhase
     @Bindable var store: StoreOf<Tabbar>
+    @AppStorage("hasSeenWelcomeOnboarding") private var hasSeenWelcomeOnboarding = false
+    @State private var isShowingWelcomeOnboarding = false
     
     public init(store: StoreOf<Tabbar>) {
         self.store = store
     }
     
     public var body: some View {
-        let createEventStore = $store.scope(state: \.destination?.createEvent, action: \.destination.createEvent)
         let joinEventStore = $store.scope(state: \.destination?.joinEvent, action: \.destination.joinEvent)
         let activityStore = $store.scope(state: \.destination?.activity, action: \.destination.activity)
-        let draftEventsStore = $store.scope(state: \.destination?.draftEvents, action: \.destination.draftEvents)
         let notificationPermissionPromptStore = $store.scope(
             state: \.destination?.notificationPermissionPrompt,
             action: \.destination.notificationPermissionPrompt
@@ -28,11 +27,10 @@ public struct TabbarView: View {
         tabView
             .task {
                 await self.store.send(.tabbarLifecyle(.onTask)).finish()
+                presentWelcomeOnboardingIfNeeded()
             }
-            .sheet(item: createEventStore) { store in
-                NavigationStack {
-                    CreateEventView(store: store)
-                }
+            .onChange(of: store.session.role) { _, _ in
+                presentWelcomeOnboardingIfNeeded()
             }
             .sheet(item: joinEventStore) { store in
                 JoinEventView(store: store)
@@ -48,17 +46,6 @@ public struct TabbarView: View {
                     )
                     .presentationDetents([.medium, .large])
                 }
-            }
-            .sheet(item: draftEventsStore) { draftEvents in
-                draftEvents.withState { activityItems in
-                    DraftEventsView(
-                        draftEvents: activityItems,
-                        draftEventButtonTap: { _ in
-                            
-                        }
-                    )
-                    .presentationDetents([.medium, .large])
-                } 
             }
             .animation(.bouncy, value: store.session)
             .banner(unwrapping: store.tabbarLifecyle.bannerState)
@@ -95,6 +82,19 @@ public struct TabbarView: View {
                     }
                 )
             }
+            .sheet(isPresented: $isShowingWelcomeOnboarding, onDismiss: {
+                hasSeenWelcomeOnboarding = true
+            }) {
+                WelcomeOnboardingView(
+                    accountEmail: store.session.accountInfo.email,
+                    primaryAction: {
+                        hasSeenWelcomeOnboarding = true
+                        isShowingWelcomeOnboarding = false
+                    }
+                )
+                .interactiveDismissDisabled()
+                .presentationDragIndicator(.hidden)
+            }
     }
 }
 
@@ -103,13 +103,17 @@ private extension TabbarView {
     var tabView: some View {
         TabView(selection: $store.selectedTab) {
             NavigationStack {
-                EnterCodeView(store: store.scope(state: \.enterCode, action: \.enterCode))
+                feedbackTabContent
+                    .navigationTitle("Give Feedback")
+                    .toolbar {
+                        joinEventToolbarItem
+                    }
             }
             .tabItem {
                 Image.handshake
                     .renderingMode(.template)
                     .imageScale(.small)
-                Text("Feedback")
+                Text("Give Feedback")
             }
             .tag(Tab.feedback)
             
@@ -117,32 +121,22 @@ private extension TabbarView {
                 switch store.session.account {
                 case .manager:
                     managerEventsView
-                        .navigationTitle("Sessions")
+                        .navigationTitle("My sessions")
                         .toolbar {
                             activityToolbarItem(store.session.activityBadgeCount)
-                            ToolbarSpacer(.flexible)
-                            draftsToolbarItem(store.session.managerData?.draftEvents.count ?? 0)
-                            createEventToolbarItem
+                            welcomeOnboardingToolbarItem
                         }
                 case .participant:
-                    participantEventsView
-                        .navigationTitle("Sessions")
-                        .toolbar {
-                            joinEventToolbarItem
-                            activityToolbarItem(store.session.activityBadgeCount)
-                        }
+                    eventsEmptyStateView
+                        .navigationTitle("My sessions")
                 case .anonymous:
-                    participantEventsView
-                        .navigationTitle("Sessions")
-                        .toolbar {
-                            createEventToolbarItem
-                            activityToolbarItem(store.session.activityBadgeCount)
-                        }
+                    eventsEmptyStateView
+                        .navigationTitle("My sessions")
                 }
             }
             .tabItem {
                 Image.calendar
-                Text("Sessions")
+                Text("My sessions")
             }
             .tag(Tab.events)
             
@@ -214,62 +208,6 @@ private extension TabbarView {
         ManagerEventsView(
             store: store.scope(state: \.managerEvents, action: \.managerEvents)
         )
-        .tag(SegmentedControlMenu.yourEvents)
-    }
-    
-    func draftsToolbarItem(_ draftsCount: Int) -> some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Button {
-                store.send(.toolbar(.draftEventsButtonTap))
-            } label: {
-                Text("Drafts")
-                    .font(.montserratMedium, 12)
-            }
-            .badge(draftsCount)
-        }
-    }
-    
-    var createEventToolbarItem: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Menu {
-                Section {
-                    Button {
-                        store.send(.toolbar(.createEventButtonTap))
-                    } label: {
-                        Text("Create session")
-                    }
-                    
-                }
-                Section {
-                    Button {
-                        store.send(.toolbar(.joinEventButtonTap))
-                    } label: {
-                        Text("Join session")
-                    }
-                }
-            } label: {
-                Image.circleFill
-                    .resizable()
-                    .frame(width: 44, height: 44)
-                    .foregroundStyle(Color.themePrimaryAction.gradient)
-                    .overlay {
-                        Image.plus
-                            .frame(width: 20, height: 20)
-                            .foregroundStyle(Color.themeOnPrimaryAction)
-                            .fontWeight(.semibold)
-                    }
-            }
-        }
-        .sharedBackgroundVisibility(.hidden)
-    }
-    
-    var joinEventToolbarItem: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Button("Join") {
-                store.send(.toolbar(.joinEventButtonTap))
-            } 
-            .buttonStyle(PrimaryTextButtonStyle())
-        }
     }
     
     func activityToolbarItem(_ badgeCount: Int) -> some ToolbarContent {
@@ -283,6 +221,20 @@ private extension TabbarView {
                     .frame(width: 16, height: 16)
             }
             .badge(badgeCount)
+        }
+    }
+
+    var welcomeOnboardingToolbarItem: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
+            Button {
+                isShowingWelcomeOnboarding = true
+            } label: {
+                Image.questionmarkCircle
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 16, height: 16)
+            }
+            .accessibilityLabel(Text("Welcome"))
         }
     }
     
@@ -328,6 +280,63 @@ private extension TabbarView {
         } footer: {
             Text("Sign up to get feedback from others and much more")
         }
+    }
+
+    var feedbackTabContent: some View {
+        Group {
+            switch store.session.account {
+            case .participant:
+                participantEventsView
+            case .manager, .anonymous:
+                feedbackEmptyStateView
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.themeBackground.ignoresSafeArea())
+    }
+
+    var eventsEmptyStateView: some View {
+        ScrollView {
+            EmptyStateView(
+                title: "Sessions are for managers",
+                message: "Use the Give Feedback tab to join meetings and share feedback."
+            )
+            .padding(.horizontal, Theme.padding)
+        }
+        .background(Color.themeBackground)
+    }
+    
+    var feedbackEmptyStateView: some View {
+        ScrollView {
+            EmptyStateView(
+                title: "No feedback yet",
+                message: "When you're invited to share feedback, requests will appear here."
+            )
+            .padding(.horizontal, Theme.padding)
+        }
+        .background(Color.themeBackground)
+    }
+
+    var joinEventToolbarItem: some ToolbarContent {
+        ToolbarItem(placement: .primaryAction) {
+            Button {
+                store.send(.toolbar(.joinEventButtonTap))
+            } label: {
+                HStack(spacing: 6) {
+                    Image.lockFill
+                        .renderingMode(.template)
+                        .imageScale(.small)
+                    Text("Join")
+                }
+            }
+            .buttonStyle(PrimaryTextButtonStyle())
+        }
+    }
+
+    func presentWelcomeOnboardingIfNeeded() {
+        guard store.session.role == .manager else { return }
+        guard !hasSeenWelcomeOnboarding else { return }
+        isShowingWelcomeOnboarding = true
     }
 }
 

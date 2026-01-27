@@ -11,13 +11,13 @@ public struct EventDetailFeature: Sendable {
     @Reducer
     public enum Destination {
         case deleteConfirmation(DeleteConfirmation)
-        case editEvent(EditEvent)
+        case editQuestions(EditQuestions)
         @ReducerCaseEphemeral
         case confirmationDialog(ConfirmationDialogState<ConfirmationDialog>)
         @ReducerCaseIgnored
         case invite(ManagerEvent)
         public enum ConfirmationDialog: Equatable, Sendable {
-            case edit
+            case editQuestions
             case delete
             case invite
         }
@@ -99,21 +99,15 @@ public struct EventDetailFeature: Sendable {
             case .destination(.presented(.confirmationDialog(let confirmationDialogAction))):
                 switch confirmationDialogAction {
                     
-                case .edit:
+                case .editQuestions:
                     let recentlyUsedQuestions = if let managerData = state.session.managerData {
                         Set<RecentlyUsedQuestions>(managerData.recentlyUsedQuestions)
                     } else {
                         Set<RecentlyUsedQuestions>()
                     }
-                    state.destination = .editEvent(
-                        EditEvent.State(
-                            eventForm: EventForm.State.init(
-                                eventInput: EventInput(state.event),
-                                shouldOpenKeyboardOnAppear: false,
-                                recentlyUsedQuestions: recentlyUsedQuestions,
-                                successOverlayMessage: "Session edited"
-                            ),
-                            eventId: state.event.id,
+                    state.destination = .editQuestions(
+                        EditQuestions.State(
+                            event: state.event,
                             recentlyUsedQuestions: recentlyUsedQuestions
                         )
                     )
@@ -133,9 +127,9 @@ public struct EventDetailFeature: Sendable {
                         titleVisibility: .hidden,
                         title: { TextState("") },
                         actions: {
-                            if state.event.overallFeedbackSummary == nil && state.event.pinCode != nil {
-                                ButtonState(action: .send(.edit)) {
-                                    TextState("Edit ✏️")
+                            if state.event.overallFeedbackSummary == nil {
+                                ButtonState(action: .send(.editQuestions)) {
+                                    TextState("Edit questions ✏️")
                                 }
                             }
                             if state.event.pinCode != nil {

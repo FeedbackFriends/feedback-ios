@@ -16,6 +16,7 @@ public enum Tab: Hashable, Sendable {
 public extension Tabbar.State {
     init(
         session: Shared<Session>,
+        syncStatus: Shared<SyncStatus> = Shared(value: SyncStatus(lastUpdatedAt: Date())),
         tabbarLifecyle: TabbarLifecycle.State,
         enterCode: EnterCode.State,
         moreSection: MoreSection.State,
@@ -28,6 +29,7 @@ public extension Tabbar.State {
         destination: Tabbar.Destination.State? = nil
     ) {
         self._session = session
+        self._syncStatus = syncStatus
         self.tabbarLifecyle = tabbarLifecyle
         self.enterCode = enterCode
         self.moreSection = moreSection
@@ -42,10 +44,12 @@ public extension Tabbar.State {
     
     init(
         session: Shared<Session>,
+        syncStatus: Shared<SyncStatus> = Shared(value: SyncStatus(lastUpdatedAt: Date())),
         selectedTab: Tab = .events,
         destination: Tabbar.Destination.State? = nil,
     ) {
         self._session = session
+        self._syncStatus = syncStatus
         self.enterCode = .init()
         self.selectedTab = selectedTab
         self.moreSection = .init()
@@ -53,8 +57,8 @@ public extension Tabbar.State {
         self.initialiseFeedback = .init()
         self.participantEvents = .init(session: session)
         self.deleteAccount = .init()
-        self.managerEvents = .init(session: session)
-        self.tabbarLifecyle = .init(session: session)
+        self.managerEvents = .init(session: session, syncStatus: syncStatus)
+        self.tabbarLifecyle = .init(session: session, syncStatus: syncStatus)
         self.destination = destination
     }
 }
@@ -69,12 +73,9 @@ public struct Tabbar: Sendable {
         case notificationPermissionPrompt
         @ReducerCaseEphemeral
         case confirmationDialog(ConfirmationDialogState<ConfirmationDialog>)
-        case createEvent(CreateEvent)
         case joinEvent(JoinEvent)
         @ReducerCaseIgnored
         case activity([ActivityItems])
-        @ReducerCaseIgnored
-        case draftEvents([ManagerEvent])
         public enum ConfirmationDialog: Equatable, Sendable {
             case logoutConfirmed
         }
@@ -87,6 +88,7 @@ public struct Tabbar: Sendable {
     public struct State: Equatable, Sendable {
         
         @Shared public var session: Session
+        @Shared public var syncStatus: SyncStatus
         var tabbarLifecyle: TabbarLifecycle.State
         var enterCode: EnterCode.State
         var moreSection: MoreSection.State
@@ -118,10 +120,8 @@ public struct Tabbar: Sendable {
         case deleteAccount(DeleteAccount.Action)
         case dismissFeedbackFlow
         public enum Toolbar: Equatable {
-            case createEventButtonTap
             case joinEventButtonTap
             case activityButtonTap
-            case draftEventsButtonTap
         }
         public enum Delegate: Equatable {
             case startFeedback(pinCode: PinCode)
@@ -192,17 +192,6 @@ public struct Tabbar: Sendable {
                     }
                 }
                 
-            case .destination(.presented(.createEvent(.delegate(.dismissAndNavigateToDetail(let event))))):
-                state.destination = nil
-                state.managerEvents.destination = .eventDetail(
-                    EventDetailFeature.State(
-                        event: event,
-                        destination: .invite(event),
-                        session: state.$session
-                    )
-                )
-                return .none
-                
             case .signOutButtonTapped:
                 state.destination = .confirmationDialog(
                     ConfirmationDialogState<Destination.ConfirmationDialog>(
@@ -232,8 +221,7 @@ public struct Tabbar: Sendable {
                 }
                 
             case .destination(.presented(.joinEvent(.delegate(.navigateToParticipantEvent(let pinCode))))):
-                state.managerEvents.segmentedControl = .participating
-                state.managerEvents.participantEvents.destination = .startFeedbackConfirmation(pinCode)
+                state.selectedTab = .feedback
                 state.participantEvents.destination = .startFeedbackConfirmation(pinCode)
                 return .none
                 
@@ -244,8 +232,7 @@ public struct Tabbar: Sendable {
                 return .none
                 
             case .enterCode(.delegate(.startFeedback(let pinCode))),
-                    .participantEvents(.delegate(.startFeedback(let pinCode))),
-                    .managerEvents(.participantEvents(.delegate(.startFeedback(let pinCode)))):
+                    .participantEvents(.delegate(.startFeedback(let pinCode))):
                 return .send(.initialiseFeedback(.startFeedback(pinCode: pinCode)))
                 
             case .initialiseFeedback(.delegate(let delegateAction)):
@@ -254,7 +241,6 @@ public struct Tabbar: Sendable {
                     state.enterCode.startFeedbackPincodeInFlight = false
                     state.enterCode.pinCodeInput.value = ""
                     state.participantEvents.startFeedbackPincodeInFlight = nil
-                    state.managerEvents.participantEvents.startFeedbackPincodeInFlight = nil
                 }
                 return .none
                 
@@ -267,36 +253,6 @@ public struct Tabbar: Sendable {
             case .toolbar(let toolbarButtonAction):
                 switch toolbarButtonAction {
                     
-                case .createEventButtonTap:
-                    if case .anonymous = state.session.account {
-                        state.destination = .alert(
-                            .init(
-                                title: { TextState("Login required") },
-                                actions: {
-                                    ButtonState(action: .confirmedToCreateUser, label: { TextState("Create account") })
-                                    ButtonState(role: .cancel, label: { TextState("Not now") })
-                                },
-                                message: { TextState("Create an account to access your own events") })
-                        )
-                        return .none
-                    }
-                    let recentlyUsedQuestions = if let managerData = state.session.managerData {
-                        Set<RecentlyUsedQuestions>(managerData.recentlyUsedQuestions)
-                    } else {
-                        Set<RecentlyUsedQuestions>()
-                    }
-                    state.destination = .createEvent(
-                        CreateEvent.State(
-                            eventForm:
-                                EventForm.State(
-                                    initialFocus: EventForm.FocusedField.title,
-                                    eventInput: .init(),
-                                    shouldOpenKeyboardOnAppear: true,
-                                    recentlyUsedQuestions: recentlyUsedQuestions,
-                                    successOverlayMessage: "Session created"
-                                )
-                        )
-                )
                 case .joinEventButtonTap:
                     state.destination = .joinEvent(.init())
                 case .activityButtonTap:
@@ -308,11 +264,6 @@ public struct Tabbar: Sendable {
                             Logger.debug("Reset new feedback failed with error: \(error.localizedDescription)")
                         }
                     }
-                case .draftEventsButtonTap:
-                    state.destination = .draftEvents(
-                        state.session.managerData?.draftEvents ?? []
-                    )
-                    return .none
                 }
                 return .none
                 
