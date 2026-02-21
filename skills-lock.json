@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "6412eb4eb3b91595ebab937f0c69501240e7ba761b3d82510b5cf506ec5c7adc"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "a096b9af85c9d954374ebe3f7a23b5b7737ed3f35fe2a8f5893742c4e00dba1c"
+    },
+    "swift-composable-architecture": {
+      "source": "tryhuset/agent-skills",
+      "sourceType": "github",
+      "computedHash": "6d50f98e950c41c5cf5933b01978102fd62c11341404d68f7ecd8af0d4da23a4"
+    },
+    "swift-concurrency": {
+      "source": "avdlee/swift-concurrency-agent-skill",
+      "sourceType": "github",
+      "computedHash": "f799ff819d9d6a1ccef7db0d6cd3d06dbbf7c2c6c514c39b8485d94b31cc251c"
+    },
+    "swift-testing-expert": {
+      "source": "avdlee/swift-testing-agent-skill",
+      "sourceType": "github",
+      "computedHash": "cd86f35466a2d831467ef748b402bfddfb063ca3ddd03f63305864d91367da0c"
+    },
+    "swiftui-expert-skill": {
+      "source": "avdlee/swiftui-agent-skill",
+      "sourceType": "github",
+      "computedHash": "2266f713890104352fe8eca44fc546c096e3459cc25e7e21bc57514f57d2e5a4"
+    }
+  }
+}
