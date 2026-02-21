@@ -19,10 +19,10 @@ public struct MoreSectionView: View {
     
     public var body: some View {
         Group {
+            contactSection
             if let appStoreReviewUrl = store.appStoreReviewUrl {
                 shareSection(appStoreReviewUrl: appStoreReviewUrl)
             }
-            contactSection
             generalSection
         }
         .onAppear { store.send(.onAppear) }

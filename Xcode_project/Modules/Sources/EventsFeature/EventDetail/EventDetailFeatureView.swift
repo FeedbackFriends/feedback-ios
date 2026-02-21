@@ -36,6 +36,11 @@ public struct EventDetailFeatureView: View {
         DetailSectionView(
             event: store.event
         )
+        .overlay(alignment: .bottom) {
+            aiInsightsFloatingButton
+                .padding(.horizontal, Theme.padding)
+                .padding(.bottom, 16)
+        }
         .sheet(
             item: inviteStore
         ) { state in
@@ -74,5 +79,26 @@ public struct EventDetailFeatureView: View {
                 .presentationDetents([.height(300)])
         }
         .animation(.default, value: store.event)
+    }
+    
+    var aiInsightsFloatingButton: some View {
+        Button {
+            // Intentionally disabled until the feature is released.
+        } label: {
+            Text("AI insights")
+                .frame(maxWidth: .infinity)
+        }
+        .buttonStyle(LargeButtonStyle())
+        .disabled(true)
+        .overlay(alignment: .topTrailing) {
+            Text("Coming soon")
+                .font(.montserratSemiBold, 10)
+                .foregroundStyle(Color.themeText)
+                .padding(.horizontal, 10)
+                .padding(.vertical, 4)
+                .background(Color.themeSurfaceSecondary)
+                .clipShape(Capsule())
+                .offset(x: -8, y: -12)
+        }
     }
 }
