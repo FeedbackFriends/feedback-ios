@@ -75,7 +75,7 @@ private extension AccountSectionContentView {
 				data.changeUserTypeButtonTap()
             } label: {
                 HStack {
-                    Image.handshake
+                    Image.letsGrowIcon
                         .resizable()
                         .renderingMode(.template)
                         .imageScale(.small)

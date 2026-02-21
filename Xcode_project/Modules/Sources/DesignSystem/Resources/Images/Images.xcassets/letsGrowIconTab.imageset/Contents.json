@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "icon_transparent_light.png",
+      "filename" : "1.pdf",
       "idiom" : "universal"
     },
     {
@@ -11,15 +11,12 @@
           "value" : "dark"
         }
       ],
-      "filename" : "icon_transparent_dark.png",
+      "filename" : "Group 116@2x 6.pdf",
       "idiom" : "universal"
     }
   ],
   "info" : {
     "author" : "xcode",
     "version" : 1
-  },
-  "properties" : {
-    "preserves-vector-representation" : true
   }
 }

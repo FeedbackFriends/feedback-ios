@@ -7,8 +7,6 @@ import Utility
 public struct ManagerEventsView: View {
     
     @Bindable var store: StoreOf<ManagerEvents>
-    @State private var showUpdatePulse = false
-    @State private var updatePulseTask: Task<Void, Never>?
     
     public init(store: StoreOf<ManagerEvents>) {
         self.store = store
@@ -18,13 +16,19 @@ public struct ManagerEventsView: View {
         let eventDetailStore = $store.scope(state: \.destination?.eventDetail, action: \.destination.eventDetail)
         let editQuestionsStore = $store.scope(state: \.destination?.editQuestions, action: \.destination.editQuestions)
         VStack(spacing: 0) {
-            syncStatusHeader
+            if store.syncStatus.visibleSyncState != .hidden {
+                syncStatusChip
+                    .padding(.horizontal, Theme.padding)
+                    .padding(.top, 8)
+                    .padding(.bottom, 8)
+                    .transition(.move(edge: .top).combined(with: .opacity))
+            }
             ScrollView {
                 VStack(spacing: 12) {
                     if feedbackEvents.isEmpty {
                         EmptyStateView(
-                            title: "No feedback drafts yet",
-                            message: "Invite feedback@letsgrow.dk in your calendar to get started."
+                            title: "No feedback sessions yet",
+                            message: "Invite feedback@letsgrow.dk to a calendar event to create your first draft."
                         )
                     } else {
                         ForEach(feedbackEvents) { event in
@@ -42,6 +46,7 @@ public struct ManagerEventsView: View {
             .lineSpacing(7)
             .scrollContentBackground(.hidden)
         }
+        .animation(.easeInOut(duration: 0.2), value: store.syncStatus.visibleSyncState)
         .background(Color.themeBackground)
         .foregroundStyle(Color.themeText)
         .navigationDestination(
@@ -53,20 +58,6 @@ public struct ManagerEventsView: View {
         .sheet(item: editQuestionsStore) { store in
             NavigationStack {
                 EditQuestionsView(store: store)
-            }
-        }
-        .onChange(of: store.syncStatus.lastUpdatedAt) { _ in
-            updatePulseTask?.cancel()
-            withAnimation(.easeInOut(duration: 0.2)) {
-                showUpdatePulse = true
-            }
-            updatePulseTask = Task {
-                try? await Task.sleep(nanoseconds: 1_500_000_000)
-                await MainActor.run {
-                    withAnimation(.easeOut(duration: 0.3)) {
-                        showUpdatePulse = false
-                    }
-                }
             }
         }
     }
@@ -84,45 +75,44 @@ extension ManagerEventsView {
         return upcoming + past
     }
 
-    var syncStatusHeader: some View {
-        let lastUpdatedLabel = syncStatusTimestampLabel
-        let barColor = syncStatusBarColor
-        return VStack(spacing: 6) {
-            Rectangle()
-                .fill(barColor)
-                .frame(height: 2)
-                .animation(.easeInOut(duration: 0.2), value: store.syncStatus.isSyncing)
-                .animation(.easeInOut(duration: 0.2), value: showUpdatePulse)
-            HStack(spacing: 6) {
-                Text(lastUpdatedLabel)
-                    .font(.montserratMedium, 12)
-                    .foregroundStyle(Color.themeTextSecondary)
-                if store.syncStatus.isSyncing {
-                    Text("Syncing...")
-                        .font(.montserratMedium, 12)
-                        .foregroundStyle(Color.themeTextSecondary)
-                }
-                Spacer()
-            }
-            .padding(.horizontal, Theme.padding)
+    @ViewBuilder
+    var syncStatusChip: some View {
+        switch store.syncStatus.visibleSyncState {
+        case .hidden:
+            EmptyView()
+        case .syncing:
+            chipView(
+                title: "Checking calendar...",
+                icon: "arrow.triangle.2.circlepath",
+                tint: .themeBlue
+            )
+        case .synced:
+            chipView(
+                title: "Calendar up to date",
+                icon: "checkmark.circle.fill",
+                tint: .themeSuccess
+            )
         }
     }
 
-    var syncStatusBarColor: Color {
-        if store.syncStatus.isSyncing {
-            return Color.themeBlue
+    func chipView(title: String, icon: String, tint: Color) -> some View {
+        return HStack(spacing: 6) {
+            Image(systemName: icon)
+                .font(.system(size: 12, weight: .semibold))
+                .foregroundStyle(tint)
+            Text(title)
+                .font(.montserratMedium, 12)
+                .foregroundStyle(Color.themeText)
         }
-        if showUpdatePulse {
-            return Color.themeSuccess
-        }
-        return Color.clear
-    }
-
-    var syncStatusTimestampLabel: String {
-        if let lastUpdatedAt = store.syncStatus.lastUpdatedAt {
-            return "Updated \(lastUpdatedAt.timeFormatted())"
-        }
-        return "Updated -"
+        .padding(.horizontal, 10)
+        .padding(.vertical, 7)
+        .background(tint.opacity(0.12))
+        .overlay(
+            Capsule()
+                .stroke(tint.opacity(0.35), lineWidth: 1)
+        )
+        .clipShape(Capsule())
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     func feedbackCardView(_ event: ManagerEvent) -> some View {
@@ -206,7 +196,6 @@ extension ManagerEventsView {
         }
         .frame(width: 34, height: 34)
         .overlay(Circle().stroke((config.tint ?? Color.themeTextSecondary).opacity(0.2), lineWidth: 1))
-        .accessibilityLabel(Text(config.label))
     }
 
     func providerBadgeConfig(_ provider: CalendarProvider?) -> ProviderBadgeConfig {

@@ -21,8 +21,8 @@ public struct DraftEventsView: View {
                 if draftEvents.isEmpty {
                     ScrollView {
                         EmptyStateView(
-                            title: "Nothing to show here yet.",
-                            message: "Once there’s an update, you’ll see it here."
+                            title: "No draft sessions yet",
+                            message: "Draft sessions will appear here after you add feedback@letsgrow.dk to a calendar invite."
                         )
                         .frame(maxWidth: Constants.maxWidthForLargeDevices)
                         .padding(.horizontal, Theme.padding)
@@ -135,7 +135,6 @@ private extension DraftEventsView {
         }
         .frame(width: 34, height: 34)
         .overlay(Circle().stroke((config.tint ?? Color.themeTextSecondary).opacity(0.2), lineWidth: 1))
-        .accessibilityLabel(Text(config.label))
     }
     
     func providerDisplayName(_ provider: CalendarProvider?) -> String? {

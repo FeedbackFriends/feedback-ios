@@ -3,7 +3,6 @@ import ComposableArchitecture
 
 @DependencyClient
 public struct AuthClient: Sendable {
-    public var signInAnonymously: @Sendable () async throws -> Void
     public var fetchCustomRole: @Sendable () async throws -> Role?
     public var googleLogin: @Sendable () async throws -> Void
     public var appleLogin: @Sendable () async throws -> Void
@@ -13,7 +12,7 @@ public struct AuthClient: Sendable {
 }
 
 public enum UserState: Sendable {
-    case authenticated, anonymous, loggedOut
+    case authenticated, loggedOut
 }
 
 public enum AuthenticationError: Error {

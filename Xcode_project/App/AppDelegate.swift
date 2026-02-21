@@ -79,7 +79,6 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
             options.tracePropagationTargets = [
                 InfoPlistConfig().apiBaseUrl.absoluteString
             ]
-            options.experimental.enableLogs = true
             options.releaseName = "\(DeviceInfo().version())(\(String(describing: DeviceInfo().build)))"
         }
         let firebaseOptions = FirebaseOptions(

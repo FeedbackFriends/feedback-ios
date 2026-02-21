@@ -23,7 +23,7 @@ public struct ManagerEvents: Sendable {
         public init(
             destination: Destination.State? = nil,
             session: Shared<Session>,
-            syncStatus: Shared<SyncStatus> = Shared(value: SyncStatus(lastUpdatedAt: Date()))
+            syncStatus: Shared<SyncStatus> = Shared(value: SyncStatus())
         ) {
             self.destination = destination
             self._session = session

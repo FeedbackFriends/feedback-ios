@@ -23,14 +23,11 @@ public struct RootFeature: Sendable {
     
     public enum ErrorType: Equatable {
         case handleAuthenticatedAccountError(error: PresentableError)
-        case anonymousSignUpError(error: PresentableError)
         case createAccountError(error: PresentableError, Role?)
         case getSessionError(error: PresentableError)
         var error: PresentableError {
             switch self {
             case .handleAuthenticatedAccountError(let error):
-                return error
-            case .anonymousSignUpError(let error):
                 return error
             case .createAccountError(let error, _):
                 return error
@@ -104,10 +101,6 @@ public struct RootFeature: Sendable {
             case .tryAgainButtonTap(let errorType):
                 state.isLoading = true
                 switch errorType {
-                    
-                case .anonymousSignUpError:
-                    return signUpAnonymously(state: &state)
-                    
                 case .createAccountError(_, let role):
                     return createAccount(withRole: role, state: &state)
                     
@@ -128,17 +121,10 @@ public struct RootFeature: Sendable {
                 case .authenticated:
                     return handeAuthenticatedAccount(state: &state)
                     
-                case .anonymous:
-                    return createAccount(withRole: nil, state: &state)
-                    
                 case .loggedOut:
-                    /// This is triggered when app is opened
-                    if case .isLoading = state.destination {
-                        return signUpAnonymously(state: &state)
-                    } else {
-                        state.destination = .signUp(.init())
-                        return .none
-                    }
+                    state.isLoading = false
+                    state.destination = .signUp(.init())
+                    return .none
                 }
                 
             case .destination:
@@ -278,20 +264,6 @@ private extension RootFeature {
                 await send(.createAccountResponse(session, role))
             } catch {
                 await send(.presentError(ErrorType.createAccountError(error: error.localized, role)))
-            }
-        }
-    }
-    
-    func signUpAnonymously(
-        state: inout State
-    ) -> EffectOf<Self> {
-        state.isLoading = true
-        state.destination = .isLoading
-        return .run { send in
-            do {
-                try await authClient.signInAnonymously()
-            } catch {
-                await send(.presentError(ErrorType.anonymousSignUpError(error: error.localized)))
             }
         }
     }

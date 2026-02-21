@@ -28,9 +28,30 @@ public struct TabbarView: View {
             .task {
                 await self.store.send(.tabbarLifecyle(.onTask)).finish()
                 presentWelcomeOnboardingIfNeeded()
+                resetSelectedTabIfNeeded()
+            }
+            .overlay(alignment: .bottomTrailing) {
+                if shouldShowJoinFloatingActionButton {
+                    joinFloatingActionButton
+                        .padding(.trailing, 20)
+                        .padding(.bottom, 80)
+                }
+            }
+            .onChange(of: scenePhase) { _, newValue in
+                switch newValue {
+                case .active:
+                    store.send(.tabbarLifecyle(.enterForeground))
+                case .background:
+                    store.send(.tabbarLifecyle(.enterBackground))
+                case .inactive:
+                    break
+                @unknown default:
+                    break
+                }
             }
             .onChange(of: store.session.role) { _, _ in
                 presentWelcomeOnboardingIfNeeded()
+                resetSelectedTabIfNeeded()
             }
             .sheet(item: joinEventStore) { store in
                 JoinEventView(store: store)
@@ -99,46 +120,40 @@ public struct TabbarView: View {
 }
 
 private extension TabbarView {
+    var isManager: Bool {
+        if case .manager = store.session.account {
+            return true
+        }
+        return false
+    }
     
     var tabView: some View {
         TabView(selection: $store.selectedTab) {
             NavigationStack {
                 feedbackTabContent
                     .navigationTitle("Give Feedback")
-                    .toolbar {
-                        joinEventToolbarItem
-                    }
             }
             .tabItem {
-                Image.handshake
-                    .renderingMode(.template)
-                    .imageScale(.small)
+                Image.letsGrowIconTab
                 Text("Give Feedback")
             }
             .tag(Tab.feedback)
             
-            NavigationStack {
-                switch store.session.account {
-                case .manager:
+            if isManager {
+                NavigationStack {
                     managerEventsView
                         .navigationTitle("My sessions")
                         .toolbar {
                             activityToolbarItem(store.session.activityBadgeCount)
                             welcomeOnboardingToolbarItem
                         }
-                case .participant:
-                    eventsEmptyStateView
-                        .navigationTitle("My sessions")
-                case .anonymous:
-                    eventsEmptyStateView
-                        .navigationTitle("My sessions")
                 }
+                .tabItem {
+                    Image.calendar
+                    Text("My sessions")
+                }
+                .tag(Tab.events)
             }
-            .tabItem {
-                Image.calendar
-                Text("My sessions")
-            }
-            .tag(Tab.events)
             
             NavigationStack {
                 List {
@@ -234,7 +249,6 @@ private extension TabbarView {
                     .scaledToFit()
                     .frame(width: 16, height: 16)
             }
-            .accessibilityLabel(Text("Welcome"))
         }
     }
     
@@ -278,7 +292,7 @@ private extension TabbarView {
                 listElementView(image: .moreSectionPersonBadgeKey, label: "Sign up")
             }
         } footer: {
-            Text("Sign up to get feedback from others and much more")
+            Text("Sign up to receive feedback from others")
         }
     }
 
@@ -295,41 +309,31 @@ private extension TabbarView {
         .background(Color.themeBackground.ignoresSafeArea())
     }
 
-    var eventsEmptyStateView: some View {
+    var feedbackEmptyStateView: some View {
         ScrollView {
             EmptyStateView(
-                title: "Sessions are for managers",
-                message: "Use the Give Feedback tab to join meetings and share feedback."
+                title: "No feedback requests yet",
+                message: "When someone invites you, feedback requests will appear here. You can also join a session with a PIN."
             )
             .padding(.horizontal, Theme.padding)
         }
         .background(Color.themeBackground)
     }
     
-    var feedbackEmptyStateView: some View {
-        ScrollView {
-            EmptyStateView(
-                title: "No feedback yet",
-                message: "When you're invited to share feedback, requests will appear here."
-            )
-            .padding(.horizontal, Theme.padding)
-        }
-        .background(Color.themeBackground)
+    var shouldShowJoinFloatingActionButton: Bool {
+        store.selectedTab == .feedback
     }
-
-    var joinEventToolbarItem: some ToolbarContent {
-        ToolbarItem(placement: .primaryAction) {
-            Button {
-                store.send(.toolbar(.joinEventButtonTap))
-            } label: {
-                HStack(spacing: 6) {
-                    Image.lockFill
-                        .renderingMode(.template)
-                        .imageScale(.small)
-                    Text("Join")
-                }
-            }
-            .buttonStyle(PrimaryTextButtonStyle())
+    
+    var joinFloatingActionButton: some View {
+        Button {
+            store.send(.toolbar(.joinEventButtonTap))
+        } label: {
+            Text("Join with PIN")
+            .font(.montserratSemiBold, 15)
+            .padding(.horizontal, 18)
+            .padding(.vertical, 12)
+            .foregroundStyle(Color.themeOnPrimaryAction)
+            .background(Color.themePrimaryAction.gradient, in: Capsule())
         }
     }
 
@@ -337,6 +341,12 @@ private extension TabbarView {
         guard store.session.role == .manager else { return }
         guard !hasSeenWelcomeOnboarding else { return }
         isShowingWelcomeOnboarding = true
+    }
+
+    func resetSelectedTabIfNeeded() {
+        guard !isManager else { return }
+        guard store.selectedTab == .events else { return }
+        store.selectedTab = .feedback
     }
 }
 

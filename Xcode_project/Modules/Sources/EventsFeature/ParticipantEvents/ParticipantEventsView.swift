@@ -19,7 +19,8 @@ public struct ParticipantEventsView: View {
                 let participantEvents = store.session.participantEvents
                 if participantEvents.isEmpty {
                     EmptyStateView(
-                        message: "Feedback requests you can respond to will appear here."
+                        title: "No feedback sessions yet",
+                        message: "You'll see sessions here when you're invited. You can also join with a PIN."
                     )
                 } else {
                     let todayMeetings = participantEvents.filter { $0.date.isToday }

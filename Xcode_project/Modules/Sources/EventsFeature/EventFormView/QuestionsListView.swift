@@ -16,8 +16,8 @@ struct QuestionsListView: View {
         Group {
             if questionsInputs.isEmpty {
                 EmptyStateView(
-                    title: "No questions",
-                    message: "Tap '+' to add a question"
+                    title: "No questions added yet",
+                    message: "Tap + to add the first question for this session."
                 ).frame(maxHeight: .infinity)
             } else {
                 Form {

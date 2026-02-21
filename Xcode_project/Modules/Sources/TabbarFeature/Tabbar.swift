@@ -16,7 +16,7 @@ public enum Tab: Hashable, Sendable {
 public extension Tabbar.State {
     init(
         session: Shared<Session>,
-        syncStatus: Shared<SyncStatus> = Shared(value: SyncStatus(lastUpdatedAt: Date())),
+        syncStatus: Shared<SyncStatus> = Shared(value: SyncStatus()),
         tabbarLifecyle: TabbarLifecycle.State,
         enterCode: EnterCode.State,
         moreSection: MoreSection.State,
@@ -44,7 +44,7 @@ public extension Tabbar.State {
     
     init(
         session: Shared<Session>,
-        syncStatus: Shared<SyncStatus> = Shared(value: SyncStatus(lastUpdatedAt: Date())),
+        syncStatus: Shared<SyncStatus> = Shared(value: SyncStatus()),
         selectedTab: Tab = .events,
         destination: Tabbar.Destination.State? = nil,
     ) {

@@ -18,8 +18,8 @@ public struct EditQuestionsView: View {
             Section {
                 if questionsInputs.wrappedValue.isEmpty {
                     EmptyStateView(
-                        title: "No questions yet",
-                        message: "Tap + to add your first feedback question."
+                        title: "No questions added yet",
+                        message: "Tap + to add the first feedback question for this session."
                     )
                     .listRowBackground(Color.clear)
                 } else {

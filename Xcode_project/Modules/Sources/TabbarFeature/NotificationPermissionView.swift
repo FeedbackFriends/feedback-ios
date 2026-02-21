@@ -12,21 +12,21 @@ struct NotificationPermissionView: View {
                 Spacer()
                 LottieView(lottieFile: .messagePermission)
                     .frame(width: 300, height: 200)
-                    Text("Please allow notifications so we can send you important messages.")
+                    Text("Enable notifications to get reminders about feedback requests and important session updates.")
                         .padding(.top, 30)
                         .font(.montserratRegular, 14)
                         .padding(.horizontal, 60)
                         .multilineTextAlignment(.center)
                         .foregroundColor(.themeText)
                 Spacer()
-                givePermissionButton("Give permission") {
+                givePermissionButton("Enable notifications") {
                     requestAuthorizationButtonTap()
                 }
                 .padding(16)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .toolbar { toolbarContent }
-            .navigationTitle("Messaging")
+            .navigationTitle("Enable Notifications")
             .navigationBarTitleDisplayMode(.large)
         }
     }
