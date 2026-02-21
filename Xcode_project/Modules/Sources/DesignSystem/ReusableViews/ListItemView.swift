@@ -20,7 +20,7 @@ public func listElementView(
             .padding(6)
         Text(label)
     }
-    .font(.montserratSemiBold, 13)
     .foregroundStyle(Color.themeText)
+    .font(.montserratRegular, 13)
     .animation(.bouncy, value: isLoading)
 }
