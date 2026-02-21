@@ -29,27 +29,19 @@ public struct ParticipantSession: Equatable, Sendable {
     }
 }
 
-public struct AnonymousSession: Equatable, Sendable {
-    public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
-    public init(
-        participantEvents: IdentifiedArrayOf<ParticipantEvent>
-    ) {
-        self.participantEvents = participantEvents
-    }
-}
 
 public struct Session: Equatable, Sendable {
     
     public var participantEvents: IdentifiedArrayOf<ParticipantEvent>
     public var managerData: ManagerData?
     public var accountInfo: AccountInfo
-    public var role: Role?
+    public var role: Role
     
     public init(
         participantEvents: IdentifiedArrayOf<ParticipantEvent>,
         managerData: ManagerData? = nil,
         accountInfo: AccountInfo,
-        role: Role? = nil
+        role: Role
     ) {
         self.participantEvents = participantEvents
         self.managerData = managerData
@@ -60,7 +52,6 @@ public struct Session: Equatable, Sendable {
     public enum Account: Equatable, Sendable {
         case manager(ManagerSession)
         case participant(ParticipantSession)
-        case anonymous(AnonymousSession)
     }
     
     public var account: Account {
@@ -80,8 +71,6 @@ public struct Session: Equatable, Sendable {
                     accountInfo: accountInfo
                 )
             )
-        case nil:
-            return .anonymous(.init(participantEvents: self.participantEvents))
         }
     }
     
@@ -90,8 +79,6 @@ public struct Session: Equatable, Sendable {
         case .manager(let managerSession):
             return managerSession.managerData.activity
         case .participant:
-            return .init(items: [], unseenTotal: 0)
-        case .anonymous:
             return .init(items: [], unseenTotal: 0)
         }
     }
@@ -113,15 +100,12 @@ public struct Session: Equatable, Sendable {
 public enum UserType: Equatable, Sendable {
     case manager(managerData: ManagerData, accountInfo: AccountInfo)
     case participant(accountInfo: AccountInfo)
-    case anonymoous
     public var role: Role? {
         switch self {
         case .manager:
             return Role.manager
         case .participant:
             return Role.participant
-        case .anonymoous:
-            return nil
         }
     }
 }
@@ -422,7 +406,7 @@ public struct QuestionFeedbackSummary: Equatable, Sendable {
         self.zeroToTenQuestionFeedbackSummary = zeroToTenQuestionFeedbackSummary
     }
 }
-   
+
 public struct ZeroToTenQuestionFeedbackSummary: Equatable, Sendable {
     public let percentageValue0: Double
     public let percentageValue1: Double
@@ -576,4 +560,3 @@ public struct EmojiQuestionFeedbackSummary: Equatable, Sendable {
         self.percentageVeryHappy = percentageVeryHappy
     }
 }
-

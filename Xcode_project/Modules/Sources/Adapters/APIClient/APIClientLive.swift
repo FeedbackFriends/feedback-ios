@@ -55,7 +55,7 @@ public extension APIClient {
             getSession: {
                 try await withAuthorization {
                     let sessionDto = try await api.getSession().ok.body.json
-                    let newSession = Session(sessionDto)
+                    let newSession = try Session(sessionDto)
                     await sessionCache.updateSession(newSession)
                     return newSession
                 }
@@ -129,7 +129,7 @@ public extension APIClient {
                             )
                         )
                     ).ok.body.json
-                    let session = Session(sessionDto)
+                    let session = try Session(sessionDto)
                     await sessionCache.updateSession(session)
                     return session
                 }
@@ -184,7 +184,7 @@ public extension APIClient {
                 guard let sessionDto = optionalSessionDto else {
                     return .none
                 }
-                let session = Session(sessionDto)
+                let session = try Session(sessionDto)
                 await sessionCache.updateSession(session)
                 return session
             },

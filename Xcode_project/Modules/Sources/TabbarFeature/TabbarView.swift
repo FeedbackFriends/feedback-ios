@@ -103,19 +103,23 @@ public struct TabbarView: View {
                     }
                 )
             }
-            .sheet(isPresented: $isShowingWelcomeOnboarding, onDismiss: {
-                hasSeenWelcomeOnboarding = true
-            }) {
-                WelcomeOnboardingView(
-                    accountEmail: store.session.accountInfo.email,
-                    primaryAction: {
-                        hasSeenWelcomeOnboarding = true
-                        isShowingWelcomeOnboarding = false
-                    }
-                )
-                .interactiveDismissDisabled()
-                .presentationDragIndicator(.hidden)
-            }
+            .sheet(
+                isPresented: $isShowingWelcomeOnboarding,
+                onDismiss: {
+                    hasSeenWelcomeOnboarding = true
+                },
+                content: {
+                    WelcomeOnboardingView(
+                        accountEmail: store.session.accountInfo.email,
+                        primaryAction: {
+                            hasSeenWelcomeOnboarding = true
+                            isShowingWelcomeOnboarding = false
+                        }
+                    )
+                    .interactiveDismissDisabled()
+                    .presentationDragIndicator(.hidden)
+                }
+            )
     }
 }
 
@@ -131,11 +135,11 @@ private extension TabbarView {
         TabView(selection: $store.selectedTab) {
             NavigationStack {
                 feedbackTabContent
-                    .navigationTitle("Give Feedback")
+                    .navigationTitle("Give feedback")
             }
             .tabItem {
                 Image.letsGrowIconTab
-                Text("Give Feedback")
+                Text("Give feedback")
             }
             .tag(Tab.feedback)
             
@@ -157,48 +161,23 @@ private extension TabbarView {
             
             NavigationStack {
                 List {
-                    Group {
-                        switch store.session.account {
-                        case .manager, .participant:
-                            AccountSectionView(store: store.scope(state: \.accountSection, action: \.accountSection))
-                        case .anonymous:
-                            EmptyView()
-                        }
-                        MoreSectionView(store: store.scope(state: \.moreSection, action: \.moreSection))
-                        switch store.session.account {
-                        case .manager, .participant:
-                            logoutSection()
-                            deleteAccountSection()
-                            
-                        case .anonymous:
-                            signUpSection
-                        }
-                    }
-                    .listRowBackground(
-                        Color.themeSurface
-                    )
+                    MoreSectionView(store: store.scope(state: \.moreSection, action: \.moreSection))
+                        .listRowBackground(
+                            Color.themeSurface
+                        )
                 }
                 .scrollContentBackground(.hidden)
                 .background(Color.themeBackground)
                 .tint(Color.themeText)
-                .navigationDestination(
-                    item: $store.scope(
-                        state: \.accountSection.destination?.modifyAccount,
-                        action: \.accountSection.destination.modifyAccount
-                    )
-                ) { store in
-                    ModifyAccountView(store: store)
-                }
-                .sheet(
-                    item: $store.scope(
-                        state: \.accountSection.destination?.changeUserType,
-                        action: \.accountSection.destination.changeUserType
-                    )
-                ) { store in
-                    ChangeUserTypeView(store: store)
-                        .presentationDetents([.height(240)])
-                }
+                .accountSectionDestinations(
+                    store: store.scope(state: \.accountSection, action: \.accountSection),
+                    isDeleteAccountLoading: store.deleteAccount.deleteAccountInFlight,
+                    appVersionText: appVersionFooterText
+                )
                 .navigationTitle("Profile")
+                .toolbar {
+                    profileSettingsToolbarItem
+                }
                 .background(Color.themeBackground)
             }
             .tabItem {
@@ -251,57 +230,30 @@ private extension TabbarView {
             }
         }
     }
-    
-    func logoutSection() -> some View {
-        Section {
+
+    var profileSettingsToolbarItem: some ToolbarContent {
+        ToolbarItem(placement: .topBarTrailing) {
             Button {
-                store.send(.signOutButtonTapped)
+                store.send(.accountSection(.settingsButtonTap))
             } label: {
-                listElementView(image: .moreSectionPortraitAndArrowRight, label: "Logout")
+                Image.settings
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 16, height: 16)
             }
-            .confirmationDialog(
-                $store.scope(
-                    state: \.destination?.confirmationDialog,
-                    action: \.destination.confirmationDialog
-                )
-            )
-        } footer: {
-            Text("\(DeviceInfo().version())(\(DeviceInfo().build()))")
-                .frame(maxWidth: .infinity)
-                .multilineTextAlignment(.center)
-                .font(.montserratThin, 12)
-                .padding(.vertical, 20)
+            .foregroundStyle(Color.themeText)
         }
     }
-    
-    func deleteAccountSection() -> some View {
-        Section {
-            Button {
-                store.send(.deleteAccount(.deleteAccountButtonTapped))
-            } label: {
-                listElementView(image: .moreSectionTrash, label: "Delete account", isLoading: store.deleteAccount.deleteAccountInFlight)
-            }
-        }
-    }
-    
-    var signUpSection: some View {
-        Section {
-            Button {
-                store.send(.signUpButtonTap)
-            } label: {
-                listElementView(image: .moreSectionPersonBadgeKey, label: "Sign up")
-            }
-        } footer: {
-            Text("Sign up to receive feedback from others")
-        }
+
+    var appVersionFooterText: String {
+        "\(DeviceInfo().version())(\(DeviceInfo().build()))"
     }
 
     var feedbackTabContent: some View {
         Group {
-            switch store.session.account {
-            case .participant:
+            if case .participant = store.session.account {
                 participantEventsView
-            case .manager, .anonymous:
+            } else {
                 feedbackEmptyStateView
             }
         }

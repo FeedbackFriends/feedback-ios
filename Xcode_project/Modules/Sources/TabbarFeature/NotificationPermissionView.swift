@@ -26,7 +26,7 @@ struct NotificationPermissionView: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .toolbar { toolbarContent }
-            .navigationTitle("Enable Notifications")
+            .navigationTitle("Never miss feedback")
             .navigationBarTitleDisplayMode(.large)
         }
     }

@@ -21,7 +21,7 @@ public extension Image {
     static let circleFill = Image(systemName: "circle.fill")
     static let plus = Image(systemName: "plus")
     static let lockFill = Image(systemName: "lock.fill")
-    static let questionmarkCircle = Image(systemName: "questionmark.circle")
+    static let questionmarkCircle = Image(systemName: "questionmark")
     static let plusCircleFill = Image(systemName: "plus.circle.fill")
     static let info = Image(systemName: "info")
     static let arrowBackwards = Image(systemName: "arrow.backward")
@@ -55,5 +55,6 @@ public extension Image {
     static let moreSectionPortraitAndArrowRight = Image(systemName: "rectangle.portrait.and.arrow.right")
     static let moreSectionTrash = Image(systemName: "trash")
     static let moreSectionPersonBadgeKey = Image(systemName: "person.badge.key")
+    static let settings = Image(systemName: "gearshape.fill")
     
 }

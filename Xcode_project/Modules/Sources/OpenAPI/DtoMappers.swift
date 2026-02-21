@@ -368,19 +368,19 @@ public extension DomainCode {
 }
 
 public extension Session {
-    init(_ session: Components.Schemas.SessionDto) {
+    init(_ session: Components.Schemas.SessionDto) throws {
         let accountInfo: AccountInfo = AccountInfo(
             name: session.accountInfo.name,
             email: session.accountInfo.email,
             phoneNumber: session.accountInfo.phoneNumber
         )
-        let role: Role? = switch session.role {
+        let role: Role = switch session.role {
         case .some("Participant"):
                 .participant
         case .some("Manager"):
                 .manager
         default:
-            nil
+            fatalError("iOS app doesnt support this type of role")
         }
         
         let managerData: ManagerData? = session.managerData.flatMap {
@@ -456,4 +456,3 @@ public extension Activity {
         )
     }
 }
-

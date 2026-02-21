@@ -15,10 +15,10 @@ public struct JoinEventView: View {
         NavigationStack {
             VStack(alignment: .leading, spacing: 12) {
                 
-                Text("Join feedback")
+                Text("Join feedback session")
                     .font(.montserratBold, 28)
                     .padding(.top, 20)
-                Text("Feedback code")
+                Text("Enter PIN")
                     .padding(.top, 20)
                     .font(.montserratBold, 18)
                     .foregroundStyle(Color.themeText)
@@ -34,7 +34,7 @@ public struct JoinEventView: View {
                     .focused($pinCodeTextfieldFocused)
                     .padding(.top, 5)
                     .pinCodeInputValidation(pinCodeInput: $store.pinCodeInput)
-                Button("Join feedback") {
+                Button("Join") {
                     store.send(.joinButtonTap)
                 }
                 .buttonStyle(LargeButtonStyle())

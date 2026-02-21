@@ -71,14 +71,9 @@ public struct Tabbar: Sendable {
         case alert(AlertState<AlertAction>)
         @ReducerCaseIgnored
         case notificationPermissionPrompt
-        @ReducerCaseEphemeral
-        case confirmationDialog(ConfirmationDialogState<ConfirmationDialog>)
         case joinEvent(JoinEvent)
         @ReducerCaseIgnored
         case activity([ActivityItems])
-        public enum ConfirmationDialog: Equatable, Sendable {
-            case logoutConfirmed
-        }
         public enum AlertAction: Equatable, Sendable {
             case confirmedToCreateUser
         }
@@ -113,7 +108,6 @@ public struct Tabbar: Sendable {
         case destination(PresentationAction<Destination.Action>)
         case toolbar(Toolbar)
         case delegate(Delegate)
-        case signOutButtonTapped
         case signUpButtonTap
         case activityManagerEventButtonTap(ActivityItems)
         case tabbarLifecyle(TabbarLifecycle.Action)
@@ -192,18 +186,11 @@ public struct Tabbar: Sendable {
                     }
                 }
                 
-            case .signOutButtonTapped:
-                state.destination = .confirmationDialog(
-                    ConfirmationDialogState<Destination.ConfirmationDialog>(
-                        title: { TextState("Logout") },
-                        actions: {
-                            ButtonState(role: .destructive, action: .logoutConfirmed, label: { TextState("Logout") })
-                            ButtonState(label: { TextState("Cancel") })
-                        },
-                        message: { TextState("Are you sure you want to logout?") }
-                    )
-                )
-                return .none
+            case .accountSection(.delegate(.navigateToSignUp)):
+                return .send(.delegate(.navigateToSignUp))
+                
+            case .accountSection(.delegate(.deleteAccountButtonTapped)):
+                return .send(.deleteAccount(.deleteAccountButtonTapped))
                 
             case .accountSection:
                 return .none
@@ -211,12 +198,6 @@ public struct Tabbar: Sendable {
             case .destination(.presented(.alert(let alertAction))):
                 switch alertAction {
                 case .confirmedToCreateUser:
-                    return .send(.delegate(.navigateToSignUp))
-                }
-                
-            case .destination(.presented(.confirmationDialog(let confirmationDialogAction))):
-                switch confirmationDialogAction {
-                case .logoutConfirmed:
                     return .send(.delegate(.navigateToSignUp))
                 }
                 

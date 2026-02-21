@@ -16,34 +16,52 @@ public struct ParticipantEventsView: View {
         )
         ScrollView {
             LazyVStack(spacing: 12, pinnedViews: [.sectionHeaders]) {
-                let participantEvents = store.session.participantEvents
+                segmentPicker
+                let participantEvents = filteredParticipantEvents
                 if participantEvents.isEmpty {
                     EmptyStateView(
-                        title: "No feedback sessions yet",
-                        message: "You'll see sessions here when you're invited. You can also join with a PIN."
+                        title: emptyStateTitle,
+                        message: emptyStateMessage
                     )
                 } else {
-                    let todayMeetings = participantEvents.filter { $0.date.isToday }
-                    let comingUpMeetings = participantEvents.filter { $0.date.isAfterToday }
-                    let pastMeetings = participantEvents.filter { $0.date.isBeforeToday }
-                    if !todayMeetings.isEmpty {
-                        CustomSection(title: "Today") {
-                            ForEach(todayMeetings.sorted { $0.date > $1.date }) { event in
-                                listItem(event)
+                    switch store.selectedSegment {
+                    case .invited:
+                        let todayMeetings = participantEvents.filter { $0.date.isToday }.sorted { $0.date > $1.date }
+                        let comingUpMeetings = participantEvents.filter { $0.date.isAfterToday }.sorted { $0.date < $1.date }
+
+                        if !todayMeetings.isEmpty {
+                            CustomSection(title: "Today") {
+                                ForEach(todayMeetings) { event in
+                                    listItem(event)
+                                }
                             }
                         }
-                    }
-                    if !pastMeetings.isEmpty {
-                        CustomSection(title: "Past week") {
-                            ForEach(pastMeetings) { event in
-                                listItem(event)
+
+                        if !comingUpMeetings.isEmpty {
+                            CustomSection(title: "Coming up") {
+                                ForEach(comingUpMeetings) { event in
+                                    listItem(event)
+                                }
                             }
                         }
-                    }
-                    if !comingUpMeetings.isEmpty {
-                        CustomSection(title: "Coming up") {
-                            ForEach(comingUpMeetings) { event in
-                                listItem(event)
+
+                    case .history:
+                        let submittedFeedback = participantEvents.filter { $0.feedbackSubmitted }.sorted { $0.date > $1.date }
+                        let pastMeetings = participantEvents.filter { !$0.feedbackSubmitted && $0.date.isBeforeToday }.sorted { $0.date > $1.date }
+
+                        if !submittedFeedback.isEmpty {
+                            CustomSection(title: "Submitted") {
+                                ForEach(submittedFeedback) { event in
+                                    listItem(event)
+                                }
+                            }
+                        }
+
+                        if !pastMeetings.isEmpty {
+                            CustomSection(title: "Past") {
+                                ForEach(pastMeetings) { event in
+                                    listItem(event)
+                                }
                             }
                         }
                     }
@@ -55,6 +73,12 @@ public struct ParticipantEventsView: View {
         .foregroundColor(Color.themeText)
         .scrollContentBackground(.hidden)
         .background(Color.themeBackground)
+        .onAppear {
+            store.send(.participantEventsChanged(store.session.participantEvents.map { $0 }))
+        }
+        .onChange(of: store.session.participantEvents) { _, newValue in
+            store.send(.participantEventsChanged(newValue.map { $0 }))
+        }
         .sheet(item: infoStore) { event in
             event.withState { event in
                 EventInfoView(
@@ -80,6 +104,66 @@ public struct ParticipantEventsView: View {
 }
 
 extension ParticipantEventsView {
+    var segmentPicker: some View {
+        Picker("Participant events filter", selection: $store.selectedSegment) {
+            Text("Invitations")
+                .tag(ParticipantEvents.Segment.invited)
+            Text("History")
+                .tag(ParticipantEvents.Segment.history)
+        }
+        .pickerStyle(.segmented)
+        .overlay(alignment: .topTrailing) {
+            if store.historyBadgeCount > 0 {
+                historyBadge
+                    .offset(x: -16, y: -6)
+            }
+        }
+    }
+
+    var filteredParticipantEvents: [ParticipantEvent] {
+        let allParticipantEvents = store.session.participantEvents.map { $0 }
+        switch store.selectedSegment {
+        case .invited:
+            return allParticipantEvents.filter { !$0.feedbackSubmitted && ($0.date.isToday || $0.date.isAfterToday) }
+        case .history:
+            return allParticipantEvents.filter { $0.feedbackSubmitted || $0.date.isBeforeToday }
+        }
+    }
+
+    var emptyStateTitle: String {
+        switch store.selectedSegment {
+        case .invited:
+            return "No invitations"
+        case .history:
+            return "No feedback history"
+        }
+    }
+
+    var emptyStateMessage: String {
+        switch store.selectedSegment {
+        case .invited:
+            return "You'll see upcoming sessions here when you're invited."
+        case .history:
+            return "Your submitted and past sessions will appear here."
+        }
+    }
+
+    var historyBadgeText: String {
+        if store.historyBadgeCount > 99 {
+            return "99+"
+        }
+        return "\(store.historyBadgeCount)"
+    }
+
+    var historyBadge: some View {
+        Text(historyBadgeText)
+            .font(.montserratBold, 9)
+            .foregroundStyle(Color.white)
+            .padding(.horizontal, 5)
+            .padding(.vertical, 2)
+            .background(Color(.systemRed))
+            .clipShape(Capsule())
+    }
     
     func listItem(_ event: ParticipantEvent) -> some View {
         VStack(spacing: 0) {

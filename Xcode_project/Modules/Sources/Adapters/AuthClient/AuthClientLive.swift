@@ -48,11 +48,11 @@ public extension AuthClient {
             },
             googleLogin: {
                 let credential = try await FirebaseService().startGoogleSignInFlow()
-                try await credential.linkOrSignInWithCredential()
+                _ = try await Auth.auth().signIn(with: credential)
             },
             appleLogin: {
                 let credential = try await FirebaseService().startSignInWithAppleFlow()
-                try await credential.linkOrSignInWithCredential()
+                _ = try await Auth.auth().signIn(with: credential)
             },
             logout: {
                 try Auth.auth().signOut()
@@ -65,14 +65,6 @@ public extension AuthClient {
                     
                     let userState: UserState = {
                         guard let user = optionalUser.optional else { return .loggedOut }
-                        guard !user.isAnonymous else {
-                            do {
-                                try Auth.auth().signOut()
-                            } catch {
-                                Logger.log(.error, "Failed to sign out anonymous firebase user: \(error.localizedDescription)")
-                            }
-                            return .loggedOut
-                        }
                         return .authenticated
                     }()
                     Task { [stateStream] in
@@ -87,29 +79,5 @@ public extension AuthClient {
                 _ = try await Auth.auth().currentUser?.getIDTokenResult(forcingRefresh: true)
             }
         )
-    }
-}
-
-extension AuthCredential {
-    func linkOrSignInWithCredential () async throws {
-        guard let currentUser = Auth.auth().currentUser else {
-            _ = try await Auth.auth().signIn(with: self)
-            return
-        }
-        do {
-            if currentUser.isAnonymous {
-                try await currentUser.link(with: self)
-            } else {
-                try Auth.auth().signOut()
-                _ = try await Auth.auth().signIn(with: self)
-            }
-        } catch let error as NSError {
-            switch error.code {
-            case AuthErrorCode.credentialAlreadyInUse.rawValue:
-                _ = try await Auth.auth().signIn(with: self)
-            default:
-                throw error
-            }
-        }
     }
 }

@@ -90,7 +90,7 @@ public struct RootFeature: Sendable {
             case .destination(.signUp(.destination(.presented(.selectUserType(.delegate(.getSession)))))):
                 return getSession(state: &state, deeplink: nil)
                 
-            case .destination(.loggedIn(.accountSection(.destination(.presented(.changeUserType(.delegate(.refreshSession))))))):
+            case .destination(.loggedIn(.accountSection(.destination(.presented(.profileSettings(.delegate(.refreshSession))))))):
                 return getSession(state: &state, deeplink: nil)
                 
             case .destination(.loggedIn(.delegate(.navigateToSignUp))),
