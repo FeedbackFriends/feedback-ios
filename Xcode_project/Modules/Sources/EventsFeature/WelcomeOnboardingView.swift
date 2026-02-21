@@ -3,13 +3,16 @@ import SwiftUI
 
 public struct WelcomeOnboardingView: View {
     let accountEmail: String?
+    let primaryButtonTitle: String
     let primaryAction: () -> Void
 
     public init(
         accountEmail: String?,
+        primaryButtonTitle: String = "Back to My sessions",
         primaryAction: @escaping () -> Void
     ) {
         self.accountEmail = accountEmail
+        self.primaryButtonTitle = primaryButtonTitle
         self.primaryAction = primaryAction
     }
 
@@ -51,7 +54,7 @@ private extension WelcomeOnboardingView {
                     .frame(width: 50, height: 50)
             }
             .frame(width: 70, height: 70)
-            Text("How it works")
+            Text("How My sessions works")
                 .font(.montserratBold, 28)
                 .foregroundStyle(Color.themeText.gradient)
                 .multilineTextAlignment(.center)
@@ -61,21 +64,21 @@ private extension WelcomeOnboardingView {
     var stepsSection: some View {
         VStack(spacing: 12) {
             featureRow(
-                title: Text("Schedule as usual")
+                title: Text("Create your meeting invite")
                     .foregroundStyle(Color.themeText),
-                message: Text("Continue using your existing calendar tools.")
+                message: Text("Use your favorite calendar as you already do (Google, Outlook, Apple Calendar, or Teams).")
                     .foregroundStyle(Color.themeTextSecondary),
                 icon: Image.calendar
             )
             featureRow(
                 title: inviteFeedbackTitle,
-                message: Text("Right after the invitation is sent, a draft session is automatically created in Let’s Grow."),
+                message: Text("That is the only extra step. We will handle the rest and your draft appears in My sessions."),
                 icon: Image.sparkles
             )
             featureRow(
-                title: Text("Customize the draft")
+                title: Text("Open My sessions and customize")
                     .foregroundStyle(Color.themeText),
-                message: Text("Add questions and decide whether participants receive an email invite or an in-app notification if they already use Let’s Grow.")
+                message: Text("Add questions and choose if participants get an email invite or an in-app notification.")
                     .foregroundStyle(Color.themeTextSecondary),
                 icon: Image.documentOnDocument
             )
@@ -84,7 +87,7 @@ private extension WelcomeOnboardingView {
 
     var emailSection: some View {
         VStack(spacing: 10) {
-            Text("Invites should be sent from the email")
+            Text("Calendar account email")
                 .font(.montserratSemiBold, 12)
                 .foregroundStyle(Color.themeTextSecondary)
             Text(emailDisplay)
@@ -96,10 +99,10 @@ private extension WelcomeOnboardingView {
                     Capsule()
                         .fill(Color.themeSurfaceSecondary)
                 )
-            Text("Invite organizer must match this email.")
+            Text("This must match the account you use to send calendar invites.")
                 .font(.montserratRegular, 12)
                 .foregroundStyle(Color.themeTextSecondary)
-            Text("Change it anytime in Profile.")
+            Text("You can update it anytime in Profile.")
                 .font(.montserratRegular, 12)
                 .foregroundStyle(Color.themeTextSecondary)
         }
@@ -136,7 +139,7 @@ private extension WelcomeOnboardingView {
     }
 
     var primaryButton: some View {
-        Button("Got it") {
+        Button(primaryButtonTitle) {
             primaryAction()
         }
         .buttonStyle(LargeButtonStyle())

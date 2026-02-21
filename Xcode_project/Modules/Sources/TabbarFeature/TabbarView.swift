@@ -10,7 +10,6 @@ public struct TabbarView: View {
     
     @Environment(\.scenePhase) private var scenePhase
     @Bindable var store: StoreOf<Tabbar>
-    @AppStorage("hasSeenWelcomeOnboarding") private var hasSeenWelcomeOnboarding = false
     @State private var isShowingWelcomeOnboarding = false
     
     public init(store: StoreOf<Tabbar>) {
@@ -27,7 +26,6 @@ public struct TabbarView: View {
         tabView
             .task {
                 await self.store.send(.tabbarLifecyle(.onTask)).finish()
-                presentWelcomeOnboardingIfNeeded()
                 resetSelectedTabIfNeeded()
             }
             .overlay(alignment: .bottomTrailing) {
@@ -50,7 +48,6 @@ public struct TabbarView: View {
                 }
             }
             .onChange(of: store.session.role) { _, _ in
-                presentWelcomeOnboardingIfNeeded()
                 resetSelectedTabIfNeeded()
             }
             .sheet(item: joinEventStore) { store in
@@ -103,23 +100,6 @@ public struct TabbarView: View {
                     }
                 )
             }
-            .sheet(
-                isPresented: $isShowingWelcomeOnboarding,
-                onDismiss: {
-                    hasSeenWelcomeOnboarding = true
-                },
-                content: {
-                    WelcomeOnboardingView(
-                        accountEmail: store.session.accountInfo.email,
-                        primaryAction: {
-                            hasSeenWelcomeOnboarding = true
-                            isShowingWelcomeOnboarding = false
-                        }
-                    )
-                    .interactiveDismissDisabled()
-                    .presentationDragIndicator(.hidden)
-                }
-            )
     }
 }
 
@@ -147,6 +127,14 @@ private extension TabbarView {
                 NavigationStack {
                     managerEventsView
                         .navigationTitle("My sessions")
+                        .navigationDestination(isPresented: $isShowingWelcomeOnboarding) {
+                            WelcomeOnboardingView(
+                                accountEmail: store.session.accountInfo.email,
+                                primaryAction: {
+                                    isShowingWelcomeOnboarding = false
+                                }
+                            )
+                        }
                         .toolbar {
                             activityToolbarItem(store.session.activityBadgeCount)
                             welcomeOnboardingToolbarItem
@@ -199,7 +187,10 @@ private extension TabbarView {
     
     var managerEventsView: some View {
         ManagerEventsView(
-            store: store.scope(state: \.managerEvents, action: \.managerEvents)
+            store: store.scope(state: \.managerEvents, action: \.managerEvents),
+            onboardingTutorialButtonTap: {
+                isShowingWelcomeOnboarding = true
+            }
         )
     }
     
@@ -246,26 +237,12 @@ private extension TabbarView {
 
     var feedbackTabContent: some View {
         Group {
-            if case .participant = store.session.account {
-                participantEventsView
-            } else {
-                feedbackEmptyStateView
-            }
+            participantEventsView
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color.themeBackground.ignoresSafeArea())
     }
 
-    var feedbackEmptyStateView: some View {
-        ScrollView {
-            EmptyStateView(
-                title: "No feedback requests yet",
-                message: "When someone invites you, feedback requests will appear here. You can also join a session with a PIN."
-            )
-            .padding(.horizontal, Theme.padding)
-        }
-        .background(Color.themeBackground)
-    }
     
     var shouldShowJoinFloatingActionButton: Bool {
         store.selectedTab == .feedback
@@ -282,12 +259,6 @@ private extension TabbarView {
             .foregroundStyle(Color.themeOnPrimaryAction)
             .background(Color.themePrimaryAction.gradient, in: Capsule())
         }
-    }
-
-    func presentWelcomeOnboardingIfNeeded() {
-        guard store.session.role == .manager else { return }
-        guard !hasSeenWelcomeOnboarding else { return }
-        isShowingWelcomeOnboarding = true
     }
 
     func resetSelectedTabIfNeeded() {

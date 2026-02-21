@@ -7,9 +7,14 @@ import Utility
 public struct ManagerEventsView: View {
     
     @Bindable var store: StoreOf<ManagerEvents>
+    private let onboardingTutorialButtonTap: () -> Void
     
-    public init(store: StoreOf<ManagerEvents>) {
+    public init(
+        store: StoreOf<ManagerEvents>,
+        onboardingTutorialButtonTap: @escaping () -> Void = {}
+    ) {
         self.store = store
+        self.onboardingTutorialButtonTap = onboardingTutorialButtonTap
     }
     
     public var body: some View {
@@ -26,10 +31,7 @@ public struct ManagerEventsView: View {
             ScrollView {
                 VStack(spacing: 12) {
                     if feedbackEvents.isEmpty {
-                        EmptyStateView(
-                            title: "No feedback sessions yet",
-                            message: "Invite feedback@letsgrow.dk to a calendar event to create your first draft."
-                        )
+                        onboardingTutorialState
                     } else {
                         ForEach(feedbackEvents) { event in
                             Button {
@@ -150,6 +152,53 @@ extension ManagerEventsView {
         .background(Color.themeSurface)
         .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
         .lightShadow()
+    }
+
+    var onboardingTutorialState: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 6) {
+                Text("Set up your first feedback session")
+                    .font(.montserratBold, 16)
+                Text("Follow these steps, then open the full onboarding tutorial.")
+                    .font(.montserratRegular, 12)
+                    .foregroundStyle(Color.themeTextSecondary)
+            }
+
+            tutorialStepRow(
+                icon: "1.circle.fill",
+                message: "Create your meeting invite in your favorite calendar, just like you already do."
+            )
+            tutorialStepRow(
+                icon: "2.circle.fill",
+                message: "Add feedback@letsgrow.dk as a participant. That is the only extra step."
+            )
+            tutorialStepRow(
+                icon: "3.circle.fill",
+                message: "We will figure out the rest, and your draft appears in My sessions for final setup."
+            )
+
+            Button("Open onboarding tutorial") {
+                onboardingTutorialButtonTap()
+            }
+            .buttonStyle(LargeButtonStyle())
+        }
+        .padding(.all, 16)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(Color.themeSurface)
+        .clipShape(RoundedRectangle(cornerRadius: Theme.cornerRadius, style: .continuous))
+        .lightShadow()
+    }
+
+    func tutorialStepRow(icon: String, message: String) -> some View {
+        HStack(alignment: .top, spacing: 10) {
+            Image(systemName: icon)
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(Color.themePrimaryAction)
+            Text(message)
+                .font(.montserratRegular, 12)
+                .foregroundStyle(Color.themeTextSecondary)
+                .fixedSize(horizontal: false, vertical: true)
+        }
     }
 
     func participantLabel(_ count: Int) -> String {

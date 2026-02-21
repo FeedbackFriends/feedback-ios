@@ -25,6 +25,8 @@ public struct ModifyAccountView: View {
                 } header: {
                     Text("Email")
                         .sectionHeaderStyle()
+                } footer: {
+                    Text("Use the same email as your calendar account (Google, Outlook, etc.).")
                 }
                 Section {
                     TextField("Phone number", text: $store.phoneNumberInput)
