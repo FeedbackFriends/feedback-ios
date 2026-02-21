@@ -65,7 +65,6 @@ fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
 
-.DS_Store
 secrets.xcconfig
-Xcode_project/.sentryclirc
-Xcode_project/.DS_Store
+.sentryclirc
+.DS_Store
