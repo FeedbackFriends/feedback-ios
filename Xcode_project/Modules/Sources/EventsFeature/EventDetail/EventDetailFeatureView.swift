@@ -88,15 +88,14 @@ public struct EventDetailFeatureView: View {
             Text("AI insights")
                 .frame(maxWidth: .infinity)
         }
-        .buttonStyle(LargeButtonStyle())
-        .disabled(true)
+        .buttonStyle(LargeButtonStyle(backgroundColor: Color.themeBlue))
         .overlay(alignment: .topTrailing) {
             Text("Coming soon")
                 .font(.montserratSemiBold, 10)
-                .foregroundStyle(Color.themeText)
+                .foregroundStyle(Color.themeOnPrimaryAction)
                 .padding(.horizontal, 10)
                 .padding(.vertical, 4)
-                .background(Color.themeSurfaceSecondary)
+                .background(Color.themeVerySad)
                 .clipShape(Capsule())
                 .offset(x: -8, y: -12)
         }
