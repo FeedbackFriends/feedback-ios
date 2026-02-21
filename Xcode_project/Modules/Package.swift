@@ -67,39 +67,39 @@ let package = Package(
     dependencies: [
         .package(
             url: "git@github.com:pointfreeco/swift-snapshot-testing.git",
-            exact: "1.18.3"
+            exact: "1.18.9"
         ),
         .package(
             url: "https://github.com/firebase/firebase-ios-sdk.git",
-            exact: "11.14.0"
+            exact: "12.9.0"
         ),
         .package(
             url: "https://github.com/airbnb/lottie-ios",
-            from: "3.4.3"
+            from: "4.6.0"
         ),
         .package(
             url: "https://github.com/google/GoogleSignIn-iOS.git",
-            from: "7.0.0"
+            from: "9.1.0"
         ),
         .package(
             url: "https://github.com/pointfreeco/swift-composable-architecture.git",
-            revision: "1.23.0"
+            exact: "1.23.2"
         ),
         .package(
             url: "https://github.com/apple/swift-openapi-generator",
-            .upToNextMinor(from: "1.10.2")
+            .upToNextMinor(from: "1.10.4")
         ),
         .package(
             url: "https://github.com/apple/swift-openapi-runtime",
-            .upToNextMinor(from: "1.8.2")
+            .upToNextMinor(from: "1.9.0")
         ),
         .package(
             url: "https://github.com/apple/swift-openapi-urlsession",
-            .upToNextMinor(from: "1.1.0")
+            .upToNextMinor(from: "1.2.0")
         ),
         .package(
             url: "https://github.com/getsentry/sentry-cocoa",
-            from: "8.56.2"
+            from: "9.5.0"
         ),
     ],
     targets: [
