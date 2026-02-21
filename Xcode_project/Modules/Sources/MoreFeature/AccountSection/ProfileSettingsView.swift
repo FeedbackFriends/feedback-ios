@@ -50,20 +50,17 @@ public struct ProfileSettingsView: View {
     let logoutButtonTap: (() -> Void)?
     let deleteAccountButtonTap: (() -> Void)?
     let isDeleteAccountLoading: Bool
-    let appVersionText: String?
 
     public init(
         store: StoreOf<ProfileSettings>,
         logoutButtonTap: (() -> Void)? = nil,
         deleteAccountButtonTap: (() -> Void)? = nil,
         isDeleteAccountLoading: Bool = false,
-        appVersionText: String? = nil
     ) {
         self.store = store
         self.logoutButtonTap = logoutButtonTap
         self.deleteAccountButtonTap = deleteAccountButtonTap
         self.isDeleteAccountLoading = isDeleteAccountLoading
-        self.appVersionText = appVersionText
     }
 
     public var body: some View {
@@ -118,15 +115,7 @@ public struct ProfileSettingsView: View {
                     } label: {
                         listElementView(image: .moreSectionPortraitAndArrowRight, label: "Logout")
                     }
-                } footer: {
-                    if let appVersionText {
-                        Text(appVersionText)
-                            .frame(maxWidth: .infinity)
-                            .multilineTextAlignment(.center)
-                            .font(.montserratThin, 12)
-                            .padding(.vertical, 20)
-                    }
-                }
+                } 
             }
 
             if let deleteAccountButtonTap {

@@ -3,6 +3,7 @@ import SwiftUI
 import DesignSystem
 import ComposableArchitecture
 import Domain
+import Utility
 
 public struct MoreSectionView: View {
     
@@ -10,6 +11,10 @@ public struct MoreSectionView: View {
     
     public init(store: StoreOf<MoreSection>) {
         self.store = store
+    }
+    
+    var appVersionFooterText: String {
+        "\(DeviceInfo().version())(\(DeviceInfo().build()))"
     }
     
     public var body: some View {
@@ -53,6 +58,12 @@ public struct MoreSectionView: View {
             } header: {
                 Text("General")
                     .sectionHeaderStyle()
+            } footer: {
+                Text(appVersionFooterText)
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
+                    .font(.montserratThin, 12)
+                    .padding(.vertical, 20)
             }
         }
         .foregroundColor(Color.themeText)

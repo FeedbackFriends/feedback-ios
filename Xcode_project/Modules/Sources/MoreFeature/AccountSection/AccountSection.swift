@@ -96,7 +96,6 @@ extension AccountSection.Destination.State: Sendable, Equatable {}
 private struct AccountSectionDestinationsModifier: ViewModifier {
     @Bindable var store: StoreOf<AccountSection>
     let isDeleteAccountLoading: Bool
-    let appVersionText: String
 
     func body(content: Content) -> some View {
         content
@@ -115,7 +114,6 @@ private struct AccountSectionDestinationsModifier: ViewModifier {
                         store.send(.deleteAccountButtonTapped)
                     },
                     isDeleteAccountLoading: isDeleteAccountLoading,
-                    appVersionText: appVersionText
                 )
             }
             .confirmationDialog(
@@ -131,13 +129,11 @@ public extension View {
     func accountSectionDestinations(
         store: StoreOf<AccountSection>,
         isDeleteAccountLoading: Bool,
-        appVersionText: String
     ) -> some View {
         modifier(
             AccountSectionDestinationsModifier(
                 store: store,
                 isDeleteAccountLoading: isDeleteAccountLoading,
-                appVersionText: appVersionText
             )
         )
     }

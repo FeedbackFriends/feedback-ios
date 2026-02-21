@@ -171,8 +171,7 @@ private extension TabbarView {
                 .tint(Color.themeText)
                 .accountSectionDestinations(
                     store: store.scope(state: \.accountSection, action: \.accountSection),
-                    isDeleteAccountLoading: store.deleteAccount.deleteAccountInFlight,
-                    appVersionText: appVersionFooterText
+                    isDeleteAccountLoading: store.deleteAccount.deleteAccountInFlight
                 )
                 .navigationTitle("Profile")
                 .toolbar {
@@ -243,10 +242,6 @@ private extension TabbarView {
             }
             .foregroundStyle(Color.themeText)
         }
-    }
-
-    var appVersionFooterText: String {
-        "\(DeviceInfo().version())(\(DeviceInfo().build()))"
     }
 
     var feedbackTabContent: some View {
