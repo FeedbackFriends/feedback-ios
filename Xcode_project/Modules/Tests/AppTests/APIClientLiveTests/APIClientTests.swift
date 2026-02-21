@@ -115,7 +115,11 @@ struct APIClientLiveTests {
             location: "Room 1",
             ownerInfo: .init(name: nil, email: nil, phoneNumber: nil),
             overallFeedbackSummary: nil,
-            questions: []
+            questions: [],
+            isDraft: false,
+            invitedEmails: [],
+            participants: [],
+            calendarProvider: nil
         )
         let now: Date = .now
         
@@ -150,11 +154,16 @@ struct APIClientLiveTests {
                                             pinCode: originalEvent.pinCode!.value,
                                             durationInMinutes: body.durationInMinutes,
                                             location: body.location,
+                                            calendarProvider: nil,
+                                            isDraft: false,
                                             ownerInfo: .init(
                                                 name: originalEvent.ownerInfo.name,
                                                 email: originalEvent.ownerInfo.email,
                                                 phoneNumber: originalEvent.ownerInfo.phoneNumber
                                             ),
+                                            overallFeedbackSummary: nil,
+                                            invitedEmails: [],
+                                            participants: [],
                                             questions: []
                                             
                                         ),
@@ -179,16 +188,16 @@ struct APIClientLiveTests {
         
         var sessionChangedListener = await cache.sessionChangedListener().makeAsyncIterator()
         let response = try await client.updateEvent(
-            eventInput: .init(
+            eventInput: EventInput(
                 title: "New title",
                 agenda: "New agenda",
                 date: Date(timeIntervalSince1970: 0),
                 durationInMinutes: 1000,
                 location: "New location",
                 questions: [
-                    .init(
+                    EventInput.QuestionInput(
                         questionText: "New question",
-                        feedbackType: .emoji
+                        feedbackType: FeedbackType.emoji
                     )
                 ]
             ),
@@ -323,7 +332,11 @@ struct APIClientLiveTests {
             location: nil,
             ownerInfo: .init(name: nil, email: nil, phoneNumber: nil),
             overallFeedbackSummary: overallFeedbackSummary,
-            questions: [question]
+            questions: [question],
+            isDraft: false,
+            invitedEmails: [],
+            participants: [],
+            calendarProvider: nil
         )
         let activityItem = ActivityItems(
             id: UUID(),
