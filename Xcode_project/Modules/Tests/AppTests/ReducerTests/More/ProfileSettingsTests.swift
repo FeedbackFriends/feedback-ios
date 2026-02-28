@@ -81,4 +81,36 @@ struct ProfileSettingsTests {
             )
         }
     }
+
+    @Test
+    func `Email events toggle only updates local state`() async {
+        let store = TestStore(
+            initialState: ProfileSettings.State(
+                role: .manager,
+                accountInfo: .init(name: "Jane", email: "jane@doe.com", phoneNumber: "+45 12 34 56 78")
+            )
+        ) {
+            ProfileSettings()
+        }
+
+        await store.send(.emailEventsToggleChanged(true)) {
+            $0.isEmailEventsEnabled = true
+        }
+    }
+
+    @Test
+    func `In-app notifications toggle only updates local state`() async {
+        let store = TestStore(
+            initialState: ProfileSettings.State(
+                role: .manager,
+                accountInfo: .init(name: "Jane", email: "jane@doe.com", phoneNumber: "+45 12 34 56 78")
+            )
+        ) {
+            ProfileSettings()
+        }
+
+        await store.send(.inAppNotificationsToggleChanged(true)) {
+            $0.isInAppNotificationsEnabled = true
+        }
+    }
 }

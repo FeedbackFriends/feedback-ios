@@ -19,10 +19,6 @@ public struct TabbarView: View {
     public var body: some View {
         let joinEventStore = $store.scope(state: \.destination?.joinEvent, action: \.destination.joinEvent)
         let activityStore = $store.scope(state: \.destination?.activity, action: \.destination.activity)
-        let notificationPermissionPromptStore = $store.scope(
-            state: \.destination?.notificationPermissionPrompt,
-            action: \.destination.notificationPermissionPrompt
-        )
         tabView
             .task {
                 await self.store.send(.tabbarLifecyle(.onTask)).finish()
@@ -70,19 +66,6 @@ public struct TabbarView: View {
             .alert($store.scope(state: \.destination?.alert, action: \.destination.alert))
             .alert($store.scope(state: \.initialiseFeedback.destination?.alert, action: \.initialiseFeedback.destination.alert))
             .alert($store.scope(state: \.deleteAccount.destination?.alert, action: \.deleteAccount.destination.alert))
-            .sheet(
-                item: notificationPermissionPromptStore
-            ) { _ in
-                NotificationPermissionView(
-                    requestAuthorizationButtonTap: {
-                        store.send(.requestNotificationAuthorization)
-                    },
-                    dismissButtonTap: {
-                        store.send(.dimissNotificationPermissionButtonTap)
-                    }
-                )
-                .presentationDetents([.height(600)])
-            }
             .fullScreenCover(
                 item: $store.scope(
                     state: \.initialiseFeedback.destination?.feedbackFlowCoordinator,
@@ -243,7 +226,6 @@ private extension TabbarView {
         .background(Color.themeBackground.ignoresSafeArea())
     }
 
-    
     var shouldShowJoinFloatingActionButton: Bool {
         store.selectedTab == .feedback
     }

@@ -21,7 +21,6 @@ struct TabbarLifecycleTests {
             $0.continuousClock = clock
             $0.apiClient.getUpdatedSession = { .mock() }
             $0.apiClient.sessionChangedListener = { .never }
-            $0.notificationClient.shouldPromptForAuthorization = { _ in false }
         }
         store.exhaustivity = .off
 

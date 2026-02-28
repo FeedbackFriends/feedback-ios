@@ -14,8 +14,6 @@ public struct ParticipantEvents: Sendable {
     public enum Destination {
         @ReducerCaseIgnored
         case info(ParticipantEvent)
-        @ReducerCaseIgnored
-        case startFeedbackConfirmation(PinCode)
     }
     
     @ObservableState
@@ -38,7 +36,6 @@ public struct ParticipantEvents: Sendable {
         case participantEventsChanged([ParticipantEvent])
         case infoButtonTap(ParticipantEvent)
         case startFeedbackButtonTap(pinCode: PinCode)
-        case confirmedToStartFeedback(pinCode: PinCode)
         case delegate(Delegate)
         public enum Delegate: Equatable {
             case startFeedback(pinCode: PinCode)
@@ -83,9 +80,6 @@ public struct ParticipantEvents: Sendable {
 
                 state.historyBadgeCount = historyEventIDs.subtracting(state.seenHistoryEventIDs).count
                 return .none
-                
-            case .confirmedToStartFeedback(pinCode: let pinCode):
-                return .send(.startFeedbackButtonTap(pinCode: pinCode))
                 
             case .destination:
                 return .none

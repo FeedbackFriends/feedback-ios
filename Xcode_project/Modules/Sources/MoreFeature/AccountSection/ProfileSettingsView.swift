@@ -108,6 +108,47 @@ public struct ProfileSettingsView: View {
                     .foregroundStyle(Color.themeTextSecondary)
             }
 
+            Section {
+                Toggle(
+                    isOn: Binding(
+                        get: { store.isInAppNotificationsEnabled },
+                        set: { store.send(.inAppNotificationsToggleChanged($0)) }
+                    )
+                ) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("In-app notifications")
+                            .font(.montserratSemiBold, 15)
+                            .foregroundStyle(Color.themeText)
+                        Text("Get timely reminders and updates about your events.")
+                            .font(.montserratRegular, 12)
+                            .foregroundStyle(Color.themeTextSecondary)
+                    }
+                }
+                .tint(Color.themePrimaryAction)
+                .disabled(store.isLoading)
+
+                Toggle(
+                    isOn: Binding(
+                        get: { store.isEmailEventsEnabled },
+                        set: { store.send(.emailEventsToggleChanged($0)) }
+                    )
+                ) {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Email events")
+                            .font(.montserratSemiBold, 15)
+                            .foregroundStyle(Color.themeText)
+                        Text("Receive event-related updates in your inbox.")
+                            .font(.montserratRegular, 12)
+                            .foregroundStyle(Color.themeTextSecondary)
+                    }
+                }
+                .tint(Color.themePrimaryAction)
+                .disabled(store.isLoading)
+            } header: {
+                Text("Communication preferences")
+                    .sectionHeaderStyle()
+            }
+
             if let logoutButtonTap {
                 Section {
                     Button {

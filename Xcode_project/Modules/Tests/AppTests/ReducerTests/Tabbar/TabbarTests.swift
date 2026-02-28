@@ -1,5 +1,4 @@
 @testable import TabbarFeature
-@testable import FeedbackFlowFeature
 import ComposableArchitecture
 import Foundation
 import Testing
@@ -101,82 +100,6 @@ struct TabbarTests {
     }
     
     @Test
-    func `Create event button as manager navigates to create screen and event detail`() async {
-        let sharedSession = Shared<Session>(
-            value: .mock()
-        )
-        let createdEvent = ManagerEvent.mock()
-        let session = sharedSession
-        let store = TestStore(initialState: .init(session: session)) {
-            Tabbar()
-        }
-        await store.send(.toolbar(.createEventButtonTap)) {
-            $0.destination = .createEvent(
-                .init(
-                    eventForm: .init(
-                        initialFocus: .title,
-                        eventInput: .init(),
-                        shouldOpenKeyboardOnAppear: true,
-                        recentlyUsedQuestions: .init([]),
-                        successOverlayMessage: "Session created"
-                    )
-                )
-            )
-        }
-        await store.send(.destination(.presented(.createEvent(.delegate(.dismissAndNavigateToDetail(createdEvent)))))) {
-            $0.destination = nil
-            $0.managerEvents.destination = .eventDetail(
-                .init(
-                    event: createdEvent,
-                    destination: .invite(createdEvent),
-                    session: $0.$session
-                )
-            )
-        }
-    }
-    
-    @Test
-    func `Notification permission prompt cancel button dismisses prompt`() async {
-        let store = TestStore(
-            initialState: .init(
-                session: .init(value: .mock())
-            )
-        ) {
-            Tabbar()
-        }
-        await store.send(.tabbarLifecyle(.delegate(.presentNotificationPermissionPrompt))) {
-            $0.destination = .notificationPermissionPrompt
-        }
-        await store.send(.dimissNotificationPermissionButtonTap) {
-            $0.destination = nil
-        }
-    }
-    
-    @Test
-    func `Notification permission prompt requests authorization successfully`() async {
-        let notificationAuthorizationRequested = LockIsolated(false)
-        let store = TestStore(
-            initialState: .init(
-                session: .init(value: .mock())
-            )
-        ) {
-            Tabbar()
-        } withDependencies: {
-            $0.notificationClient.requestAuthorization = { @Sendable in
-                notificationAuthorizationRequested.setValue(true)
-                return true
-            }
-        }
-        await store.send(.tabbarLifecyle(.delegate(.presentNotificationPermissionPrompt))) {
-            $0.destination = .notificationPermissionPrompt
-        }
-        await store.send(.requestNotificationAuthorization) {
-            $0.destination = nil
-        }
-        #expect(notificationAuthorizationRequested.value == true)
-    }
-
-    @Test
     func `Start feedback from enter code screen triggers feedback flow`() async {
         let pin = PinCode(value: "123456")
         let store = TestStore(
@@ -192,7 +115,7 @@ struct TabbarTests {
     }
     
     @Test
-    func `Start feedback from manager events triggers feedback flow`() async {
+    func `Start feedback from participant events triggers feedback flow`() async {
         let pin = PinCode(value: "654321")
         let store = TestStore(
             initialState: .init(
@@ -202,7 +125,7 @@ struct TabbarTests {
             Tabbar()
         }
         store.exhaustivity = .off
-        await store.send(.managerEvents(.participantEvents(.delegate(.startFeedback(pinCode: pin)))))
+        await store.send(.participantEvents(.delegate(.startFeedback(pinCode: pin))))
         await store.receive(\.initialiseFeedback.startFeedback, pin)
     }
 }

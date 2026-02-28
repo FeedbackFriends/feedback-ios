@@ -68,3 +68,5 @@ fastlane/test_output
 secrets.xcconfig
 .sentryclirc
 .DS_Store
+skills-lock.json
+.DS_Store

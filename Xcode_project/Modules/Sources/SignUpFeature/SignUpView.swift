@@ -36,9 +36,9 @@ public struct SignUpView: View {
                     action: \.destination.selectUserType
                 )
             ) { store in
-                SelectUserTypeView(store: store)
+                SignUpOnboardingFlowView(store: store)
                     .interactiveDismissDisabled()
-                    .presentationDetents([.height(240)])
+                    .presentationDetents([.large])
             }
         }
     }

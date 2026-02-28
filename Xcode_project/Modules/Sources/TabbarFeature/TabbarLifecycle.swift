@@ -39,23 +39,17 @@ public struct TabbarLifecycle: Sendable {
         case onTask
         case sessionUpdated(Session)
         case removeBanner
-        case presentNotificationPermissionPrompt
-        case delegate(Delegate)
         case enterForeground
         case enterBackground
         case triggerSync(SyncTrigger)
         case visibleSyncCompleted(syncGeneration: Int, didSucceed: Bool)
         case hideVisibleSync(syncGeneration: Int)
-        public enum Delegate: Equatable {
-            case presentNotificationPermissionPrompt
-        }
     }
     
     public init() {}
     
     @Dependency(\.apiClient) var apiClient
     @Dependency(\.continuousClock) var clock
-    @Dependency(\.notificationClient) var notificationClient
     
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
@@ -64,9 +58,6 @@ public struct TabbarLifecycle: Sendable {
             case .removeBanner:
                 state.bannerState = nil
                 return .none
-                
-            case .presentNotificationPermissionPrompt:
-                return .send(.delegate(.presentNotificationPermissionPrompt))
                 
             case .sessionUpdated(let session):
                 state.$session.withLock {
@@ -83,11 +74,7 @@ public struct TabbarLifecycle: Sendable {
                 }
                 state.appLoaded = true
                 return .merge(
-                    .run { [role = state.session.role] send in
-                        if await notificationClient
-                            .shouldPromptForAuthorization(role: role) {
-                            await send(.presentNotificationPermissionPrompt)
-                        }
+                    .run { send in
                         let sessionChangedListener = await apiClient.sessionChangedListener()
                         for await session in sessionChangedListener {
                             await send(.sessionUpdated(session))
@@ -100,9 +87,6 @@ public struct TabbarLifecycle: Sendable {
                     },
                     .send(.triggerSync(.visible))
                 )
-                
-            case .delegate:
-                return .none
                 
             case .enterForeground:
                 guard state.appLoaded else {

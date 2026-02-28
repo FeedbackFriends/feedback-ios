@@ -10,10 +10,6 @@ public struct ParticipantEventsView: View {
     }
     public var body: some View {
         let infoStore = $store.scope(state: \.destination?.info, action: \.destination.info)
-        let startFeedbackConfirmationStore = $store.scope(
-            state: \.destination?.startFeedbackConfirmation,
-            action: \.destination.startFeedbackConfirmation
-        )
         ScrollView {
             LazyVStack(spacing: 12, pinnedViews: [.sectionHeaders]) {
                 segmentPicker
@@ -90,14 +86,6 @@ public struct ParticipantEventsView: View {
                     date: event.date
                 )
                 .presentationDetents([.medium])
-            }
-        }
-        .sheet(item: startFeedbackConfirmationStore) { pinCode in
-            pinCode.withState { pinCode in
-                StartFeedbackConfirmationView(startFeedback: {
-                    store.send(.confirmedToStartFeedback(pinCode: pinCode))
-                })
-                .presentationDetents([.height(300)])
             }
         }
     }

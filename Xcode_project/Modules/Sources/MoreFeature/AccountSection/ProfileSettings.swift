@@ -1,5 +1,6 @@
 import ComposableArchitecture
 import Domain
+import Foundation
 
 @Reducer
 public struct ProfileSettings: Sendable {
@@ -17,6 +18,8 @@ public struct ProfileSettings: Sendable {
         var persistedRole: Role
         var accountInfo: AccountInfo
         var isLoading = false
+        var isInAppNotificationsEnabled = false
+        var isEmailEventsEnabled = false
 
         public init(role: Role, accountInfo: AccountInfo) {
             self.persistedRole = role
@@ -30,6 +33,8 @@ public struct ProfileSettings: Sendable {
         case updateProfileButtonTap
         case organizerModeToggleChanged(Bool)
         case updateAccountRoleResponse(Role)
+        case inAppNotificationsToggleChanged(Bool)
+        case emailEventsToggleChanged(Bool)
         case presentError(Error)
         case delegate(Delegate)
 
@@ -80,6 +85,14 @@ public struct ProfileSettings: Sendable {
                 state.isLoading = false
                 state.persistedRole = role
                 return .send(.delegate(.refreshSession))
+
+            case .emailEventsToggleChanged(let isEnabled):
+                state.isEmailEventsEnabled = isEnabled
+                return .none
+
+            case .inAppNotificationsToggleChanged(let isEnabled):
+                state.isInAppNotificationsEnabled = isEnabled
+                return .none
 
             case .presentError(let error):
                 state.isLoading = false

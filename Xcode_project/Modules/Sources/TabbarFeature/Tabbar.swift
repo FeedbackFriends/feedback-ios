@@ -69,8 +69,6 @@ public struct Tabbar: Sendable {
     @Reducer
     public enum Destination {
         case alert(AlertState<AlertAction>)
-        @ReducerCaseIgnored
-        case notificationPermissionPrompt
         case joinEvent(JoinEvent)
         @ReducerCaseIgnored
         case activity([ActivityItems])
@@ -103,8 +101,6 @@ public struct Tabbar: Sendable {
         case initialiseFeedback(InitialiseFeedback.Action)
         case participantEvents(ParticipantEvents.Action)
         case managerEvents(ManagerEvents.Action)
-        case requestNotificationAuthorization
-        case dimissNotificationPermissionButtonTap
         case destination(PresentationAction<Destination.Action>)
         case toolbar(Toolbar)
         case delegate(Delegate)
@@ -124,8 +120,6 @@ public struct Tabbar: Sendable {
     }
     
     @Dependency(\.apiClient) var apiClient
-    @Dependency(\.notificationClient) var notificationClient
-    
     public init() {}
     
     public var body: some ReducerOf<Self> {
@@ -159,13 +153,6 @@ public struct Tabbar: Sendable {
              
             case .dismissFeedbackFlow:
                 state.initialiseFeedback.destination = nil
-                return .none
-                
-            case .tabbarLifecyle(.delegate(let delegateAction)):
-                switch delegateAction {
-                case .presentNotificationPermissionPrompt:
-                    state.destination = .notificationPermissionPrompt
-                }
                 return .none
                 
             case .tabbarLifecyle:
@@ -202,10 +189,8 @@ public struct Tabbar: Sendable {
                 }
                 
             case .destination(.presented(.joinEvent(.delegate(.navigateToParticipantEvent(let pinCode))))):
-                state.selectedTab = .feedback
-                state.participantEvents.destination = .startFeedbackConfirmation(pinCode)
-                return .none
-                
+                return .send(.participantEvents(.startFeedbackButtonTap(pinCode: pinCode)))
+
             case .destination:
                 return .none
                 
@@ -252,16 +237,6 @@ public struct Tabbar: Sendable {
                 return .none
                 
             case .initialiseFeedback:
-                return .none
-                
-            case .requestNotificationAuthorization:
-                state.destination = nil
-                return .run { _ in
-                    _ = try await notificationClient.requestAuthorization()
-                }
-            
-            case .dimissNotificationPermissionButtonTap:
-                state.destination = nil
                 return .none
                 
             case .signUpButtonTap:

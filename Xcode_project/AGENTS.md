@@ -8,15 +8,7 @@
 - `Xcode_project/PreviewApps/` hosts focused SwiftUI preview apps.
 
 ## Build, Test, and Development Commands
-- Open the project: `open Xcode_project/Feedback.xcodeproj`.
-- CLI tests (Xcode 26):
-  ```bash
-  xcodebuild \
-    -project Xcode_project/Feedback.xcodeproj \
-    -scheme "Feedback Mock" \
-    -destination 'platform=iOS Simulator,name=iPhone 16' \
-    test
-  ```
+- Use the the MCP xcodebuildmcp to communicate with XCode 
 - Linting: `swiftlint lint` (uses `Xcode_project/.swiftlint.yml`).
 
 ## Coding Style & Naming Conventions
